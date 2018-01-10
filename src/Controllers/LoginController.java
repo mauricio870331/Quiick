@@ -9,6 +9,7 @@ import Pojos.RolxUser;
 import Pojos.Usuario;
 import Views.Modulo1;
 import Views.Login;
+import Views.Modulo2;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
 import java.awt.Image;
@@ -35,7 +36,8 @@ import javax.swing.JTextField;
 public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
-    private final Modulo1 pr = GetPrincipal.getPrincipal();
+    private final Modulo1 M1 = GetPrincipal.getModulo1();
+    private final Modulo2 M2 = GetPrincipal.getModulo2();
     private PrincipalController prc;
     Usuario u = null;
     ImageIcon ii = null;
@@ -66,63 +68,64 @@ public class LoginController implements ActionListener {
             lg.txtPass.transferFocus();
         }
         if (e.getSource() == lg.btnIniciar) {
-            Object[] componentes = {lg.txtUser, lg.txtPass};
-            if (validarCampos(componentes) == 0) {
-                u = new Usuario();
-                RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));
-                if (rolu != null) {
-                    InputStream img = rolu.getObjUsuario().getObjPersona().getFoto();
-                    if (img != null) {
-                        try {
-                            BufferedImage bi = ImageIO.read(img);
-                            ii = new ImageIcon(bi);
-                            Image conver = ii.getImage();
-                            Image tam = conver.getScaledInstance(pr.UserLogPicture.getWidth(), pr.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
-                            iin = new ImageIcon(tam);
-                            pr.UserLogPicture.setIcon(iin);
-                        } catch (IOException ex) {
-                            System.out.println("error " + ex);
-                        } finally {
-                            u = null;
-                        }
-                    } else {
-                        pr.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
-                    }
-                    pr.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
-                    pr.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
-                    pr.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-                    pr.id_userlog.setVisible(false);
-                    switch (rolu.getObjRol().getIdRol()) {
-                        case 1:
-                            lg.dispose();
-                            pr.setVisible(true);
-                            getPrc();
-                            prc.setUsuarioLogeado(rolu);
-                            break;
-                        case 2:
-                            lg.dispose();
-                            pr.setVisible(true);
-                            getPrc();
-                            prc.setUsuarioLogeado(rolu);
-                            break;
-                        case 4://root
-                            lg.dispose();
-                            pr.setVisible(true);
-                            getPrc();
-                            prc.setUsuarioLogeado(rolu);
-                            break;
-                        default:
-                            lg.txtUser.setText("");
-                            lg.txtPass.setText("");
-                            DesktopNotify.showDesktopMessage("Aviso..!", "No tienes Permisos para acceder al sistema..!", DesktopNotify.ERROR, 5000L);
-                            break;
-                    }
-                } else {
-                    DesktopNotify.showDesktopMessage("Aviso..!", "Usuario o Clave Incorrecta..!", DesktopNotify.ERROR, 5000L);
-                }
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 5000L);
-            }
+            M2.setVisible(true);
+//            Object[] componentes = {lg.txtUser, lg.txtPass};
+//            if (validarCampos(componentes) == 0) {
+//                u = new Usuario();
+//                RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));
+//                if (rolu != null) {
+//                    InputStream img = rolu.getObjUsuario().getObjPersona().getFoto();
+//                    if (img != null) {
+//                        try {
+//                            BufferedImage bi = ImageIO.read(img);
+//                            ii = new ImageIcon(bi);
+//                            Image conver = ii.getImage();
+//                            Image tam = conver.getScaledInstance(M1.UserLogPicture.getWidth(), M1.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
+//                            iin = new ImageIcon(tam);
+//                            M1.UserLogPicture.setIcon(iin);
+//                        } catch (IOException ex) {
+//                            System.out.println("error " + ex);
+//                        } finally {
+//                            u = null;
+//                        }
+//                    } else {
+//                        M1.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
+//                    }
+//                    M1.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
+//                    M1.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
+//                    M1.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+//                    M1.id_userlog.setVisible(false);
+//                    switch (rolu.getObjRol().getIdRol()) {
+//                        case 1:
+//                            lg.dispose();
+//                            M1.setVisible(true);
+//                            getPrc();
+//                            prc.setUsuarioLogeado(rolu);
+//                            break;
+//                        case 2:
+//                            lg.dispose();
+//                            M1.setVisible(true);
+//                            getPrc();
+//                            prc.setUsuarioLogeado(rolu);
+//                            break;
+//                        case 4://root
+//                            lg.dispose();
+//                            M1.setVisible(true);
+//                            getPrc();
+//                            prc.setUsuarioLogeado(rolu);
+//                            break;
+//                        default:
+//                            lg.txtUser.setText("");
+//                            lg.txtPass.setText("");
+//                            DesktopNotify.showDesktopMessage("Aviso..!", "No tienes Permisos para acceder al sistema..!", DesktopNotify.ERROR, 5000L);
+//                            break;
+//                    }
+//                } else {
+//                    DesktopNotify.showDesktopMessage("Aviso..!", "Usuario o Clave Incorrecta..!", DesktopNotify.ERROR, 5000L);
+//                }
+//            } else {
+//                DesktopNotify.showDesktopMessage("Aviso..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 5000L);
+//            }
         }
         if (e.getSource() == lg.btnCancelar) {
             System.exit(0);

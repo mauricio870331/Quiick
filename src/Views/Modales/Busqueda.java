@@ -79,39 +79,39 @@ public class Busqueda extends javax.swing.JDialog {
     }
 
     public void RecuperarElemento() {
-        int i = Datos.getSelectedRow();
-        String cod = "";
-
-        if (i == -1) {
-            JOptionPane.showMessageDialog(null, "Favor... seleccione una fila");
-        } else {
-            cod = (String) Datos.getValueAt(i, 0).toString().trim();
-            prc = GetPrincipalController.getPrincipalController();
-            int condicion = 1;
-            JTable table = principal.tblListaPagosXuser;
-            for (Iterator<Object> it = listObjectos.iterator(); it.hasNext();) {
-                if (principal.getVistaActual().equalsIgnoreCase("pnPagosService")) {
-                    Usuario listObjecto = (Usuario) it.next();
-                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
-                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
-                        prc.setUs(listObjecto);
-                        break;
-                    }
-                }
-                if (principal.getVistaActual().equalsIgnoreCase("pnReportes")) {
-                    Usuario listObjecto = (Usuario) it.next();
-                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
-                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
-                        prc.setUs(listObjecto);
-                        condicion = 3;
-                        table = principal.tblReportes;
-                        break;
-                    }
-                }
-            }
-            prc.PagosBuscarPersona(condicion, table);
-            this.dispose();
-        }
+//        int i = Datos.getSelectedRow();
+//        String cod = "";
+//
+//        if (i == -1) {
+//            JOptionPane.showMessageDialog(null, "Favor... seleccione una fila");
+//        } else {
+//            cod = (String) Datos.getValueAt(i, 0).toString().trim();
+//            prc = GetPrincipalController.getPrincipalController();
+//            int condicion = 1;
+////            JTable table = principal.tblListaPagosXuser;
+//            for (Iterator<Object> it = listObjectos.iterator(); it.hasNext();) {
+//                if (principal.getVistaActual().equalsIgnoreCase("pnPagosService")) {
+//                    Usuario listObjecto = (Usuario) it.next();
+//                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
+//                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
+//                        prc.setUs(listObjecto);
+//                        break;
+//                    }
+//                }
+//                if (principal.getVistaActual().equalsIgnoreCase("pnReportes")) {
+//                    Usuario listObjecto = (Usuario) it.next();
+//                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
+//                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
+//                        prc.setUs(listObjecto);
+//                        condicion = 3;
+//                        table = principal.tblReportes;
+//                        break;
+//                    }
+//                }
+//            }
+//            prc.PagosBuscarPersona(condicion, table);
+//            this.dispose();
+//        }
 
     }
 

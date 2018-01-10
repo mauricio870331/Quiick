@@ -60,7 +60,7 @@ public final class CaptureFinger {
     private int idPersona;
 
     public CaptureFinger() {
-        pr = GetPrincipal.getPrincipal();
+//        pr = GetPrincipal.getPrincipal();
         Iniciar();
     }
 
@@ -224,9 +224,9 @@ public final class CaptureFinger {
 
     //inicio metodo dibujar huella en el label
     public void DibujarHuella(Image image) {
-        pr.lblImagenHuella.setIcon(new ImageIcon(
-                image.getScaledInstance(pr.lblImagenHuella.getWidth(), pr.lblImagenHuella.getHeight(), Image.SCALE_DEFAULT)));
-        pr.lblImagenHuella.repaint();
+//        pr.lblImagenHuella.setIcon(new ImageIcon(
+//                image.getScaledInstance(pr.lblImagenHuella.getWidth(), pr.lblImagenHuella.getHeight(), Image.SCALE_DEFAULT)));
+//        pr.lblImagenHuella.repaint();
     }
     //Fin metodo dibujar huella en el label
 
@@ -236,11 +236,11 @@ public final class CaptureFinger {
     }
 
     public void EnviarTexto(String string) {
-        pr.txtArea.append(string + "\n");
+//        pr.txtArea.append(string + "\n");
     }
 
     public void EnviarTexto2(String string) {
-        pr.lblEstadohuellas.setText(string);
+//        pr.lblEstadohuellas.setText(string);
     }
 
     public void start() {
@@ -267,7 +267,7 @@ public final class CaptureFinger {
         if (getPersona().asocFinger(getIidUsuario(), getUsuario(), getIdSede(), getIdempresa(), getIdPersona(), new ByteArrayInputStream(template.serialize()), template.serialize().length)) {
             DesktopNotify.showDesktopMessage("Aviso..!", "Se ha asociado la huella correctamente", DesktopNotify.SUCCESS, 8000L);
             Thread.sleep(100);
-            pr.btnBack.doClick();
+//            pr.btnBack.doClick();
         } else {
             DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al asociar la huella", DesktopNotify.FAIL, 6000L);
         }

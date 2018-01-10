@@ -1,6 +1,7 @@
 package Coneccion;
 
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ public class poolConecciones {
     public Statement stat;
     public Connection con;
     public DataSource dataSource;
+    public CallableStatement cstmt;
 
     public poolConecciones(BasicDataSource basicDataSource) {
         dataSource = basicDataSource;
@@ -25,9 +27,7 @@ public class poolConecciones {
         stat = con.createStatement();
         ResultSet res = stat.executeQuery(query);
         return res;
-    }   
-    
-    
+    }
 
     public BigDecimal Currval(String query) throws SQLException {
         stat = con.createStatement();
