@@ -8,7 +8,7 @@ package Controllers;
 import Pojos.*;
 import Utils.ImagensTabla;
 import Utils.Reportes;
-import Views.FrmPrincipal;
+import Views.Modulo1;
 import Views.FrmCapturePict;
 import Views.Modales.Busqueda;
 import com.toedter.calendar.JDateChooser;
@@ -61,7 +61,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class PrincipalController implements ActionListener, MouseListener, KeyListener {
 
-    private final FrmPrincipal pr = GetPrincipal.getPrincipal();
+    private final Modulo1 pr = GetPrincipal.getPrincipal();
     public RolxUser UsuarioLogeado;
     private persona p;
     private RolxUser ruxuser;

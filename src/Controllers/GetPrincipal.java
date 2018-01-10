@@ -5,7 +5,7 @@
  */
 package Controllers;
 
-import Views.FrmPrincipal;
+import Views.Modulo1;
 
 /**
  *
@@ -13,12 +13,12 @@ import Views.FrmPrincipal;
  */
 public class GetPrincipal {
 
-    public static FrmPrincipal pr = null;
+    public static Modulo1 pr = null;
 
-    public static FrmPrincipal getPrincipal() {
+    public static Modulo1 getPrincipal() {
         try {
             if (pr == null) {
-                pr = new FrmPrincipal();
+                pr = new Modulo1();
                 pr.setLocationRelativeTo(null);
             } else {
                 System.out.println("Principal ya estaba instanceado");

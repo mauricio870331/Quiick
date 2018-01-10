@@ -12,7 +12,7 @@ import Pojos.Asistencia;
 import Pojos.Huellas;
 import Pojos.PagoService;
 import Pojos.persona;
-import Views.FrmPrincipal;
+import Views.Modulo1;
 import Views.Modales.AlertaAtraso;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
@@ -58,7 +58,7 @@ public final class ReadFinger {
     public static String TEMPLATE_PROPERTY = "template";
     //Inicio variables para la extraccion de caracteristicas huella
     public DPFPFeatureSet featuresverificacion;
-    private final FrmPrincipal pr;
+    private final Modulo1 pr;
     private Asistencia asistencias;
     private PagoService pagoservice;
     private Huellas huella;

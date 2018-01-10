@@ -50,7 +50,7 @@ public class FrmCapturePict extends JFrame implements ActionListener, Runnable, 
     private WebcamPanel panel = null;
     private WebcamPicker picker = null;
     private final JButton btn = new JButton("Capturar Foto");
-    private final FrmPrincipal pr = GetPrincipal.getPrincipal();
+    private final Modulo1 pr = GetPrincipal.getPrincipal();
     ImageIcon ii = null;
     ImageIcon iin = null;
     String ruta = System.getProperty("java.io.tmpdir") + "\\default.png";

@@ -8,7 +8,7 @@ package Utils;
 import Controllers.GetPrincipal;
 import Pojos.Persistencia;
 import Pojos.Usuario;
-import Views.FrmPrincipal;
+import Views.Modulo1;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +33,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Reportes extends Persistencia implements Runnable {
 
     private Usuario us;
-    private final FrmPrincipal pr = GetPrincipal.getPrincipal();
+    private final Modulo1 pr = GetPrincipal.getPrincipal();
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat saSegu = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private Date desde;

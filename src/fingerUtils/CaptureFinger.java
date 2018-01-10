@@ -7,7 +7,7 @@ package fingerUtils;
 
 import Controllers.GetPrincipal;
 import Pojos.persona;
-import Views.FrmPrincipal;
+import Views.Modulo1;
 import com.digitalpersona.onetouch.DPFPDataPurpose;
 import com.digitalpersona.onetouch.DPFPFeatureSet;
 import com.digitalpersona.onetouch.DPFPGlobal;
@@ -51,7 +51,7 @@ public final class CaptureFinger {
     public static String TEMPLATE_PROPERTY = "template";
     //Inicio variables para la extraccion de caracteristicas huella
     public DPFPFeatureSet featuresinscripcion;
-    private FrmPrincipal pr;
+    private Modulo1 pr;
     private persona persona;
     private int idUsuario;
     private String usuario;

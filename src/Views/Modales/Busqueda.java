@@ -4,7 +4,7 @@ import Controllers.GetPrincipalController;
 import Controllers.PrincipalController;
 import Pojos.Usuario;
 import java.sql.SQLException;
-import Views.FrmPrincipal;
+import Views.Modulo1;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
@@ -20,7 +20,7 @@ public class Busqueda extends javax.swing.JDialog {
     /**
      * Creates new form CategoriasRegistrar
      */
-    FrmPrincipal principal;
+    Modulo1 principal;
     ArrayList<Object> listObjectos = new ArrayList();
     private PrincipalController prc;
 
@@ -29,7 +29,7 @@ public class Busqueda extends javax.swing.JDialog {
         initComponents();
         System.out.println("inicio edit");
         this.setLocationRelativeTo(null);
-        principal = (FrmPrincipal) parent;
+        principal = (Modulo1) parent;
         System.out.println("---- " + principal.getName());
         System.out.println("---- " + principal.getTitle());
         System.out.println("---- " + principal.getLayout().toString());

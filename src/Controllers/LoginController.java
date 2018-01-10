@@ -7,7 +7,7 @@ package Controllers;
 
 import Pojos.RolxUser;
 import Pojos.Usuario;
-import Views.FrmPrincipal;
+import Views.Modulo1;
 import Views.Login;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
@@ -35,7 +35,7 @@ import javax.swing.JTextField;
 public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
-    private final FrmPrincipal pr = GetPrincipal.getPrincipal();
+    private final Modulo1 pr = GetPrincipal.getPrincipal();
     private PrincipalController prc;
     Usuario u = null;
     ImageIcon ii = null;
