@@ -58,7 +58,7 @@ public final class ReadFinger {
     public static String TEMPLATE_PROPERTY = "template";
     //Inicio variables para la extraccion de caracteristicas huella
     public DPFPFeatureSet featuresverificacion;
-    private final Modulo1 pr;
+//    private final Modulo1 pr;
     private Asistencia asistencias;
     private PagoService pagoservice;
     private Huellas huella;
@@ -79,7 +79,7 @@ public final class ReadFinger {
 
     public ReadFinger() {
         prc = GetPrincipalController.getPrincipalController();
-        pr = GetPrincipal.getPrincipal();
+//        pr = GetPrincipal.getPrincipal();
         Iniciar();
     }
 
