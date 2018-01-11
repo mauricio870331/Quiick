@@ -33,7 +33,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Reportes extends Persistencia implements Runnable {
 
     private Usuario us;
-    private final Modulo1 pr = GetPrincipal.getPrincipal();
+    private final Modulo1 pr = GetPrincipal.getModulo1();
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat saSegu = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private Date desde;
@@ -73,7 +73,7 @@ public class Reportes extends Persistencia implements Runnable {
             jv.setVisible(true);
             jv.setLocationRelativeTo(null);
             jv.setTitle("Reportes");
-            pr.preloader.setVisible(false);
+//            pr.preloader.setVisible(false);
         } catch (JRException ex) {
             System.out.println("Error jasper: " + ex);
         } catch (SQLException ex) {

@@ -50,7 +50,7 @@ public class FrmCapturePict extends JFrame implements ActionListener, Runnable, 
     private WebcamPanel panel = null;
     private WebcamPicker picker = null;
     private final JButton btn = new JButton("Capturar Foto");
-    private final Modulo1 pr = GetPrincipal.getPrincipal();
+//    private final Modulo1 pr = GetPrincipal.getPrincipal();
     ImageIcon ii = null;
     ImageIcon iin = null;
     String ruta = System.getProperty("java.io.tmpdir") + "\\default.png";
@@ -241,9 +241,9 @@ public class FrmCapturePict extends JFrame implements ActionListener, Runnable, 
                 ajustaImagen(fis, 200, 185);
                 ii = new ImageIcon(ruta);
                 Image conver = ii.getImage();
-                Image tam = conver.getScaledInstance(pr.cLabel1.getWidth(), pr.cLabel1.getHeight(), Image.SCALE_SMOOTH);
-                iin = new ImageIcon(tam);
-                pr.cLabel1.setIcon(iin);
+//                Image tam = conver.getScaledInstance(pr.cLabel1.getWidth(), pr.cLabel1.getHeight(), Image.SCALE_SMOOTH);
+//                iin = new ImageIcon(tam);
+//                pr.cLabel1.setIcon(iin);
                 this.dispose();
             } catch (IOException | HeadlessException ex) {
                 System.out.println("error " + ex);
