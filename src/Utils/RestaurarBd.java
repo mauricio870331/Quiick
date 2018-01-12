@@ -21,17 +21,12 @@ import java.util.GregorianCalendar;
  *
  * @author clopez
  */
-public class backupBd extends Persistencia implements Runnable {
+public class  RestaurarBd implements Runnable {
 
     SimpleDateFormat sa = new SimpleDateFormat("yyyyMMddhhmmss");
     SimpleDateFormat sa2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     Calendar c = new GregorianCalendar();
-    int id;
-    Date fecha = new Date();
-    String error;
-    String causa;
-    String linea_archivo;
-    int notificado;
+    
 
     @Override
     public void run() {
@@ -59,10 +54,11 @@ public class backupBd extends Persistencia implements Runnable {
         if ((weighFile / 1024) < 1024) {
             Runtime backup = Runtime.getRuntime();
             try {
+                String nombreArchivo = "";
                 System.out.println("iniciando copia");
                 File[] roots = File.listRoots();
                 if (listarDirectorio(roots[0], "")) {
-                    String comando = "cmd /K " + new File("").getAbsolutePath() + "/src/batch/backupxampp.bat";
+                    String comando = "C:\\xampp\\mysql\\bin\\\"mysqldump -uroot -pPpY8lfp838Et3716  quiick < " + folder.toString() + "/" + nombreArchivo;
                     backup.exec(comando);
                 } else {
                     String comando = "cmd /K " + new File("").getAbsolutePath() + "/src/batch/backupmysql.bat";
@@ -70,14 +66,9 @@ public class backupBd extends Persistencia implements Runnable {
                 }
                 System.out.println("copia finalizada");
                 ProgressBackup.setVisible(false);
-            } catch (IOException ex) {
-                error = ex.getMessage()+" - "+ex.toString();
-                causa = "Generar backup BD";
-                linea_archivo = "Linea 74, Archivo Quiick\\src\\Utils\\backupBd.java";
-                notificado = 3;
-                create();
+            } catch (IOException ex) {                            
                 ProgressBackup.setVisible(false);
-//                System.out.println(ex.getMessage());
+                System.out.println(ex.getMessage());
             }
         }
         usageDisk.setText("Almacenamiento de BD: " + (weighFile / 1024) + "Mb");
@@ -98,47 +89,5 @@ public class backupBd extends Persistencia implements Runnable {
         return r;
     }
 
-    @Override
-    public int create() {
-        int transaccion = -1;
-        String prepareInsert = "insert into log_errores (fecha,error,causa,linea_archivo,notificar) "
-                + "values (?,?,?,?,?)";
-        try {
-            this.getConecion().con = this.getConecion().dataSource.getConnection();
-            this.getConecion().con.setAutoCommit(false);
-            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
-            preparedStatement.setString(1, sa.format(fecha));
-            preparedStatement.setString(2, error);
-            preparedStatement.setString(3, causa);
-            preparedStatement.setString(4, linea_archivo);
-            preparedStatement.setInt(5, notificado);
-            transaccion = backupBd.this.getConecion().transaccion(preparedStatement);
-        } catch (SQLException ex) {
-            System.out.println("Error SQL : " + ex.toString());
-        } finally {
-            try {
-                this.getConecion().getconecion().setAutoCommit(true);
-                this.getConecion().con.close();
-            } catch (SQLException ex) {
-                System.out.println(ex);
-            }
-        }
-        return transaccion;
-    }
-
-    @Override
-    public int edit() {
-        return 0;
-    }
-
-    @Override
-    public int remove() {
-        return 0;
-    }
-
-    @Override
-    public java.util.List List() {
-        return null;
-    }
 
 }
