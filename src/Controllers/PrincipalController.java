@@ -235,22 +235,22 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         }
 //        
-//         if (e.getSource() == M2.mnuDeleteempresaProve) {
-//            getEp();
-//            ep.setEstado("I");
-//            int fila = M2.tblListaEmpresasProve.getSelectedRow();
-//            if (fila >= 0) {
-//                String codigo = M2.tblListaEmpresasProve.getValueAt(fila, 0).toString();
-//                ep.setIdEmpresaProveedor(new BigDecimal(codigo));
-//                if (ep.EliminarXEstado() > 0) {
-//                    DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Eliminar la Empresa", DesktopNotify.INFORMATION, 5000L);
-//                    ListEmpresasProveedor("");
-//                } else {
-//                    DesktopNotify.showDesktopMessage("Aviso..!", "Error al Eliminar Empresa", DesktopNotify.ERROR, 5000L);
-//                }
-//            }
-//
-//        }
+        if (e.getSource() == M2.mnuDeleteempresaProve) {
+            getEp();
+            ep.setEstado("I");
+            int fila = M2.tblListaEmpresasProve.getSelectedRow();
+            if (fila >= 0) {
+                String codigo = M2.tblListaEmpresasProve.getValueAt(fila, 0).toString();
+                ep.setIdEmpresaProveedor(new BigDecimal(codigo));
+                if (ep.EliminarXEstado() > 0) {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Eliminar la Empresa", DesktopNotify.INFORMATION, 5000L);
+                    ListEmpresasProveedor("");
+                } else {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Error al Eliminar Empresa", DesktopNotify.ERROR, 5000L);
+                }
+            }
+
+        }
 
         if (e.getSource() == M2.btnEmpresaProvedorCancelar) {
             M2.txtProveEmpNombre.setText("");
@@ -280,42 +280,42 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         }
 
-//        if (e.getSource() == pr.mnuEditEmpresa) {
-//            int fila = pr.tblListaEmpresasProve.getSelectedRow();
-//            if (fila >= 0) {
-//                String codigo = pr.tblListaEmpresasProve.getValueAt(fila, 0).toString();
-//                CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
-//            }
-//
-//        }
+        if (e.getSource() == M2.mnuEditEmpresa) {
+            int fila = M2.tblListaEmpresasProve.getSelectedRow();
+            if (fila >= 0) {
+                String codigo = M2.tblListaEmpresasProve.getValueAt(fila, 0).toString();
+                CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
+            }
 
-//        if (e.getSource() == pr.btnEmpresaProveGuardar && pr.btnEmpresaProveGuardar.getText().trim().equals("Guardar")) {
-//            getEp();
-//
-//            ep.setNombreEmpresa(pr.txtProveEmpNombre.getText().trim());
-//            ep.setNit(pr.txtProveEmpNit.getText().trim());
-//            ep.setDireccion(pr.txtProveEmpDireccion.getText().trim());
-//            ep.setTelefono(pr.txtProveEmpTelefono.getText().trim());
-//            ep.setEstado("A");
-//            if (ep.getNombreEmpresa().length() > 0) {
-//                if (ep.create() > 0) {
-//                    DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear empresa", DesktopNotify.INFORMATION, 5000L);
-//                    ListEmpresasProveedor("");
-//                    pr.txtProveEmpNombre.setText("");
-//                    pr.txtProveEmpNit.setText("");
-//                    pr.txtProveEmpDireccion.setText("");
-//                    pr.txtProveEmpTelefono.setText("");
-//                    showPanel("PnEmpresaProveedor");
-//                } else {
-//                    DesktopNotify.showDesktopMessage("Aviso..!", "Error al eliminar Producto", DesktopNotify.ERROR, 5000L);
-//                }
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnViewEmpresaProvedor) {
-//            ListEmpresasProveedor("");
-//            showPanel("PnEmpresaProveedor");
-//        }
+        }
+
+        if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Guardar")) {
+            getEp();
+
+            ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
+            ep.setNit(M2.txtProveEmpNit.getText().trim());
+            ep.setDireccion(M2.txtProveEmpDireccion.getText().trim());
+            ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
+            ep.setEstado("A");
+            if (ep.getNombreEmpresa().length() > 0) {
+                if (ep.create() > 0) {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear empresa", DesktopNotify.INFORMATION, 5000L);
+                    ListEmpresasProveedor("");
+                    M2.txtProveEmpNombre.setText("");
+                    M2.txtProveEmpNit.setText("");
+                    M2.txtProveEmpDireccion.setText("");
+                    M2.txtProveEmpTelefono.setText("");
+                    showPanel(2, "PnEmpresaProveedor");
+                } else {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Error al eliminar Producto", DesktopNotify.ERROR, 5000L);
+                }
+            }
+        }
+
+        if (e.getSource() == M2.btnViewEmpresaProvedor) {
+            ListEmpresasProveedor("");
+            showPanel(2, "PnEmpresaProveedor");
+        }
 
 //
 //        if (e.getSource() == pr.mnuEditFechasPagos) {
@@ -2913,6 +2913,21 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M2.tblListaEmpresasProve.getColumnModel().getColumn(4).setPreferredWidth(10);
 
         M2.tblListaEmpresasProve.setRowHeight(30);
+    }
+
+    public void CargarDatosEmpresaProvedor(int codigo) {
+        int fila = M2.tblListaEmpresasProve.getSelectedRow();
+        if (fila >= 0) {
+            getEp();
+            ep = ep.BuscarEmpresaXCodigo(codigo);
+
+            M2.txtProveEmpNombre.setText(ep.getNombreEmpresa());
+            M2.txtProveEmpNit.setText(ep.getNit());
+            M2.txtProveEmpDireccion.setText(ep.getDireccion());
+            M2.txtProveEmpTelefono.setText(ep.getTelefono());
+
+            M2.btnEmpresaProveGuardar.setText("Editar");
+        }
     }
 
     public Proveedor getPv() {

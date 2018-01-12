@@ -84,6 +84,17 @@ public class Modulo2 extends javax.swing.JFrame {
         poopupHistoryPays = new javax.swing.JPopupMenu();
         mnuEditFechasPagos = new javax.swing.JMenuItem();
         mnuDeletePagos = new javax.swing.JMenuItem();
+        popupEmpresaProveedor = new javax.swing.JPopupMenu();
+        mnuEditEmpresa = new javax.swing.JMenuItem();
+        mnuDeleteempresaProve = new javax.swing.JMenuItem();
+        popupProductos = new javax.swing.JPopupMenu();
+        mnuEditProducto = new javax.swing.JMenuItem();
+        mnuDeleteProducto = new javax.swing.JMenuItem();
+        mnuSalidadProducto = new javax.swing.JMenuItem();
+        mnuEntradaProductos = new javax.swing.JMenuItem();
+        popupCategoria = new javax.swing.JPopupMenu();
+        mnuEditCate = new javax.swing.JMenuItem();
+        mnuDeleteCate = new javax.swing.JMenuItem();
         jPanel10 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -213,6 +224,38 @@ public class Modulo2 extends javax.swing.JFrame {
         mnuDeletePagos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
         mnuDeletePagos.setText("Eliminar");
         poopupHistoryPays.add(mnuDeletePagos);
+
+        mnuEditEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Edit18px.png"))); // NOI18N
+        mnuEditEmpresa.setText("Editar");
+        popupEmpresaProveedor.add(mnuEditEmpresa);
+
+        mnuDeleteempresaProve.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
+        mnuDeleteempresaProve.setText("Eliminar");
+        popupEmpresaProveedor.add(mnuDeleteempresaProve);
+
+        mnuEditProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Edit18px.png"))); // NOI18N
+        mnuEditProducto.setText("Editar");
+        popupProductos.add(mnuEditProducto);
+
+        mnuDeleteProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
+        mnuDeleteProducto.setText("Eliminar");
+        popupProductos.add(mnuDeleteProducto);
+
+        mnuSalidadProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Edit18px.png"))); // NOI18N
+        mnuSalidadProducto.setText("Salida ");
+        popupProductos.add(mnuSalidadProducto);
+
+        mnuEntradaProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
+        mnuEntradaProductos.setText("Entrada");
+        popupProductos.add(mnuEntradaProductos);
+
+        mnuEditCate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Edit18px.png"))); // NOI18N
+        mnuEditCate.setText("Editar");
+        popupCategoria.add(mnuEditCate);
+
+        mnuDeleteCate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
+        mnuDeleteCate.setText("Eliminar");
+        popupCategoria.add(mnuDeleteCate);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(54, 63, 73));
@@ -1361,13 +1404,21 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JMenuItem mnuAsocFinger;
     public javax.swing.JMenuItem mnuBusqueda;
     public javax.swing.JMenuItem mnuDelete;
+    public javax.swing.JMenuItem mnuDeleteCate;
     public javax.swing.JMenuItem mnuDeleteEjercicio;
     public javax.swing.JMenuItem mnuDeleteMusculo;
     public javax.swing.JMenuItem mnuDeletePagos;
+    public javax.swing.JMenuItem mnuDeleteProducto;
+    public javax.swing.JMenuItem mnuDeleteempresaProve;
+    public javax.swing.JMenuItem mnuEditCate;
+    public javax.swing.JMenuItem mnuEditEmpresa;
     public javax.swing.JMenuItem mnuEditFechasPagos;
+    public javax.swing.JMenuItem mnuEditProducto;
+    public javax.swing.JMenuItem mnuEntradaProductos;
     public javax.swing.JMenuItem mnuGenerarPago;
     public javax.swing.JMenuItem mnuHistoryPays;
     public javax.swing.JMenuItem mnuMedidasUser;
+    public javax.swing.JMenuItem mnuSalidadProducto;
     public javax.swing.JMenuItem mnuUpdate;
     public javax.swing.JMenuItem mnuUpdateEjercicio;
     public javax.swing.JMenuItem mnuUpdateMusculo;
@@ -1375,8 +1426,11 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JLabel nomUserLog;
     public javax.swing.JLabel onOff;
     public javax.swing.JPopupMenu poopupHistoryPays;
+    private javax.swing.JPopupMenu popupCategoria;
     private javax.swing.JPopupMenu popupEjercicios;
+    private javax.swing.JPopupMenu popupEmpresaProveedor;
     private javax.swing.JPopupMenu popupPagosService;
+    private javax.swing.JPopupMenu popupProductos;
     private javax.swing.JPopupMenu popupTblMusculos;
     private javax.swing.JPopupMenu popupTblUsers;
     public javax.swing.JTable tblListaEmpresasProve;
