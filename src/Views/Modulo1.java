@@ -6,14 +6,7 @@
 package Views;
 
 import Controllers.LoginController;
-import Pojos.Rol;
-import Pojos.TipoDocumento;
-import Pojos.Empresa;
-import Pojos.Sedes;
-import Pojos.Musculos;
-import Pojos.dias;
 import java.awt.Color;
-import java.util.Date;
 import javax.swing.ImageIcon;
 
 /**
