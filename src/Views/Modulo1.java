@@ -97,6 +97,7 @@ public class Modulo1 extends javax.swing.JFrame {
         btnGestionRutinas = new javax.swing.JButton();
         btnTransaccionCaja = new javax.swing.JButton();
         btnMnuHorafeliz = new javax.swing.JButton();
+        btnProveedores = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
 
         mnuAsocFinger.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Finger18px.png"))); // NOI18N
@@ -323,6 +324,25 @@ public class Modulo1 extends javax.swing.JFrame {
         btnMnuHorafeliz.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnMnuHorafeliz.setIconTextGap(1);
 
+        btnProveedores.setBackground(new java.awt.Color(54, 63, 73));
+        btnProveedores.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnProveedores.setForeground(new java.awt.Color(255, 255, 255));
+        btnProveedores.setText("Proveedores");
+        btnProveedores.setBorder(null);
+        btnProveedores.setBorderPainted(false);
+        btnProveedores.setContentAreaFilled(false);
+        btnProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnProveedores.setFocusPainted(false);
+        btnProveedores.setHideActionText(true);
+        btnProveedores.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnProveedores.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnProveedores.setIconTextGap(1);
+        btnProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProveedoresActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -352,7 +372,8 @@ public class Modulo1 extends javax.swing.JFrame {
                                                     .addComponent(btnListUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(btnAsistencias))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(onOff, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(onOff, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(btnProveedores)))
                                     .addComponent(jLabel32)
                                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
@@ -401,7 +422,9 @@ public class Modulo1 extends javax.swing.JFrame {
                     .addComponent(btnAsistencias))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAsistenciaManual)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnProveedores)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -453,6 +476,10 @@ public class Modulo1 extends javax.swing.JFrame {
     private void btnTransaccionCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionCajaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTransaccionCajaActionPerformed
+
+    private void btnProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedoresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProveedoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -516,6 +543,7 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JButton btnListMusculos;
     public javax.swing.JButton btnListUsers;
     public javax.swing.JButton btnMnuHorafeliz;
+    public javax.swing.JButton btnProveedores;
     public javax.swing.JButton btnTransaccionCaja;
     public javax.swing.JTextField id_userlog;
     private javax.swing.JLabel jLabel11;

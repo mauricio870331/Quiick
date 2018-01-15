@@ -117,8 +117,16 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     }
 
     private void inicomponents() throws IOException {
+        M1.btnProveedores.addActionListener(this);
         M2.btnProveedores.addActionListener(this);
         M2.btnGuardarProve.addActionListener(this);
+        M2.btnViewEmpresaProvedor.addActionListener(this);
+        M2.btnEmpresaProveGuardar.addActionListener(this);
+        M2.mnuEditEmpresa.addActionListener(this);
+        M2.mnuDeleteempresaProve.addActionListener(this);
+        M2.mnuEditProveedor.addActionListener(this);
+        M2.mnuDeleteProveedor.addActionListener(this);
+        M2.btnCancelarProve.addActionListener(this);
 ////        pr.mnuUsers.addMouseListener(this);
 ////        pr.mnuGimnasios.addMouseListener(this);     
 ////        pr.btnGuardar.addActionListener(this);
@@ -197,20 +205,20 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == M2.btnProveedores) {
-            CargarDatosInicialesProveedores();
+        if (e.getSource() == M2.btnProveedores || e.getSource() == M1.btnProveedores) {
+            System.out.println("Ingreso a proveedores");
+            CargarDatosInicialesProveedores(1, null);
             cargarTiposDocumentosProveedor();
+            ListProveedores();
             showPanel(2, "PnProveedores");
         }
 
-        if (e.getSource() == M2.btnGuardarProve) {
+        if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
             getP();
 
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-
-            persona p = getP();
 
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
@@ -223,15 +231,23 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             p.setFechaNacimiento(null);
             p.setCorreo("");
             p.setEstado("A");
+            p.setPathFoto(""); //vacio
 
             pv.setEmpresa(empresa);
             pv.setPersona(p);
             pv.setEstado("A");
+            String mns = p.ValidacionCampos(3);
 
-            if (pv.create() > 0) {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear el proveedor", DesktopNotify.INFORMATION, 5000L);
+            if (mns.length() == 0) {
+                if (pv.create() > 0) {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear el proveedor", DesktopNotify.INFORMATION, 5000L);
+                    LimpiarCampos("proveedores");
+                    ListProveedores();
+                } else {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Error al crear proveedor", DesktopNotify.ERROR, 5000L);
+                }
             } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Error al Eliminar Empresa", DesktopNotify.ERROR, 5000L);
+                DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
 //        
@@ -252,6 +268,62 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 
         }
 
+        if (e.getSource() == M2.btnCancelarProve) {
+
+            M2.txtDocProve.setText("");
+            M2.txtNombresProve.setText("");
+            M2.txtApellidosProve.setText("");
+            M2.txtTelefonosProve.setText("");
+            M2.btnGuardarProve.setText("Guardar");
+        }
+
+        if (e.getSource() == M2.mnuEditProveedor) {
+            int fila = M2.tblProveedores.getSelectedRow();
+            if (fila >= 0) {
+                String codigo = M2.tblProveedores.getValueAt(fila, 0).toString();
+                CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
+            }
+
+        }
+
+        if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Editar")) {
+            getPv();
+            getP();
+
+            TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
+            EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
+
+            p.setDocumento(M2.txtDocProve.getText());
+            p.setIdtipoDocumento(t.getIdTipoDocumento());
+            p.setNombre(M2.txtNombresProve.getText());
+            p.setApellido(M2.txtApellidosProve.getText());
+            p.setNombreCompleto(M2.txtNombresProve.getText() + " " + M2.txtApellidosProve.getText());
+            p.setDireccion("");
+            p.setTelefono(M2.txtTelefonosProve.getText());
+            p.setSexo("M");
+            p.setFechaNacimiento(null);
+            p.setCorreo("");
+            p.setEstado("A");
+            p.setPathFoto(""); //vacio
+
+            pv.setEmpresa(empresa);
+            pv.setPersona(p);
+            pv.setEstado("A");
+            String mns = p.ValidacionCampos(3);
+
+            if (mns.length() == 0) {
+                if (pv.edit() > 0) {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar proveedor", DesktopNotify.INFORMATION, 5000L);
+                    LimpiarCampos("proveedores");
+                    ListProveedores();
+                } else {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Error al Modificar proveedor", DesktopNotify.ERROR, 5000L);
+                }
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
+            }
+        }
+
         if (e.getSource() == M2.btnEmpresaProvedorCancelar) {
             M2.txtProveEmpNombre.setText("");
             M2.txtProveEmpNit.setText("");
@@ -259,6 +331,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             M2.txtProveEmpTelefono.setText("");
             M2.btnEmpresaProveGuardar.setText("Guardar");
         }
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Editar")) {
             getEp();
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
@@ -266,17 +339,22 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             ep.setDireccion(M2.txtProveEmpDireccion.getText().trim());
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
+            String mns = ep.ValidacionCampos();
 
-            if (ep.edit() > 0) {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar Empresa", DesktopNotify.INFORMATION, 5000L);
-                ListEmpresasProveedor("");
-                M2.txtProveEmpNombre.setText("");
-                M2.txtProveEmpNit.setText("");
-                M2.txtProveEmpDireccion.setText("");
-                M2.txtProveEmpTelefono.setText("");
-                M2.btnEmpresaProveGuardar.setText("Guardar");
+            if (mns.length() == 0) {
+                if (ep.edit() > 0) {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar Empresa", DesktopNotify.INFORMATION, 5000L);
+                    ListEmpresasProveedor("");
+                    M2.txtProveEmpNombre.setText("");
+                    M2.txtProveEmpNit.setText("");
+                    M2.txtProveEmpDireccion.setText("");
+                    M2.txtProveEmpTelefono.setText("");
+                    M2.btnEmpresaProveGuardar.setText("Guardar");
+                } else {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Error al eliminar Producto", DesktopNotify.ERROR, 5000L);
+                }
             } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Error al eliminar Producto", DesktopNotify.ERROR, 5000L);
+                DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
 
@@ -297,18 +375,24 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             ep.setDireccion(M2.txtProveEmpDireccion.getText().trim());
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
-            if (ep.getNombreEmpresa().length() > 0) {
-                if (ep.create() > 0) {
-                    DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear empresa", DesktopNotify.INFORMATION, 5000L);
-                    ListEmpresasProveedor("");
-                    M2.txtProveEmpNombre.setText("");
-                    M2.txtProveEmpNit.setText("");
-                    M2.txtProveEmpDireccion.setText("");
-                    M2.txtProveEmpTelefono.setText("");
-                    showPanel(2, "PnEmpresaProveedor");
-                } else {
-                    DesktopNotify.showDesktopMessage("Aviso..!", "Error al eliminar Producto", DesktopNotify.ERROR, 5000L);
+            String mns = ep.ValidacionCampos();
+
+            if (mns.length() == 0) {
+                if (ep.getNombreEmpresa().length() > 0) {
+                    if (ep.create() > 0) {
+                        DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear empresa", DesktopNotify.INFORMATION, 5000L);
+                        ListEmpresasProveedor("");
+                        M2.txtProveEmpNombre.setText("");
+                        M2.txtProveEmpNit.setText("");
+                        M2.txtProveEmpDireccion.setText("");
+                        M2.txtProveEmpTelefono.setText("");
+                        showPanel(2, "PnEmpresaProveedor");
+                    } else {
+                        DesktopNotify.showDesktopMessage("Aviso..!", "Error al eliminar Producto", DesktopNotify.ERROR, 5000L);
+                    }
                 }
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
 
@@ -1350,13 +1434,18 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 M1.setVistaActual(string);
                 break;
             case 2:
+                M1.setVisible(false);
+                M2.setVisible(true);
                 M2.setVistaActual(string);
                 switch (string) {
                     case "PnProveedores":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(true);
                         break;
-
+                    case "PnEmpresaProveedor":
+                        M2.PnEmpresaProveedor.setVisible(true);
+                        M2.PnProveedores.setVisible(false);
+                        break;
                 }
                 break;
             case 3:
@@ -2867,14 +2956,35 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         this.reportes = reportes;
     }
 
-    public void CargarDatosInicialesProveedores() {
+    public void CargarDatosInicialesProveedores(int condicion, EmpresaProveedor ObjEmp) {
         getEp();
-        ArrayList<EmpresaProveedor> ListEmp = new ArrayList();
-        ListEmp = (ArrayList<EmpresaProveedor>) ep.List();
-        M2.cboEmpresasProveedor.removeAllItems();
-        for (EmpresaProveedor empresaProveedor : ListEmp) {
-            M2.cboEmpresasProveedor.addItem(empresaProveedor);
+
+        if (condicion == 1) {
+            ArrayList<EmpresaProveedor> ListEmp = new ArrayList();
+            ListEmp = (ArrayList<EmpresaProveedor>) ep.List();
+            M2.cboEmpresasProveedor.removeAllItems();
+            for (EmpresaProveedor empresaProveedor : ListEmp) {
+                M2.cboEmpresasProveedor.addItem(empresaProveedor);
+            }
+        } else {
+            ArrayList<EmpresaProveedor> ListEmp = new ArrayList<>();
+            int posicion = -1;
+            EmpresaProveedor emp = null;
+            EmpresaProveedor empBus = null;
+            int a = 0;
+            for (Object empresaProveedor : M2.cboEmpresasProveedor.getSelectedObjects()) {
+                emp = (EmpresaProveedor) empresaProveedor;
+                if (emp.getIdEmpresaProveedor() == ObjEmp.getIdEmpresaProveedor()) {
+                    posicion = a;
+                    empBus = emp;
+                }
+                ListEmp.add(emp);
+                a++;
+            }
+            ListEmp.set(0, ObjEmp);
+            ListEmp.set(a, empBus);
         }
+
     }
 
     private void cargarTiposDocumentosProveedor() {
@@ -2915,6 +3025,27 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M2.tblListaEmpresasProve.setRowHeight(30);
     }
 
+    public void ListProveedores() {
+        getPv();
+        ArrayList<Proveedor> listaProveedores = new ArrayList();
+
+        listaProveedores = (ArrayList<Proveedor>) pv.List();
+
+        M2.tblProveedores.removeAll();
+        TablaModel tablaModel = new TablaModel(listaProveedores, 3);
+        M2.tblProveedores.setModel(tablaModel.ModelListProveedor());
+        M2.tblProveedores.getColumnModel().getColumn(0).setPreferredWidth(10);
+        M2.tblProveedores.getColumnModel().getColumn(1).setPreferredWidth(50);
+        M2.tblProveedores.getColumnModel().getColumn(2).setPreferredWidth(20);
+        M2.tblProveedores.getColumnModel().getColumn(3).setPreferredWidth(50);
+        M2.tblProveedores.getColumnModel().getColumn(4).setPreferredWidth(20);
+        M2.tblProveedores.getColumnModel().getColumn(5).setPreferredWidth(10);
+        M2.tblProveedores.getColumnModel().getColumn(6).setPreferredWidth(20);
+        M2.tblProveedores.getColumnModel().getColumn(7).setPreferredWidth(6);
+
+        M2.tblProveedores.setRowHeight(30);
+    }
+
     public void CargarDatosEmpresaProvedor(int codigo) {
         int fila = M2.tblListaEmpresasProve.getSelectedRow();
         if (fila >= 0) {
@@ -2927,6 +3058,35 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             M2.txtProveEmpTelefono.setText(ep.getTelefono());
 
             M2.btnEmpresaProveGuardar.setText("Editar");
+        }
+    }
+
+    public void CargarDatosProvedor(int codigo) {
+        int fila = M2.tblProveedores.getSelectedRow();
+        if (fila >= 0) {
+            getPv();
+            pv = pv.BuscarProveedor(codigo);
+            TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
+
+            M2.txtDocProve.setText(pv.getPersona().getDocumento());
+            M2.txtNombresProve.setText(pv.getPersona().getNombre());
+            M2.txtApellidosProve.setText(pv.getPersona().getApellido());
+            M2.txtTelefonosProve.setText(pv.getPersona().getTelefono());
+            CargarDatosInicialesProveedores(2, pv.getEmpresa());
+
+            M2.btnEmpresaProveGuardar.setText("Editar");
+        }
+    }
+
+    public void LimpiarCampos(String menu) {
+
+        switch (menu) {
+            case "proveedores":
+                M2.txtDocProve.setText("");
+                M2.txtNombresProve.setText("");
+                M2.txtApellidosProve.setText("");
+                M2.txtTelefonosProve.setText("");
+                break;
         }
     }
 
