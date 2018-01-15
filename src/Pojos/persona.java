@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 public class persona extends Persistencia implements Serializable {
 
     private int idPersona;
+    private int Current;
     private int idtipoDocumento;
     private String documento;
     private String nombre;
@@ -166,17 +167,13 @@ public class persona extends Persistencia implements Serializable {
     @Override
     public int create() {
         int transaccion = -1;
-        String prepareInsert = "insert into persona (documento,idTipoDocumento,nombre,apellidos,nombrecompleto,direccion,telfono,sexo,fechanacimiento,correo,estado,foto) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String prepareInsert = "insert into persona (documento,idTipoDocumento,nombre,apellidos,nombrecompleto,direccion,Telefono,sexo,fechanacimiento,correo,estado,foto) values (?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
-            String ruta = System.getProperty("java.io.tmpdir") + "\\default.png";
+//            
             FileInputStream fis = null;
-            File file = null;
-            File file2 = new File(ruta);
+            File file = null;//       
             if (!getPathFoto().equals("")) {// cuando se adjunta la foto
                 file = new File(getPathFoto());
-                fis = new FileInputStream(file);
-            } else if (file2.exists()) { // cuando se toma la foto con la camara
-                file = file2;
                 fis = new FileInputStream(file);
             }
             this.getConecion().con = this.getConecion().dataSource.getConnection();
@@ -190,7 +187,7 @@ public class persona extends Persistencia implements Serializable {
             preparedStatement.setString(6, direccion);
             preparedStatement.setString(7, telefono);
             preparedStatement.setString(8, sexo);
-            preparedStatement.setDate(9, (java.sql.Date) fechaNacimiento);
+            preparedStatement.setDate(9, fechaNacimiento == null ? null : (java.sql.Date) fechaNacimiento);
             preparedStatement.setString(10, correo);
             preparedStatement.setString(11, estado);
             if (file != null) {
@@ -199,6 +196,11 @@ public class persona extends Persistencia implements Serializable {
                 preparedStatement.setString(12, null);
             }
             transaccion = persona.this.getConecion().transaccion(preparedStatement);
+            String sql = "Select LAST_INSERT_ID()";
+            ResultSet rs = persona.super.getConecion().query(sql);
+            if (rs.absolute(1)) {
+                Current = rs.getInt(1);
+            }            
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
         } catch (FileNotFoundException ex) {
@@ -421,6 +423,7 @@ public class persona extends Persistencia implements Serializable {
                 System.out.println(ex);
             }
         }
+        System.out.println("sistema Retorno : " + id);
         return id;
     }
 
@@ -479,6 +482,67 @@ public class persona extends Persistencia implements Serializable {
             }
         }
         return tabla;
+    }
+
+    public Boolean BuscarXDocumentoTrue(String documento) {
+        Boolean r = false;
+        System.out.println("Entro a buscar documento : " + documento);
+        String prepareQuery = "select Documento from persona where documento='" + documento.trim() + "'";
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            ResultSet rs = persona.super.getConecion().query(prepareQuery);
+
+            while (rs.next()) {
+                r = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        System.out.println("Retorno " + r);
+        return r;
+    }
+
+    public String ValidacionCampos(int condicion) { // Condicion depende de las vista en la cual es esta llamando el registro        
+        String mns = "";
+        // 1 : Registro de clientes
+        // 2 : Registro de adm
+        // 3 : Registro de proveedores
+        if (documento.length() <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
+            mns = "Debe Digitar el Documento";
+            return mns;
+        } else if (idtipoDocumento <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
+            mns = "Debe Seleccionar el tipo de Documento";
+        } else if (nombre.length() <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
+            mns = "Debe Digitar el Nombre";
+        } else if (apellido.length() <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
+            mns = "Debe Digitar el apellido";
+        } else if (direccion.length() <= 0 && (condicion == 1 || condicion == 2)) {
+            mns = "Debe Digitar la direccion";
+        } else if (telefono.length() <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
+            mns = "Debe Digitar el telefono";
+        } else if (sexo.length() <= 0 && (condicion == 1 || condicion == 2)) {
+            mns = "Debe Seleccionar el sexo";
+        } else if (fechaNacimiento == null && (condicion == 1 || condicion == 2)) {
+            mns = "Debe Digitar la fecha de nacimiento";
+        } else if (correo.length() <= 0 && (condicion == 1 || condicion == 2)) {
+            mns = "Debe Digitar el Correo";
+        }
+
+        return mns;
+    }
+
+    public int getCurrent() {
+        return Current;
+    }
+
+    public void setCurrent(int Current) {
+        this.Current = Current;
     }
 
 }

@@ -161,7 +161,7 @@ public class EmpresaProveedor extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         ArrayList<EmpresaProveedor> List = new ArrayList();
-        String prepareQuery = "SELECT idempresaproveedor, nombreEmpresa, nit, direccion, telefono, estado FROM appgym.empresaproveedor where estado='A'";
+        String prepareQuery = "SELECT idempresaproveedor, nombreEmpresa, nit, direccion, telefono, estado FROM appgym.empresaproveedor where estado='A' order by 2";
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = EmpresaProveedor.super.getConecion().query(prepareQuery);
@@ -243,6 +243,25 @@ public class EmpresaProveedor extends Persistencia implements Serializable {
     @Override
     public String toString() {
         return nombreEmpresa;
+    }
+
+    public String ValidacionCampos() {
+        String mns = "";
+        System.out.println("------- " + "EmpresaProveedor{" + "idEmpresaProveedor=" + idEmpresaProveedor + ", nombreEmpresa=" + nombreEmpresa + ", nit=" + nit + ", direccion=" + direccion + ", Telefono=" + Telefono + ", estado=" + estado + '}');
+        if (nombreEmpresa.length() <= 0) {
+            mns = "Debe Digitar el Nombre de la empresa";
+            return mns;
+        } else if (nit.length() <= 0) {
+            mns = "Debe Digitar el Nit de la empresa";
+            return mns;
+        } else if (direccion.length() <= 0) {
+            mns = "Debe Digitar la direccion de la empresa";
+            return mns;
+        } else if (Telefono.length() <= 0) {
+            mns = "Debe Digitar el telefono de la empresa";
+            return mns;
+        }
+        return mns;
     }
 
 }

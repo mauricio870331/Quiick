@@ -97,7 +97,11 @@ public class Modulo1 extends javax.swing.JFrame {
         btnGestionRutinas = new javax.swing.JButton();
         btnTransaccionCaja = new javax.swing.JButton();
         btnMnuHorafeliz = new javax.swing.JButton();
+
+        btnProveedores = new javax.swing.JButton();
+
         btnListEmpresas = new javax.swing.JButton();
+
         jLayeredPane1 = new javax.swing.JLayeredPane();
         pnEmpresas = new javax.swing.JPanel();
         pnHeaderEmpresas = new javax.swing.JPanel();
@@ -350,6 +354,26 @@ public class Modulo1 extends javax.swing.JFrame {
         btnMnuHorafeliz.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnMnuHorafeliz.setIconTextGap(1);
 
+
+        btnProveedores.setBackground(new java.awt.Color(54, 63, 73));
+        btnProveedores.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnProveedores.setForeground(new java.awt.Color(255, 255, 255));
+        btnProveedores.setText("Proveedores");
+        btnProveedores.setBorder(null);
+        btnProveedores.setBorderPainted(false);
+        btnProveedores.setContentAreaFilled(false);
+        btnProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnProveedores.setFocusPainted(false);
+        btnProveedores.setHideActionText(true);
+        btnProveedores.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnProveedores.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnProveedores.setIconTextGap(1);
+        btnProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProveedoresActionPerformed(evt);
+            }
+        });
+
         btnListEmpresas.setBackground(new java.awt.Color(54, 63, 73));
         btnListEmpresas.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         btnListEmpresas.setForeground(new java.awt.Color(255, 255, 255));
@@ -363,6 +387,7 @@ public class Modulo1 extends javax.swing.JFrame {
         btnListEmpresas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnListEmpresas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnListEmpresas.setIconTextGap(1);
+
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -393,7 +418,8 @@ public class Modulo1 extends javax.swing.JFrame {
                                                     .addComponent(btnListUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(btnAsistencias))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(onOff, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(onOff, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(btnProveedores)))
                                     .addComponent(jLabel32)
                                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
@@ -449,7 +475,9 @@ public class Modulo1 extends javax.swing.JFrame {
                     .addComponent(btnAsistencias))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAsistenciaManual)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnProveedores)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -792,6 +820,11 @@ public class Modulo1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTransaccionCajaActionPerformed
 
+
+    private void btnProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedoresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProveedoresActionPerformed
+
     private void btnAdjuntarfotoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdjuntarfotoMouseEntered
         btnAdjuntarfoto.setBackground(new Color(124, 124, 124));
     }//GEN-LAST:event_btnAdjuntarfotoMouseEntered
@@ -823,6 +856,7 @@ public class Modulo1 extends javax.swing.JFrame {
     private void btnFindUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFindUserMouseExited
         btnFindUser.setBackground(new Color(54, 63, 73));
     }//GEN-LAST:event_btnFindUserMouseExited
+
 
     /**
      * @param args the command line arguments
@@ -891,6 +925,7 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JButton btnListMusculos;
     public javax.swing.JButton btnListUsers;
     public javax.swing.JButton btnMnuHorafeliz;
+    public javax.swing.JButton btnProveedores;
     public javax.swing.JButton btnTransaccionCaja;
     public com.bolivia.label.CLabel cLabel1;
     public javax.swing.JComboBox<String> cboRegimen;

@@ -35,9 +35,9 @@ public class TablaModel {
             case 3:
                 this.listaProveedores = x;
                 break;
-             case 4:
+            case 4:
                 this.listEmpresaProve = x;
-                break;    
+                break;
         }
 
     }
@@ -84,7 +84,7 @@ public class TablaModel {
             }
         };
 
-        Object[] columna = new Object[9];
+        Object[] columna = new Object[8];
         Proveedor temp = null;
         Iterator<Proveedor> nombreIterator = listaProveedores.iterator();
         while (nombreIterator.hasNext()) {
@@ -92,11 +92,11 @@ public class TablaModel {
             columna[0] = temp.getIdProveedor();
             columna[1] = temp.getEmpresa().getNombreEmpresa();
             columna[2] = temp.getEmpresa().getNit();
-            columna[0] = temp.getPersona().getNombreCompleto();
-            columna[1] = temp.getPersona().getDireccion();
-            columna[2] = temp.getPersona().getTelefono();
-            columna[0] = temp.getPersona().getCorreo();
-            columna[1] = temp.getPersona().getSexo();
+            columna[3] = temp.getPersona().getNombreCompleto();
+            columna[4] = temp.getPersona().getDireccion();
+            columna[5] = temp.getPersona().getTelefono();
+            columna[6] = temp.getPersona().getCorreo();
+            columna[7] = temp.getPersona().getSexo();
 
             model.addRow(columna);
         }
@@ -141,13 +141,13 @@ public class TablaModel {
 
         return model;
     }
-    
-     public DefaultTableModel ModelListEmpresasProveedor() {
+
+    public DefaultTableModel ModelListEmpresasProveedor() {
         DefaultTableModel model = new DefaultTableModel();
-        String Titulos[] = {"#", "Nombre Empresa", "Nit","Direccion","Telefono"};
+        String Titulos[] = {"#", "Nombre Empresa", "Nit", "Direccion", "Telefono"};
         model = new DefaultTableModel(null, Titulos) {
             boolean[] canEdit = new boolean[]{
-                false, false, false,false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -165,7 +165,7 @@ public class TablaModel {
             columna[2] = temp.getNit();
             columna[3] = temp.getDireccion();
             columna[4] = temp.getTelefono();
-            
+
             model.addRow(columna);
         }
         model.addRow(new Object[]{"", ""});
