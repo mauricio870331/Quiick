@@ -106,17 +106,17 @@ public class Modulo1 extends javax.swing.JFrame {
         jLabel82 = new javax.swing.JLabel();
         jLabel83 = new javax.swing.JLabel();
         jLabel84 = new javax.swing.JLabel();
-        txtNombres3 = new javax.swing.JTextField();
-        txtNombres4 = new javax.swing.JTextField();
-        txtNombres5 = new javax.swing.JTextField();
+        txtDirEmpresa = new javax.swing.JTextField();
+        txtNomEmpresa = new javax.swing.JTextField();
+        txtDocNit = new javax.swing.JTextField();
         jLabel85 = new javax.swing.JLabel();
-        txtNombres6 = new javax.swing.JTextField();
+        txtTelEmpresa = new javax.swing.JTextField();
         btnAdjuntarfoto = new javax.swing.JButton();
         jLabel86 = new javax.swing.JLabel();
-        cboSexo = new javax.swing.JComboBox<>();
+        cboRegimen = new javax.swing.JComboBox<>();
         jLabel87 = new javax.swing.JLabel();
-        btnGuardar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
+        btnGuardarEmpresa = new javax.swing.JButton();
+        btnCancelarEmpresa = new javax.swing.JButton();
         jPanel54 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -550,52 +550,52 @@ public class Modulo1 extends javax.swing.JFrame {
         jLabel86.setForeground(new java.awt.Color(255, 255, 255));
         jLabel86.setText("Regimen:");
 
-        cboSexo.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        cboSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Común", "Simplificado" }));
+        cboRegimen.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        cboRegimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Común", "Simplificado" }));
 
         jLabel87.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jLabel87.setForeground(new java.awt.Color(255, 255, 255));
         jLabel87.setText("Logo:");
 
-        btnGuardar.setBackground(new java.awt.Color(54, 63, 73));
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
-        btnGuardar.setText("Guardar");
-        btnGuardar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        btnGuardar.setContentAreaFilled(false);
-        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnGuardar.setFocusPainted(false);
-        btnGuardar.setHideActionText(true);
-        btnGuardar.setIconTextGap(1);
-        btnGuardar.setOpaque(true);
-        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnGuardarEmpresa.setBackground(new java.awt.Color(54, 63, 73));
+        btnGuardarEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnGuardarEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardarEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
+        btnGuardarEmpresa.setText("Guardar");
+        btnGuardarEmpresa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btnGuardarEmpresa.setContentAreaFilled(false);
+        btnGuardarEmpresa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardarEmpresa.setFocusPainted(false);
+        btnGuardarEmpresa.setHideActionText(true);
+        btnGuardarEmpresa.setIconTextGap(1);
+        btnGuardarEmpresa.setOpaque(true);
+        btnGuardarEmpresa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnGuardarMouseEntered(evt);
+                btnGuardarEmpresaMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnGuardarMouseExited(evt);
+                btnGuardarEmpresaMouseExited(evt);
             }
         });
 
-        btnCancelar.setBackground(new java.awt.Color(54, 63, 73));
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
-        btnCancelar.setText("Cancelar");
-        btnCancelar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        btnCancelar.setContentAreaFilled(false);
-        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCancelar.setFocusPainted(false);
-        btnCancelar.setHideActionText(true);
-        btnCancelar.setIconTextGap(1);
-        btnCancelar.setOpaque(true);
-        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnCancelarEmpresa.setBackground(new java.awt.Color(54, 63, 73));
+        btnCancelarEmpresa.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnCancelarEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelarEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
+        btnCancelarEmpresa.setText("Cancelar");
+        btnCancelarEmpresa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btnCancelarEmpresa.setContentAreaFilled(false);
+        btnCancelarEmpresa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelarEmpresa.setFocusPainted(false);
+        btnCancelarEmpresa.setHideActionText(true);
+        btnCancelarEmpresa.setIconTextGap(1);
+        btnCancelarEmpresa.setOpaque(true);
+        btnCancelarEmpresa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnCancelarMouseEntered(evt);
+                btnCancelarEmpresaMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCancelarMouseExited(evt);
+                btnCancelarEmpresaMouseExited(evt);
             }
         });
 
@@ -614,18 +614,18 @@ public class Modulo1 extends javax.swing.JFrame {
                     .addComponent(jLabel87))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombres6)
-                    .addComponent(txtNombres3, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
-                    .addComponent(txtNombres4)
-                    .addComponent(txtNombres5)
+                    .addComponent(txtTelEmpresa)
+                    .addComponent(txtDirEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+                    .addComponent(txtNomEmpresa)
+                    .addComponent(txtDocNit)
                     .addGroup(jPanel53Layout.createSequentialGroup()
                         .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cboSexo, javax.swing.GroupLayout.Alignment.LEADING, 0, 120, Short.MAX_VALUE)
+                            .addComponent(cboRegimen, javax.swing.GroupLayout.Alignment.LEADING, 0, 120, Short.MAX_VALUE)
                             .addComponent(btnAdjuntarfoto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGuardarEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCancelarEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel53Layout.setVerticalGroup(
@@ -633,30 +633,30 @@ public class Modulo1 extends javax.swing.JFrame {
             .addGroup(jPanel53Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombres5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDocNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel82))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombres4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNomEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel83))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombres3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDirEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel84))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombres6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel85))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel86)
-                    .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboRegimen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdjuntarfoto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel87)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnGuardarEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelarEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
         );
 
@@ -800,21 +800,21 @@ public class Modulo1 extends javax.swing.JFrame {
         btnAdjuntarfoto.setBackground(new Color(54, 63, 73));
     }//GEN-LAST:event_btnAdjuntarfotoMouseExited
 
-    private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
-        btnGuardar.setBackground(new Color(124, 124, 124));
-    }//GEN-LAST:event_btnGuardarMouseEntered
+    private void btnGuardarEmpresaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarEmpresaMouseEntered
+        btnGuardarEmpresa.setBackground(new Color(124, 124, 124));
+    }//GEN-LAST:event_btnGuardarEmpresaMouseEntered
 
-    private void btnGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseExited
-        btnGuardar.setBackground(new Color(54, 63, 73));
-    }//GEN-LAST:event_btnGuardarMouseExited
+    private void btnGuardarEmpresaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarEmpresaMouseExited
+        btnGuardarEmpresa.setBackground(new Color(54, 63, 73));
+    }//GEN-LAST:event_btnGuardarEmpresaMouseExited
 
-    private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
-        btnCancelar.setBackground(new Color(124, 124, 124));
-    }//GEN-LAST:event_btnCancelarMouseEntered
+    private void btnCancelarEmpresaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarEmpresaMouseEntered
+        btnCancelarEmpresa.setBackground(new Color(124, 124, 124));
+    }//GEN-LAST:event_btnCancelarEmpresaMouseEntered
 
-    private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
-        btnCancelar.setBackground(new Color(54, 63, 73));
-    }//GEN-LAST:event_btnCancelarMouseExited
+    private void btnCancelarEmpresaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarEmpresaMouseExited
+        btnCancelarEmpresa.setBackground(new Color(54, 63, 73));
+    }//GEN-LAST:event_btnCancelarEmpresaMouseExited
 
     private void btnFindUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFindUserMouseEntered
         btnFindUser.setBackground(new Color(124, 124, 124));
@@ -882,10 +882,10 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JButton btnAdjuntarfoto;
     public javax.swing.JButton btnAsistenciaManual;
     public javax.swing.JButton btnAsistencias;
-    public javax.swing.JButton btnCancelar;
+    public javax.swing.JButton btnCancelarEmpresa;
     public javax.swing.JButton btnFindUser;
     public javax.swing.JButton btnGestionRutinas;
-    public javax.swing.JButton btnGuardar;
+    public javax.swing.JButton btnGuardarEmpresa;
     public javax.swing.JButton btnListEjercicios;
     public javax.swing.JButton btnListEmpresas;
     public javax.swing.JButton btnListMusculos;
@@ -893,7 +893,7 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JButton btnMnuHorafeliz;
     public javax.swing.JButton btnTransaccionCaja;
     public com.bolivia.label.CLabel cLabel1;
-    public javax.swing.JComboBox<String> cboSexo;
+    public javax.swing.JComboBox<String> cboRegimen;
     public javax.swing.JTextField id_userlog;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -941,11 +941,11 @@ public class Modulo1 extends javax.swing.JFrame {
     private javax.swing.JPopupMenu popupTblMusculos;
     private javax.swing.JPopupMenu popupTblUsers;
     public javax.swing.JTable tblUsers;
+    public javax.swing.JTextField txtDirEmpresa;
+    public javax.swing.JTextField txtDocNit;
     public javax.swing.JTextField txtFindUser;
-    public javax.swing.JTextField txtNombres3;
-    public javax.swing.JTextField txtNombres4;
-    public javax.swing.JTextField txtNombres5;
-    public javax.swing.JTextField txtNombres6;
+    public javax.swing.JTextField txtNomEmpresa;
+    public javax.swing.JTextField txtTelEmpresa;
     // End of variables declaration//GEN-END:variables
 
 }

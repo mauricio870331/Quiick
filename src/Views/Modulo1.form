@@ -909,19 +909,19 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtNombres6" max="32767" attributes="0"/>
-                                  <Component id="txtNombres3" alignment="0" pref="359" max="32767" attributes="0"/>
-                                  <Component id="txtNombres4" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txtNombres5" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtTelEmpresa" max="32767" attributes="0"/>
+                                  <Component id="txtDirEmpresa" alignment="0" pref="359" max="32767" attributes="0"/>
+                                  <Component id="txtNomEmpresa" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtDocNit" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="cboSexo" alignment="0" pref="120" max="32767" attributes="0"/>
+                                          <Component id="cboRegimen" alignment="0" pref="120" max="32767" attributes="0"/>
                                           <Component id="btnAdjuntarfoto" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="btnGuardar" min="-2" pref="92" max="-2" attributes="0"/>
+                                      <Component id="btnGuardarEmpresa" min="-2" pref="92" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btnCancelar" min="-2" pref="94" max="-2" attributes="0"/>
+                                      <Component id="btnCancelarEmpresa" min="-2" pref="94" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -933,35 +933,35 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtNombres5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtDocNit" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel82" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtNombres4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtNomEmpresa" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel83" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtNombres3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtDirEmpresa" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel84" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtNombres6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtTelEmpresa" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel85" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel86" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cboSexo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cboRegimen" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="btnAdjuntarfoto" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                                   <Component id="jLabel87" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnGuardar" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="btnCancelar" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="btnGuardarEmpresa" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="btnCancelarEmpresa" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
@@ -1002,17 +1002,17 @@
                         <Property name="text" type="java.lang.String" value="Direccion:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtNombres3">
+                    <Component class="javax.swing.JTextField" name="txtDirEmpresa">
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtNombres4">
+                    <Component class="javax.swing.JTextField" name="txtNomEmpresa">
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtNombres5">
+                    <Component class="javax.swing.JTextField" name="txtDocNit">
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                       </AuxValues>
@@ -1028,7 +1028,7 @@
                         <Property name="text" type="java.lang.String" value="Telefono:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtNombres6">
+                    <Component class="javax.swing.JTextField" name="txtTelEmpresa">
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                       </AuxValues>
@@ -1082,7 +1082,7 @@
                         <Property name="text" type="java.lang.String" value="Regimen:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="cboSexo">
+                    <Component class="javax.swing.JComboBox" name="cboRegimen">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="11" style="0"/>
@@ -1111,7 +1111,7 @@
                         <Property name="text" type="java.lang.String" value="Logo:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnGuardar">
+                    <Component class="javax.swing.JButton" name="btnGuardarEmpresa">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="49" green="3f" red="36" type="rgb"/>
@@ -1143,14 +1143,14 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarMouseEntered"/>
-                        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarMouseExited"/>
+                        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarEmpresaMouseEntered"/>
+                        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarEmpresaMouseExited"/>
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnCancelar">
+                    <Component class="javax.swing.JButton" name="btnCancelarEmpresa">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="49" green="3f" red="36" type="rgb"/>
@@ -1182,8 +1182,8 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarMouseEntered"/>
-                        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarMouseExited"/>
+                        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarEmpresaMouseEntered"/>
+                        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarEmpresaMouseExited"/>
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
