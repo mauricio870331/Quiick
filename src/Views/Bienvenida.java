@@ -22,7 +22,7 @@ import javax.swing.ImageIcon;
  *
  * @author Mauricio Herrera
  */
-public class Bienvenida extends javax.swing.JFrame {
+public final class Bienvenida extends javax.swing.JFrame {
 
     /**
      * Creates new form Modulo1
@@ -37,17 +37,17 @@ public class Bienvenida extends javax.swing.JFrame {
     ImageIcon ii = null;
     ImageIcon iin = null;
 
-    private PrincipalController prc;
+    private RolxUser rolu;
     public LoginController login;
-    private final Modulo1 M1 = GetPrincipal.getModulo1();
-    private final Modulo2 M2 = GetPrincipal.getModulo2();
+    private InputStream img;
 
     public Bienvenida(RolxUser rolu) {
         initComponents();
         this.getContentPane().setBackground(new Color(34, 41, 50));
         setIconImage(new ImageIcon(getClass().getResource("/icons/favicon_2.png")).getImage());
         setTitle("Quiicks V1.0 - RC 2017-09-17");
-        cargarDatosModulos(rolu);
+        this.rolu = rolu;
+        img = rolu.getObjUsuario().getObjPersona().getFoto();
 //        idpersonaOld.setVisible(false);
 //        idUsuarioOld.setVisible(false);
 //        idRolxuserOld.setVisible(false);
@@ -63,9 +63,9 @@ public class Bienvenida extends javax.swing.JFrame {
     }
 
     private Bienvenida() {
-        
-    }
 
+    }
+    
     
 
     /**
@@ -266,6 +266,9 @@ public class Bienvenida extends javax.swing.JFrame {
         pnM2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnM2.setPreferredSize(new java.awt.Dimension(143, 0));
         pnM2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnM2MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnM2MouseEntered(evt);
             }
@@ -307,6 +310,9 @@ public class Bienvenida extends javax.swing.JFrame {
         pnM3.setBackground(new java.awt.Color(109, 117, 125));
         pnM3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnM3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnM3MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnM3MouseEntered(evt);
             }
@@ -348,6 +354,9 @@ public class Bienvenida extends javax.swing.JFrame {
         pnM4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnM4.setPreferredSize(new java.awt.Dimension(143, 0));
         pnM4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnM4MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnM4MouseEntered(evt);
             }
@@ -431,29 +440,7 @@ public class Bienvenida extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void cargarDatosModulos(RolxUser rolu) {
-        System.out.println("getPrc() = " + rolu.getObjUsuario().getObjUsuariosID().getUsuario());
-        InputStream img = rolu.getObjUsuario().getObjPersona().getFoto();
-        if (img != null) {
-            try {
-                BufferedImage bi = ImageIO.read(img);
-                ii = new ImageIcon(bi);
-                Image conver = ii.getImage();
-                Image tam = conver.getScaledInstance(M1.UserLogPicture.getWidth(), M1.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
-                iin = new ImageIcon(tam);
-                M1.UserLogPicture.setIcon(iin);
-            } catch (IOException ex) {
-                System.out.println("error " + ex);
-            }
-        } else {
-            M1.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
-        }
-        M1.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
-        M1.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
-        M1.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-    }
-
-
+  
     private void pnM1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnM1MouseEntered
         pnM1.setBackground(new Color(126, 137, 149));
         lblM1.setForeground(new Color(255, 255, 255));
@@ -496,9 +483,91 @@ public class Bienvenida extends javax.swing.JFrame {
 
     private void pnM1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnM1MouseClicked
         this.dispose();
+        Modulo1 M1 = GetPrincipal.getModulo1();
+        if (img != null) {
+            try {                
+                BufferedImage bi = ImageIO.read(img);
+                ii = new ImageIcon(bi);
+                Image conver = ii.getImage();
+                Image tam = conver.getScaledInstance(M1.UserLogPicture.getWidth(), M1.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
+                iin = new ImageIcon(tam);
+                M1.UserLogPicture.setIcon(iin);
+            } catch (IOException ex) {
+                System.out.println("error " + ex);
+            }
+        } else {
+            M1.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
+        }
+        //Modulo 1
+        M1.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
+        M1.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
+        M1.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));    
         M1.setLocationRelativeTo(null);
-        M1.setVisible(true);        
+        M1.setVisible(true);
     }//GEN-LAST:event_pnM1MouseClicked
+
+    private void pnM2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnM2MouseClicked
+        this.dispose();
+        Modulo2 M2 = GetPrincipal.getModulo2();
+        if (img != null) {
+            try {
+                BufferedImage bi = ImageIO.read(img);
+                ii = new ImageIcon(bi);
+                Image conver = ii.getImage();
+                Image tam = conver.getScaledInstance(M2.UserLogPicture.getWidth(), M2.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
+                iin = new ImageIcon(tam);
+                M2.UserLogPicture.setIcon(iin);
+            } catch (IOException ex) {
+                System.out.println("error " + ex);
+            }
+        } else {
+            M2.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
+        }
+        M2.setLocationRelativeTo(null);
+        M2.setVisible(true);
+    }//GEN-LAST:event_pnM2MouseClicked
+
+    private void pnM3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnM3MouseClicked
+        this.dispose();
+        Modulo3 M3 = GetPrincipal.getModulo3();
+        if (img != null) {
+            try {
+                BufferedImage bi = ImageIO.read(img);
+                ii = new ImageIcon(bi);
+                Image conver = ii.getImage();
+                Image tam = conver.getScaledInstance(M3.UserLogPicture.getWidth(), M3.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
+                iin = new ImageIcon(tam);
+                M3.UserLogPicture.setIcon(iin);
+            } catch (IOException ex) {
+                System.out.println("error " + ex);
+            }
+        } else {
+            M3.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
+        }
+        M3.setLocationRelativeTo(null);
+        M3.setVisible(true);
+    }//GEN-LAST:event_pnM3MouseClicked
+
+    private void pnM4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnM4MouseClicked
+        this.dispose();
+        Modulo4 M4 = GetPrincipal.getModulo4();
+        if (img != null) {
+            try {
+                BufferedImage bi = ImageIO.read(img);
+                ii = new ImageIcon(bi);
+                Image conver = ii.getImage();
+                Image tam = conver.getScaledInstance(M4.UserLogPicture.getWidth(), M4.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
+                iin = new ImageIcon(tam);
+                M4.UserLogPicture.setIcon(iin);
+            } catch (IOException ex) {
+                System.out.println("error " + ex);
+            }
+        } else {
+            M4.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
+        }
+        M4.setLocationRelativeTo(null);
+        M4.setVisible(true);
+    }//GEN-LAST:event_pnM4MouseClicked
 
     /**
      * @param args the command line arguments
