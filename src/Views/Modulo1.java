@@ -34,6 +34,7 @@ public class Modulo1 extends javax.swing.JFrame {
         this.getContentPane().setBackground(new Color(34, 41, 50));
         setIconImage(new ImageIcon(getClass().getResource("/icons/favicon_2.png")).getImage());
         setTitle("AppGym V 1.0 - RC 2017-09-17");
+        id_userlog.setVisible(false);
 //        idpersonaOld.setVisible(false);
 //        idUsuarioOld.setVisible(false);
 //        idRolxuserOld.setVisible(false);
