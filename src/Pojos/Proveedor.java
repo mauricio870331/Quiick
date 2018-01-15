@@ -5,6 +5,7 @@
  */
 package Pojos;
 
+import ds.desktop.notify.DesktopNotify;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -70,29 +71,34 @@ public class Proveedor extends Persistencia implements Serializable {
     @Override
     public int create() {
         int transaccion = -1;
-        if (persona.create() > 0) {
-            String prepareInsert = "insert into Proveedor (idempresaproveedor, estado, idPersona) values (?,?,?)";
-            try {
-                this.getConecion().con = this.getConecion().dataSource.getConnection();
-                this.getConecion().con.setAutoCommit(false);
-                PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
-                preparedStatement.setBigDecimal(1, empresa.getIdEmpresaProveedor());
-                preparedStatement.setString(2, estado);
-                preparedStatement.setInt(3, persona.getIdPersona());
-
-                transaccion = Proveedor.this.getConecion().transaccion(preparedStatement);
-            } catch (SQLException ex) {
-                System.out.println("Error SQL : " + ex.toString());
-            } finally {
+        if (persona.BuscarXDocumentoTrue(persona.getDocumento()) == false) {
+            if (persona.create() > 0) {
+                System.out.println("ya creo la persona " + persona.getCurrent());
+                String prepareInsert = "insert into Proveedor (idempresaproveedor, estado, idPersona) values (?,?,?)";
                 try {
-                    this.getConecion().getconecion().setAutoCommit(true);
-                    this.getConecion().con.close();
+                    this.getConecion().con = this.getConecion().dataSource.getConnection();
+                    this.getConecion().con.setAutoCommit(false);
+                    PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
+                    preparedStatement.setBigDecimal(1, empresa.getIdEmpresaProveedor());
+                    preparedStatement.setString(2, estado);
+                    preparedStatement.setInt(3, persona.getCurrent());
+
+                    transaccion = Proveedor.this.getConecion().transaccion(preparedStatement);
                 } catch (SQLException ex) {
-                    System.out.println(ex);
+                    System.out.println("Error SQL : " + ex.toString());
+                } finally {
+                    try {
+                        this.getConecion().getconecion().setAutoCommit(true);
+                        this.getConecion().con.close();
+                    } catch (SQLException ex) {
+                        System.out.println(ex);
+                    }
                 }
+            } else {
+                System.out.println("Error creando persona");
             }
-        }else{
-            System.out.println("Error creando persona");
+        } else {
+            DesktopNotify.showDesktopMessage("Aviso..!", "Ya existe la cedula registrada en el sistema", DesktopNotify.INFORMATION, 8000L);
         }
         return transaccion;
     }
@@ -152,8 +158,9 @@ public class Proveedor extends Persistencia implements Serializable {
     public java.util.List List() {
         ArrayList<Proveedor> List = new ArrayList();
         String prepareQuery = "SELECT idProveedor,C.idempresaproveedor,C.nombreEmpresa,C.nit,B.idPersona,B.documento,B.nombre,B.apellidos,B.telefono, B.correo , B.direccion , B.sexo FROM appgym.proveedor A , appgym.persona B , appgym.empresaproveedor C\n"
-                + "where A.idPersona=B.idPersona and A.idempresaproveedor=C.idempresaproveedor and A.estado='A'";
+                + "where A.idPersona=B.idPersona and A.idempresaproveedor=C.idempresaproveedor and A.estado='A'  limit 100";
         try {
+            System.out.println("" + prepareQuery);
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Proveedor.super.getConecion().query(prepareQuery);
             while (rs.next()) {
@@ -168,14 +175,14 @@ public class Proveedor extends Persistencia implements Serializable {
                 empresa.setNit(rs.getString(4));
 
                 persona.setIdPersona(rs.getInt(5));
-                persona.setDocumento(rs.getString(7));
-                persona.setNombre(rs.getString(8));
-                persona.setApellido(rs.getString(9));
+                persona.setDocumento(rs.getString(6));
+                persona.setNombre(rs.getString(7));
+                persona.setApellido(rs.getString(8));
                 persona.setNombreCompleto(persona.getNombre() + " " + persona.getApellido());
-                persona.setTelefono(rs.getString(10));
-                persona.setCorreo(rs.getString(11));
-                persona.setDireccion(rs.getString(12));
-                persona.setSexo(rs.getString(13));
+                persona.setTelefono(rs.getString(9));
+                persona.setCorreo(rs.getString(10));
+                persona.setDireccion(rs.getString(11));
+                persona.setSexo(rs.getString(12));
 
                 tabla.setEmpresa(empresa);
                 tabla.setPersona(persona);
@@ -192,6 +199,51 @@ public class Proveedor extends Persistencia implements Serializable {
             }
         }
         return List;
+    }
+
+    public Proveedor BuscarProveedor(int idProveedor) {
+        Proveedor tabla = new Proveedor();
+        String prepareQuery = "SELECT idProveedor,C.idempresaproveedor,C.nombreEmpresa,C.nit,B.idPersona,B.documento,B.nombre,B.apellidos,B.telefono, B.correo , B.direccion , B.sexo FROM appgym.proveedor A , appgym.persona B , appgym.empresaproveedor C\n"
+                + "where A.idPersona=B.idPersona and A.idempresaproveedor=C.idempresaproveedor "
+                + "and A.estado='A' and idProveedor=" + idProveedor;
+        try {
+            System.out.println("" + prepareQuery);
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            ResultSet rs = Proveedor.super.getConecion().query(prepareQuery);
+            while (rs.next()) {
+                EmpresaProveedor empresa = new EmpresaProveedor();
+                persona persona = new persona();
+
+                tabla.setIdProveedor(rs.getBigDecimal(1));
+
+                empresa.setIdEmpresaProveedor(rs.getBigDecimal(2));
+                empresa.setNombreEmpresa(rs.getString(3));
+                empresa.setNit(rs.getString(4));
+
+                persona.setIdPersona(rs.getInt(5));
+                persona.setDocumento(rs.getString(6));
+                persona.setNombre(rs.getString(7));
+                persona.setApellido(rs.getString(8));
+                persona.setNombreCompleto(persona.getNombre() + " " + persona.getApellido());
+                persona.setTelefono(rs.getString(9));
+                persona.setCorreo(rs.getString(10));
+                persona.setDireccion(rs.getString(11));
+                persona.setSexo(rs.getString(12));
+
+                tabla.setEmpresa(empresa);
+                tabla.setPersona(persona);
+
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return tabla;
     }
 
 }

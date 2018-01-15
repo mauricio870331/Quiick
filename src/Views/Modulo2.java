@@ -94,6 +94,9 @@ public class Modulo2 extends javax.swing.JFrame {
         popupCategoria = new javax.swing.JPopupMenu();
         mnuEditCate = new javax.swing.JMenuItem();
         mnuDeleteCate = new javax.swing.JMenuItem();
+        popupProveedores = new javax.swing.JPopupMenu();
+        mnuEditProveedor = new javax.swing.JMenuItem();
+        mnuDeleteProveedor = new javax.swing.JMenuItem();
         jPanel10 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -136,7 +139,7 @@ public class Modulo2 extends javax.swing.JFrame {
         cboEmpresasProveedor = new javax.swing.JComboBox<>();
         jPanel53 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tblUsers1 = new javax.swing.JTable();
+        tblProveedores = new javax.swing.JTable();
         txtFindUser1 = new javax.swing.JTextField();
         jLabel93 = new javax.swing.JLabel();
         cLabel2 = new com.bolivia.label.CLabel();
@@ -255,6 +258,14 @@ public class Modulo2 extends javax.swing.JFrame {
         mnuDeleteCate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
         mnuDeleteCate.setText("Eliminar");
         popupCategoria.add(mnuDeleteCate);
+
+        mnuEditProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Edit18px.png"))); // NOI18N
+        mnuEditProveedor.setText("Editar");
+        popupProveedores.add(mnuEditProveedor);
+
+        mnuDeleteProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
+        mnuDeleteProveedor.setText("Eliminar");
+        popupProveedores.add(mnuDeleteProveedor);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(54, 63, 73));
@@ -728,9 +739,9 @@ public class Modulo2 extends javax.swing.JFrame {
 
         jPanel53.setBackground(new java.awt.Color(255, 255, 255));
 
-        tblUsers1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        tblUsers1.setForeground(new java.awt.Color(34, 41, 50));
-        tblUsers1.setModel(new javax.swing.table.DefaultTableModel(
+        tblProveedores.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tblProveedores.setForeground(new java.awt.Color(34, 41, 50));
+        tblProveedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -741,11 +752,11 @@ public class Modulo2 extends javax.swing.JFrame {
 
             }
         ));
-        tblUsers1.setGridColor(new java.awt.Color(255, 255, 255));
-        tblUsers1.setSelectionBackground(new java.awt.Color(54, 63, 73));
-        tblUsers1.setShowHorizontalLines(false);
-        tblUsers1.setShowVerticalLines(false);
-        jScrollPane4.setViewportView(tblUsers1);
+        tblProveedores.setGridColor(new java.awt.Color(255, 255, 255));
+        tblProveedores.setSelectionBackground(new java.awt.Color(54, 63, 73));
+        tblProveedores.setShowHorizontalLines(false);
+        tblProveedores.setShowVerticalLines(false);
+        jScrollPane4.setViewportView(tblProveedores);
 
         txtFindUser1.setBackground(new java.awt.Color(54, 63, 73));
         txtFindUser1.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -1119,6 +1130,7 @@ public class Modulo2 extends javax.swing.JFrame {
             }
         ));
         tblListaEmpresasProve.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblListaEmpresasProve.setComponentPopupMenu(popupEmpresaProveedor);
         tblListaEmpresasProve.setGridColor(new java.awt.Color(255, 255, 255));
         tblListaEmpresasProve.setSelectionBackground(new java.awt.Color(54, 63, 73));
         tblListaEmpresasProve.setShowHorizontalLines(false);
@@ -1408,11 +1420,13 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JMenuItem mnuDeleteMusculo;
     public javax.swing.JMenuItem mnuDeletePagos;
     public javax.swing.JMenuItem mnuDeleteProducto;
+    public javax.swing.JMenuItem mnuDeleteProveedor;
     public javax.swing.JMenuItem mnuDeleteempresaProve;
     public javax.swing.JMenuItem mnuEditCate;
     public javax.swing.JMenuItem mnuEditEmpresa;
     public javax.swing.JMenuItem mnuEditFechasPagos;
     public javax.swing.JMenuItem mnuEditProducto;
+    public javax.swing.JMenuItem mnuEditProveedor;
     public javax.swing.JMenuItem mnuEntradaProductos;
     public javax.swing.JMenuItem mnuGenerarPago;
     public javax.swing.JMenuItem mnuHistoryPays;
@@ -1430,10 +1444,11 @@ public class Modulo2 extends javax.swing.JFrame {
     private javax.swing.JPopupMenu popupEmpresaProveedor;
     private javax.swing.JPopupMenu popupPagosService;
     private javax.swing.JPopupMenu popupProductos;
+    private javax.swing.JPopupMenu popupProveedores;
     private javax.swing.JPopupMenu popupTblMusculos;
     private javax.swing.JPopupMenu popupTblUsers;
     public javax.swing.JTable tblListaEmpresasProve;
-    public javax.swing.JTable tblUsers1;
+    public javax.swing.JTable tblProveedores;
     public javax.swing.JLabel totalRegistros1;
     public javax.swing.JTextField txtApellidosProve;
     public javax.swing.JTextField txtDocProve;
