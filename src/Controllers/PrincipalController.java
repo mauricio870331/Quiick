@@ -1338,8 +1338,8 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
 //            generarReportes();
 //        }
-        if (e.getSource() == M1.btnGuardarEmpresa) {
-            //validar servicio
+
+        if (e.getSource() == M1.btnGuardarEmpresa) {            
             Object[] componentes = {M1.txtDocNit, M1.txtNomEmpresa, M1.cboRegimen};
             if (validarCampos(componentes, "") == 0) {
                 getEmpresas();
@@ -1350,7 +1350,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 empresas.setRegimen((String) M1.cboRegimen.getSelectedItem());
                 empresas.setPathLogo(foto);
                 empresas.setCreate_at(new Date());
-
                 if (empresas.create() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Empresa creada con exito..!", DesktopNotify.SUCCESS, 5000L);
                     M1.txtDocNit.setText("");
@@ -1361,9 +1360,8 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                     setFoto("");
                     setEmpresas(null);
 //                    cargarHistorialPagos(Integer.parseInt(pr.lblPayIdUser.getText()), null, null, pr.tblHistoryPays);
-
                 } else {
-                    DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al actualizar el pago..!", DesktopNotify.FAIL, 5000L);
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al crear la empresa..!", DesktopNotify.FAIL, 5000L);
                 }
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
