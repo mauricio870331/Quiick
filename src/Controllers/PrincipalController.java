@@ -78,7 +78,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     private Usuario us;
     private TipoDocumento td;
     private Rol rd;
-    private Empresa emp;
     private Sedes sede;
     private Asistencia ad;
     private Musculos musculos;
@@ -111,6 +110,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     private int cantRegustrosUsuarios = 0;
     private final ArrayList<Ejercicios> newRutina = new ArrayList();
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
+    private Empresas empresas;
 
     public PrincipalController() throws IOException {
         inicomponents();
@@ -192,6 +192,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        cargarTblUsers(filtro);
 //        showPanel(2, "PnProveedores");
 //        System.out.println("pr.pnMicajaEstado.getText() " + pr.pnMicajaEstado.getText());
+        M1.btnGuardarEmpresa.addActionListener(this);
     }
 
     @Override
@@ -1337,6 +1338,36 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
 //            generarReportes();
 //        }
+
+        if (e.getSource() == M1.btnGuardarEmpresa) {            
+            Object[] componentes = {M1.txtDocNit, M1.txtNomEmpresa, M1.cboRegimen};
+            if (validarCampos(componentes, "") == 0) {
+                getEmpresas();
+                empresas.setNit(M1.txtDocNit.getText());
+                empresas.setNombre(M1.txtNomEmpresa.getText());
+                empresas.setDireccion(M1.txtDirEmpresa.getText());
+                empresas.setTelefonos(M1.txtTelEmpresa.getText());
+                empresas.setRegimen((String) M1.cboRegimen.getSelectedItem());
+                empresas.setPathLogo(foto);
+                empresas.setCreate_at(new Date());
+                if (empresas.create() > 0) {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Empresa creada con exito..!", DesktopNotify.SUCCESS, 5000L);
+                    M1.txtDocNit.setText("");
+                    M1.txtNomEmpresa.setText("");
+                    M1.txtDirEmpresa.setText("");
+                    M1.txtTelEmpresa.setText("");
+                    M1.cboRegimen.setSelectedIndex(0);
+                    setFoto("");
+                    setEmpresas(null);
+//                    cargarHistorialPagos(Integer.parseInt(pr.lblPayIdUser.getText()), null, null, pr.tblHistoryPays);
+                } else {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al crear la empresa..!", DesktopNotify.FAIL, 5000L);
+                }
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
     }
 
     private void addFilter() {
@@ -2351,16 +2382,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         this.us = us;
     }
 
-    public Empresa getEmp() {
-        if (emp == null) {
-            emp = new Empresa();
-        }
-        return emp;
-    }
-
-    public void setEmp(Empresa emp) {
-        this.emp = emp;
-    }
 
     public Sedes getSede() {
         if (sede == null) {
@@ -2950,6 +2971,17 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 
     public void setEp(EmpresaProveedor ep) {
         this.ep = ep;
+    }
+
+    public Empresas getEmpresas() {
+        if (empresas == null) {
+            empresas = new Empresas();
+        }
+        return empresas;
+    }
+
+    public void setEmpresas(Empresas empresas) {
+        this.empresas = empresas;
     }
 
 }

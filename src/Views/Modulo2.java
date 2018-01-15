@@ -8,7 +8,6 @@ package Views;
 import Controllers.LoginController;
 import Pojos.Rol;
 import Pojos.TipoDocumento;
-import Pojos.Empresa;
 import Pojos.EmpresaProveedor;
 import Pojos.Sedes;
 import Pojos.Musculos;

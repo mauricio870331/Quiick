@@ -23,7 +23,7 @@ public class Sedes extends Persistencia implements Serializable {
     private String telefono;
 
     private SedesID objSedesID;
-    private Empresa objEmpresa;
+    private Empresas objEmpresa;
 
     public Sedes() {
         super();
@@ -72,14 +72,14 @@ public class Sedes extends Persistencia implements Serializable {
         this.objSedesID = objSedesID;
     }
 
-    public Empresa getObjEmpresa() {
+    public Empresas getObjEmpresa() {
         if (objEmpresa == null) {
-            objEmpresa = new Empresa();
+            objEmpresa = new Empresas();
         }
         return objEmpresa;
     }
 
-    public void setObjEmpresa(Empresa objEmpresa) {
+    public void setObjEmpresa(Empresas objEmpresa) {
         this.objEmpresa = objEmpresa;
     }
 
@@ -91,7 +91,7 @@ public class Sedes extends Persistencia implements Serializable {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
-            preparedStatement.setInt(1, objEmpresa.getCodCurval());
+            preparedStatement.setInt(1, objEmpresa.getIdEmpresa());
             preparedStatement.setString(2, Estado);
             preparedStatement.setString(3, nombre);
             preparedStatement.setString(4, direccion);
@@ -168,13 +168,13 @@ public class Sedes extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         ArrayList<Sedes> List = new ArrayList();
-        String prepareQuery = "select * from Sedes where idempresa = " + objEmpresa.getIdempresa();
+        String prepareQuery = "select * from Sedes where idempresa = " + objEmpresa.getIdEmpresa();
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Sedes.super.getConecion().query(prepareQuery);
             while (rs.next()) {
                 Sedes tabla = new Sedes();
-                tabla.getObjEmpresa().setIdempresa(rs.getInt(2));
+                tabla.getObjEmpresa().setIdEmpresa(rs.getInt(2));
                 tabla.getObjSedesID().setIdSede(rs.getInt(1));
                 tabla.setEstado(rs.getString(3));
                 tabla.setNombre(rs.getString(4));
