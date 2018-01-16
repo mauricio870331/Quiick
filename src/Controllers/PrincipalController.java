@@ -191,7 +191,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 ////        pr.btnGenerarReporteByTipo.addActionListener(this);
 ////        pr.preloader.setVisible(false);
 ////        pr.combotiposService1.addActionListener(this);
-//        Adaptador();
+        Adaptador();
 //        getMiCaja().CierreCajasAuto();
 //        setMiCaja(null);
 //        cargarTiposDocumentos();
@@ -2903,18 +2903,18 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     }
 
     public void Adaptador() {
-//        pr.addWindowListener(new WindowAdapter() {
-//            @Override
-//            public void windowClosing(WindowEvent windowEvent) {
-//                Object[] opciones = {"Aceptar", "Cancelar"};
-//                int eleccion = JOptionPane.showOptionDialog(null, "En realidad desea cerrar la aplicacion", "Mensaje de Confirmacion",
-//                        JOptionPane.YES_NO_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
-//                if (eleccion == JOptionPane.YES_OPTION) {
-//                    System.exit(0);
-//                }
-//            }
-//        });
+        M1.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                Object[] opciones = {"Aceptar", "Cancelar"};
+                int eleccion = JOptionPane.showOptionDialog(null, "En realidad desea cerrar la aplicacion", "Mensaje de Confirmacion",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
+                if (eleccion == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
     }
 
     private void cargarHistorialPagos(int id_usuario, Date desde, Date hasta, JTable table) {
