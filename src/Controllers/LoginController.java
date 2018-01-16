@@ -7,6 +7,7 @@ package Controllers;
 
 import Pojos.RolxUser;
 import Pojos.Usuario;
+import Views.Bienvenida;
 import Views.Modulo1;
 import Views.Login;
 import Views.Modulo2;
@@ -36,12 +37,9 @@ import javax.swing.JTextField;
 public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
-    private final Modulo1 M1 = GetPrincipal.getModulo1();
-    private final Modulo2 M2 = GetPrincipal.getModulo2();
     private PrincipalController prc;
+    Bienvenida bienvenida;
     Usuario u = null;
-    ImageIcon ii = null;
-    ImageIcon iin = null;
     private Set<Integer> pressed = new HashSet();
 
     public LoginController() {
@@ -68,49 +66,28 @@ public class LoginController implements ActionListener {
             lg.txtPass.transferFocus();
         }
         if (e.getSource() == lg.btnIniciar) {
-          
+
             Object[] componentes = {lg.txtUser, lg.txtPass};
             if (validarCampos(componentes) == 0) {
                 u = new Usuario();
-                RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));
+                RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));                
                 if (rolu != null) {
-                    InputStream img = rolu.getObjUsuario().getObjPersona().getFoto();
-                    if (img != null) {
-                        try {
-                            BufferedImage bi = ImageIO.read(img);
-                            ii = new ImageIcon(bi);
-                            Image conver = ii.getImage();
-                            Image tam = conver.getScaledInstance(M1.UserLogPicture.getWidth(), M1.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
-                            iin = new ImageIcon(tam);
-                            M1.UserLogPicture.setIcon(iin);
-                        } catch (IOException ex) {
-                            System.out.println("error " + ex);
-                        } finally {
-                            u = null;
-                        }
-                    } else {
-                        M1.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
-                    }
-                    M1.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
-                    M1.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
-                    M1.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-                    M1.id_userlog.setVisible(false);
                     switch (rolu.getObjRol().getIdRol()) {
                         case 1:
                             lg.dispose();
-                            M1.setVisible(true);
+                            getBienvenida(rolu);
                             getPrc();
                             prc.setUsuarioLogeado(rolu);
                             break;
                         case 2:
                             lg.dispose();
-                            M1.setVisible(true);
+                            getBienvenida(rolu);
                             getPrc();
                             prc.setUsuarioLogeado(rolu);
                             break;
                         case 4://root
                             lg.dispose();
-                            M1.setVisible(true);
+                            getBienvenida(rolu);
                             getPrc();
                             prc.setUsuarioLogeado(rolu);
                             break;
@@ -120,6 +97,7 @@ public class LoginController implements ActionListener {
                             DesktopNotify.showDesktopMessage("Aviso..!", "No tienes Permisos para acceder al sistema..!", DesktopNotify.ERROR, 5000L);
                             break;
                     }
+                    u = null;
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Usuario o Clave Incorrecta..!", DesktopNotify.ERROR, 5000L);
                 }
@@ -179,6 +157,14 @@ public class LoginController implements ActionListener {
                 }
             }
         });
+    }
+
+    public void getBienvenida(RolxUser rolu) {
+        if (bienvenida == null) {
+            bienvenida = new Bienvenida(rolu);
+        }       
+        bienvenida.setLocationRelativeTo(null);
+        bienvenida.setVisible(true);
     }
 
 }
