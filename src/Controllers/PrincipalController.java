@@ -3214,7 +3214,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         String Titulos[] = {"", "NIT", "Nombre", "Direccion", "Telefono"};
         getEmpresas();
         ArrayList<Empresas> listEmpresas = new ArrayList();
-
         if (filtro.length() <= 0) {
             listEmpresas = (ArrayList<Empresas>) empresas.List();
         } else if (filtro.length() > 0) {
