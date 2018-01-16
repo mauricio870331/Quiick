@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class Empresas extends Persistencia implements Serializable {
 
-    private int  idEmpresa;
+    private int idEmpresa;
     private String nit;
     private String nombre;
     private String direccion;
@@ -44,7 +44,7 @@ public class Empresas extends Persistencia implements Serializable {
         super();
     }
 
-     public SimpleDateFormat getSa() {
+    public SimpleDateFormat getSa() {
         return sa;
     }
 
@@ -130,20 +130,20 @@ public class Empresas extends Persistencia implements Serializable {
 
     public void setCreate_at(Date create_at) {
         this.create_at = create_at;
-    }  
+    }
 
     @Override
     public int create() {
         int transaccion = -1;
         String prepareInsert = "insert into empresa (nit,Nombre,Direccion,Telefono,regimen,logo,Estado,create_at) "
                 + "values (?,?,?,?,?,?,?,?)";
-        try {            
+        try {
             FileInputStream fis = null;
-            File file = null;           
+            File file = null;
             if (!pathLogo.equals("")) {// cuando se adjunta la foto
                 file = new File(pathLogo);
                 fis = new FileInputStream(file);
-            }             
+            }
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
@@ -176,60 +176,67 @@ public class Empresas extends Persistencia implements Serializable {
     @Override
     public int edit() {
         int transaccion = -1;
-//        String PrepareUpdate = "update Asistencia set fechaMarcacion=? where"
-//                + " idAsistencia=?,idUsuario=?,usuario=?,idsede=?,idempresa=?,idpersona=?";
-//        try {
-//            this.getConecion().con = this.getConecion().dataSource.getConnection();
-//            this.getConecion().con.setAutoCommit(false);
-//            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareUpdate);
-//            preparedStatement.setDate(1, (java.sql.Date) FechaMarcacion);
-//            preparedStatement.setInt(2, objAsistenciaID.getIdAsistencia());
-//            preparedStatement.setInt(3, objAsistenciaID.getIdUsuario());
-//            preparedStatement.setString(4, objAsistenciaID.getUsuario());
-//            preparedStatement.setInt(5, objAsistenciaID.getIdSede());
-//            preparedStatement.setInt(6, objAsistenciaID.getIdempresa());
-//            preparedStatement.setInt(7, objAsistenciaID.getIdPersona());
-//
-//            transaccion = Empresas.this.getConecion().transaccion(preparedStatement);
-//        } catch (SQLException ex) {
-//            System.out.println("Error SQL : " + ex.toString());
-//        } finally {
-//            try {
-//                this.getConecion().getconecion().setAutoCommit(true);
-//                this.getConecion().con.close();
-//            } catch (SQLException ex) {
-//                System.out.println(ex);
-//            }
-//        }
+        try {
+            FileInputStream fis = null;
+            File file = null;
+            if (!pathLogo.equals("")) {// cuando se adjunta la foto
+                file = new File(pathLogo);
+                fis = new FileInputStream(file);
+            }
+            String logoUpdate = "";
+            if (file != null) {
+                logoUpdate = ", logo=?";
+            }
+            String update = "update empresa set nit = ?,Nombre =?,Direccion=?,Telefono=?"
+                    + logoUpdate + " where idempresa = ?";
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            this.getConecion().con.setAutoCommit(false);
+            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(update);
+            preparedStatement.setString(1, nit);
+            preparedStatement.setString(2, nombre);
+            preparedStatement.setString(3, direccion);
+            preparedStatement.setString(4, telefonos);
+            if (file != null) {
+                preparedStatement.setBinaryStream(5, fis, (int) file.length());
+                preparedStatement.setInt(6, idEmpresa);
+            } else {
+                preparedStatement.setInt(5, idEmpresa);
+            }
+            transaccion = Empresas.this.getConecion().transaccion(preparedStatement);
+        } catch (SQLException | FileNotFoundException ex) {
+            System.out.println("Error SQL : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().getconecion().setAutoCommit(true);
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        System.out.println("transaccion = " + transaccion);
         return transaccion;
     }
 
     @Override
     public int remove() {
         int transaccion = -1;
-//        String PrepareDelete = "delete from Asistencia where idAsistencia=?,idUsuario=?,usuario=?,idsede=?,idempresa=?,idpersona=?";
-//        try {
-//            this.getConecion().con = this.getConecion().dataSource.getConnection();
-//            this.getConecion().con.setAutoCommit(false);
-//            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareDelete);
-//            preparedStatement.setInt(1, objAsistenciaID.getIdAsistencia());
-//            preparedStatement.setInt(2, objAsistenciaID.getIdUsuario());
-//            preparedStatement.setString(3, objAsistenciaID.getUsuario());
-//            preparedStatement.setInt(4, objAsistenciaID.getIdSede());
-//            preparedStatement.setInt(5, objAsistenciaID.getIdempresa());
-//            preparedStatement.setInt(6, objAsistenciaID.getIdPersona());
-//
-//            transaccion = Empresas.this.getConecion().transaccion(preparedStatement);
-//        } catch (SQLException ex) {
-//            System.out.println("Error SQL : " + ex.toString());
-//        } finally {
-//            try {
-//                this.getConecion().getconecion().setAutoCommit(true);
-//                this.getConecion().con.close();
-//            } catch (SQLException ex) {
-//                System.out.println(ex);
-//            }
-//        }
+        String PrepareDelete = "delete from empresa where idempresa=?";
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            this.getConecion().con.setAutoCommit(false);
+            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareDelete);
+            preparedStatement.setInt(1, idEmpresa);
+            transaccion = Empresas.this.getConecion().transaccion(preparedStatement);
+        } catch (SQLException ex) {
+            System.out.println("Error SQL : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().getconecion().setAutoCommit(true);
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
         return transaccion;
     }
 
@@ -242,7 +249,7 @@ public class Empresas extends Persistencia implements Serializable {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Empresas.super.getConecion().query(prepareQuery);
             while (rs.next()) {
-                Empresas tabla = new Empresas();                
+                Empresas tabla = new Empresas();
                 tabla.setIdEmpresa(rs.getInt(1));
                 tabla.setNit(rs.getString(2));
                 tabla.setNombre(rs.getString(3));
@@ -298,6 +305,36 @@ public class Empresas extends Persistencia implements Serializable {
         return List;
     }
 
+    public Empresas findById(int idEmpresa) {
+        String prepareQuery = "select * from empresa where idempresa =" + idEmpresa;
+        Empresas emp = null;
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            ResultSet rs = Empresas.super.getConecion().query(prepareQuery);
+            if (rs.next()) {
+                emp = new Empresas();
+                emp.setIdEmpresa(rs.getInt(1));
+                emp.setNit(rs.getString(2));
+                emp.setNombre(rs.getString(3));
+                emp.setDireccion(rs.getString(4));
+                emp.setTelefonos(rs.getString(5));
+                emp.setRegimen(rs.getString(6));
+                emp.setLogo(rs.getBinaryStream(7));
+                emp.setEstado(rs.getString(8));
+                emp.setCreate_at(rs.getDate(9));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return emp;
+    }
+
     public boolean ExistAsistencia(Date fachaMarcacion, int idUser, int idPersona) {
         boolean existe = false;
         String prepareQuery = "select idPersona from asistencia "
@@ -328,9 +365,5 @@ public class Empresas extends Persistencia implements Serializable {
     public void setNit(String nit) {
         this.nit = nit;
     }
-
-    
-
-   
 
 }

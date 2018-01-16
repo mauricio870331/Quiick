@@ -64,12 +64,12 @@ import javax.swing.table.TableRowSorter;
  * @author Mauricio Herrera
  */
 public class PrincipalController implements ActionListener, MouseListener, KeyListener {
-    
+
     private final Modulo1 M1 = GetPrincipal.getModulo1();
     private final Modulo2 M2 = GetPrincipal.getModulo2();
     private final Modulo3 M3 = GetPrincipal.getModulo3();
     private final Modulo4 M4 = GetPrincipal.getModulo4();
-    
+
     public RolxUser UsuarioLogeado;
     private persona p;
     private RolxUser ruxuser;
@@ -106,16 +106,16 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     int currentpage = 1;
     String filtro = "";
     String opcPaginacion = "";
-    
+    private Empresas currentEmpresa;
     private int cantRegustrosUsuarios = 0;
     private final ArrayList<Ejercicios> newRutina = new ArrayList();
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
     private Empresas empresas;
-    
+
     public PrincipalController() throws IOException {
         inicomponents();
     }
-    
+
     private void inicomponents() throws IOException {
         M1.btnProveedores.addActionListener(this);
         M2.btnProveedores.addActionListener(this);
@@ -203,11 +203,13 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M1.btnGuardarEmpresa.addActionListener(this);
         M1.btnCancelarEmpresa.addActionListener(this);
         M1.btnEmpresas.addMouseListener(this);
+        M1.mnuEditEmpresa.addActionListener(this);
+        M1.mnuDeleteEmpresa.addActionListener(this);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         if (e.getSource() == M2.btnProveedores || e.getSource() == M1.btnProveedores) {
             System.out.println("Ingreso a proveedores");
             CargarDatosInicialesProveedores(1, null);
@@ -215,14 +217,14 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             ListProveedores();
             showPanel(2, "PnProveedores");
         }
-        
+
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
             getP();
-            
+
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-            
+
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -240,7 +242,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-            
+
             if (mns.length() == 0) {
                 if (pv.create() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear el proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -268,34 +270,34 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                     DesktopNotify.showDesktopMessage("Aviso..!", "Error al Eliminar Empresa", DesktopNotify.ERROR, 5000L);
                 }
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnCancelarProve) {
-            
+
             M2.txtDocProve.setText("");
             M2.txtNombresProve.setText("");
             M2.txtApellidosProve.setText("");
             M2.txtTelefonosProve.setText("");
             M2.btnGuardarProve.setText("Guardar");
         }
-        
+
         if (e.getSource() == M2.mnuEditProveedor) {
             int fila = M2.tblProveedores.getSelectedRow();
             if (fila >= 0) {
                 String codigo = M2.tblProveedores.getValueAt(fila, 0).toString();
                 CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Editar")) {
             getPv();
             getP();
-            
+
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-            
+
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -313,7 +315,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-            
+
             if (mns.length() == 0) {
                 if (pv.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -326,7 +328,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProvedorCancelar) {
             M2.txtProveEmpNombre.setText("");
             M2.txtProveEmpNit.setText("");
@@ -334,7 +336,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             M2.txtProveEmpTelefono.setText("");
             M2.btnEmpresaProveGuardar.setText("Guardar");
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Editar")) {
             getEp();
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
@@ -343,7 +345,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-            
+
             if (mns.length() == 0) {
                 if (ep.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar Empresa", DesktopNotify.INFORMATION, 5000L);
@@ -360,26 +362,26 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.mnuEditEmpresa) {
             int fila = M2.tblListaEmpresasProve.getSelectedRow();
             if (fila >= 0) {
                 String codigo = M2.tblListaEmpresasProve.getValueAt(fila, 0).toString();
                 CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Guardar")) {
             getEp();
-            
+
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
             ep.setNit(M2.txtProveEmpNit.getText().trim());
             ep.setDireccion(M2.txtProveEmpDireccion.getText().trim());
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-            
+
             if (mns.length() == 0) {
                 if (ep.getNombreEmpresa().length() > 0) {
                     if (ep.create() > 0) {
@@ -398,7 +400,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.btnViewEmpresaProvedor) {
             ListEmpresasProveedor("");
             showPanel(2, "PnEmpresaProveedor");
@@ -894,536 +896,535 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
 //            }
 //        }
-//
-//        if (e.getSource() == pr.mnuUpdate) {
-//            clearFormUsers();
-//            int fila = pr.tblUsers.getSelectedRow();
-//            if (fila >= 0) {
-//                try {
-//                    int id_persona = Integer.parseInt(pr.tblUsers.getValueAt(fila, 0).toString());
-//                    RolxUser p = getRuxuser().getDatosPersonaById(id_persona);
-//                    pr.btnGuardar.setText("Actualizar");
-//                    for (int i = 0; i < pr.cboGym.getItemCount(); i++) {
-//                        if (pr.cboGym.getItemAt(i).toString().equals(getEmp().getEmpresaById(p.getObjUsuario().getObjUsuariosID().getIdempresa()).toString())) {
-//                            pr.cboGym.setSelectedIndex(i);
-//                        }
-//                    }
-//                    for (int i = 0; i < pr.cboSedes.getItemCount(); i++) {
-//                        if (pr.cboSedes.getItemAt(i).toString().equals(getSede().getSedeById(p.getObjUsuario().getObjUsuariosID().getIdSede()).toString())) {
-//                            pr.cboSedes.setSelectedIndex(i);
-//                        }
-//                    }
-//                    for (int i = 0; i < pr.cboTiposDoc.getItemCount(); i++) {
-//                        if (pr.cboTiposDoc.getItemAt(i).toString().equals(getTd().getTipoDocById(p.getObjUsuario().getObjPersona().getIdtipoDocumento()).toString())) {
-//                            pr.cboTiposDoc.setSelectedIndex(i);
-//                        }
-//                    }
-//                    for (int i = 0; i < pr.cboRol.getItemCount(); i++) {
-//                        if (pr.cboRol.getItemAt(i).toString().equals(getRd().getRolbyId(getRuxuser().getidRolbyIpersona(id_persona)).toString())) {
-//                            pr.cboRol.setSelectedIndex(i);
-//                        }
-//                    }
-//                    pr.cboSexo.setSelectedItem(p.getObjUsuario().getObjPersona().getSexo());
-//                    pr.txtDoc.setText(p.getObjUsuario().getObjPersona().getDocumento());
-//                    pr.txtDireccion.setText(p.getObjUsuario().getObjPersona().getDireccion());
-//                    pr.txtNombres.setText(p.getObjUsuario().getObjPersona().getNombre());
-//                    pr.txtApellidos.setText(p.getObjUsuario().getObjPersona().getApellido());
-//                    pr.txtTelefonos.setText(p.getObjUsuario().getObjPersona().getTelefono());
-//                    pr.cldNacimiento.setDate(p.getObjUsuario().getObjPersona().getFechaNacimiento());
-//                    pr.txtCorreo.setText(p.getObjUsuario().getObjPersona().getCorreo());
-//                    pr.txtUser.setText(p.getObjUsuario().getObjUsuariosID().getUsuario());
-//                    pr.txtClave.setText(p.getObjUsuario().getClave());
-//                    pr.idpersonaOld.setText(Integer.toString(id_persona));
-//                    pr.idUsuarioOld.setText(Integer.toString(p.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-//                    pr.idRolxuserOld.setText(Integer.toString(p.getIdRolxUser()));
-//                    pr.idEmpresaOld.setText(Integer.toString(p.getObjUsuario().getObjUsuariosID().getIdempresa()));
-//                    pr.idSedeOld.setText(Integer.toString(p.getObjUsuario().getObjUsuariosID().getIdSede()));
-//                    pr.usuarioOld.setText(p.getObjUsuario().getObjUsuariosID().getUsuario());
-//                    pr.idRolOld.setText(Integer.toString(p.getObjRol().getIdRol()));
-//                    InputStream img = p.getObjUsuario().getObjPersona().getFoto();
-//                    if (img != null) {
-//                        BufferedImage bi = ImageIO.read(img);
-//                        ii = new ImageIcon(bi);
-//                        Image conver = ii.getImage();
-//                        Image tam = conver.getScaledInstance(pr.cLabel1.getWidth(), pr.cLabel1.getHeight(), Image.SCALE_SMOOTH);
-//                        iin = new ImageIcon(tam);
-//                        pr.cLabel1.setIcon(iin);
-//                    } else {
-//                        pr.cLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
-//                    }
-//                } catch (IOException ex) {
-//                    System.out.println("error " + ex);
-//                }
-//            } else {
-//                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.mnuDelete) {
-//            int fila = pr.tblUsers.getSelectedRow();
-//            if (fila >= 0) {
-//                Object[] opciones = {"Si", "No"};
-//                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el usuario?", "Mensaje de Confirmación",
-//                        JOptionPane.YES_NO_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-//                if (eleccion == JOptionPane.YES_OPTION) {
-//                    try {
-//                        int id_persona = Integer.parseInt(pr.tblUsers.getValueAt(fila, 0).toString());
-//                        RolxUser p = getRuxuser().getDatosPersonaById(id_persona);
-//                        if (p.remove() > 0) {
-//                            DesktopNotify.showDesktopMessage("Informacion..!", "Usuario Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
-//                            cargarTblUsers(filtro);
-//                        } else {
-//                            DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el usuario", DesktopNotify.ERROR, 5000L);
-//                        }
-//                    } catch (IOException ex) {
-//                        System.out.println("error " + ex);
-//                    }
-//                }
-//            } else {
-//                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.mnuDeleteEjercicio) {
-//            int fila = pr.tblEjercicios.getSelectedRow();
-//            if (fila >= 0) {
-//                Object[] opciones = {"Si", "No"};
-//                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el ejercicio?", "Mensaje de Confirmación",
-//                        JOptionPane.YES_NO_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-//                if (eleccion == JOptionPane.YES_OPTION) {
-//                    try {
-//                        Ejercicios objEjercicio = getEjercicio();
-//                        objEjercicio.getObjEjerciciosID().setIdEjercicio(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 0).toString()));
-//                        objEjercicio.getObjEjerciciosID().setIdMusculo(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 4).toString()));
-//                        if (objEjercicio.remove() > 0) {
-//                            DesktopNotify.showDesktopMessage("Informacion..!", "Ejercicio Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
-//                            cargarTblEjercicios("");
-//                            setEjercicio(null);
-//                        } else {
-//                            DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el Ejercicio", DesktopNotify.ERROR, 5000L);
-//                        }
-//                    } catch (IOException ex) {
-//                        DesktopNotify.showDesktopMessage("Error..!", ex.toString(), DesktopNotify.ERROR, 5000L);
-//                    }
-//                }
-//            } else {
-//                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnGuardar) {
-//            String msnok = null;
-//            String msnerror = null;
-//            try {
-//                Object[] componentes = {pr.cboTiposDoc, pr.cboRol, pr.txtDoc, pr.txtDireccion,
-//                    pr.txtNombres, pr.txtApellidos, pr.txtTelefonos, pr.cboGym, pr.cboSedes,
-//                    pr.cldNacimiento, pr.cboSexo,
-//                    pr.txtUser, pr.txtClave};
-//                if (validarCampos(componentes, "") == 0) {
-//                    TipoDocumento t = (TipoDocumento) pr.cboTiposDoc.getSelectedItem();
-//                    Rol r = (Rol) pr.cboRol.getSelectedItem();
-//                    Empresa emp = (Empresa) pr.cboGym.getSelectedItem();
-//                    Sedes sede = (Sedes) pr.cboSedes.getSelectedItem();
-//                    persona p = getP();
-//                    UsuarioID uid = getUid();
-//                    Usuario us = getUs();
-//                    RolxUser roluser = getRuxuser();
-//                    uid.setUsuario(pr.txtUser.getText());
-//                    uid.setIdSede(sede.getObjSedesID().getIdSede());
-//                    uid.setIdempresa(emp.getIdempresa());
-//                    p.setDocumento(pr.txtDoc.getText());
-//                    p.setIdtipoDocumento(t.getIdTipoDocumento());
-//                    p.setNombre(pr.txtNombres.getText());
-//                    p.setApellido(pr.txtApellidos.getText());
-//                    p.setNombreCompleto(pr.txtNombres.getText() + " " + pr.txtApellidos.getText());
-//                    p.setDireccion(pr.txtDireccion.getText());
-//                    p.setTelefono(pr.txtTelefonos.getText());
-//                    p.setSexo((String) pr.cboSexo.getSelectedItem());
-//                    p.setFechaNacimiento(pr.cldNacimiento.getDate());
-//                    p.setCorreo(pr.txtCorreo.getText());
-//                    p.setEstado("A");
-//                    p.setPathFoto(getFoto());
-//                    us.setObjUsuariosID(uid);
-//                    us.setEstado("A");
-//                    us.setClave(new String(pr.txtClave.getPassword()));
-//                    us.setNickName(pr.txtNombres.getText());
-//                    us.setObjPersona(p);
-//                    roluser.setObjUsuario(us);
-//                    roluser.setObjRol(r);
-//                    int response = 0;
-//                    switch (pr.btnGuardar.getText()) {
-//                        case "Guardar":
-//                            msnok = "Usuario Creado Con Exito.";
-//                            msnerror = "Error al crear el usuario";
-//                            response = roluser.create();
-//                            break;
-//                        case "Actualizar":
-//                            msnok = "Usuario Actualizado Con Exito.";
-//                            msnerror = "Error al actualizar el usuario";
-//                            roluser.setIdpersonaOld(Integer.parseInt(pr.idpersonaOld.getText()));
-//                            roluser.setIdUsuarioOld(Integer.parseInt(pr.idUsuarioOld.getText()));
-//                            roluser.setIdRolxUserOld(Integer.parseInt(pr.idRolxuserOld.getText()));
-//                            roluser.setUsuarioOld(pr.usuarioOld.getText());
-//                            roluser.setIdEmpresaOld(Integer.parseInt(pr.idEmpresaOld.getText()));
-//                            roluser.setIdsedeOld(Integer.parseInt(pr.idSedeOld.getText()));
-//                            roluser.setIdRolOld(Integer.parseInt(pr.idRolOld.getText()));
-//                            response = roluser.edit();
-//                            break;
-//                    }
-//                    if (response > 0) {
-//                        //crear usuario
-//                        DesktopNotify.showDesktopMessage("Informacion..!", msnok, DesktopNotify.SUCCESS, 6000L);
-//                        clearFormUsers();
-//                    } else {
-//                        DesktopNotify.showDesktopMessage("Informacion..!", msnerror, DesktopNotify.ERROR, 6000L);
-//                    }
-//                    setP(null);
-//                    setUid(null);
-//                    setUs(null);
-//                    setRuxser(null);
-//                    cargarTblUsers(filtro);
-//                    borrarImagenTemp();
-//                } else {
-//                    DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
-//
-//                }
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//
-//        }
-//
-//        if (e.getSource() == pr.btnCancelarEjercicio) {
-//            try {
-//                Object[] componentes = {pr.txtNomEjercicio, pr.cboMusculos};
-//                pr.txtNomEjercicio.setText("");
-//                pr.cboMusculos.setSelectedIndex(0);
-//                pr.lblImgEjercicioSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Treadmill_28px.png")));
-//                resetCampos(componentes);
-//                cargarTblEjercicios("");
-//            } catch (IOException ex) {
-//                System.out.println("error linea 834 " + ex);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnGuardarEjercicio) {
-//            String msnok = null;
-//            String msnerror = null;
-//            try {
-//                Object[] componentes = {pr.txtNomEjercicio, pr.cboMusculos};
-//                if (validarCampos(componentes, "cboMusculos") == 0) {
-//                    Musculos musculo = (Musculos) pr.cboMusculos.getSelectedItem();
-//                    Ejercicios ej = getEjercicio();
-//                    ej.getObjEjerciciosID().setIdMusculo(musculo.getIdMusculo());
-//                    ej.setDescripcion(pr.txtNomEjercicio.getText());
-//                    ej.setPathImagen(getFoto());
-//                    int response = 0;
-//                    switch (pr.btnGuardarEjercicio.getText()) {
-//                        case "Guardar":
-//                            msnok = "Ejercicio Creado Con Exito.";
-//                            msnerror = "Error al crear el ejercicio";
-//                            response = ej.create();
-//                            break;
-//                        case "Actualizar":
-//                            msnok = "Ejercicio Actualizado Con Exito.";
-//                            msnerror = "Error al actualizar el ejercicio";
-//                            ej.getObjEjerciciosID().setIdEjercicio(Integer.parseInt(pr.idEjercicioUpdate.getText()));
-//                            response = ej.edit();
-//                            break;
-//                    }
-//                    if (response > 0) {
-//                        DesktopNotify.showDesktopMessage("Informacion..!", msnok, DesktopNotify.SUCCESS, 6000L);
-//                        pr.txtNomEjercicio.setText("");
-//                        pr.cboMusculos.setSelectedIndex(0);
-//                        pr.lblImgEjercicioSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Treadmill_28px.png")));
-//                        setFoto("");
-//                    } else {
-//                        DesktopNotify.showDesktopMessage("Informacion..!", msnerror, DesktopNotify.ERROR, 6000L);
-//                    }
-//                    setEjercicio(null);
-//                    ej = null;
-//                    cargarTblEjercicios("");
-//                } else {
-//                    DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
-//
-//                }
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnGuardarMusculo) {
-//            String msnok = null;
-//            String msnerror = null;
-//            int response = 0;
-//            try {
-//                Object[] componentes = {pr.txtNomMusculo};
-//                if (validarCampos(componentes, "") == 0) {
-//                    Musculos m = getMusculos();
-//                    m.setdescripcion(pr.txtNomMusculo.getText());
-//                    m.setEstado("A");
-//                    switch (pr.btnGuardarMusculo.getText()) {
-//                        case "Guardar":
-//                            msnok = "Musculo Creado Con Exito.";
-//                            msnerror = "Error al crear el Musculo";
-//                            response = m.create();
-//                            break;
-//                        case "Actualizar":
-//                            msnok = "Musculo Actualizado Con Exito.";
-//                            msnerror = "Error al actualizar el Musculo";
-//                            m.setIdMusculo(Integer.parseInt(pr.idMusculoUpdate.getText()));
-//                            response = m.edit();
-//                            break;
-//                    }
-//                    if (response > 0) {
-//                        DesktopNotify.showDesktopMessage("Informacion..!", msnok, DesktopNotify.SUCCESS, 6000L);
-//                        pr.txtNomMusculo.setText("");
-//                        pr.idMusculoUpdate.setText("");
-//                        pr.btnGuardarMusculo.setText("Guardar");
-//                        resetCampos(componentes);
-//                        setMusculos(null);
-//                        cargarTblMusculos("");
-//                    } else {
-//                        DesktopNotify.showDesktopMessage("Informacion..!", msnerror, DesktopNotify.ERROR, 6000L);
-//                    }
-//                } else {
-//                    DesktopNotify.showDesktopMessage("Informacion..!", "El campo Nombre de Musculo es obligatorio..!", DesktopNotify.ERROR, 6000L);
-//                }
-//            } catch (NumberFormatException ex) {
-//                DesktopNotify.showDesktopMessage("Error..!", ex.toString(), DesktopNotify.FAIL, 6000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.mnuUpdateMusculo) {
-//            int fila = pr.tblMusculos.getSelectedRow();
-//            if (fila >= 0) {
-//                pr.btnGuardarMusculo.setText("Actualizar");
-//                pr.idMusculoUpdate.setText(pr.tblMusculos.getValueAt(fila, 0).toString());
-//                pr.txtNomMusculo.setText(pr.tblMusculos.getValueAt(fila, 1).toString());
-//            } else {
-//                DesktopNotify.showDesktopMessage("Informacion..!", "No has seleccionado un registro..!", DesktopNotify.ERROR, 6000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.mnuUpdateEjercicio) {
-//            int fila = pr.tblEjercicios.getSelectedRow();
-//            if (fila >= 0) {
-//                try {
-//                    Ejercicios ej = getEjercicio().getEjercicioById(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 0).toString()));
-//                    pr.btnGuardarEjercicio.setText("Actualizar");
-//                    pr.txtNomEjercicio.setText(ej.getDescripcion());
-//                    pr.idEjercicioUpdate.setText(pr.tblEjercicios.getValueAt(fila, 0).toString());
-//                    for (int i = 0; i < pr.cboMusculos.getItemCount(); i++) {
-//                        if (pr.cboMusculos.getItemAt(i).toString().equals(pr.tblEjercicios.getValueAt(fila, 2).toString())) {
-//                            pr.cboMusculos.setSelectedIndex(i);
-//                        }
-//                    }
-//                    InputStream img = ej.getImagen();
-//                    if (img != null) {
-//                        BufferedImage bi = ImageIO.read(img);
-//                        ii = new ImageIcon(bi);
-//                        Image conver = ii.getImage();
-//                        Image tam = conver.getScaledInstance(pr.cLabel1.getWidth(), pr.cLabel1.getHeight(), Image.SCALE_SMOOTH);
-//                        iin = new ImageIcon(tam);
-//                        pr.lblImgEjercicioSelected.setIcon(iin);
-//                    } else {
-//                        pr.lblImgEjercicioSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Treadmill_28px.png")));
-//                    }
-//                    setEjercicio(null);
-//                    ej = null;
-//                } catch (IOException ex) {
-//                    System.out.println("error al cargar la imagen " + ex);
-//                }
-//            } else {
-//                DesktopNotify.showDesktopMessage("Informacion..!", "No has seleccionado un registro..!", DesktopNotify.ERROR, 6000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.mnuDeleteMusculo) {
-//            int fila = pr.tblMusculos.getSelectedRow();
-//            if (fila >= 0) {
-//                Object[] opciones = {"Si", "No"};
-//                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el musculo?", "Mensaje de Confirmación",
-//                        JOptionPane.YES_NO_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-//                if (eleccion == JOptionPane.YES_OPTION) {
-//                    int idMusculo = Integer.parseInt(pr.tblMusculos.getValueAt(fila, 0).toString());
-//                    Musculos m = getMusculos();
-//                    m.setIdMusculo(idMusculo);
-//                    int response = m.remove();
-//                    if (response == 0) {
-//                        DesktopNotify.showDesktopMessage("Informacion..!", "El musculo esta asociado a una rutina o a una medida, no se puede eliminar", DesktopNotify.SUCCESS, 6000L);
-//                    } else if (response > 0) {
-//                        DesktopNotify.showDesktopMessage("Informacion..!", "Musculo Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
-//                        cargarTblMusculos("");
-//                    } else {
-//                        DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el Musculo", DesktopNotify.ERROR, 5000L);
-//                    }
-//                }
-//            } else {
-//                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnCancelarMusculo) {
-//            pr.txtNomMusculo.setText("");
-//            pr.idMusculoUpdate.setText("");
-//            Object[] componentes = {pr.txtNomMusculo};
-//            resetCampos(componentes);
-//        }
-//
-//        if (e.getSource() == pr.btnGuardaAsistencia) {
-//            Object[] componentes = {pr.txtDocAsist};
-//            if (validarCampos(componentes, "") == 0) {
-//                RolxUser persona = getRuxuser().getDatosPersonaByDoc(pr.txtDocAsist.getText());
-//                if (persona != null) {
-//                    Asistencia a = getAd();
-//                    a.getObjAsistenciaID().setIdPersona(persona.getObjUsuario().getObjPersona().getIdPersona());
-//                    a.getObjAsistenciaID().setIdSede(persona.getObjUsuario().getObjUsuariosID().getIdSede());
-//                    a.getObjAsistenciaID().setIdempresa(persona.getObjUsuario().getObjUsuariosID().getIdempresa());
-//                    a.getObjAsistenciaID().setUsuario(persona.getObjUsuario().getObjUsuariosID().getUsuario());
-//                    a.getObjAsistenciaID().setIdUsuario(persona.getObjUsuario().getObjUsuariosID().getIdUsuario());
-//                    a.setFechaMarcacion(new Date());
-//                    a.setHoraMarcacion(new Date());
-//                    if (a.create() > 0) {
-//                        DesktopNotify.showDesktopMessage("Información..!", "Asistencia generada..!", DesktopNotify.SUCCESS, 6000L);
-//                        pr.txtDocAsist.setText("");
-//                    } else {
-//                        DesktopNotify.showDesktopMessage("Información..!", "Error Al Guardar La Asistencia\n"
-//                                + "Es posible que el número de documento ingresado no exista o sea incorrecto\n"
-//                                + "Si el error continúa contactese con soporte técnico..!", DesktopNotify.FAIL, 6000L);
-//                        pr.txtDocAsist.requestFocus();
-//                    }
-//                } else {
-//                    DesktopNotify.showDesktopMessage("Aviso..!", "El número de documento ingresado no existe..!", DesktopNotify.FAIL, 6000L);
-//                    pr.txtDocAsist.requestFocus();
-//                }
-//                setAd(null);
-//                setRuxser(null);
-//                cargarTblAsistencias(null, null);
-//            } else {
-//                DesktopNotify.showDesktopMessage("Informacion..!", "El campo Documento es obligatorio..!", DesktopNotify.WARNING, 6000L);
-//                pr.txtDocAsist.requestFocus();
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnBuscarAsistencias) {
-//            Object[] componentes = {pr.cldInicio, pr.cldFin};
-//            if (validarCampos(componentes, "") == 0) {
-//                cargarTblAsistencias(pr.cldInicio.getDate(), pr.cldFin.getDate());
-//            } else {
-//                DesktopNotify.showDesktopMessage("Informacion..!", "El rango de fechas es obligatorio..!", DesktopNotify.WARNING, 6000L);
-//                pr.cldInicio.requestFocus();
-//            }
-//
-//        }
-//
-//        if (e.getSource() == pr.btnCancelar) {
-//            clearFormUsers();
-//        }
-//
-//        if (e.getSource() == pr.btnPrimerReg) {
-//            try {
-//                setPrimero();
-//                cargarTblUsers(filtro);
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnMenosReg) {
-//            try {
-//                setMenos();
-//                cargarTblUsers(filtro);
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.BtnGuardarRutina) {
-//            Object[] componentes = {pr.txtDescRutina, pr.cboDia, pr.cboMusculos2
-//            };
-//            if (validarCampos(componentes, "cboMusculos2") == 0) {
-//                Rutina rut = getRutina();
-//                rut.setDescripcion(pr.txtDescRutina.getText());
-//                rut.setFechaCreacion(new Date());
-//                rut.setEstado("A");
-//                rut.setNewRutina(newRutina);
-//                rut.create();
-//            } else {
-//                DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnSiguienteReg) {
-//            try {
-//                setMas();
-//                cargarTblUsers(filtro);
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnLastReg) {
-//            try {
-//                setUltimo();
-//                cargarTblUsers(filtro);
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnBack) {
-//            if (pr.onOff.getText().equals("OFF")) {
-//                pr.onOff.setBackground(new Color(255, 0, 0));
-//                pr.onOff.setText("OFF");
-//            } else {
-//                pr.onOff.setBackground(new Color(22, 204, 119));
-//                pr.onOff.setText("ON");
-//            }
-//            getCf().stop();
-//            setCf(null);
-//            showPanel("mnuUsers");
-//            pr.txtArea.setText("");
-//        }
-//
-//        if (e.getSource() == pr.btnFindUser) {
-//            try {
-//                desde = 0;
-//                hasta = 10;
-//                cantidadregistros = 10;
-//                currentpage = 1;
-//                filtro = pr.txtFindUser.getText();
-//                if (filtro.equals("")) {
-//                    pr.btnSiguienteReg.removeActionListener(this);
-//                    pr.btnLastReg.removeActionListener(this);
-//                    pr.btnMenosReg.removeActionListener(this);
-//                    pr.btnPrimerReg.removeActionListener(this);
-//                    pr.btnLastReg.addActionListener(this);
-//                    pr.btnSiguienteReg.addActionListener(this);
-//                    pr.btnPrimerReg.setEnabled(false);
-//                    pr.btnMenosReg.setEnabled(false);
-//                    pr.btnLastReg.setEnabled(true);
-//                    pr.btnSiguienteReg.setEnabled(true);
-//                } else {
-//                    opcPaginacion = "";
-//                    inhabilitarPaginacion();
-//                }
-//                cargarTblUsers(filtro);
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnFindMusculo) {
-//            cargarTblMusculos(pr.txtFindMusculo.getText());
-//        }
-//
-//        if (e.getSource() == pr.btnGenerarReporteByTipo) {
-//            generarReportes();
-//        }
+        //        if (e.getSource() == pr.mnuUpdate) {
+        //            clearFormUsers();
+        //            int fila = pr.tblUsers.getSelectedRow();
+        //            if (fila >= 0) {
+        //                try {
+        //                    int id_persona = Integer.parseInt(pr.tblUsers.getValueAt(fila, 0).toString());
+        //                    RolxUser p = getRuxuser().getDatosPersonaById(id_persona);
+        //                    pr.btnGuardar.setText("Actualizar");
+        //                    for (int i = 0; i < pr.cboGym.getItemCount(); i++) {
+        //                        if (pr.cboGym.getItemAt(i).toString().equals(getEmp().getEmpresaById(p.getObjUsuario().getObjUsuariosID().getIdempresa()).toString())) {
+        //                            pr.cboGym.setSelectedIndex(i);
+        //                        }
+        //                    }
+        //                    for (int i = 0; i < pr.cboSedes.getItemCount(); i++) {
+        //                        if (pr.cboSedes.getItemAt(i).toString().equals(getSede().getSedeById(p.getObjUsuario().getObjUsuariosID().getIdSede()).toString())) {
+        //                            pr.cboSedes.setSelectedIndex(i);
+        //                        }
+        //                    }
+        //                    for (int i = 0; i < pr.cboTiposDoc.getItemCount(); i++) {
+        //                        if (pr.cboTiposDoc.getItemAt(i).toString().equals(getTd().getTipoDocById(p.getObjUsuario().getObjPersona().getIdtipoDocumento()).toString())) {
+        //                            pr.cboTiposDoc.setSelectedIndex(i);
+        //                        }
+        //                    }
+        //                    for (int i = 0; i < pr.cboRol.getItemCount(); i++) {
+        //                        if (pr.cboRol.getItemAt(i).toString().equals(getRd().getRolbyId(getRuxuser().getidRolbyIpersona(id_persona)).toString())) {
+        //                            pr.cboRol.setSelectedIndex(i);
+        //                        }
+        //                    }
+        //                    pr.cboSexo.setSelectedItem(p.getObjUsuario().getObjPersona().getSexo());
+        //                    pr.txtDoc.setText(p.getObjUsuario().getObjPersona().getDocumento());
+        //                    pr.txtDireccion.setText(p.getObjUsuario().getObjPersona().getDireccion());
+        //                    pr.txtNombres.setText(p.getObjUsuario().getObjPersona().getNombre());
+        //                    pr.txtApellidos.setText(p.getObjUsuario().getObjPersona().getApellido());
+        //                    pr.txtTelefonos.setText(p.getObjUsuario().getObjPersona().getTelefono());
+        //                    pr.cldNacimiento.setDate(p.getObjUsuario().getObjPersona().getFechaNacimiento());
+        //                    pr.txtCorreo.setText(p.getObjUsuario().getObjPersona().getCorreo());
+        //                    pr.txtUser.setText(p.getObjUsuario().getObjUsuariosID().getUsuario());
+        //                    pr.txtClave.setText(p.getObjUsuario().getClave());
+        //                    pr.idpersonaOld.setText(Integer.toString(id_persona));
+        //                    pr.idUsuarioOld.setText(Integer.toString(p.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+        //                    pr.idRolxuserOld.setText(Integer.toString(p.getIdRolxUser()));
+        //                    pr.idEmpresaOld.setText(Integer.toString(p.getObjUsuario().getObjUsuariosID().getIdempresa()));
+        //                    pr.idSedeOld.setText(Integer.toString(p.getObjUsuario().getObjUsuariosID().getIdSede()));
+        //                    pr.usuarioOld.setText(p.getObjUsuario().getObjUsuariosID().getUsuario());
+        //                    pr.idRolOld.setText(Integer.toString(p.getObjRol().getIdRol()));
+        //                    InputStream img = p.getObjUsuario().getObjPersona().getFoto();
+        //                    if (img != null) {
+        //                        BufferedImage bi = ImageIO.read(img);
+        //                        ii = new ImageIcon(bi);
+        //                        Image conver = ii.getImage();
+        //                        Image tam = conver.getScaledInstance(pr.cLabel1.getWidth(), pr.cLabel1.getHeight(), Image.SCALE_SMOOTH);
+        //                        iin = new ImageIcon(tam);
+        //                        pr.cLabel1.setIcon(iin);
+        //                    } else {
+        //                        pr.cLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
+        //                    }
+        //                } catch (IOException ex) {
+        //                    System.out.println("error " + ex);
+        //                }
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.mnuDelete) {
+        //            int fila = pr.tblUsers.getSelectedRow();
+        //            if (fila >= 0) {
+        //                Object[] opciones = {"Si", "No"};
+        //                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el usuario?", "Mensaje de Confirmación",
+        //                        JOptionPane.YES_NO_OPTION,
+        //                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+        //                if (eleccion == JOptionPane.YES_OPTION) {
+        //                    try {
+        //                        int id_persona = Integer.parseInt(pr.tblUsers.getValueAt(fila, 0).toString());
+        //                        RolxUser p = getRuxuser().getDatosPersonaById(id_persona);
+        //                        if (p.remove() > 0) {
+        //                            DesktopNotify.showDesktopMessage("Informacion..!", "Usuario Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
+        //                            cargarTblUsers(filtro);
+        //                        } else {
+        //                            DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el usuario", DesktopNotify.ERROR, 5000L);
+        //                        }
+        //                    } catch (IOException ex) {
+        //                        System.out.println("error " + ex);
+        //                    }
+        //                }
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.mnuDeleteEjercicio) {
+        //            int fila = pr.tblEjercicios.getSelectedRow();
+        //            if (fila >= 0) {
+        //                Object[] opciones = {"Si", "No"};
+        //                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el ejercicio?", "Mensaje de Confirmación",
+        //                        JOptionPane.YES_NO_OPTION,
+        //                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+        //                if (eleccion == JOptionPane.YES_OPTION) {
+        //                    try {
+        //                        Ejercicios objEjercicio = getEjercicio();
+        //                        objEjercicio.getObjEjerciciosID().setIdEjercicio(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 0).toString()));
+        //                        objEjercicio.getObjEjerciciosID().setIdMusculo(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 4).toString()));
+        //                        if (objEjercicio.remove() > 0) {
+        //                            DesktopNotify.showDesktopMessage("Informacion..!", "Ejercicio Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
+        //                            cargarTblEjercicios("");
+        //                            setEjercicio(null);
+        //                        } else {
+        //                            DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el Ejercicio", DesktopNotify.ERROR, 5000L);
+        //                        }
+        //                    } catch (IOException ex) {
+        //                        DesktopNotify.showDesktopMessage("Error..!", ex.toString(), DesktopNotify.ERROR, 5000L);
+        //                    }
+        //                }
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnGuardar) {
+        //            String msnok = null;
+        //            String msnerror = null;
+        //            try {
+        //                Object[] componentes = {pr.cboTiposDoc, pr.cboRol, pr.txtDoc, pr.txtDireccion,
+        //                    pr.txtNombres, pr.txtApellidos, pr.txtTelefonos, pr.cboGym, pr.cboSedes,
+        //                    pr.cldNacimiento, pr.cboSexo,
+        //                    pr.txtUser, pr.txtClave};
+        //                if (validarCampos(componentes, "") == 0) {
+        //                    TipoDocumento t = (TipoDocumento) pr.cboTiposDoc.getSelectedItem();
+        //                    Rol r = (Rol) pr.cboRol.getSelectedItem();
+        //                    Empresa emp = (Empresa) pr.cboGym.getSelectedItem();
+        //                    Sedes sede = (Sedes) pr.cboSedes.getSelectedItem();
+        //                    persona p = getP();
+        //                    UsuarioID uid = getUid();
+        //                    Usuario us = getUs();
+        //                    RolxUser roluser = getRuxuser();
+        //                    uid.setUsuario(pr.txtUser.getText());
+        //                    uid.setIdSede(sede.getObjSedesID().getIdSede());
+        //                    uid.setIdempresa(emp.getIdempresa());
+        //                    p.setDocumento(pr.txtDoc.getText());
+        //                    p.setIdtipoDocumento(t.getIdTipoDocumento());
+        //                    p.setNombre(pr.txtNombres.getText());
+        //                    p.setApellido(pr.txtApellidos.getText());
+        //                    p.setNombreCompleto(pr.txtNombres.getText() + " " + pr.txtApellidos.getText());
+        //                    p.setDireccion(pr.txtDireccion.getText());
+        //                    p.setTelefono(pr.txtTelefonos.getText());
+        //                    p.setSexo((String) pr.cboSexo.getSelectedItem());
+        //                    p.setFechaNacimiento(pr.cldNacimiento.getDate());
+        //                    p.setCorreo(pr.txtCorreo.getText());
+        //                    p.setEstado("A");
+        //                    p.setPathFoto(getFoto());
+        //                    us.setObjUsuariosID(uid);
+        //                    us.setEstado("A");
+        //                    us.setClave(new String(pr.txtClave.getPassword()));
+        //                    us.setNickName(pr.txtNombres.getText());
+        //                    us.setObjPersona(p);
+        //                    roluser.setObjUsuario(us);
+        //                    roluser.setObjRol(r);
+        //                    int response = 0;
+        //                    switch (pr.btnGuardar.getText()) {
+        //                        case "Guardar":
+        //                            msnok = "Usuario Creado Con Exito.";
+        //                            msnerror = "Error al crear el usuario";
+        //                            response = roluser.create();
+        //                            break;
+        //                        case "Actualizar":
+        //                            msnok = "Usuario Actualizado Con Exito.";
+        //                            msnerror = "Error al actualizar el usuario";
+        //                            roluser.setIdpersonaOld(Integer.parseInt(pr.idpersonaOld.getText()));
+        //                            roluser.setIdUsuarioOld(Integer.parseInt(pr.idUsuarioOld.getText()));
+        //                            roluser.setIdRolxUserOld(Integer.parseInt(pr.idRolxuserOld.getText()));
+        //                            roluser.setUsuarioOld(pr.usuarioOld.getText());
+        //                            roluser.setIdEmpresaOld(Integer.parseInt(pr.idEmpresaOld.getText()));
+        //                            roluser.setIdsedeOld(Integer.parseInt(pr.idSedeOld.getText()));
+        //                            roluser.setIdRolOld(Integer.parseInt(pr.idRolOld.getText()));
+        //                            response = roluser.edit();
+        //                            break;
+        //                    }
+        //                    if (response > 0) {
+        //                        //crear usuario
+        //                        DesktopNotify.showDesktopMessage("Informacion..!", msnok, DesktopNotify.SUCCESS, 6000L);
+        //                        clearFormUsers();
+        //                    } else {
+        //                        DesktopNotify.showDesktopMessage("Informacion..!", msnerror, DesktopNotify.ERROR, 6000L);
+        //                    }
+        //                    setP(null);
+        //                    setUid(null);
+        //                    setUs(null);
+        //                    setRuxser(null);
+        //                    cargarTblUsers(filtro);
+        //                    borrarImagenTemp();
+        //                } else {
+        //                    DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
+        //
+        //                }
+        //            } catch (IOException ex) {
+        //                System.out.println("error " + ex);
+        //            }
+        //
+        //        }
+        //
+        //        if (e.getSource() == pr.btnCancelarEjercicio) {
+        //            try {
+        //                Object[] componentes = {pr.txtNomEjercicio, pr.cboMusculos};
+        //                pr.txtNomEjercicio.setText("");
+        //                pr.cboMusculos.setSelectedIndex(0);
+        //                pr.lblImgEjercicioSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Treadmill_28px.png")));
+        //                resetCampos(componentes);
+        //                cargarTblEjercicios("");
+        //            } catch (IOException ex) {
+        //                System.out.println("error linea 834 " + ex);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnGuardarEjercicio) {
+        //            String msnok = null;
+        //            String msnerror = null;
+        //            try {
+        //                Object[] componentes = {pr.txtNomEjercicio, pr.cboMusculos};
+        //                if (validarCampos(componentes, "cboMusculos") == 0) {
+        //                    Musculos musculo = (Musculos) pr.cboMusculos.getSelectedItem();
+        //                    Ejercicios ej = getEjercicio();
+        //                    ej.getObjEjerciciosID().setIdMusculo(musculo.getIdMusculo());
+        //                    ej.setDescripcion(pr.txtNomEjercicio.getText());
+        //                    ej.setPathImagen(getFoto());
+        //                    int response = 0;
+        //                    switch (pr.btnGuardarEjercicio.getText()) {
+        //                        case "Guardar":
+        //                            msnok = "Ejercicio Creado Con Exito.";
+        //                            msnerror = "Error al crear el ejercicio";
+        //                            response = ej.create();
+        //                            break;
+        //                        case "Actualizar":
+        //                            msnok = "Ejercicio Actualizado Con Exito.";
+        //                            msnerror = "Error al actualizar el ejercicio";
+        //                            ej.getObjEjerciciosID().setIdEjercicio(Integer.parseInt(pr.idEjercicioUpdate.getText()));
+        //                            response = ej.edit();
+        //                            break;
+        //                    }
+        //                    if (response > 0) {
+        //                        DesktopNotify.showDesktopMessage("Informacion..!", msnok, DesktopNotify.SUCCESS, 6000L);
+        //                        pr.txtNomEjercicio.setText("");
+        //                        pr.cboMusculos.setSelectedIndex(0);
+        //                        pr.lblImgEjercicioSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Treadmill_28px.png")));
+        //                        setFoto("");
+        //                    } else {
+        //                        DesktopNotify.showDesktopMessage("Informacion..!", msnerror, DesktopNotify.ERROR, 6000L);
+        //                    }
+        //                    setEjercicio(null);
+        //                    ej = null;
+        //                    cargarTblEjercicios("");
+        //                } else {
+        //                    DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
+        //
+        //                }
+        //            } catch (IOException ex) {
+        //                System.out.println("error " + ex);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnGuardarMusculo) {
+        //            String msnok = null;
+        //            String msnerror = null;
+        //            int response = 0;
+        //            try {
+        //                Object[] componentes = {pr.txtNomMusculo};
+        //                if (validarCampos(componentes, "") == 0) {
+        //                    Musculos m = getMusculos();
+        //                    m.setdescripcion(pr.txtNomMusculo.getText());
+        //                    m.setEstado("A");
+        //                    switch (pr.btnGuardarMusculo.getText()) {
+        //                        case "Guardar":
+        //                            msnok = "Musculo Creado Con Exito.";
+        //                            msnerror = "Error al crear el Musculo";
+        //                            response = m.create();
+        //                            break;
+        //                        case "Actualizar":
+        //                            msnok = "Musculo Actualizado Con Exito.";
+        //                            msnerror = "Error al actualizar el Musculo";
+        //                            m.setIdMusculo(Integer.parseInt(pr.idMusculoUpdate.getText()));
+        //                            response = m.edit();
+        //                            break;
+        //                    }
+        //                    if (response > 0) {
+        //                        DesktopNotify.showDesktopMessage("Informacion..!", msnok, DesktopNotify.SUCCESS, 6000L);
+        //                        pr.txtNomMusculo.setText("");
+        //                        pr.idMusculoUpdate.setText("");
+        //                        pr.btnGuardarMusculo.setText("Guardar");
+        //                        resetCampos(componentes);
+        //                        setMusculos(null);
+        //                        cargarTblMusculos("");
+        //                    } else {
+        //                        DesktopNotify.showDesktopMessage("Informacion..!", msnerror, DesktopNotify.ERROR, 6000L);
+        //                    }
+        //                } else {
+        //                    DesktopNotify.showDesktopMessage("Informacion..!", "El campo Nombre de Musculo es obligatorio..!", DesktopNotify.ERROR, 6000L);
+        //                }
+        //            } catch (NumberFormatException ex) {
+        //                DesktopNotify.showDesktopMessage("Error..!", ex.toString(), DesktopNotify.FAIL, 6000L);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.mnuUpdateMusculo) {
+        //            int fila = pr.tblMusculos.getSelectedRow();
+        //            if (fila >= 0) {
+        //                pr.btnGuardarMusculo.setText("Actualizar");
+        //                pr.idMusculoUpdate.setText(pr.tblMusculos.getValueAt(fila, 0).toString());
+        //                pr.txtNomMusculo.setText(pr.tblMusculos.getValueAt(fila, 1).toString());
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Informacion..!", "No has seleccionado un registro..!", DesktopNotify.ERROR, 6000L);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.mnuUpdateEjercicio) {
+        //            int fila = pr.tblEjercicios.getSelectedRow();
+        //            if (fila >= 0) {
+        //                try {
+        //                    Ejercicios ej = getEjercicio().getEjercicioById(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 0).toString()));
+        //                    pr.btnGuardarEjercicio.setText("Actualizar");
+        //                    pr.txtNomEjercicio.setText(ej.getDescripcion());
+        //                    pr.idEjercicioUpdate.setText(pr.tblEjercicios.getValueAt(fila, 0).toString());
+        //                    for (int i = 0; i < pr.cboMusculos.getItemCount(); i++) {
+        //                        if (pr.cboMusculos.getItemAt(i).toString().equals(pr.tblEjercicios.getValueAt(fila, 2).toString())) {
+        //                            pr.cboMusculos.setSelectedIndex(i);
+        //                        }
+        //                    }
+        //                    InputStream img = ej.getImagen();
+        //                    if (img != null) {
+        //                        BufferedImage bi = ImageIO.read(img);
+        //                        ii = new ImageIcon(bi);
+        //                        Image conver = ii.getImage();
+        //                        Image tam = conver.getScaledInstance(pr.cLabel1.getWidth(), pr.cLabel1.getHeight(), Image.SCALE_SMOOTH);
+        //                        iin = new ImageIcon(tam);
+        //                        pr.lblImgEjercicioSelected.setIcon(iin);
+        //                    } else {
+        //                        pr.lblImgEjercicioSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Treadmill_28px.png")));
+        //                    }
+        //                    setEjercicio(null);
+        //                    ej = null;
+        //                } catch (IOException ex) {
+        //                    System.out.println("error al cargar la imagen " + ex);
+        //                }
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Informacion..!", "No has seleccionado un registro..!", DesktopNotify.ERROR, 6000L);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.mnuDeleteMusculo) {
+        //            int fila = pr.tblMusculos.getSelectedRow();
+        //            if (fila >= 0) {
+        //                Object[] opciones = {"Si", "No"};
+        //                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el musculo?", "Mensaje de Confirmación",
+        //                        JOptionPane.YES_NO_OPTION,
+        //                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+        //                if (eleccion == JOptionPane.YES_OPTION) {
+        //                    int idMusculo = Integer.parseInt(pr.tblMusculos.getValueAt(fila, 0).toString());
+        //                    Musculos m = getMusculos();
+        //                    m.setIdMusculo(idMusculo);
+        //                    int response = m.remove();
+        //                    if (response == 0) {
+        //                        DesktopNotify.showDesktopMessage("Informacion..!", "El musculo esta asociado a una rutina o a una medida, no se puede eliminar", DesktopNotify.SUCCESS, 6000L);
+        //                    } else if (response > 0) {
+        //                        DesktopNotify.showDesktopMessage("Informacion..!", "Musculo Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
+        //                        cargarTblMusculos("");
+        //                    } else {
+        //                        DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el Musculo", DesktopNotify.ERROR, 5000L);
+        //                    }
+        //                }
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnCancelarMusculo) {
+        //            pr.txtNomMusculo.setText("");
+        //            pr.idMusculoUpdate.setText("");
+        //            Object[] componentes = {pr.txtNomMusculo};
+        //            resetCampos(componentes);
+        //        }
+        //
+        //        if (e.getSource() == pr.btnGuardaAsistencia) {
+        //            Object[] componentes = {pr.txtDocAsist};
+        //            if (validarCampos(componentes, "") == 0) {
+        //                RolxUser persona = getRuxuser().getDatosPersonaByDoc(pr.txtDocAsist.getText());
+        //                if (persona != null) {
+        //                    Asistencia a = getAd();
+        //                    a.getObjAsistenciaID().setIdPersona(persona.getObjUsuario().getObjPersona().getIdPersona());
+        //                    a.getObjAsistenciaID().setIdSede(persona.getObjUsuario().getObjUsuariosID().getIdSede());
+        //                    a.getObjAsistenciaID().setIdempresa(persona.getObjUsuario().getObjUsuariosID().getIdempresa());
+        //                    a.getObjAsistenciaID().setUsuario(persona.getObjUsuario().getObjUsuariosID().getUsuario());
+        //                    a.getObjAsistenciaID().setIdUsuario(persona.getObjUsuario().getObjUsuariosID().getIdUsuario());
+        //                    a.setFechaMarcacion(new Date());
+        //                    a.setHoraMarcacion(new Date());
+        //                    if (a.create() > 0) {
+        //                        DesktopNotify.showDesktopMessage("Información..!", "Asistencia generada..!", DesktopNotify.SUCCESS, 6000L);
+        //                        pr.txtDocAsist.setText("");
+        //                    } else {
+        //                        DesktopNotify.showDesktopMessage("Información..!", "Error Al Guardar La Asistencia\n"
+        //                                + "Es posible que el número de documento ingresado no exista o sea incorrecto\n"
+        //                                + "Si el error continúa contactese con soporte técnico..!", DesktopNotify.FAIL, 6000L);
+        //                        pr.txtDocAsist.requestFocus();
+        //                    }
+        //                } else {
+        //                    DesktopNotify.showDesktopMessage("Aviso..!", "El número de documento ingresado no existe..!", DesktopNotify.FAIL, 6000L);
+        //                    pr.txtDocAsist.requestFocus();
+        //                }
+        //                setAd(null);
+        //                setRuxser(null);
+        //                cargarTblAsistencias(null, null);
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Informacion..!", "El campo Documento es obligatorio..!", DesktopNotify.WARNING, 6000L);
+        //                pr.txtDocAsist.requestFocus();
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnBuscarAsistencias) {
+        //            Object[] componentes = {pr.cldInicio, pr.cldFin};
+        //            if (validarCampos(componentes, "") == 0) {
+        //                cargarTblAsistencias(pr.cldInicio.getDate(), pr.cldFin.getDate());
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Informacion..!", "El rango de fechas es obligatorio..!", DesktopNotify.WARNING, 6000L);
+        //                pr.cldInicio.requestFocus();
+        //            }
+        //
+        //        }
+        //
+        //        if (e.getSource() == pr.btnCancelar) {
+        //            clearFormUsers();
+        //        }
+        //
+        //        if (e.getSource() == pr.btnPrimerReg) {
+        //            try {
+        //                setPrimero();
+        //                cargarTblUsers(filtro);
+        //            } catch (IOException ex) {
+        //                System.out.println("error " + ex);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnMenosReg) {
+        //            try {
+        //                setMenos();
+        //                cargarTblUsers(filtro);
+        //            } catch (IOException ex) {
+        //                System.out.println("error " + ex);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.BtnGuardarRutina) {
+        //            Object[] componentes = {pr.txtDescRutina, pr.cboDia, pr.cboMusculos2
+        //            };
+        //            if (validarCampos(componentes, "cboMusculos2") == 0) {
+        //                Rutina rut = getRutina();
+        //                rut.setDescripcion(pr.txtDescRutina.getText());
+        //                rut.setFechaCreacion(new Date());
+        //                rut.setEstado("A");
+        //                rut.setNewRutina(newRutina);
+        //                rut.create();
+        //            } else {
+        //                DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnSiguienteReg) {
+        //            try {
+        //                setMas();
+        //                cargarTblUsers(filtro);
+        //            } catch (IOException ex) {
+        //                System.out.println("error " + ex);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnLastReg) {
+        //            try {
+        //                setUltimo();
+        //                cargarTblUsers(filtro);
+        //            } catch (IOException ex) {
+        //                System.out.println("error " + ex);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnBack) {
+        //            if (pr.onOff.getText().equals("OFF")) {
+        //                pr.onOff.setBackground(new Color(255, 0, 0));
+        //                pr.onOff.setText("OFF");
+        //            } else {
+        //                pr.onOff.setBackground(new Color(22, 204, 119));
+        //                pr.onOff.setText("ON");
+        //            }
+        //            getCf().stop();
+        //            setCf(null);
+        //            showPanel("mnuUsers");
+        //            pr.txtArea.setText("");
+        //        }
+        //
+        //        if (e.getSource() == pr.btnFindUser) {
+        //            try {
+        //                desde = 0;
+        //                hasta = 10;
+        //                cantidadregistros = 10;
+        //                currentpage = 1;
+        //                filtro = pr.txtFindUser.getText();
+        //                if (filtro.equals("")) {
+        //                    pr.btnSiguienteReg.removeActionListener(this);
+        //                    pr.btnLastReg.removeActionListener(this);
+        //                    pr.btnMenosReg.removeActionListener(this);
+        //                    pr.btnPrimerReg.removeActionListener(this);
+        //                    pr.btnLastReg.addActionListener(this);
+        //                    pr.btnSiguienteReg.addActionListener(this);
+        //                    pr.btnPrimerReg.setEnabled(false);
+        //                    pr.btnMenosReg.setEnabled(false);
+        //                    pr.btnLastReg.setEnabled(true);
+        //                    pr.btnSiguienteReg.setEnabled(true);
+        //                } else {
+        //                    opcPaginacion = "";
+        //                    inhabilitarPaginacion();
+        //                }
+        //                cargarTblUsers(filtro);
+        //            } catch (IOException ex) {
+        //                System.out.println("error " + ex);
+        //            }
+        //        }
+        //
+        //        if (e.getSource() == pr.btnFindMusculo) {
+        //            cargarTblMusculos(pr.txtFindMusculo.getText());
+        //        }
+        //
+        //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
+        //            generarReportes();
+        //        }
         if (e.getSource() == M1.btnGuardarEmpresa) {
             Object[] componentes = {M1.txtDocNit, M1.txtNomEmpresa};
             if (validarCampos(componentes, "", M1) == 0) {
@@ -1434,8 +1435,19 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 empresas.setTelefonos(M1.txtTelEmpresa.getText());
                 empresas.setPathLogo(foto);
                 empresas.setCreate_at(new Date());
-                if (empresas.create() > 0) {
-                    DesktopNotify.showDesktopMessage("Aviso..!", "Empresa creada con exito..!", DesktopNotify.SUCCESS, 5000L);
+                int result = 0;
+                String msn = "Empresa creada con exito..!";
+                String msnerror = "Ocurrio un error al crear la empresa..!";
+                if (M1.btnGuardarEmpresa.getText().equalsIgnoreCase("Guardar")) {
+                    result = empresas.create();
+                } else {
+                    msn = "Empresa editada con exito..!";
+                    msnerror = "Ocurrio un error al editar la empresa..!";
+                    empresas.setIdEmpresa(currentEmpresa.getIdEmpresa());
+                    result = empresas.edit();
+                }
+                if (result > 0) {
+                    DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
                     M1.txtDocNit.setText("");
                     M1.txtNomEmpresa.setText("");
                     M1.txtDirEmpresa.setText("");
@@ -1443,25 +1455,88 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                     setFoto("");
                     setEmpresas(null);
                     ListEmpresas("");
+                    currentEmpresa = null;
+                    LimpiarCampos("empresas");
+                    M1.btnGuardarEmpresa.setText("Guardar");
                 } else {
-                    DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al crear la empresa..!", DesktopNotify.FAIL, 5000L);
+                    DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
                 }
+
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == M1.btnCancelarEmpresa) {
+            currentEmpresa = null;
             LimpiarCampos("empresas");
         }
-        
+
+        if (e.getSource() == M1.mnuEditEmpresa) {
+            M1.btnGuardarEmpresa.setText("Editar");
+            int fila = M1.tblEmpresas.getSelectedRow();
+            if (fila >= 0) {
+                getEmpresas();
+                currentEmpresa = empresas.findById(Integer.parseInt(M1.tblEmpresas.getValueAt(fila, 0).toString()));
+                if (currentEmpresa != null) {
+                    M1.txtDocNit.setText(currentEmpresa.getNit());
+                    M1.txtNomEmpresa.setText(currentEmpresa.getNombre());
+                    M1.txtDirEmpresa.setText(currentEmpresa.getDireccion());
+                    M1.txtTelEmpresa.setText(currentEmpresa.getTelefonos());
+                    InputStream img = currentEmpresa.getLogo();
+                    if (img != null) {
+                        BufferedImage bi;
+                        try {
+                            bi = ImageIO.read(img);
+                            ii = new ImageIcon(bi);
+                            Image conver = ii.getImage();
+                            Image tam = conver.getScaledInstance(M1.lblLogoEmpresa.getWidth(), M1.lblLogoEmpresa.getHeight(), Image.SCALE_SMOOTH);
+                            iin = new ImageIcon(tam);
+                            M1.lblLogoEmpresa.setIcon(iin);
+                        } catch (IOException ex) {
+                            System.out.println("error " + ex);
+                        }
+
+                    } else {
+                        M1.lblLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
+                    }
+                }
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
+        if (e.getSource() == M1.mnuDeleteEmpresa) {
+            int fila = M1.tblEmpresas.getSelectedRow();
+            if (fila >= 0) {
+                Object[] opciones = {"Si", "No"};
+                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar la empresa?", "Mensaje de Confirmación",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+                if (eleccion == JOptionPane.YES_OPTION) {
+                    int id_empresa = Integer.parseInt(M1.tblEmpresas.getValueAt(fila, 0).toString());
+                    getEmpresas();
+                    empresas.setIdEmpresa(id_empresa);
+                    if (empresas.remove() > 0) {
+                        DesktopNotify.showDesktopMessage("Informacion..!", "Empresa Eliminada con exito", DesktopNotify.SUCCESS, 6000L);
+                        setEmpresas(null);
+                        ListEmpresas("");
+                    } else {
+                        DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar la empresa", DesktopNotify.ERROR, 5000L);
+                    }
+                }
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
     }
-    
+
     private void addFilter() {
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.JPG)", "jpg"));
     }
-    
+
     public void showPanel(int Modulo, String string) {
         switch (Modulo) {
             case 1:
@@ -1470,8 +1545,8 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 M1.setVistaActual(string);
                 switch (string) {
                     case "pnEmpresas":
-                        M1.pnEmpresas.setVisible(true);                        
-                        break;                    
+                        M1.pnEmpresas.setVisible(true);
+                        break;
                 }
                 break;
             case 2:
@@ -1495,11 +1570,11 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             case 4:
                 M4.setVistaActual(string);
                 break;
-            
+
         }
-        
+
     }
-    
+
     private void cargarTiposDocumentos() {
 //        Iterator<TipoDocumento> it = getTd().List().iterator();
 //        pr.cboTiposDoc.removeAllItems();
@@ -1515,7 +1590,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setTd(null);
 //        t = null;
     }
-    
+
     private void CargarServicios() {
 //        getTs();
 //        pr.combotiposService.removeAllItems();
@@ -1527,7 +1602,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //            pr.combotiposService1.addItem(listServicio);
 //        }
     }
-    
+
     private void CargarTiposPagos() {
 //        getTp();
 //        pr.combotiposPago.removeAllItems();
@@ -1538,7 +1613,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //            pr.combotiposPago1.addItem(listServicio);
 //        }
     }
-    
+
     private void cargarDescuentosPagos(int condicion, int panel) {
 //        getTs();
 //        if (condicion == 1) {
@@ -1581,7 +1656,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        }
 
     }
-    
+
     public void PagosBuscarPersona(int condicion, JTable table) {
 //        switch (condicion) {
 //            case 1:
@@ -1626,7 +1701,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setRd(null);
 //        r = null;
     }
-    
+
     private void cargarMusculos() {
 //        Iterator<Musculos> it = getMusculos().List().iterator();
 //        pr.cboMusculos.removeAllItems();
@@ -1641,7 +1716,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setMusculos(null);
 //        m = null;
     }
-    
+
     private void cargarDiasMusculos() {
 //        Iterator<dias> it = getDias().List().iterator();
 //        Iterator<Musculos> itmus = getMusculos().List().iterator();
@@ -1670,7 +1745,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        d = null;
 //        e = null;
     }
-    
+
     private void cargarEmpresas() {//Gyms
 //        Iterator<Empresa> it = getEmp().List().iterator();
 //        pr.cboGym.removeAllItems();
@@ -1683,7 +1758,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setEmp(null);
 ////        e = null;
     }
-    
+
     private void cargarSedesByEmprsa(int id_empresa) {//sede * Gyms
 //        Sedes s = getSede();
 //        s.getObjEmpresa().setIdempresa(id_empresa);
@@ -1701,7 +1776,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setSede(null);
 //        s2 = null;
     }
-    
+
     private void cargarTblUsers(String filtro) throws IOException {
 //        pr.tblUsers.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -1770,7 +1845,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setRuxser(null);
 //        setTd(null);
     }
-    
+
     public void paginarRs() {
 //        total registros  
 //        float totalRegistros = getRuxuser().CountRs(filtro);
@@ -1780,7 +1855,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.totalRegistros.setText(texto);
 
     }
-    
+
     public void cargarTblAsistencias(Date inicio, Date fin) {
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 //        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -1823,7 +1898,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblAsistencias.setModel(modelo);
 //        setAd(null);
     }
-    
+
     private void cargarTblMusculos(String filtro) {
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 //        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -1863,7 +1938,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblMusculos.setRowHeight(25);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblEjercicios(String filtro) throws IOException {
 //        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -1920,7 +1995,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblEjercicios.setRowHeight(60);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblEjercicios2(int idMusculo) throws IOException {
 //        pr.tblEjercicios2.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -1983,7 +2058,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //
 //        setMusculos(null);
     }
-    
+
     private void cargarTblNewRutina() throws IOException {
 //        pr.tblNewRutina.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2036,7 +2111,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblNewRutina.setModel(modelo);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblRutinas(String filtro) throws IOException {
 //        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2093,7 +2168,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblEjercicios.setRowHeight(60);
 //        setMusculos(null);
     }
-    
+
     private void clearFormUsers() {
 //        pr.btnGuardar.setText("Guardar");
 //        pr.cboTiposDoc.setSelectedIndex(0);
@@ -2129,52 +2204,52 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //            pr.txtUser, pr.txtClave, pr.cldDesdePagos, pr.cldHastaPagos, pr.cldFechaPagoHistory, pr.cldFechaPagoDesde, pr.cldFechaPagoHasta};
 //        resetCampos(componentes);
     }
-    
+
     public CaptureFinger getCf() {
         if (cf == null) {
             cf = new CaptureFinger();
         }
         return cf;
     }
-    
+
     public void setCf(CaptureFinger cf) {
         this.cf = cf;
     }
-    
+
     public ReadFinger getRf() {
         if (rf == null) {
             rf = new ReadFinger();
         }
         return rf;
     }
-    
+
     public void setRf(ReadFinger rf) {
         this.rf = rf;
     }
-    
+
     public Rol getRd() {
         if (rd == null) {
             rd = new Rol();
         }
         return rd;
     }
-    
+
     public void setRd(Rol rd) {
         this.rd = rd;
     }
-    
+
     public TipoDocumento getTd() {
         if (td == null) {
             td = new TipoDocumento();
         }
         return td;
     }
-    
+
     public void setTd(TipoDocumento td) {
         this.td = td;
-        
+
     }
-    
+
     public int validarCampos(Object[] componentes, String nameComponent, Object Modulo) {
 //        ((Modulo1) Modulo).txtDocNit.getText();
         int countErrors = 0;
@@ -2235,7 +2310,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         }
         return countErrors;
     }
-    
+
     public void resetCampos(Object[] componentes) {
         for (Object componente : componentes) {
             if (componente instanceof JTextField) {
@@ -2249,34 +2324,34 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         }
     }
-    
+
     public Asistencia getAd() {
         if (ad == null) {
             ad = new Asistencia();
         }
         return ad;
     }
-    
+
     public void setAd(Asistencia ad) {
         this.ad = ad;
     }
-    
+
     public int getCountAction() {
         return countAction;
     }
-    
+
     public void setCountAction(int countAction) {
         this.countAction += countAction;
     }
-    
+
     public String getFoto() {
         return foto;
     }
-    
+
     public void setFoto(String foto) {
         this.foto = foto;
     }
-    
+
     private void borrarImagenTemp() {
         try {
             File archivo = new File(System.getProperty("java.io.tmpdir") + "\\default.png");
@@ -2292,7 +2367,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             System.out.println(e);
         }
     }
-    
+
     public void setPrimero() {
         desde = 0;
         hasta = 10;
@@ -2301,7 +2376,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setMas() {
         desde += hasta;
         currentpage += 1;
@@ -2309,7 +2384,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setMenos() {
         if (desde > 0) {
             desde -= hasta;
@@ -2322,7 +2397,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setUltimo() {
         float totalRegistros = getRuxuser().CountRs(filtro);
         float totalPaginas = totalRegistros / cantidadregistros;
@@ -2333,7 +2408,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta + " totalPaginas " + currentpage + " ulttimo = " + ultimo);
     }
-    
+
     private void inhabilitarPaginacion() {
 //        System.out.println("opc " + opcPaginacion);
 //        float cant_reg = getRuxuser().CountRs(filtro);
@@ -2437,103 +2512,103 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //
 //        }
     }
-    
+
     public persona getP() {
         if (p == null) {
             p = new persona();
         }
         return p;
     }
-    
+
     public void setP(persona p) {
         this.p = p;
     }
-    
+
     public RolxUser getRuxuser() {
         if (ruxuser == null) {
             ruxuser = new RolxUser();
         }
         return ruxuser;
     }
-    
+
     public void setRuxser(RolxUser ruxuser) {
         this.ruxuser = ruxuser;
     }
-    
+
     public UsuarioID getUid() {
         if (uid == null) {
             uid = new UsuarioID();
         }
         return uid;
     }
-    
+
     public void setUid(UsuarioID uid) {
         this.uid = uid;
     }
-    
+
     public Usuario getUs() {
         if (us == null) {
             us = new Usuario();
         }
         return us;
     }
-    
+
     public void setUs(Usuario us) {
         this.us = us;
     }
-    
+
     public Sedes getSede() {
         if (sede == null) {
             sede = new Sedes();
         }
         return sede;
     }
-    
+
     public void setSede(Sedes sede) {
         this.sede = sede;
     }
-    
+
     public int getCantRegustrosUsuarios() {
         return cantRegustrosUsuarios;
     }
-    
+
     public void setCantRegustrosUsuarios(int cantRegustrosUsuarios) {
         this.cantRegustrosUsuarios = cantRegustrosUsuarios;
     }
-    
+
     public Musculos getMusculos() {
         if (musculos == null) {
             musculos = new Musculos();
         }
         return musculos;
     }
-    
+
     public void setMusculos(Musculos musculos) {
         this.musculos = musculos;
     }
-    
+
     public Ejercicios getEjercicio() {
         if (ejercicio == null) {
             ejercicio = new Ejercicios();
         }
         return ejercicio;
     }
-    
+
     public void setEjercicio(Ejercicios ejercicio) {
         this.ejercicio = ejercicio;
     }
-    
+
     public dias getDias() {
         if (dias == null) {
             dias = new dias();
         }
         return dias;
     }
-    
+
     public void setDias(dias dias) {
         this.dias = dias;
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == M1.btnEmpresas) {
@@ -2636,7 +2711,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //
 //        }
     }
-    
+
     public void EstadoMiCaja() throws ClassNotFoundException {
 //        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
 //        getMiCaja();
@@ -2673,7 +2748,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 ////            pr.btnReporteCaja.setEnabled(true);
 //        }
     }
-    
+
     public void CargarDatosCaja(int condicion) {
 
 //        ArrayList<PagoService> listUsuario = new ArrayList();
@@ -2713,55 +2788,55 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblListaPagos.setRowHeight(30);
 ////        pr.tblListaPagos.getColumnModel().getColumn(2).setCellRenderer(Alinear);
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
-        
+
     }
-    
+
     private void cargarAllEjericios() {
         allEjercicios.clear();
         newRutina.clear();
         allEjercicios = (ArrayList<Ejercicios>) getEjercicio().List();
         setEjercicio(null);
     }
-    
+
     public Rutina getRutina() {
         if (rutina == null) {
             rutina = new Rutina();
         }
         return rutina;
     }
-    
+
     public void setRutina(Rutina rutina) {
         this.rutina = rutina;
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
 //        if (e.getSource() == pr.tblNewRutina) {
@@ -2780,7 +2855,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //            }
 //        }
     }
-    
+
     public void RestaurarValoresViewPago(String Doc, String Nombre, boolean restaurarUser) {
 //        if (restaurarUser) {
 //            us = null;
@@ -2791,7 +2866,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.txtpagosCedula.setText(Doc);
 //        pr.txtpagosNombre.setText(Nombre);
     }
-    
+
     public void ListPagosXuser(JTable table) {
         if (us != null) {
             ArrayList<PagoService> listPagos = new ArrayList();
@@ -2838,7 +2913,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        ListPagosXuser(pr.tblListaPagosXuser);
 //        showPanel("pnPagosService");
     }
-    
+
     public void generarReportes() {
 //        //llamar metodo agerar reporte de pagoservices pojo
 //        Object[] componentes = {pr.txtUserForReports};
@@ -2859,63 +2934,63 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        }
 
     }
-    
+
     public CajaXUser getMiCaja() {
         if (MiCaja == null) {
             MiCaja = new CajaXUser();
         }
         return MiCaja;
     }
-    
+
     public void setMiCaja(CajaXUser MiCaja) {
         this.MiCaja = MiCaja;
     }
-    
+
     public RolxUser getUsuarioLogeado() {
         if (UsuarioLogeado == null) {
             UsuarioLogeado = new RolxUser();
         }
         return UsuarioLogeado;
     }
-    
+
     public void setUsuarioLogeado(RolxUser UsuarioLogeado) {
         getUsuarioLogeado();
         this.UsuarioLogeado = UsuarioLogeado;
     }
-    
+
     public PagoService getPagoService() {
         if (pagoService == null) {
             pagoService = new PagoService();
         }
         return pagoService;
     }
-    
+
     public void setPagoService(PagoService pagoService) {
         this.pagoService = pagoService;
     }
-    
+
     public TipoService getTs() {
         if (Ts == null) {
             Ts = new TipoService();
         }
         return Ts;
     }
-    
+
     public void setTs(TipoService Ts) {
         this.Ts = Ts;
     }
-    
+
     public TipoPago getTp() {
         if (Tp == null) {
             Tp = new TipoPago();
         }
         return Tp;
     }
-    
+
     public void setTp(TipoPago Tp) {
         this.Tp = Tp;
     }
-    
+
     public void Adaptador() {
         M1.addWindowListener(new WindowAdapter() {
             @Override
@@ -2930,7 +3005,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         });
     }
-    
+
     private void cargarHistorialPagos(int id_usuario, Date desde, Date hasta, JTable table) {
 //        ArrayList<PagoService> listPagos = new ArrayList();
 //        listPagos = (ArrayList<PagoService>) getPagoService().ListPagosXClientes(id_usuario, desde, hasta);
@@ -2979,21 +3054,21 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        table.getColumnModel().getColumn(7).setCellRenderer(Alinear);
 //        table.setRowHeight(30);
     }
-    
+
     public Reportes getReportes() {
         if (reportes == null) {
             reportes = new Reportes();
         }
         return reportes;
     }
-    
+
     public void setReportes(Reportes reportes) {
         this.reportes = reportes;
     }
-    
+
     public void CargarDatosInicialesProveedores(int condicion, EmpresaProveedor ObjEmp) {
         getEp();
-        
+
         if (condicion == 1) {
             ArrayList<EmpresaProveedor> ListEmp = new ArrayList();
             ListEmp = (ArrayList<EmpresaProveedor>) ep.List();
@@ -3019,9 +3094,9 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             ListEmp.set(0, ObjEmp);
             ListEmp.set(a, empBus);
         }
-        
+
     }
-    
+
     private void cargarTiposDocumentosProveedor() {
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
@@ -3037,17 +3112,17 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         setTd(null);
         t = null;
     }
-    
+
     public void ListEmpresasProveedor(String filtro) {
         getEp();
         ArrayList<EmpresaProveedor> listEmpresaProve = new ArrayList();
-        
+
         if (filtro.length() <= 0) {
             listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.List();
         } else if (filtro.length() > 0) {
             //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
         }
-        
+
         M2.tblListaEmpresasProve.removeAll();
         TablaModel tablaModel = new TablaModel(listEmpresaProve, 4);
         M2.tblListaEmpresasProve.setModel(tablaModel.ModelListEmpresasProveedor());
@@ -3056,16 +3131,16 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M2.tblListaEmpresasProve.getColumnModel().getColumn(2).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(3).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(4).setPreferredWidth(10);
-        
+
         M2.tblListaEmpresasProve.setRowHeight(30);
     }
-    
+
     public void ListProveedores() {
         getPv();
         ArrayList<Proveedor> listaProveedores = new ArrayList();
-        
+
         listaProveedores = (ArrayList<Proveedor>) pv.List();
-        
+
         M2.tblProveedores.removeAll();
         TablaModel tablaModel = new TablaModel(listaProveedores, 3);
         M2.tblProveedores.setModel(tablaModel.ModelListProveedor());
@@ -3077,43 +3152,43 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M2.tblProveedores.getColumnModel().getColumn(5).setPreferredWidth(10);
         M2.tblProveedores.getColumnModel().getColumn(6).setPreferredWidth(20);
         M2.tblProveedores.getColumnModel().getColumn(7).setPreferredWidth(6);
-        
+
         M2.tblProveedores.setRowHeight(30);
     }
-    
+
     public void CargarDatosEmpresaProvedor(int codigo) {
         int fila = M2.tblListaEmpresasProve.getSelectedRow();
         if (fila >= 0) {
             getEp();
             ep = ep.BuscarEmpresaXCodigo(codigo);
-            
+
             M2.txtProveEmpNombre.setText(ep.getNombreEmpresa());
             M2.txtProveEmpNit.setText(ep.getNit());
             M2.txtProveEmpDireccion.setText(ep.getDireccion());
             M2.txtProveEmpTelefono.setText(ep.getTelefono());
-            
+
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-    
+
     public void CargarDatosProvedor(int codigo) {
         int fila = M2.tblProveedores.getSelectedRow();
         if (fila >= 0) {
             getPv();
             pv = pv.BuscarProveedor(codigo);
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
-            
+
             M2.txtDocProve.setText(pv.getPersona().getDocumento());
             M2.txtNombresProve.setText(pv.getPersona().getNombre());
             M2.txtApellidosProve.setText(pv.getPersona().getApellido());
             M2.txtTelefonosProve.setText(pv.getPersona().getTelefono());
             CargarDatosInicialesProveedores(2, pv.getEmpresa());
-            
+
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-    
-    public void LimpiarCampos(String menu) {        
+
+    public void LimpiarCampos(String menu) {
         switch (menu) {
             case "proveedores":
                 M2.txtDocProve.setText("");
@@ -3121,8 +3196,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 M2.txtApellidosProve.setText("");
                 M2.txtTelefonosProve.setText("");
                 break;
-            case "empresas":
-                System.out.println("aquiiiiiiiiiiiiiiiiiiii");
+            case "empresas":                
                 M1.txtDocNit.setText("");
                 M1.txtNomEmpresa.setText("");
                 M1.txtDirEmpresa.setText("");
@@ -3132,7 +3206,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 break;
         }
     }
-    
+
     public void ListEmpresas(String filtro) {
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
         Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -3140,7 +3214,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         String Titulos[] = {"", "NIT", "Nombre", "Direccion", "Telefono"};
         getEmpresas();
         ArrayList<Empresas> listEmpresas = new ArrayList();
-        
+
         if (filtro.length() <= 0) {
             listEmpresas = (ArrayList<Empresas>) empresas.List();
         } else if (filtro.length() > 0) {
@@ -3173,38 +3247,38 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 
 //        table.setRowHeight(30);
     }
-    
+
     public Proveedor getPv() {
         if (pv == null) {
             pv = new Proveedor();
         }
         return pv;
     }
-    
+
     public void setPv(Proveedor pv) {
         this.pv = pv;
     }
-    
+
     public EmpresaProveedor getEp() {
         if (ep == null) {
             ep = new EmpresaProveedor();
         }
         return ep;
     }
-    
+
     public void setEp(EmpresaProveedor ep) {
         this.ep = ep;
     }
-    
+
     public Empresas getEmpresas() {
         if (empresas == null) {
             empresas = new Empresas();
         }
         return empresas;
     }
-    
+
     public void setEmpresas(Empresas empresas) {
         this.empresas = empresas;
     }
-    
+
 }

@@ -78,6 +78,9 @@ public class Modulo1 extends javax.swing.JFrame {
         poopupHistoryPays = new javax.swing.JPopupMenu();
         mnuEditFechasPagos = new javax.swing.JMenuItem();
         mnuDeletePagos = new javax.swing.JMenuItem();
+        popupTbEmpresas = new javax.swing.JPopupMenu();
+        mnuEditEmpresa = new javax.swing.JMenuItem();
+        mnuDeleteEmpresa = new javax.swing.JMenuItem();
         jPanel10 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -123,7 +126,7 @@ public class Modulo1 extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         txtFindUser = new javax.swing.JTextField();
         btnFindUser = new javax.swing.JButton();
-        cLabel1 = new com.bolivia.label.CLabel();
+        lblLogoEmpresa = new com.bolivia.label.CLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpresas = new javax.swing.JTable();
 
@@ -184,6 +187,12 @@ public class Modulo1 extends javax.swing.JFrame {
         mnuDeletePagos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
         mnuDeletePagos.setText("Eliminar");
         poopupHistoryPays.add(mnuDeletePagos);
+
+        mnuEditEmpresa.setText("Editar");
+        popupTbEmpresas.add(mnuEditEmpresa);
+
+        mnuDeleteEmpresa.setText("Eliminar");
+        popupTbEmpresas.add(mnuDeleteEmpresa);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(54, 63, 73));
@@ -711,10 +720,10 @@ public class Modulo1 extends javax.swing.JFrame {
             }
         });
 
-        cLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        cLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png"))); // NOI18N
-        cLabel1.setText("");
-        cLabel1.setPreferredSize(new java.awt.Dimension(50, 50));
+        lblLogoEmpresa.setBackground(new java.awt.Color(255, 255, 255));
+        lblLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png"))); // NOI18N
+        lblLogoEmpresa.setText("");
+        lblLogoEmpresa.setPreferredSize(new java.awt.Dimension(50, 50));
 
         tblEmpresas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblEmpresas.setForeground(new java.awt.Color(34, 41, 50));
@@ -729,6 +738,7 @@ public class Modulo1 extends javax.swing.JFrame {
 
             }
         ));
+        tblEmpresas.setComponentPopupMenu(popupTbEmpresas);
         tblEmpresas.setGridColor(new java.awt.Color(255, 255, 255));
         tblEmpresas.setSelectionBackground(new java.awt.Color(54, 63, 73));
         tblEmpresas.setShowHorizontalLines(false);
@@ -749,7 +759,7 @@ public class Modulo1 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFindUser, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 341, Short.MAX_VALUE)
-                        .addComponent(cLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblLogoEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -760,7 +770,7 @@ public class Modulo1 extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel13)
                     .addComponent(txtFindUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLogoEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFindUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -892,7 +902,6 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JButton btnMnuHorafeliz;
     public javax.swing.JButton btnProveedores;
     public javax.swing.JButton btnTransaccionCaja;
-    public com.bolivia.label.CLabel cLabel1;
     public javax.swing.JTextField id_userlog;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -914,13 +923,16 @@ public class Modulo1 extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator5;
+    public com.bolivia.label.CLabel lblLogoEmpresa;
     private javax.swing.JMenuItem mnuAddRutina;
     public javax.swing.JMenuItem mnuAsocFinger;
     public javax.swing.JMenuItem mnuBusqueda;
     public javax.swing.JMenuItem mnuDelete;
     public javax.swing.JMenuItem mnuDeleteEjercicio;
+    public javax.swing.JMenuItem mnuDeleteEmpresa;
     public javax.swing.JMenuItem mnuDeleteMusculo;
     public javax.swing.JMenuItem mnuDeletePagos;
+    public javax.swing.JMenuItem mnuEditEmpresa;
     public javax.swing.JMenuItem mnuEditFechasPagos;
     public javax.swing.JMenuItem mnuGenerarPago;
     public javax.swing.JMenuItem mnuHistoryPays;
@@ -936,6 +948,7 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JPopupMenu poopupHistoryPays;
     private javax.swing.JPopupMenu popupEjercicios;
     private javax.swing.JPopupMenu popupPagosService;
+    public javax.swing.JPopupMenu popupTbEmpresas;
     private javax.swing.JPopupMenu popupTblMusculos;
     private javax.swing.JPopupMenu popupTblUsers;
     public javax.swing.JTable tblEmpresas;
