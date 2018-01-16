@@ -29,7 +29,7 @@ echo WMIC is not available, using default log filename
 Set logtimestamp=_
 
 :make_dump
-set FILENAME=quick%logtimestamp%.sql
+set FILENAME=quick.sql
 
 :: echo %FILENAME%
 
