@@ -64,12 +64,12 @@ import javax.swing.table.TableRowSorter;
  * @author Mauricio Herrera
  */
 public class PrincipalController implements ActionListener, MouseListener, KeyListener {
-
+    
     private final Modulo1 M1 = GetPrincipal.getModulo1();
     private final Modulo2 M2 = GetPrincipal.getModulo2();
     private final Modulo3 M3 = GetPrincipal.getModulo3();
     private final Modulo4 M4 = GetPrincipal.getModulo4();
-
+    
     public RolxUser UsuarioLogeado;
     private persona p;
     private RolxUser ruxuser;
@@ -106,16 +106,16 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     int currentpage = 1;
     String filtro = "";
     String opcPaginacion = "";
-
+    
     private int cantRegustrosUsuarios = 0;
     private final ArrayList<Ejercicios> newRutina = new ArrayList();
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
     private Empresas empresas;
-
+    
     public PrincipalController() throws IOException {
         inicomponents();
     }
-
+    
     private void inicomponents() throws IOException {
         M1.btnProveedores.addActionListener(this);
         M2.btnProveedores.addActionListener(this);
@@ -201,11 +201,13 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        showPanel(2, "PnProveedores");
 //        System.out.println("pr.pnMicajaEstado.getText() " + pr.pnMicajaEstado.getText());
         M1.btnGuardarEmpresa.addActionListener(this);
+        M1.btnCancelarEmpresa.addActionListener(this);
+        M1.btnEmpresas.addMouseListener(this);
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        
         if (e.getSource() == M2.btnProveedores || e.getSource() == M1.btnProveedores) {
             System.out.println("Ingreso a proveedores");
             CargarDatosInicialesProveedores(1, null);
@@ -213,14 +215,14 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             ListProveedores();
             showPanel(2, "PnProveedores");
         }
-
+        
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
             getP();
-
+            
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-
+            
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -238,7 +240,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-
+            
             if (mns.length() == 0) {
                 if (pv.create() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear el proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -266,34 +268,34 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                     DesktopNotify.showDesktopMessage("Aviso..!", "Error al Eliminar Empresa", DesktopNotify.ERROR, 5000L);
                 }
             }
-
+            
         }
-
+        
         if (e.getSource() == M2.btnCancelarProve) {
-
+            
             M2.txtDocProve.setText("");
             M2.txtNombresProve.setText("");
             M2.txtApellidosProve.setText("");
             M2.txtTelefonosProve.setText("");
             M2.btnGuardarProve.setText("Guardar");
         }
-
+        
         if (e.getSource() == M2.mnuEditProveedor) {
             int fila = M2.tblProveedores.getSelectedRow();
             if (fila >= 0) {
                 String codigo = M2.tblProveedores.getValueAt(fila, 0).toString();
                 CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
             }
-
+            
         }
-
+        
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Editar")) {
             getPv();
             getP();
-
+            
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-
+            
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -311,7 +313,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-
+            
             if (mns.length() == 0) {
                 if (pv.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -324,7 +326,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-
+        
         if (e.getSource() == M2.btnEmpresaProvedorCancelar) {
             M2.txtProveEmpNombre.setText("");
             M2.txtProveEmpNit.setText("");
@@ -332,7 +334,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             M2.txtProveEmpTelefono.setText("");
             M2.btnEmpresaProveGuardar.setText("Guardar");
         }
-
+        
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Editar")) {
             getEp();
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
@@ -341,7 +343,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-
+            
             if (mns.length() == 0) {
                 if (ep.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar Empresa", DesktopNotify.INFORMATION, 5000L);
@@ -358,26 +360,26 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-
+        
         if (e.getSource() == M2.mnuEditEmpresa) {
             int fila = M2.tblListaEmpresasProve.getSelectedRow();
             if (fila >= 0) {
                 String codigo = M2.tblListaEmpresasProve.getValueAt(fila, 0).toString();
                 CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
             }
-
+            
         }
-
+        
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Guardar")) {
             getEp();
-
+            
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
             ep.setNit(M2.txtProveEmpNit.getText().trim());
             ep.setDireccion(M2.txtProveEmpDireccion.getText().trim());
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-
+            
             if (mns.length() == 0) {
                 if (ep.getNombreEmpresa().length() > 0) {
                     if (ep.create() > 0) {
@@ -396,7 +398,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-
+        
         if (e.getSource() == M2.btnViewEmpresaProvedor) {
             ListEmpresasProveedor("");
             showPanel(2, "PnEmpresaProveedor");
@@ -1422,16 +1424,14 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
 //            generarReportes();
 //        }
-
-        if (e.getSource() == M1.btnGuardarEmpresa) {            
-            Object[] componentes = {M1.txtDocNit, M1.txtNomEmpresa, M1.cboRegimen};
-            if (validarCampos(componentes, "") == 0) {
+        if (e.getSource() == M1.btnGuardarEmpresa) {
+            Object[] componentes = {M1.txtDocNit, M1.txtNomEmpresa};
+            if (validarCampos(componentes, "", M1) == 0) {
                 getEmpresas();
                 empresas.setNit(M1.txtDocNit.getText());
                 empresas.setNombre(M1.txtNomEmpresa.getText());
                 empresas.setDireccion(M1.txtDirEmpresa.getText());
                 empresas.setTelefonos(M1.txtTelEmpresa.getText());
-                empresas.setRegimen((String) M1.cboRegimen.getSelectedItem());
                 empresas.setPathLogo(foto);
                 empresas.setCreate_at(new Date());
                 if (empresas.create() > 0) {
@@ -1440,10 +1440,9 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                     M1.txtNomEmpresa.setText("");
                     M1.txtDirEmpresa.setText("");
                     M1.txtTelEmpresa.setText("");
-                    M1.cboRegimen.setSelectedIndex(0);
                     setFoto("");
                     setEmpresas(null);
-//                    cargarHistorialPagos(Integer.parseInt(pr.lblPayIdUser.getText()), null, null, pr.tblHistoryPays);
+                    ListEmpresas("");
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al crear la empresa..!", DesktopNotify.FAIL, 5000L);
                 }
@@ -1451,18 +1450,29 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
             }
         }
-
+        
+        if (e.getSource() == M1.btnCancelarEmpresa) {
+            LimpiarCampos("empresas");
+        }
+        
     }
-
+    
     private void addFilter() {
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.JPG)", "jpg"));
     }
-
+    
     public void showPanel(int Modulo, String string) {
         switch (Modulo) {
             case 1:
+                M2.setVisible(false);
+                M1.setVisible(true);
                 M1.setVistaActual(string);
+                switch (string) {
+                    case "pnEmpresas":
+                        M1.pnEmpresas.setVisible(true);                        
+                        break;                    
+                }
                 break;
             case 2:
                 M1.setVisible(false);
@@ -1485,11 +1495,11 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             case 4:
                 M4.setVistaActual(string);
                 break;
-
+            
         }
-
+        
     }
-
+    
     private void cargarTiposDocumentos() {
 //        Iterator<TipoDocumento> it = getTd().List().iterator();
 //        pr.cboTiposDoc.removeAllItems();
@@ -1505,7 +1515,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setTd(null);
 //        t = null;
     }
-
+    
     private void CargarServicios() {
 //        getTs();
 //        pr.combotiposService.removeAllItems();
@@ -1517,7 +1527,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //            pr.combotiposService1.addItem(listServicio);
 //        }
     }
-
+    
     private void CargarTiposPagos() {
 //        getTp();
 //        pr.combotiposPago.removeAllItems();
@@ -1528,7 +1538,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //            pr.combotiposPago1.addItem(listServicio);
 //        }
     }
-
+    
     private void cargarDescuentosPagos(int condicion, int panel) {
 //        getTs();
 //        if (condicion == 1) {
@@ -1571,7 +1581,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        }
 
     }
-
+    
     public void PagosBuscarPersona(int condicion, JTable table) {
 //        switch (condicion) {
 //            case 1:
@@ -1616,7 +1626,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setRd(null);
 //        r = null;
     }
-
+    
     private void cargarMusculos() {
 //        Iterator<Musculos> it = getMusculos().List().iterator();
 //        pr.cboMusculos.removeAllItems();
@@ -1631,7 +1641,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setMusculos(null);
 //        m = null;
     }
-
+    
     private void cargarDiasMusculos() {
 //        Iterator<dias> it = getDias().List().iterator();
 //        Iterator<Musculos> itmus = getMusculos().List().iterator();
@@ -1660,7 +1670,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        d = null;
 //        e = null;
     }
-
+    
     private void cargarEmpresas() {//Gyms
 //        Iterator<Empresa> it = getEmp().List().iterator();
 //        pr.cboGym.removeAllItems();
@@ -1673,7 +1683,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setEmp(null);
 ////        e = null;
     }
-
+    
     private void cargarSedesByEmprsa(int id_empresa) {//sede * Gyms
 //        Sedes s = getSede();
 //        s.getObjEmpresa().setIdempresa(id_empresa);
@@ -1691,7 +1701,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setSede(null);
 //        s2 = null;
     }
-
+    
     private void cargarTblUsers(String filtro) throws IOException {
 //        pr.tblUsers.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -1760,7 +1770,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        setRuxser(null);
 //        setTd(null);
     }
-
+    
     public void paginarRs() {
 //        total registros  
 //        float totalRegistros = getRuxuser().CountRs(filtro);
@@ -1770,7 +1780,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.totalRegistros.setText(texto);
 
     }
-
+    
     public void cargarTblAsistencias(Date inicio, Date fin) {
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 //        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -1813,7 +1823,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblAsistencias.setModel(modelo);
 //        setAd(null);
     }
-
+    
     private void cargarTblMusculos(String filtro) {
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 //        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -1853,7 +1863,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblMusculos.setRowHeight(25);
 //        setMusculos(null);
     }
-
+    
     private void cargarTblEjercicios(String filtro) throws IOException {
 //        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -1910,7 +1920,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblEjercicios.setRowHeight(60);
 //        setMusculos(null);
     }
-
+    
     private void cargarTblEjercicios2(int idMusculo) throws IOException {
 //        pr.tblEjercicios2.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -1973,7 +1983,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //
 //        setMusculos(null);
     }
-
+    
     private void cargarTblNewRutina() throws IOException {
 //        pr.tblNewRutina.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2026,7 +2036,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblNewRutina.setModel(modelo);
 //        setMusculos(null);
     }
-
+    
     private void cargarTblRutinas(String filtro) throws IOException {
 //        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2083,7 +2093,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblEjercicios.setRowHeight(60);
 //        setMusculos(null);
     }
-
+    
     private void clearFormUsers() {
 //        pr.btnGuardar.setText("Guardar");
 //        pr.cboTiposDoc.setSelectedIndex(0);
@@ -2119,79 +2129,80 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //            pr.txtUser, pr.txtClave, pr.cldDesdePagos, pr.cldHastaPagos, pr.cldFechaPagoHistory, pr.cldFechaPagoDesde, pr.cldFechaPagoHasta};
 //        resetCampos(componentes);
     }
-
+    
     public CaptureFinger getCf() {
         if (cf == null) {
             cf = new CaptureFinger();
         }
         return cf;
     }
-
+    
     public void setCf(CaptureFinger cf) {
         this.cf = cf;
     }
-
+    
     public ReadFinger getRf() {
         if (rf == null) {
             rf = new ReadFinger();
         }
         return rf;
     }
-
+    
     public void setRf(ReadFinger rf) {
         this.rf = rf;
     }
-
+    
     public Rol getRd() {
         if (rd == null) {
             rd = new Rol();
         }
         return rd;
     }
-
+    
     public void setRd(Rol rd) {
         this.rd = rd;
     }
-
+    
     public TipoDocumento getTd() {
         if (td == null) {
             td = new TipoDocumento();
         }
         return td;
     }
-
+    
     public void setTd(TipoDocumento td) {
         this.td = td;
-
+        
     }
-
-    public int validarCampos(Object[] componentes, String nameComponent) {
+    
+    public int validarCampos(Object[] componentes, String nameComponent, Object Modulo) {
+//        ((Modulo1) Modulo).txtDocNit.getText();
         int countErrors = 0;
-//        for (Object componente : componentes) {
-//            if (componente instanceof JTextField) {
-//                boolean equals = ((JTextField) componente).getText().equals("");
-//                if (equals) {
-//                    countErrors++;
-//                    ((JTextField) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
-//                } else {
-//                    ((JTextField) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-//                }
-//            }
-//            if (componente instanceof JComboBox) {
-//                boolean equals = false;
-//                if (((JComboBox) componente).getSelectedItem() instanceof TipoDocumento) {
-//                    TipoDocumento t = (TipoDocumento) pr.cboTiposDoc.getSelectedItem();
+        for (Object componente : componentes) {
+            if (componente instanceof JTextField) {
+                boolean equals = ((JTextField) componente).getText().equals("");
+                if (equals) {
+                    countErrors++;
+                    ((JTextField) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
+                } else {
+                    ((JTextField) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
+                }
+            }
+            if (componente instanceof JComboBox) {
+                boolean equals = false;
+                if (((JComboBox) componente).getSelectedItem() instanceof TipoDocumento) {
+//                    TipoDocumento t = (TipoDocumento) Modulo.cboTiposDoc.getSelectedItem();
 //                    equals = t.toString().equals("Seleccione");
-//                } else if (((JComboBox) componente).getSelectedItem() instanceof Rol) {
+                } else if (((JComboBox) componente).getSelectedItem() instanceof Rol) {
 //                    Rol r = (Rol) pr.cboRol.getSelectedItem();
 //                    equals = r.toString().equals("Seleccione");
-//                } else if (((JComboBox) componente).getSelectedItem() instanceof Empresa) {
-//                    Empresa r = (Empresa) pr.cboGym.getSelectedItem();
+                } else if (((JComboBox) componente).getSelectedItem() instanceof Empresas) {
+//                    Empresas r = (Empresas) pr.cboGym.getSelectedItem();
 //                    equals = r.toString().equals("Seleccione");
-//                } else if (((JComboBox) componente).getSelectedItem() instanceof Sedes) {
+                } else if (((JComboBox) componente).getSelectedItem() instanceof Sedes) {
 //                    Sedes r = (Sedes) pr.cboSedes.getSelectedItem();
 //                    equals = r.toString().equals("Seleccione");
-//                } else if (((JComboBox) componente).getSelectedItem() instanceof Musculos) {
+                } else if (((JComboBox) componente).getSelectedItem() instanceof Musculos) {
 //                    Musculos r;
 //                    if (nameComponent.equals("cboMusculos")) {
 //                        r = (Musculos) pr.cboMusculos.getSelectedItem();
@@ -2199,32 +2210,32 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //                        r = (Musculos) pr.cboMusculos2.getSelectedItem();
 //                    }
 //                    equals = r.toString().equals("Seleccione");
-//                } else if (((JComboBox) componente).getSelectedItem() instanceof dias) {
+                } else if (((JComboBox) componente).getSelectedItem() instanceof dias) {
 //                    dias d = (dias) pr.cboDia.getSelectedItem();
 //                    equals = d.toString().equals("Seleccione");
-//                } else if (((JComboBox) componente).getSelectedItem() instanceof String) {
-//                    equals = ((JComboBox) componente).getSelectedItem().equals("Seleccione");
-//                }
-//                if (equals) {
-//                    countErrors++;
-//                    ((JComboBox) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
-//                } else {
-//                    ((JComboBox) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-//                }
-//            }
-//            if (componente instanceof JDateChooser) {
-//                boolean equals = ((JDateChooser) componente).getDate() == null;
-//                if (equals) {
-//                    countErrors++;
-//                    ((JDateChooser) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
-//                } else {
-//                    ((JDateChooser) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-//                }
-//            }
-//        }
+                } else if (((JComboBox) componente).getSelectedItem() instanceof String) {
+                    equals = ((JComboBox) componente).getSelectedItem().equals("Seleccione");
+                }
+                if (equals) {
+                    countErrors++;
+                    ((JComboBox) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
+                } else {
+                    ((JComboBox) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
+                }
+            }
+            if (componente instanceof JDateChooser) {
+                boolean equals = ((JDateChooser) componente).getDate() == null;
+                if (equals) {
+                    countErrors++;
+                    ((JDateChooser) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
+                } else {
+                    ((JDateChooser) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
+                }
+            }
+        }
         return countErrors;
     }
-
+    
     public void resetCampos(Object[] componentes) {
         for (Object componente : componentes) {
             if (componente instanceof JTextField) {
@@ -2238,34 +2249,34 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         }
     }
-
+    
     public Asistencia getAd() {
         if (ad == null) {
             ad = new Asistencia();
         }
         return ad;
     }
-
+    
     public void setAd(Asistencia ad) {
         this.ad = ad;
     }
-
+    
     public int getCountAction() {
         return countAction;
     }
-
+    
     public void setCountAction(int countAction) {
         this.countAction += countAction;
     }
-
+    
     public String getFoto() {
         return foto;
     }
-
+    
     public void setFoto(String foto) {
         this.foto = foto;
     }
-
+    
     private void borrarImagenTemp() {
         try {
             File archivo = new File(System.getProperty("java.io.tmpdir") + "\\default.png");
@@ -2281,7 +2292,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             System.out.println(e);
         }
     }
-
+    
     public void setPrimero() {
         desde = 0;
         hasta = 10;
@@ -2290,7 +2301,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-
+    
     public void setMas() {
         desde += hasta;
         currentpage += 1;
@@ -2298,7 +2309,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-
+    
     public void setMenos() {
         if (desde > 0) {
             desde -= hasta;
@@ -2311,7 +2322,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-
+    
     public void setUltimo() {
         float totalRegistros = getRuxuser().CountRs(filtro);
         float totalPaginas = totalRegistros / cantidadregistros;
@@ -2322,7 +2333,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta + " totalPaginas " + currentpage + " ulttimo = " + ultimo);
     }
-
+    
     private void inhabilitarPaginacion() {
 //        System.out.println("opc " + opcPaginacion);
 //        float cant_reg = getRuxuser().CountRs(filtro);
@@ -2426,106 +2437,109 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //
 //        }
     }
-
+    
     public persona getP() {
         if (p == null) {
             p = new persona();
         }
         return p;
     }
-
+    
     public void setP(persona p) {
         this.p = p;
     }
-
+    
     public RolxUser getRuxuser() {
         if (ruxuser == null) {
             ruxuser = new RolxUser();
         }
         return ruxuser;
     }
-
+    
     public void setRuxser(RolxUser ruxuser) {
         this.ruxuser = ruxuser;
     }
-
+    
     public UsuarioID getUid() {
         if (uid == null) {
             uid = new UsuarioID();
         }
         return uid;
     }
-
+    
     public void setUid(UsuarioID uid) {
         this.uid = uid;
     }
-
+    
     public Usuario getUs() {
         if (us == null) {
             us = new Usuario();
         }
         return us;
     }
-
+    
     public void setUs(Usuario us) {
         this.us = us;
     }
-
-
+    
     public Sedes getSede() {
         if (sede == null) {
             sede = new Sedes();
         }
         return sede;
     }
-
+    
     public void setSede(Sedes sede) {
         this.sede = sede;
     }
-
+    
     public int getCantRegustrosUsuarios() {
         return cantRegustrosUsuarios;
     }
-
+    
     public void setCantRegustrosUsuarios(int cantRegustrosUsuarios) {
         this.cantRegustrosUsuarios = cantRegustrosUsuarios;
     }
-
+    
     public Musculos getMusculos() {
         if (musculos == null) {
             musculos = new Musculos();
         }
         return musculos;
     }
-
+    
     public void setMusculos(Musculos musculos) {
         this.musculos = musculos;
     }
-
+    
     public Ejercicios getEjercicio() {
         if (ejercicio == null) {
             ejercicio = new Ejercicios();
         }
         return ejercicio;
     }
-
+    
     public void setEjercicio(Ejercicios ejercicio) {
         this.ejercicio = ejercicio;
     }
-
+    
     public dias getDias() {
         if (dias == null) {
             dias = new dias();
         }
         return dias;
     }
-
+    
     public void setDias(dias dias) {
         this.dias = dias;
     }
-
+    
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == M1.btnEmpresas) {
+            ListEmpresas("");
+            showPanel(1, "pnEmpresas");
+        }
 //        if (e.getSource() == pr.tblEjercicios2) {
 //
 //            int fila = pr.tblEjercicios2.getSelectedRow();
@@ -2622,7 +2636,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //
 //        }
     }
-
+    
     public void EstadoMiCaja() throws ClassNotFoundException {
 //        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
 //        getMiCaja();
@@ -2659,7 +2673,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 ////            pr.btnReporteCaja.setEnabled(true);
 //        }
     }
-
+    
     public void CargarDatosCaja(int condicion) {
 
 //        ArrayList<PagoService> listUsuario = new ArrayList();
@@ -2699,55 +2713,55 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.tblListaPagos.setRowHeight(30);
 ////        pr.tblListaPagos.getColumnModel().getColumn(2).setCellRenderer(Alinear);
     }
-
+    
     @Override
     public void mousePressed(MouseEvent e) {
-
+        
     }
-
+    
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        
     }
-
+    
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        
     }
-
+    
     @Override
     public void mouseExited(MouseEvent e) {
-
+        
     }
-
+    
     private void cargarAllEjericios() {
         allEjercicios.clear();
         newRutina.clear();
         allEjercicios = (ArrayList<Ejercicios>) getEjercicio().List();
         setEjercicio(null);
     }
-
+    
     public Rutina getRutina() {
         if (rutina == null) {
             rutina = new Rutina();
         }
         return rutina;
     }
-
+    
     public void setRutina(Rutina rutina) {
         this.rutina = rutina;
     }
-
+    
     @Override
     public void keyTyped(KeyEvent e) {
-
+        
     }
-
+    
     @Override
     public void keyPressed(KeyEvent e) {
-
+        
     }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
 //        if (e.getSource() == pr.tblNewRutina) {
@@ -2766,7 +2780,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //            }
 //        }
     }
-
+    
     public void RestaurarValoresViewPago(String Doc, String Nombre, boolean restaurarUser) {
 //        if (restaurarUser) {
 //            us = null;
@@ -2777,7 +2791,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        pr.txtpagosCedula.setText(Doc);
 //        pr.txtpagosNombre.setText(Nombre);
     }
-
+    
     public void ListPagosXuser(JTable table) {
         if (us != null) {
             ArrayList<PagoService> listPagos = new ArrayList();
@@ -2824,7 +2838,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        ListPagosXuser(pr.tblListaPagosXuser);
 //        showPanel("pnPagosService");
     }
-
+    
     public void generarReportes() {
 //        //llamar metodo agerar reporte de pagoservices pojo
 //        Object[] componentes = {pr.txtUserForReports};
@@ -2845,63 +2859,63 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        }
 
     }
-
+    
     public CajaXUser getMiCaja() {
         if (MiCaja == null) {
             MiCaja = new CajaXUser();
         }
         return MiCaja;
     }
-
+    
     public void setMiCaja(CajaXUser MiCaja) {
         this.MiCaja = MiCaja;
     }
-
+    
     public RolxUser getUsuarioLogeado() {
         if (UsuarioLogeado == null) {
             UsuarioLogeado = new RolxUser();
         }
         return UsuarioLogeado;
     }
-
+    
     public void setUsuarioLogeado(RolxUser UsuarioLogeado) {
         getUsuarioLogeado();
         this.UsuarioLogeado = UsuarioLogeado;
     }
-
+    
     public PagoService getPagoService() {
         if (pagoService == null) {
             pagoService = new PagoService();
         }
         return pagoService;
     }
-
+    
     public void setPagoService(PagoService pagoService) {
         this.pagoService = pagoService;
     }
-
+    
     public TipoService getTs() {
         if (Ts == null) {
             Ts = new TipoService();
         }
         return Ts;
     }
-
+    
     public void setTs(TipoService Ts) {
         this.Ts = Ts;
     }
-
+    
     public TipoPago getTp() {
         if (Tp == null) {
             Tp = new TipoPago();
         }
         return Tp;
     }
-
+    
     public void setTp(TipoPago Tp) {
         this.Tp = Tp;
     }
-
+    
     public void Adaptador() {
         M1.addWindowListener(new WindowAdapter() {
             @Override
@@ -2916,7 +2930,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         });
     }
-
+    
     private void cargarHistorialPagos(int id_usuario, Date desde, Date hasta, JTable table) {
 //        ArrayList<PagoService> listPagos = new ArrayList();
 //        listPagos = (ArrayList<PagoService>) getPagoService().ListPagosXClientes(id_usuario, desde, hasta);
@@ -2965,21 +2979,21 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        table.getColumnModel().getColumn(7).setCellRenderer(Alinear);
 //        table.setRowHeight(30);
     }
-
+    
     public Reportes getReportes() {
         if (reportes == null) {
             reportes = new Reportes();
         }
         return reportes;
     }
-
+    
     public void setReportes(Reportes reportes) {
         this.reportes = reportes;
     }
-
+    
     public void CargarDatosInicialesProveedores(int condicion, EmpresaProveedor ObjEmp) {
         getEp();
-
+        
         if (condicion == 1) {
             ArrayList<EmpresaProveedor> ListEmp = new ArrayList();
             ListEmp = (ArrayList<EmpresaProveedor>) ep.List();
@@ -3005,9 +3019,9 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             ListEmp.set(0, ObjEmp);
             ListEmp.set(a, empBus);
         }
-
+        
     }
-
+    
     private void cargarTiposDocumentosProveedor() {
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
@@ -3023,17 +3037,17 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         setTd(null);
         t = null;
     }
-
+    
     public void ListEmpresasProveedor(String filtro) {
         getEp();
         ArrayList<EmpresaProveedor> listEmpresaProve = new ArrayList();
-
+        
         if (filtro.length() <= 0) {
             listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.List();
         } else if (filtro.length() > 0) {
             //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
         }
-
+        
         M2.tblListaEmpresasProve.removeAll();
         TablaModel tablaModel = new TablaModel(listEmpresaProve, 4);
         M2.tblListaEmpresasProve.setModel(tablaModel.ModelListEmpresasProveedor());
@@ -3042,16 +3056,16 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M2.tblListaEmpresasProve.getColumnModel().getColumn(2).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(3).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(4).setPreferredWidth(10);
-
+        
         M2.tblListaEmpresasProve.setRowHeight(30);
     }
-
+    
     public void ListProveedores() {
         getPv();
         ArrayList<Proveedor> listaProveedores = new ArrayList();
-
+        
         listaProveedores = (ArrayList<Proveedor>) pv.List();
-
+        
         M2.tblProveedores.removeAll();
         TablaModel tablaModel = new TablaModel(listaProveedores, 3);
         M2.tblProveedores.setModel(tablaModel.ModelListProveedor());
@@ -3063,44 +3077,43 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M2.tblProveedores.getColumnModel().getColumn(5).setPreferredWidth(10);
         M2.tblProveedores.getColumnModel().getColumn(6).setPreferredWidth(20);
         M2.tblProveedores.getColumnModel().getColumn(7).setPreferredWidth(6);
-
+        
         M2.tblProveedores.setRowHeight(30);
     }
-
+    
     public void CargarDatosEmpresaProvedor(int codigo) {
         int fila = M2.tblListaEmpresasProve.getSelectedRow();
         if (fila >= 0) {
             getEp();
             ep = ep.BuscarEmpresaXCodigo(codigo);
-
+            
             M2.txtProveEmpNombre.setText(ep.getNombreEmpresa());
             M2.txtProveEmpNit.setText(ep.getNit());
             M2.txtProveEmpDireccion.setText(ep.getDireccion());
             M2.txtProveEmpTelefono.setText(ep.getTelefono());
-
+            
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-
+    
     public void CargarDatosProvedor(int codigo) {
         int fila = M2.tblProveedores.getSelectedRow();
         if (fila >= 0) {
             getPv();
             pv = pv.BuscarProveedor(codigo);
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
-
+            
             M2.txtDocProve.setText(pv.getPersona().getDocumento());
             M2.txtNombresProve.setText(pv.getPersona().getNombre());
             M2.txtApellidosProve.setText(pv.getPersona().getApellido());
             M2.txtTelefonosProve.setText(pv.getPersona().getTelefono());
             CargarDatosInicialesProveedores(2, pv.getEmpresa());
-
+            
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-
-    public void LimpiarCampos(String menu) {
-
+    
+    public void LimpiarCampos(String menu) {        
         switch (menu) {
             case "proveedores":
                 M2.txtDocProve.setText("");
@@ -3108,40 +3121,90 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 M2.txtApellidosProve.setText("");
                 M2.txtTelefonosProve.setText("");
                 break;
+            case "empresas":
+                System.out.println("aquiiiiiiiiiiiiiiiiiiii");
+                M1.txtDocNit.setText("");
+                M1.txtNomEmpresa.setText("");
+                M1.txtDirEmpresa.setText("");
+                M1.txtTelEmpresa.setText("");
+                setFoto("");
+                setEmpresas(null);
+                break;
         }
     }
+    
+    public void ListEmpresas(String filtro) {
+        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
+        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
+        DefaultTableModel modelo;
+        String Titulos[] = {"", "NIT", "Nombre", "Direccion", "Telefono"};
+        getEmpresas();
+        ArrayList<Empresas> listEmpresas = new ArrayList();
+        
+        if (filtro.length() <= 0) {
+            listEmpresas = (ArrayList<Empresas>) empresas.List();
+        } else if (filtro.length() > 0) {
+            //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
+        }
+        modelo = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[5];
+        Iterator<Empresas> itr = listEmpresas.iterator();
+        while (itr.hasNext()) {
+            Empresas e = itr.next();
+            columna[0] = e.getIdEmpresa();
+            columna[1] = e.getNit();
+            columna[2] = e.getNombre();
+            columna[3] = e.getDireccion();
+            columna[4] = e.getTelefonos();
+            modelo.addRow(columna);
+        }
+        M1.tblEmpresas.setModel(modelo);
+        M1.tblEmpresas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        M1.tblEmpresas.getColumnModel().getColumn(1).setPreferredWidth(150);
+        M1.tblEmpresas.getColumnModel().getColumn(1).setCellRenderer(Alinear);
+        M1.tblEmpresas.getColumnModel().getColumn(2).setCellRenderer(Alinear);
+        M1.tblEmpresas.getColumnModel().getColumn(3).setCellRenderer(Alinear);
+        M1.tblEmpresas.getColumnModel().getColumn(4).setCellRenderer(Alinear);
 
+//        table.setRowHeight(30);
+    }
+    
     public Proveedor getPv() {
         if (pv == null) {
             pv = new Proveedor();
         }
         return pv;
     }
-
+    
     public void setPv(Proveedor pv) {
         this.pv = pv;
     }
-
+    
     public EmpresaProveedor getEp() {
         if (ep == null) {
             ep = new EmpresaProveedor();
         }
         return ep;
     }
-
+    
     public void setEp(EmpresaProveedor ep) {
         this.ep = ep;
     }
-
+    
     public Empresas getEmpresas() {
         if (empresas == null) {
             empresas = new Empresas();
         }
         return empresas;
     }
-
+    
     public void setEmpresas(Empresas empresas) {
         this.empresas = empresas;
     }
-
+    
 }
