@@ -44,6 +44,7 @@ public class backupBd extends Persistencia implements Runnable {
         long difMs = 0;
         long dias = 0;
         long weighFile = 3;//KB
+
         for (File fichero : ficheros) {
             weighFile += fichero.length() / 1024; //Kb 1024 kb = 1 Mega -- 1024 megas = 1 Giga
             Date d = new Date(fichero.lastModified());
@@ -58,27 +59,31 @@ public class backupBd extends Persistencia implements Runnable {
         }
         if ((weighFile / 1024) < 1024) {
             Runtime backup = Runtime.getRuntime();
-            try {
-                System.out.println("iniciando copia");
-                File[] roots = File.listRoots();
-                if (listarDirectorio(roots[0], "")) {
-                    String comando = "cmd /K " + new File("").getAbsolutePath() + "/src/batch/backupxampp.bat";
-                    backup.exec(comando);
-                } else {
-                    String comando = "cmd /K " + new File("").getAbsolutePath() + "/src/batch/backupmysql.bat";
-                    backup.exec(comando);
-                }
-                System.out.println("copia finalizada");
-                ProgressBackup.setVisible(false);
-            } catch (IOException ex) {
-                error = ex.getMessage()+" - "+ex.toString();
-                causa = "Generar backup BD";
-                linea_archivo = "Linea 74, Archivo Quiick\\src\\Utils\\backupBd.java";
-                notificado = 3;
-                create();
-                ProgressBackup.setVisible(false);
+//            if (ficheros.length <= 14) {
+                try {
+                    System.out.println("iniciando copia");
+                    File[] roots = File.listRoots();
+                    if (listarDirectorio(roots[0], "")) {
+                        String comando = "cmd /K " + new File("").getAbsolutePath() + "/src/batch/backupxampp.bat";
+                        backup.exec(comando);
+                    } else {
+                        String comando = "cmd /K " + new File("").getAbsolutePath() + "/src/batch/backupmysql.bat";
+                        backup.exec(comando);
+                    }
+                    System.out.println("copia finalizada");
+                    ProgressBackup.setVisible(false);
+                } catch (IOException ex) {
+                    error = ex.getMessage() + " - " + ex.toString();
+                    causa = "Generar backup BD";
+                    linea_archivo = "Linea 74, Archivo Quiicks\\src\\Utils\\backupBd.java";
+                    notificado = 3;
+                    create();
+                    ProgressBackup.setVisible(false);
 //                System.out.println(ex.getMessage());
-            }
+                }
+//            } else {
+//                ProgressBackup.setVisible(false);
+//            }
         }
         usageDisk.setText("Almacenamiento de BD: " + (weighFile / 1024) + "Mb");
     }

@@ -29,6 +29,8 @@ public class Sedes extends Persistencia implements Serializable {
         super();
     }
 
+    
+
     public String getEstado() {
         return Estado;
     }

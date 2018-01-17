@@ -183,6 +183,7 @@ public final class Bienvenida extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(698, 552));
         setPreferredSize(new java.awt.Dimension(708, 552));
         setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         jPanel1.setBackground(new java.awt.Color(54, 63, 73));
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 552));
@@ -499,6 +500,9 @@ public final class Bienvenida extends javax.swing.JFrame {
             M1.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
         }
         //Modulo 1
+        if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("Root")) {
+            M1.btnEmpresas.setVisible(true);
+        }
         M1.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
         M1.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
         M1.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));    

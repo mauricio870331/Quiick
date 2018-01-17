@@ -70,33 +70,13 @@ public class LoginController implements ActionListener {
             Object[] componentes = {lg.txtUser, lg.txtPass};
             if (validarCampos(componentes) == 0) {
                 u = new Usuario();
-                RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));                
+                RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));
                 if (rolu != null) {
-                    switch (rolu.getObjRol().getIdRol()) {
-                        case 1:
-                            lg.dispose();
-                            getBienvenida(rolu);
-                            getPrc();
-                            prc.setUsuarioLogeado(rolu);
-                            break;
-                        case 2:
-                            lg.dispose();
-                            getBienvenida(rolu);
-                            getPrc();
-                            prc.setUsuarioLogeado(rolu);
-                            break;
-                        case 4://root
-                            lg.dispose();
-                            getBienvenida(rolu);
-                            getPrc();
-                            prc.setUsuarioLogeado(rolu);
-                            break;
-                        default:
-                            lg.txtUser.setText("");
-                            lg.txtPass.setText("");
-                            DesktopNotify.showDesktopMessage("Aviso..!", "No tienes Permisos para acceder al sistema..!", DesktopNotify.ERROR, 5000L);
-                            break;
-                    }
+//                    switch (rolu.getObjRol().getIdRol()) {
+                    lg.dispose();
+                    getBienvenida(rolu);
+                    getPrc();
+                    prc.setUsuarioLogeado(rolu);
                     u = null;
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Usuario o Clave Incorrecta..!", DesktopNotify.ERROR, 5000L);
@@ -162,7 +142,7 @@ public class LoginController implements ActionListener {
     public void getBienvenida(RolxUser rolu) {
         if (bienvenida == null) {
             bienvenida = new Bienvenida(rolu);
-        }       
+        }
         bienvenida.setLocationRelativeTo(null);
         bienvenida.setVisible(true);
     }
