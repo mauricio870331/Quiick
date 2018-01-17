@@ -79,6 +79,7 @@ public class Modulo1 extends javax.swing.JFrame {
         mnuEditFechasPagos = new javax.swing.JMenuItem();
         mnuDeletePagos = new javax.swing.JMenuItem();
         popupTbEmpresas = new javax.swing.JPopupMenu();
+        mnuNewSede = new javax.swing.JMenuItem();
         mnuEditEmpresa = new javax.swing.JMenuItem();
         mnuDeleteEmpresa = new javax.swing.JMenuItem();
         jPanel10 = new javax.swing.JPanel();
@@ -187,6 +188,9 @@ public class Modulo1 extends javax.swing.JFrame {
         mnuDeletePagos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
         mnuDeletePagos.setText("Eliminar");
         poopupHistoryPays.add(mnuDeletePagos);
+
+        mnuNewSede.setText("Nueva Sede");
+        popupTbEmpresas.add(mnuNewSede);
 
         mnuEditEmpresa.setText("Editar");
         popupTbEmpresas.add(mnuEditEmpresa);
@@ -937,6 +941,7 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JMenuItem mnuGenerarPago;
     public javax.swing.JMenuItem mnuHistoryPays;
     public javax.swing.JMenuItem mnuMedidasUser;
+    public javax.swing.JMenuItem mnuNewSede;
     public javax.swing.JMenuItem mnuUpdate;
     public javax.swing.JMenuItem mnuUpdateEjercicio;
     public javax.swing.JMenuItem mnuUpdateMusculo;

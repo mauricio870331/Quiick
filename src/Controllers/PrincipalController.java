@@ -12,6 +12,7 @@ import Utils.TablaModel;
 import Views.Modulo1;
 import Views.FrmCapturePict;
 import Views.Modales.Busqueda;
+import Views.Modales.NuevaSede;
 import Views.Modulo2;
 import Views.Modulo3;
 import Views.Modulo4;
@@ -205,6 +206,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M1.btnEmpresas.addMouseListener(this);
         M1.mnuEditEmpresa.addActionListener(this);
         M1.mnuDeleteEmpresa.addActionListener(this);
+        M1.mnuNewSede.addActionListener(this);
     }
 
     @Override
@@ -1524,6 +1526,21 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                     } else {
                         DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar la empresa", DesktopNotify.ERROR, 5000L);
                     }
+                }
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
+        if (e.getSource() == M1.mnuNewSede) {
+            int fila = M1.tblEmpresas.getSelectedRow();
+            if (fila >= 0) {
+                try {
+                    NuevaSede s = new NuevaSede(M1, true, Integer.parseInt(M1.tblEmpresas.getValueAt(fila, 0).toString()));
+                    s.setLocationRelativeTo(null);
+                    s.setVisible(true);
+                } catch (SQLException ex) {
+                    System.out.println("error linea 1541 " + ex);
                 }
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
@@ -3196,7 +3213,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 M2.txtApellidosProve.setText("");
                 M2.txtTelefonosProve.setText("");
                 break;
-            case "empresas":                
+            case "empresas":
                 M1.txtDocNit.setText("");
                 M1.txtNomEmpresa.setText("");
                 M1.txtDirEmpresa.setText("");

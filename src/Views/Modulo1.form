@@ -207,6 +207,14 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="mnuNewSede">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Nueva Sede"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+          </AuxValues>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="mnuEditEmpresa">
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar"/>
