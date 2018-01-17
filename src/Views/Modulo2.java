@@ -752,6 +752,7 @@ public class Modulo2 extends javax.swing.JFrame {
 
             }
         ));
+        tblProveedores.setComponentPopupMenu(popupProveedores);
         tblProveedores.setGridColor(new java.awt.Color(255, 255, 255));
         tblProveedores.setSelectionBackground(new java.awt.Color(54, 63, 73));
         tblProveedores.setShowHorizontalLines(false);
