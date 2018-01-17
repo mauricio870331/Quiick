@@ -32,9 +32,10 @@ public class Modulo1 extends javax.swing.JFrame {
     public Modulo1() {
         initComponents();
         this.getContentPane().setBackground(new Color(34, 41, 50));
-        setIconImage(new ImageIcon(getClass().getResource("/icons/favicon_2.png")).getImage());
-        setTitle("AppGym V 1.0 - RC 2017-09-17");
+        setIconImage(new ImageIcon(getClass().getResource("/icons/Link_35px.png")).getImage());
+        setTitle("Quiicks V 1.0 - RC 2017-09-17");
         id_userlog.setVisible(false);
+        btnEmpresas.setVisible(false);
 //        idpersonaOld.setVisible(false);
 //        idUsuarioOld.setVisible(false);
 //        idRolxuserOld.setVisible(false);
@@ -77,6 +78,10 @@ public class Modulo1 extends javax.swing.JFrame {
         poopupHistoryPays = new javax.swing.JPopupMenu();
         mnuEditFechasPagos = new javax.swing.JMenuItem();
         mnuDeletePagos = new javax.swing.JMenuItem();
+        popupTbEmpresas = new javax.swing.JPopupMenu();
+        mnuNewSede = new javax.swing.JMenuItem();
+        mnuEditEmpresa = new javax.swing.JMenuItem();
+        mnuDeleteEmpresa = new javax.swing.JMenuItem();
         jPanel10 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -98,8 +103,8 @@ public class Modulo1 extends javax.swing.JFrame {
         btnGestionRutinas = new javax.swing.JButton();
         btnTransaccionCaja = new javax.swing.JButton();
         btnMnuHorafeliz = new javax.swing.JButton();
-        btnListEmpresas = new javax.swing.JButton();
         btnProveedores = new javax.swing.JButton();
+        btnEmpresas = new javax.swing.JLabel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         pnEmpresas = new javax.swing.JPanel();
         pnHeaderEmpresas = new javax.swing.JPanel();
@@ -114,8 +119,6 @@ public class Modulo1 extends javax.swing.JFrame {
         jLabel85 = new javax.swing.JLabel();
         txtTelEmpresa = new javax.swing.JTextField();
         btnAdjuntarfoto = new javax.swing.JButton();
-        jLabel86 = new javax.swing.JLabel();
-        cboRegimen = new javax.swing.JComboBox<>();
         jLabel87 = new javax.swing.JLabel();
         btnGuardarEmpresa = new javax.swing.JButton();
         btnCancelarEmpresa = new javax.swing.JButton();
@@ -124,9 +127,9 @@ public class Modulo1 extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         txtFindUser = new javax.swing.JTextField();
         btnFindUser = new javax.swing.JButton();
-        cLabel1 = new com.bolivia.label.CLabel();
+        lblLogoEmpresa = new com.bolivia.label.CLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsers = new javax.swing.JTable();
+        tblEmpresas = new javax.swing.JTable();
 
         mnuAsocFinger.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Finger18px.png"))); // NOI18N
         mnuAsocFinger.setText("Asociar Huellas");
@@ -185,6 +188,15 @@ public class Modulo1 extends javax.swing.JFrame {
         mnuDeletePagos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
         mnuDeletePagos.setText("Eliminar");
         poopupHistoryPays.add(mnuDeletePagos);
+
+        mnuNewSede.setText("Nueva Sede");
+        popupTbEmpresas.add(mnuNewSede);
+
+        mnuEditEmpresa.setText("Editar");
+        popupTbEmpresas.add(mnuEditEmpresa);
+
+        mnuDeleteEmpresa.setText("Eliminar");
+        popupTbEmpresas.add(mnuDeleteEmpresa);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(54, 63, 73));
@@ -352,20 +364,6 @@ public class Modulo1 extends javax.swing.JFrame {
         btnMnuHorafeliz.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnMnuHorafeliz.setIconTextGap(1);
 
-        btnListEmpresas.setBackground(new java.awt.Color(54, 63, 73));
-        btnListEmpresas.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnListEmpresas.setForeground(new java.awt.Color(255, 255, 255));
-        btnListEmpresas.setText("Lista Empresas");
-        btnListEmpresas.setBorder(null);
-        btnListEmpresas.setBorderPainted(false);
-        btnListEmpresas.setContentAreaFilled(false);
-        btnListEmpresas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnListEmpresas.setFocusPainted(false);
-        btnListEmpresas.setHideActionText(true);
-        btnListEmpresas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnListEmpresas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        btnListEmpresas.setIconTextGap(1);
-
         btnProveedores.setBackground(new java.awt.Color(54, 63, 73));
         btnProveedores.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         btnProveedores.setForeground(new java.awt.Color(255, 255, 255));
@@ -380,6 +378,14 @@ public class Modulo1 extends javax.swing.JFrame {
         btnProveedores.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnProveedores.setIconTextGap(1);
 
+        btnEmpresas.setBackground(new java.awt.Color(75, 171, 56));
+        btnEmpresas.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnEmpresas.setForeground(new java.awt.Color(255, 255, 255));
+        btnEmpresas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEmpresas.setText("EMP");
+        btnEmpresas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEmpresas.setOpaque(true);
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -390,14 +396,10 @@ public class Modulo1 extends javax.swing.JFrame {
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(nomUserLog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                                 .addGap(142, 142, 142)
                                 .addComponent(id_userlog))
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nomRolUserlog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel11)
                                     .addComponent(jLabel12)
                                     .addGroup(jPanel10Layout.createSequentialGroup()
@@ -412,7 +414,13 @@ public class Modulo1 extends javax.swing.JFrame {
                                                 .addComponent(onOff, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addComponent(jLabel32)
                                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 8, Short.MAX_VALUE))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(btnEmpresas, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nomRolUserlog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(nomUserLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap())
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,9 +444,6 @@ public class Modulo1 extends javax.swing.JFrame {
                             .addComponent(btnMnuHorafeliz)))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnListEmpresas))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btnProveedores)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -453,7 +458,9 @@ public class Modulo1 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(UserLogPicture, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nomUserLog, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nomUserLog, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEmpresas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nomRolUserlog, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -478,8 +485,6 @@ public class Modulo1 extends javax.swing.JFrame {
                 .addComponent(jLabel32)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnListEmpresas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnListMusculos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -490,7 +495,7 @@ public class Modulo1 extends javax.swing.JFrame {
                 .addComponent(btnMnuHorafeliz)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnProveedores)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
                 .addComponent(id_userlog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,7 +515,7 @@ public class Modulo1 extends javax.swing.JFrame {
 
         pnHeaderEmpresas.setBackground(new java.awt.Color(54, 63, 73));
         pnHeaderEmpresas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion de Empresas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
-        pnHeaderEmpresas.setPreferredSize(new java.awt.Dimension(840, 200));
+        pnHeaderEmpresas.setPreferredSize(new java.awt.Dimension(840, 180));
         pnHeaderEmpresas.setLayout(new java.awt.BorderLayout());
 
         jPanel52.setBackground(new java.awt.Color(54, 63, 73));
@@ -520,11 +525,11 @@ public class Modulo1 extends javax.swing.JFrame {
         jPanel52.setLayout(jPanel52Layout);
         jPanel52Layout.setHorizontalGroup(
             jPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 180, Short.MAX_VALUE)
         );
         jPanel52Layout.setVerticalGroup(
             jPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 155, Short.MAX_VALUE)
         );
 
         pnHeaderEmpresas.add(jPanel52, java.awt.BorderLayout.LINE_START);
@@ -566,13 +571,6 @@ public class Modulo1 extends javax.swing.JFrame {
                 btnAdjuntarfotoMouseExited(evt);
             }
         });
-
-        jLabel86.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        jLabel86.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel86.setText("Regimen:");
-
-        cboRegimen.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        cboRegimen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Común", "Simplificado" }));
 
         jLabel87.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jLabel87.setForeground(new java.awt.Color(255, 255, 255));
@@ -631,7 +629,6 @@ public class Modulo1 extends javax.swing.JFrame {
                     .addComponent(jLabel83)
                     .addComponent(jLabel84)
                     .addComponent(jLabel85)
-                    .addComponent(jLabel86)
                     .addComponent(jLabel87))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -640,9 +637,7 @@ public class Modulo1 extends javax.swing.JFrame {
                     .addComponent(txtNomEmpresa)
                     .addComponent(txtDocNit)
                     .addGroup(jPanel53Layout.createSequentialGroup()
-                        .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cboRegimen, javax.swing.GroupLayout.Alignment.LEADING, 0, 120, Short.MAX_VALUE)
-                            .addComponent(btnAdjuntarfoto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnAdjuntarfoto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnGuardarEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -668,17 +663,13 @@ public class Modulo1 extends javax.swing.JFrame {
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTelEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel85))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel86)
-                    .addComponent(cboRegimen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdjuntarfoto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel87)
                     .addComponent(btnGuardarEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelarEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pnHeaderEmpresas.add(jPanel53, java.awt.BorderLayout.CENTER);
@@ -733,14 +724,14 @@ public class Modulo1 extends javax.swing.JFrame {
             }
         });
 
-        cLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        cLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png"))); // NOI18N
-        cLabel1.setText("");
-        cLabel1.setPreferredSize(new java.awt.Dimension(50, 50));
+        lblLogoEmpresa.setBackground(new java.awt.Color(255, 255, 255));
+        lblLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png"))); // NOI18N
+        lblLogoEmpresa.setText("");
+        lblLogoEmpresa.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        tblUsers.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        tblUsers.setForeground(new java.awt.Color(34, 41, 50));
-        tblUsers.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmpresas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tblEmpresas.setForeground(new java.awt.Color(34, 41, 50));
+        tblEmpresas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -751,11 +742,12 @@ public class Modulo1 extends javax.swing.JFrame {
 
             }
         ));
-        tblUsers.setGridColor(new java.awt.Color(255, 255, 255));
-        tblUsers.setSelectionBackground(new java.awt.Color(54, 63, 73));
-        tblUsers.setShowHorizontalLines(false);
-        tblUsers.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(tblUsers);
+        tblEmpresas.setComponentPopupMenu(popupTbEmpresas);
+        tblEmpresas.setGridColor(new java.awt.Color(255, 255, 255));
+        tblEmpresas.setSelectionBackground(new java.awt.Color(54, 63, 73));
+        tblEmpresas.setShowHorizontalLines(false);
+        tblEmpresas.setShowVerticalLines(false);
+        jScrollPane1.setViewportView(tblEmpresas);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -771,7 +763,7 @@ public class Modulo1 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFindUser, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 341, Short.MAX_VALUE)
-                        .addComponent(cLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblLogoEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -782,11 +774,11 @@ public class Modulo1 extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel13)
                     .addComponent(txtFindUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLogoEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFindUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         pnEmpresas.add(jPanel2, java.awt.BorderLayout.EAST);
@@ -904,18 +896,16 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JButton btnAsistenciaManual;
     public javax.swing.JButton btnAsistencias;
     public javax.swing.JButton btnCancelarEmpresa;
+    public javax.swing.JLabel btnEmpresas;
     public javax.swing.JButton btnFindUser;
     public javax.swing.JButton btnGestionRutinas;
     public javax.swing.JButton btnGuardarEmpresa;
     public javax.swing.JButton btnListEjercicios;
-    public javax.swing.JButton btnListEmpresas;
     public javax.swing.JButton btnListMusculos;
     public javax.swing.JButton btnListUsers;
     public javax.swing.JButton btnMnuHorafeliz;
     public javax.swing.JButton btnProveedores;
     public javax.swing.JButton btnTransaccionCaja;
-    public com.bolivia.label.CLabel cLabel1;
-    public javax.swing.JComboBox<String> cboRegimen;
     public javax.swing.JTextField id_userlog;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -925,7 +915,6 @@ public class Modulo1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel85;
-    private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel87;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel10;
@@ -938,31 +927,36 @@ public class Modulo1 extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator5;
+    public com.bolivia.label.CLabel lblLogoEmpresa;
     private javax.swing.JMenuItem mnuAddRutina;
     public javax.swing.JMenuItem mnuAsocFinger;
     public javax.swing.JMenuItem mnuBusqueda;
     public javax.swing.JMenuItem mnuDelete;
     public javax.swing.JMenuItem mnuDeleteEjercicio;
+    public javax.swing.JMenuItem mnuDeleteEmpresa;
     public javax.swing.JMenuItem mnuDeleteMusculo;
     public javax.swing.JMenuItem mnuDeletePagos;
+    public javax.swing.JMenuItem mnuEditEmpresa;
     public javax.swing.JMenuItem mnuEditFechasPagos;
     public javax.swing.JMenuItem mnuGenerarPago;
     public javax.swing.JMenuItem mnuHistoryPays;
     public javax.swing.JMenuItem mnuMedidasUser;
+    public javax.swing.JMenuItem mnuNewSede;
     public javax.swing.JMenuItem mnuUpdate;
     public javax.swing.JMenuItem mnuUpdateEjercicio;
     public javax.swing.JMenuItem mnuUpdateMusculo;
     public javax.swing.JLabel nomRolUserlog;
     public javax.swing.JLabel nomUserLog;
     public javax.swing.JLabel onOff;
-    private javax.swing.JPanel pnEmpresas;
+    public javax.swing.JPanel pnEmpresas;
     private javax.swing.JPanel pnHeaderEmpresas;
     public javax.swing.JPopupMenu poopupHistoryPays;
     private javax.swing.JPopupMenu popupEjercicios;
     private javax.swing.JPopupMenu popupPagosService;
+    public javax.swing.JPopupMenu popupTbEmpresas;
     private javax.swing.JPopupMenu popupTblMusculos;
     private javax.swing.JPopupMenu popupTblUsers;
-    public javax.swing.JTable tblUsers;
+    public javax.swing.JTable tblEmpresas;
     public javax.swing.JTextField txtDirEmpresa;
     public javax.swing.JTextField txtDocNit;
     public javax.swing.JTextField txtFindUser;

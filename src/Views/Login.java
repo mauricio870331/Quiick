@@ -21,7 +21,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         this.getContentPane().setBackground(new Color(34, 41, 50));
-        setIconImage(new ImageIcon(getClass().getResource("/icons/favicon_2.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/icons/Link_35px.png")).getImage());
         setTitle("Login | AppGym V 1.0 - RC 2017-09-17");
     }
 
