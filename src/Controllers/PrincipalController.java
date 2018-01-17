@@ -282,7 +282,8 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             int fila = M2.tblProveedores.getSelectedRow();
             if (fila >= 0) {
                 String codigo = M2.tblProveedores.getValueAt(fila, 0).toString();
-                CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
+                CargarDatosProvedor(Integer.parseInt(codigo));
+                M2.btnGuardarProve.setText("Editar");
             }
 
         }
@@ -317,6 +318,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar proveedor", DesktopNotify.INFORMATION, 5000L);
                     LimpiarCampos("proveedores");
                     ListProveedores();
+                    M2.btnGuardarProve.setText("Guardar");
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Error al Modificar proveedor", DesktopNotify.ERROR, 5000L);
                 }
@@ -1422,8 +1424,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
 //            generarReportes();
 //        }
-
-        if (e.getSource() == M1.btnGuardarEmpresa) {            
+        if (e.getSource() == M1.btnGuardarEmpresa) {
             Object[] componentes = {M1.txtDocNit, M1.txtNomEmpresa, M1.cboRegimen};
             if (validarCampos(componentes, "") == 0) {
                 getEmpresas();
@@ -2471,7 +2472,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         this.us = us;
     }
 
-
     public Sedes getSede() {
         if (sede == null) {
             sede = new Sedes();
@@ -2988,22 +2988,12 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 M2.cboEmpresasProveedor.addItem(empresaProveedor);
             }
         } else {
-            ArrayList<EmpresaProveedor> ListEmp = new ArrayList<>();
-            int posicion = -1;
-            EmpresaProveedor emp = null;
-            EmpresaProveedor empBus = null;
-            int a = 0;
-            for (Object empresaProveedor : M2.cboEmpresasProveedor.getSelectedObjects()) {
-                emp = (EmpresaProveedor) empresaProveedor;
-                if (emp.getIdEmpresaProveedor() == ObjEmp.getIdEmpresaProveedor()) {
-                    posicion = a;
-                    empBus = emp;
-                }
-                ListEmp.add(emp);
-                a++;
+            ArrayList<EmpresaProveedor> ListEmp = new ArrayList();
+            ListEmp = (ArrayList<EmpresaProveedor>) ep.ListXEdicion(ObjEmp.getIdEmpresaProveedor().intValue());
+            M2.cboEmpresasProveedor.removeAllItems();
+            for (EmpresaProveedor empresaProveedor : ListEmp) {
+                M2.cboEmpresasProveedor.addItem(empresaProveedor);
             }
-            ListEmp.set(0, ObjEmp);
-            ListEmp.set(a, empBus);
         }
 
     }

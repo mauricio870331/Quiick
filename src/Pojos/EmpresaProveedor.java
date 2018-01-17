@@ -187,6 +187,36 @@ public class EmpresaProveedor extends Persistencia implements Serializable {
         return List;
     }
 
+    public java.util.List ListXEdicion(int idempresa) {
+        ArrayList<EmpresaProveedor> List = new ArrayList();
+        String prepareQuery = "SELECT idempresaproveedor, nombreEmpresa, nit, direccion, telefono, estado FROM appgym.empresaproveedor where estado='A' and idempresaproveedor=" + idempresa + "\n"
+                + "union \n"
+                + "SELECT idempresaproveedor, nombreEmpresa, nit, direccion, telefono, estado FROM appgym.empresaproveedor where estado='A' and idempresaproveedor<>" + idempresa + "";
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            ResultSet rs = EmpresaProveedor.super.getConecion().query(prepareQuery);
+            while (rs.next()) {
+                EmpresaProveedor tabla = new EmpresaProveedor();
+                tabla.setIdEmpresaProveedor(rs.getBigDecimal(1));
+                tabla.setNombreEmpresa(rs.getString(2));
+                tabla.setNit(rs.getString(3));
+                tabla.setDireccion(rs.getString(4));
+                tabla.setTelefono(rs.getString(5));
+                tabla.setEstado(rs.getString(6));
+                List.add(tabla);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return List;
+    }
+
     public EmpresaProveedor BuscarEmpresaXCodigo(int codigo) {  //Busqueda Por codigo o por nombre
         EmpresaProveedor tabla = new EmpresaProveedor();
         try {
