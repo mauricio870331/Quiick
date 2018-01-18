@@ -499,10 +499,7 @@ public final class Bienvenida extends javax.swing.JFrame {
         } else {
             M1.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
         }
-        //Modulo 1
-        if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("Root")) {
-            M1.btnEmpresas.setVisible(true);
-        }
+        //Modulo 1        
         M1.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
         M1.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
         M1.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));    

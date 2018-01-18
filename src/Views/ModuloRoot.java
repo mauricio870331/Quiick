@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
  *
  * @author Mauricio Herrera
  */
-public class Modulo1 extends javax.swing.JFrame {
+public class ModuloRoot extends javax.swing.JFrame {
 
     /**
      * Creates new form Modulo1
@@ -29,7 +29,7 @@ public class Modulo1 extends javax.swing.JFrame {
     
     public LoginController login;
     
-    public Modulo1() {
+    public ModuloRoot() {
         initComponents();
         this.getContentPane().setBackground(new Color(34, 41, 50));
         setIconImage(new ImageIcon(getClass().getResource("/icons/Link_35px.png")).getImage());
@@ -97,11 +97,8 @@ public class Modulo1 extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel32 = new javax.swing.JLabel();
-        btnListMusculos = new javax.swing.JButton();
-        btnListEjercicios = new javax.swing.JButton();
-        btnGestionRutinas = new javax.swing.JButton();
+        btnEmpresas = new javax.swing.JButton();
         btnTransaccionCaja = new javax.swing.JButton();
-        btnMnuHorafeliz = new javax.swing.JButton();
         btnProveedores = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         pnEmpresas = new javax.swing.JPanel();
@@ -287,47 +284,19 @@ public class Modulo1 extends javax.swing.JFrame {
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setText("Configuración");
 
-        btnListMusculos.setBackground(new java.awt.Color(54, 63, 73));
-        btnListMusculos.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnListMusculos.setForeground(new java.awt.Color(255, 255, 255));
-        btnListMusculos.setText("Lista de Musculos");
-        btnListMusculos.setBorder(null);
-        btnListMusculos.setBorderPainted(false);
-        btnListMusculos.setContentAreaFilled(false);
-        btnListMusculos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnListMusculos.setFocusPainted(false);
-        btnListMusculos.setHideActionText(true);
-        btnListMusculos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnListMusculos.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        btnListMusculos.setIconTextGap(1);
-
-        btnListEjercicios.setBackground(new java.awt.Color(54, 63, 73));
-        btnListEjercicios.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnListEjercicios.setForeground(new java.awt.Color(255, 255, 255));
-        btnListEjercicios.setText("Lista de Ejercicios");
-        btnListEjercicios.setBorder(null);
-        btnListEjercicios.setBorderPainted(false);
-        btnListEjercicios.setContentAreaFilled(false);
-        btnListEjercicios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnListEjercicios.setFocusPainted(false);
-        btnListEjercicios.setHideActionText(true);
-        btnListEjercicios.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnListEjercicios.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        btnListEjercicios.setIconTextGap(1);
-
-        btnGestionRutinas.setBackground(new java.awt.Color(54, 63, 73));
-        btnGestionRutinas.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnGestionRutinas.setForeground(new java.awt.Color(255, 255, 255));
-        btnGestionRutinas.setText("Gestion de Rutinas");
-        btnGestionRutinas.setBorder(null);
-        btnGestionRutinas.setBorderPainted(false);
-        btnGestionRutinas.setContentAreaFilled(false);
-        btnGestionRutinas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnGestionRutinas.setFocusPainted(false);
-        btnGestionRutinas.setHideActionText(true);
-        btnGestionRutinas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnGestionRutinas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        btnGestionRutinas.setIconTextGap(1);
+        btnEmpresas.setBackground(new java.awt.Color(54, 63, 73));
+        btnEmpresas.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnEmpresas.setForeground(new java.awt.Color(255, 255, 255));
+        btnEmpresas.setText("Lista de Musculos");
+        btnEmpresas.setBorder(null);
+        btnEmpresas.setBorderPainted(false);
+        btnEmpresas.setContentAreaFilled(false);
+        btnEmpresas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEmpresas.setFocusPainted(false);
+        btnEmpresas.setHideActionText(true);
+        btnEmpresas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnEmpresas.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnEmpresas.setIconTextGap(1);
 
         btnTransaccionCaja.setBackground(new java.awt.Color(54, 63, 73));
         btnTransaccionCaja.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -348,20 +317,6 @@ public class Modulo1 extends javax.swing.JFrame {
             }
         });
 
-        btnMnuHorafeliz.setBackground(new java.awt.Color(54, 63, 73));
-        btnMnuHorafeliz.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnMnuHorafeliz.setForeground(new java.awt.Color(255, 255, 255));
-        btnMnuHorafeliz.setText("Hora Feliz");
-        btnMnuHorafeliz.setBorder(null);
-        btnMnuHorafeliz.setBorderPainted(false);
-        btnMnuHorafeliz.setContentAreaFilled(false);
-        btnMnuHorafeliz.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnMnuHorafeliz.setFocusPainted(false);
-        btnMnuHorafeliz.setHideActionText(true);
-        btnMnuHorafeliz.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnMnuHorafeliz.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        btnMnuHorafeliz.setIconTextGap(1);
-
         btnProveedores.setBackground(new java.awt.Color(54, 63, 73));
         btnProveedores.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         btnProveedores.setForeground(new java.awt.Color(255, 255, 255));
@@ -380,22 +335,6 @@ public class Modulo1 extends javax.swing.JFrame {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(UserLogPicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnListEjercicios)
-                            .addComponent(btnListMusculos)
-                            .addComponent(btnGestionRutinas)
-                            .addComponent(btnMnuHorafeliz)))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnProveedores)))
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,6 +371,18 @@ public class Modulo1 extends javax.swing.JFrame {
                                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 8, Short.MAX_VALUE)))
                         .addContainerGap())))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(UserLogPicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnEmpresas))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnProveedores)))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addContainerGap()
@@ -470,16 +421,10 @@ public class Modulo1 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnListMusculos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnListEjercicios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGestionRutinas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMnuHorafeliz)
+                .addComponent(btnEmpresas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnProveedores)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
                 .addComponent(id_userlog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -838,21 +783,23 @@ public class Modulo1 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Modulo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModuloRoot.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Modulo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModuloRoot.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Modulo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModuloRoot.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Modulo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModuloRoot.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Modulo1().setVisible(true);
+                new ModuloRoot().setVisible(true);
             }
         });
     }
@@ -880,13 +827,10 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JButton btnAsistenciaManual;
     public javax.swing.JButton btnAsistencias;
     public javax.swing.JButton btnCancelarEmpresa;
+    public javax.swing.JButton btnEmpresas;
     public javax.swing.JButton btnFindUser;
-    public javax.swing.JButton btnGestionRutinas;
     public javax.swing.JButton btnGuardarEmpresa;
-    public javax.swing.JButton btnListEjercicios;
-    public javax.swing.JButton btnListMusculos;
     public javax.swing.JButton btnListUsers;
-    public javax.swing.JButton btnMnuHorafeliz;
     public javax.swing.JButton btnProveedores;
     public javax.swing.JButton btnTransaccionCaja;
     public javax.swing.JTextField id_userlog;

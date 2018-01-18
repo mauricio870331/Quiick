@@ -11,6 +11,7 @@ import Views.Bienvenida;
 import Views.Modulo1;
 import Views.Login;
 import Views.Modulo2;
+import Views.ModuloRoot;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
 import java.awt.Image;
@@ -37,6 +38,7 @@ import javax.swing.JTextField;
 public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
+    private final ModuloRoot MR = GetPrincipal.getModuloRoot();
     private PrincipalController prc;
     Bienvenida bienvenida;
     Usuario u = null;
@@ -74,9 +76,14 @@ public class LoginController implements ActionListener {
                 if (rolu != null) {
 //                    switch (rolu.getObjRol().getIdRol()) {
                     lg.dispose();
-                    getBienvenida(rolu);
                     getPrc();
                     prc.setUsuarioLogeado(rolu);
+                    if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("root")) {
+                        MR.setLocationRelativeTo(null);
+                        MR.setVisible(true);
+                    } else {
+                        getBienvenida(rolu);
+                    }                    
                     u = null;
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Usuario o Clave Incorrecta..!", DesktopNotify.ERROR, 5000L);

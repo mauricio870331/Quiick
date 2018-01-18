@@ -16,6 +16,7 @@ import Views.Modales.NuevaSede;
 import Views.Modulo2;
 import Views.Modulo3;
 import Views.Modulo4;
+import Views.ModuloRoot;
 import com.toedter.calendar.JDateChooser;
 import ds.desktop.notify.DesktopNotify;
 import fingerUtils.CaptureFinger;
@@ -70,7 +71,8 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     private final Modulo2 M2 = GetPrincipal.getModulo2();
     private final Modulo3 M3 = GetPrincipal.getModulo3();
     private final Modulo4 M4 = GetPrincipal.getModulo4();
-
+    private final ModuloRoot MR = GetPrincipal.getModuloRoot();
+    
     public RolxUser UsuarioLogeado;
     private persona p;
     private RolxUser ruxuser;
@@ -201,18 +203,18 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        cargarTblUsers(filtro);
 //        showPanel(2, "PnProveedores");
 //        System.out.println("pr.pnMicajaEstado.getText() " + pr.pnMicajaEstado.getText());
-        M1.btnGuardarEmpresa.addActionListener(this);
-        M1.btnCancelarEmpresa.addActionListener(this);
-        M1.btnEmpresas.addMouseListener(this);
-        M1.mnuEditEmpresa.addActionListener(this);
-        M1.mnuDeleteEmpresa.addActionListener(this);
-        M1.mnuNewSede.addActionListener(this);
+        MR.btnGuardarEmpresa.addActionListener(this);
+        MR.btnCancelarEmpresa.addActionListener(this);
+        MR.btnEmpresas.addMouseListener(this);
+        MR.mnuEditEmpresa.addActionListener(this);
+        MR.mnuDeleteEmpresa.addActionListener(this);
+        MR.mnuNewSede.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == M2.btnProveedores || e.getSource() == M1.btnProveedores) {
+        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
             System.out.println("Ingreso a proveedores");
             CargarDatosInicialesProveedores(1, null);
             cargarTiposDocumentosProveedor();
@@ -900,7 +902,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
 //            }
 //        }
-
 //
 //        if (e.getSource() == pr.mnuUpdate) {
 //            clearFormUsers();
@@ -1431,7 +1432,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
 //            generarReportes();
 //        }
-   
         //        if (e.getSource() == pr.mnuUpdate) {
         //            clearFormUsers();
         //            int fila = pr.tblUsers.getSelectedRow();
@@ -1961,20 +1961,20 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
         //            generarReportes();
         //        }
-  if (e.getSource() == M1.btnGuardarEmpresa) {
-            Object[] componentes = {M1.txtDocNit, M1.txtNomEmpresa};
-            if (validarCampos(componentes, "", M1) == 0) {
+        if (e.getSource() == MR.btnGuardarEmpresa) {
+            Object[] componentes = {MR.txtDocNit, MR.txtNomEmpresa};
+            if (validarCampos(componentes, "", MR) == 0) {
                 getEmpresas();
-                empresas.setNit(M1.txtDocNit.getText());
-                empresas.setNombre(M1.txtNomEmpresa.getText());
-                empresas.setDireccion(M1.txtDirEmpresa.getText());
-                empresas.setTelefonos(M1.txtTelEmpresa.getText());
+                empresas.setNit(MR.txtDocNit.getText());
+                empresas.setNombre(MR.txtNomEmpresa.getText());
+                empresas.setDireccion(MR.txtDirEmpresa.getText());
+                empresas.setTelefonos(MR.txtTelEmpresa.getText());
                 empresas.setPathLogo(foto);
                 empresas.setCreate_at(new Date());
                 int result = 0;
                 String msn = "Empresa creada con exito..!";
                 String msnerror = "Ocurrio un error al crear la empresa..!";
-                if (M1.btnGuardarEmpresa.getText().equalsIgnoreCase("Guardar")) {
+                if (MR.btnGuardarEmpresa.getText().equalsIgnoreCase("Guardar")) {
                     result = empresas.create();
                 } else {
                     msn = "Empresa editada con exito..!";
@@ -1984,16 +1984,16 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 }
                 if (result > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
-                    M1.txtDocNit.setText("");
-                    M1.txtNomEmpresa.setText("");
-                    M1.txtDirEmpresa.setText("");
-                    M1.txtTelEmpresa.setText("");
+                    MR.txtDocNit.setText("");
+                    MR.txtNomEmpresa.setText("");
+                    MR.txtDirEmpresa.setText("");
+                    MR.txtTelEmpresa.setText("");
                     setFoto("");
                     setEmpresas(null);
                     ListEmpresas("");
                     currentEmpresa = null;
                     LimpiarCampos("empresas");
-                    M1.btnGuardarEmpresa.setText("Guardar");
+                    MR.btnGuardarEmpresa.setText("Guardar");
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
                 }
@@ -2003,22 +2003,22 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         }
 
-        if (e.getSource() == M1.btnCancelarEmpresa) {
+        if (e.getSource() == MR.btnCancelarEmpresa) {
             currentEmpresa = null;
             LimpiarCampos("empresas");
         }
 
-        if (e.getSource() == M1.mnuEditEmpresa) {
-            M1.btnGuardarEmpresa.setText("Editar");
-            int fila = M1.tblEmpresas.getSelectedRow();
+        if (e.getSource() == MR.mnuEditEmpresa) {
+            MR.btnGuardarEmpresa.setText("Editar");
+            int fila = MR.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
                 getEmpresas();
-                currentEmpresa = empresas.findById(Integer.parseInt(M1.tblEmpresas.getValueAt(fila, 0).toString()));
+                currentEmpresa = empresas.findById(Integer.parseInt(MR.tblEmpresas.getValueAt(fila, 0).toString()));
                 if (currentEmpresa != null) {
-                    M1.txtDocNit.setText(currentEmpresa.getNit());
-                    M1.txtNomEmpresa.setText(currentEmpresa.getNombre());
-                    M1.txtDirEmpresa.setText(currentEmpresa.getDireccion());
-                    M1.txtTelEmpresa.setText(currentEmpresa.getTelefonos());
+                    MR.txtDocNit.setText(currentEmpresa.getNit());
+                    MR.txtNomEmpresa.setText(currentEmpresa.getNombre());
+                    MR.txtDirEmpresa.setText(currentEmpresa.getDireccion());
+                    MR.txtTelEmpresa.setText(currentEmpresa.getTelefonos());
                     InputStream img = currentEmpresa.getLogo();
                     if (img != null) {
                         BufferedImage bi;
@@ -2026,15 +2026,15 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                             bi = ImageIO.read(img);
                             ii = new ImageIcon(bi);
                             Image conver = ii.getImage();
-                            Image tam = conver.getScaledInstance(M1.lblLogoEmpresa.getWidth(), M1.lblLogoEmpresa.getHeight(), Image.SCALE_SMOOTH);
+                            Image tam = conver.getScaledInstance(MR.lblLogoEmpresa.getWidth(), MR.lblLogoEmpresa.getHeight(), Image.SCALE_SMOOTH);
                             iin = new ImageIcon(tam);
-                            M1.lblLogoEmpresa.setIcon(iin);
+                            MR.lblLogoEmpresa.setIcon(iin);
                         } catch (IOException ex) {
                             System.out.println("error " + ex);
                         }
 
                     } else {
-                        M1.lblLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
+                        MR.lblLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
                     }
                 }
             } else {
@@ -2042,15 +2042,15 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         }
 
-        if (e.getSource() == M1.mnuDeleteEmpresa) {
-            int fila = M1.tblEmpresas.getSelectedRow();
+        if (e.getSource() == MR.mnuDeleteEmpresa) {
+            int fila = MR.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
                 Object[] opciones = {"Si", "No"};
                 int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar la empresa?", "Mensaje de Confirmación",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
                 if (eleccion == JOptionPane.YES_OPTION) {
-                    int id_empresa = Integer.parseInt(M1.tblEmpresas.getValueAt(fila, 0).toString());
+                    int id_empresa = Integer.parseInt(MR.tblEmpresas.getValueAt(fila, 0).toString());
                     getEmpresas();
                     empresas.setIdEmpresa(id_empresa);
                     if (empresas.remove() > 0) {
@@ -2066,11 +2066,11 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         }
 
-        if (e.getSource() == M1.mnuNewSede) {
-            int fila = M1.tblEmpresas.getSelectedRow();
+        if (e.getSource() == MR.mnuNewSede) {
+            int fila = MR.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
                 try {
-                    NuevaSede s = new NuevaSede(M1, true, Integer.parseInt(M1.tblEmpresas.getValueAt(fila, 0).toString()));
+                    NuevaSede s = new NuevaSede(MR, true, Integer.parseInt(MR.tblEmpresas.getValueAt(fila, 0).toString()));
                     s.setLocationRelativeTo(null);
                     s.setVisible(true);
                 } catch (SQLException ex) {
@@ -2092,11 +2092,11 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         switch (Modulo) {
             case 1:
                 M2.setVisible(false);
-                M1.setVisible(true);
-                M1.setVistaActual(string);
+                MR.setVisible(true);
+                MR.setVistaActual(string);
                 switch (string) {
                     case "pnEmpresas":
-                        M1.pnEmpresas.setVisible(true);
+                        MR.pnEmpresas.setVisible(true);
                         break;
                 }
                 break;
@@ -3162,7 +3162,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == M1.btnEmpresas) {
+        if (e.getSource() == MR.btnEmpresas) {
             ListEmpresas("");
             showPanel(1, "pnEmpresas");
         }
@@ -3543,7 +3543,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     }
 
     public void Adaptador() {
-        M1.addWindowListener(new WindowAdapter() {
+        MR.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
                 Object[] opciones = {"Aceptar", "Cancelar"};
@@ -3738,10 +3738,10 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 M2.txtTelefonosProve.setText("");
                 break;
             case "empresas":
-                M1.txtDocNit.setText("");
-                M1.txtNomEmpresa.setText("");
-                M1.txtDirEmpresa.setText("");
-                M1.txtTelEmpresa.setText("");
+                MR.txtDocNit.setText("");
+                MR.txtNomEmpresa.setText("");
+                MR.txtDirEmpresa.setText("");
+                MR.txtTelEmpresa.setText("");
                 setFoto("");
                 setEmpresas(null);
                 break;
@@ -3777,13 +3777,13 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             columna[4] = e.getTelefonos();
             modelo.addRow(columna);
         }
-        M1.tblEmpresas.setModel(modelo);
-        M1.tblEmpresas.getColumnModel().getColumn(0).setPreferredWidth(0);
-        M1.tblEmpresas.getColumnModel().getColumn(1).setPreferredWidth(150);
-        M1.tblEmpresas.getColumnModel().getColumn(1).setCellRenderer(Alinear);
-        M1.tblEmpresas.getColumnModel().getColumn(2).setCellRenderer(Alinear);
-        M1.tblEmpresas.getColumnModel().getColumn(3).setCellRenderer(Alinear);
-        M1.tblEmpresas.getColumnModel().getColumn(4).setCellRenderer(Alinear);
+        MR.tblEmpresas.setModel(modelo);
+        MR.tblEmpresas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        MR.tblEmpresas.getColumnModel().getColumn(1).setPreferredWidth(150);
+        MR.tblEmpresas.getColumnModel().getColumn(1).setCellRenderer(Alinear);
+        MR.tblEmpresas.getColumnModel().getColumn(2).setCellRenderer(Alinear);
+        MR.tblEmpresas.getColumnModel().getColumn(3).setCellRenderer(Alinear);
+        MR.tblEmpresas.getColumnModel().getColumn(4).setCellRenderer(Alinear);
 
 //        table.setRowHeight(30);
     }
