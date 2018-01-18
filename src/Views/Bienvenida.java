@@ -6,9 +6,6 @@
 package Views;
 
 import Controllers.GetPrincipal;
-import Controllers.GetPrincipalController;
-import Controllers.LoginController;
-import Controllers.PrincipalController;
 import Pojos.RolxUser;
 import java.awt.Color;
 import java.awt.Image;
@@ -37,8 +34,7 @@ public final class Bienvenida extends javax.swing.JFrame {
     ImageIcon ii = null;
     ImageIcon iin = null;
 
-    private RolxUser rolu;
-    public LoginController login;
+    private RolxUser rolu;    
     private InputStream img;
 
     public Bienvenida(RolxUser rolu) {
@@ -607,14 +603,7 @@ public final class Bienvenida extends javax.swing.JFrame {
             }
         });
     }
-
-    public LoginController getLogin() {
-        return login;
-    }
-
-    public void setLogin(LoginController login) {
-        this.login = login;
-    }
+  
 
     public String getVistaActual() {
         return VistaActual;
