@@ -11,10 +11,17 @@ import Views.Modulo1;
 import com.toedter.calendar.JDateChooser;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,6 +39,7 @@ public final class NuevaSede extends javax.swing.JDialog {
     private PrincipalController prc;
     private final int idEmpresa;
     private Sedes s;
+    Sedes currentSede;
 
     public NuevaSede(java.awt.Frame parent, boolean modal, int idEmpresa) throws SQLException {
         super(parent, modal);
@@ -81,6 +89,9 @@ public final class NuevaSede extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupSedes = new javax.swing.JPopupMenu();
+        mnuEdit = new javax.swing.JMenuItem();
+        mnuDelete = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         linea1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
@@ -94,6 +105,22 @@ public final class NuevaSede extends javax.swing.JDialog {
         btnCancelarSede = new javax.swing.JButton();
         ContenedorBuscar = new javax.swing.JScrollPane();
         Datos = new javax.swing.JTable();
+
+        mnuEdit.setText("Editar");
+        mnuEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuEditActionPerformed(evt);
+            }
+        });
+        popupSedes.add(mnuEdit);
+
+        mnuDelete.setText("Eliminar");
+        mnuDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDeleteActionPerformed(evt);
+            }
+        });
+        popupSedes.add(mnuDelete);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nuevas Sedes");
@@ -221,6 +248,7 @@ public final class NuevaSede extends javax.swing.JDialog {
 
             }
         ));
+        Datos.setComponentPopupMenu(popupSedes);
         Datos.setSelectionBackground(new java.awt.Color(54, 63, 73));
         Datos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         Datos.setShowHorizontalLines(false);
@@ -351,12 +379,27 @@ public final class NuevaSede extends javax.swing.JDialog {
             s.setNombre(txtNomSede.getText());
             s.setDireccion(txtDirSede.getText());
             s.setTelefono(txtTelSede.getText());
-            if (s.create() > 0) {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Sede creada con exìto..!", DesktopNotify.SUCCESS, 5000L);
-                cargarSedes();
+            int result = 0;
+            String msn = "Sede creada con exito..!";
+            String msnerror = "Ocurrio un error al crear la sede..!";
+            if (btnGuardarSede.getText().equalsIgnoreCase("Guardar")) {
+                result = s.create();
             } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al crear la sede..!", DesktopNotify.FAIL, 5000L);
+                msn = "Sede editada con exito..!";
+                msnerror = "Ocurrio un error al editar la sede..!";
+                s.getObjSedesID().setIdSede(currentSede.getObjSedesID().getIdSede());
+                s.getObjSedesID().setIdEmpresa(currentSede.getObjSedesID().getIdEmpresa());
+                result = s.edit();
             }
+            if (result > 0) {
+                DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
+                cargarSedes();
+                setS(null);                
+                limparCampos();
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
+            }
+
         } else {
             DesktopNotify.showDesktopMessage("Aviso..!", "Los campos marcados en rojo son obligatorios", DesktopNotify.FAIL, 5000L);
         }
@@ -371,8 +414,56 @@ public final class NuevaSede extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarSedeMouseExited
 
     private void btnCancelarSedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarSedeActionPerformed
-        // TODO add your handling code here:
+        limparCampos();
     }//GEN-LAST:event_btnCancelarSedeActionPerformed
+
+    private void mnuEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEditActionPerformed
+        btnGuardarSede.setText("Editar");
+        int fila = Datos.getSelectedRow();
+        if (fila >= 0) {
+            getS();
+            currentSede = s.getSedeById(Integer.parseInt(Datos.getValueAt(fila, 0).toString()));
+            txtNomSede.setText(currentSede.getNombre());
+            txtDirSede.setText(currentSede.getDireccion());
+            txtTelSede.setText(currentSede.getTelefono());
+            limparCampos();
+        } else {
+            DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+        }
+    }//GEN-LAST:event_mnuEditActionPerformed
+
+    private void mnuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDeleteActionPerformed
+        limparCampos();
+        int fila = Datos.getSelectedRow();
+        if (fila >= 0) {
+            Object[] opciones = {"Si", "No"};
+            int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar la sede?", "Mensaje de Confirmación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+            if (eleccion == JOptionPane.YES_OPTION) {
+                int id_sede = Integer.parseInt(Datos.getValueAt(fila, 0).toString());
+                getS();
+                s.getObjSedesID().setIdSede(id_sede);
+                if (s.remove() > 0) {
+                    DesktopNotify.showDesktopMessage("Informacion..!", "Sede Eliminada con exito", DesktopNotify.SUCCESS, 6000L);
+                    setS(null);
+                    cargarSedes();
+                } else {
+                    DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar la sede", DesktopNotify.ERROR, 5000L);
+                }
+            }
+        } else {
+            DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+        }
+
+    }//GEN-LAST:event_mnuDeleteActionPerformed
+
+    public void limparCampos() {
+        txtNomSede.setText("");
+        txtDirSede.setText("");
+        txtTelSede.setText("");
+        btnGuardarSede.setText("Guardar");
+    }
 
     public int validarCampos(Object[] componentes) {
         int countErrors = 0;
@@ -443,6 +534,9 @@ public final class NuevaSede extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator linea1;
+    public javax.swing.JMenuItem mnuDelete;
+    public javax.swing.JMenuItem mnuEdit;
+    public javax.swing.JPopupMenu popupSedes;
     public javax.swing.JTextField txtDirSede;
     public javax.swing.JTextField txtNomSede;
     public javax.swing.JTextField txtTelSede;
