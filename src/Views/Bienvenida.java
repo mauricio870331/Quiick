@@ -23,12 +23,7 @@ public final class Bienvenida extends javax.swing.JFrame {
 
     /**
      * Creates new form Modulo1
-     */
-    int x,
-            /**
-             * Creates new form Modulo1
-             */
-            y;
+     */   
     boolean maximize = false;
     String VistaActual = "";
     ImageIcon ii = null;
