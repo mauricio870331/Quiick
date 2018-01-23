@@ -70,7 +70,7 @@ public class Rol extends Persistencia implements Serializable {
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
             preparedStatement.setString(1, Descripcion);
-            preparedStatement.setString(2, Estado);
+            preparedStatement.setString(2, (Estado.equalsIgnoreCase("Activo") ? "A" : "I"));
 
             transaccion = Rol.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
@@ -95,7 +95,7 @@ public class Rol extends Persistencia implements Serializable {
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareUpdate);
             preparedStatement.setString(1, Descripcion);
-            preparedStatement.setString(2, Estado);
+            preparedStatement.setString(2, (Estado.equalsIgnoreCase("Activo") ? "A" : "I"));
             preparedStatement.setInt(3, idRol);
 
             transaccion = Rol.this.getConecion().transaccion(preparedStatement);
@@ -161,11 +161,13 @@ public class Rol extends Persistencia implements Serializable {
         }
         return List;
     }
+    
+    
 
     public Rol getRolbyId(int id_rol) {
         Rol r = null;
         try {
-            String sql = "select idRol,	Descripcion, estado from rol where idRol = " + id_rol;
+            String sql = "select * from rol where idRol = " + id_rol;
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Rol.super.getConecion().query(sql);
             if (rs.absolute(1)) {
@@ -203,6 +205,8 @@ public class Rol extends Persistencia implements Serializable {
         }
         return id;
     }    
+
+    
   
 
 }

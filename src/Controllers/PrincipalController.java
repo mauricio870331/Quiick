@@ -72,7 +72,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     private final Modulo3 M3 = GetPrincipal.getModulo3();
     private final Modulo4 M4 = GetPrincipal.getModulo4();
     private final ModuloRoot MR = GetPrincipal.getModuloRoot();
-    
+
     public RolxUser UsuarioLogeado;
     private persona p;
     private RolxUser ruxuser;
@@ -80,7 +80,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     private Reportes reportes;
     private Usuario us;
     private TipoDocumento td;
-    private Rol rd;
+    private Rol rol;
     private Sedes sede;
     private Asistencia ad;
     private Musculos musculos;
@@ -109,7 +109,8 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     int currentpage = 1;
     String filtro = "";
     String opcPaginacion = "";
-    private Empresas currentEmpresa;
+    private Object currentObject;
+
     private int cantRegustrosUsuarios = 0;
     private final ArrayList<Ejercicios> newRutina = new ArrayList();
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
@@ -209,6 +210,11 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         MR.mnuEditEmpresa.addActionListener(this);
         MR.mnuDeleteEmpresa.addActionListener(this);
         MR.mnuNewSede.addActionListener(this);
+        MR.btnGuardarRol.addActionListener(this);
+        MR.btnRoles.addActionListener(this);
+        MR.btnCancelarRol.addActionListener(this);
+        MR.mnuEditRol.addActionListener(this);
+        MR.mnuDeleteRol.addActionListener(this);
     }
 
     @Override
@@ -1961,6 +1967,16 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
         //            generarReportes();
         //        }
+        if (e.getSource() == MR.btnEmpresas) {
+            ListEmpresas("");
+            showPanel(1, "pnEmpresas");
+        }
+
+        if (e.getSource() == MR.btnRoles) {
+            ListRoles("");
+            showPanel(1, "pnRoles");
+        }
+
         if (e.getSource() == MR.btnGuardarEmpresa) {
             Object[] componentes = {MR.txtDocNit, MR.txtNomEmpresa};
             if (validarCampos(componentes, "", MR) == 0) {
@@ -1979,19 +1995,15 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 } else {
                     msn = "Empresa editada con exito..!";
                     msnerror = "Ocurrio un error al editar la empresa..!";
-                    empresas.setIdEmpresa(currentEmpresa.getIdEmpresa());
+                    empresas.setIdEmpresa(((Empresas) currentObject).getIdEmpresa());
                     result = empresas.edit();
                 }
                 if (result > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
-                    MR.txtDocNit.setText("");
-                    MR.txtNomEmpresa.setText("");
-                    MR.txtDirEmpresa.setText("");
-                    MR.txtTelEmpresa.setText("");
                     setFoto("");
                     setEmpresas(null);
                     ListEmpresas("");
-                    currentEmpresa = null;
+                    currentObject = null;
                     LimpiarCampos("empresas");
                     MR.btnGuardarEmpresa.setText("Guardar");
                 } else {
@@ -2004,7 +2016,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         }
 
         if (e.getSource() == MR.btnCancelarEmpresa) {
-            currentEmpresa = null;
+            currentObject = null;
             LimpiarCampos("empresas");
         }
 
@@ -2013,13 +2025,13 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             int fila = MR.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
                 getEmpresas();
-                currentEmpresa = empresas.findById(Integer.parseInt(MR.tblEmpresas.getValueAt(fila, 0).toString()));
-                if (currentEmpresa != null) {
-                    MR.txtDocNit.setText(currentEmpresa.getNit());
-                    MR.txtNomEmpresa.setText(currentEmpresa.getNombre());
-                    MR.txtDirEmpresa.setText(currentEmpresa.getDireccion());
-                    MR.txtTelEmpresa.setText(currentEmpresa.getTelefonos());
-                    InputStream img = currentEmpresa.getLogo();
+                currentObject = empresas.findById(Integer.parseInt(MR.tblEmpresas.getValueAt(fila, 0).toString()));
+                if (currentObject != null) {
+                    MR.txtDocNit.setText(((Empresas) currentObject).getNit());
+                    MR.txtNomEmpresa.setText(((Empresas) currentObject).getNombre());
+                    MR.txtDirEmpresa.setText(((Empresas) currentObject).getDireccion());
+                    MR.txtTelEmpresa.setText(((Empresas) currentObject).getTelefonos());
+                    InputStream img = ((Empresas) currentObject).getLogo();
                     if (img != null) {
                         BufferedImage bi;
                         try {
@@ -2081,6 +2093,85 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
             }
         }
 
+        //******Crud Roles ********\\
+        if (e.getSource() == MR.btnGuardarRol) {
+            Object[] componentes = {MR.txtDescRol, MR.cboEstadoRol};
+            if (validarCampos(componentes, "", MR) == 0) {
+                getRol();
+                rol.setDescripcion(MR.txtDescRol.getText());
+                rol.setEstado((String) MR.cboEstadoRol.getSelectedItem());
+                int result = 0;
+                String msn = "Rol creado con exito..!";
+                String msnerror = "Ocurrio un error al crear el rol..!";
+                if (MR.btnGuardarRol.getText().equalsIgnoreCase("Guardar")) {
+                    result = rol.create();
+                } else {
+                    msn = "Rol editado con exito..!";
+                    msnerror = "Ocurrio un error al editar el rol..!";
+                    rol.setIdRol(((Rol) currentObject).getIdRol());
+                    result = rol.edit();
+                }
+                if (result > 0) {
+                    DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
+                    setRol(null);
+                    ListRoles("");
+                    currentObject = null;
+                    LimpiarCampos("rol");
+                    MR.btnGuardarRol.setText("Guardar");
+                } else {
+                    DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
+                }
+
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
+        if (e.getSource() == MR.btnCancelarRol) {
+            currentObject = null;
+            LimpiarCampos("rol");
+        }
+
+        if (e.getSource() == MR.mnuEditRol) {
+            MR.btnGuardarRol.setText("Editar");
+            int fila = MR.tblRoles.getSelectedRow();
+            if (fila >= 0) {
+                getRol();
+                currentObject = rol.getRolbyId(Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()));
+                if (currentObject != null) {
+                    MR.txtDescRol.setText(((Rol) currentObject).getDescripcion());
+                    MR.cboEstadoRol.setSelectedItem((((Rol) currentObject).getEstado().equalsIgnoreCase("A")) ? "Activo" : "Inactivo");
+                }
+                setRol(null);
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+            }
+        }        
+        
+        if (e.getSource() == MR.mnuDeleteRol) {
+            int fila = MR.tblRoles.getSelectedRow();
+            if (fila >= 0) {
+                Object[] opciones = {"Si", "No"};
+                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el rol?", "Mensaje de Confirmación",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+                if (eleccion == JOptionPane.YES_OPTION) {                    
+                    getRol();
+                    rol.setIdRol(Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()));
+                    if (rol.remove() > 0) {
+                        DesktopNotify.showDesktopMessage("Informacion..!", "Rol Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
+                        setRol(null);
+                        ListRoles("");
+                    } else {
+                        DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el rol", DesktopNotify.ERROR, 5000L);
+                    }
+                }
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
+        //******Fin Crud Roles ********\\
     }
 
     private void addFilter() {
@@ -2096,7 +2187,12 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 MR.setVistaActual(string);
                 switch (string) {
                     case "pnEmpresas":
+                        MR.pnRoles.setVisible(false);
                         MR.pnEmpresas.setVisible(true);
+                        break;
+                    case "pnRoles":
+                        MR.pnEmpresas.setVisible(false);
+                        MR.pnRoles.setVisible(true);
                         break;
                 }
                 break;
@@ -2778,15 +2874,15 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         this.rf = rf;
     }
 
-    public Rol getRd() {
-        if (rd == null) {
-            rd = new Rol();
+    public Rol getRol() {
+        if (rol == null) {
+            rol = new Rol();
         }
-        return rd;
+        return rol;
     }
 
-    public void setRd(Rol rd) {
-        this.rd = rd;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     public TipoDocumento getTd() {
@@ -3162,10 +3258,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == MR.btnEmpresas) {
-            ListEmpresas("");
-            showPanel(1, "pnEmpresas");
-        }
 //        if (e.getSource() == pr.tblEjercicios2) {
 //
 //            int fila = pr.tblEjercicios2.getSelectedRow();
@@ -3745,6 +3837,10 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                 setFoto("");
                 setEmpresas(null);
                 break;
+            case "rol":
+                MR.txtDescRol.setText("");
+                MR.cboEstadoRol.setSelectedIndex(0);
+                break;
         }
     }
 
@@ -3784,7 +3880,40 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         MR.tblEmpresas.getColumnModel().getColumn(2).setCellRenderer(Alinear);
         MR.tblEmpresas.getColumnModel().getColumn(3).setCellRenderer(Alinear);
         MR.tblEmpresas.getColumnModel().getColumn(4).setCellRenderer(Alinear);
+//        table.setRowHeight(30);
+    }
 
+    public void ListRoles(String filtro) {
+        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
+        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
+        DefaultTableModel modelo;
+        String Titulos[] = {"", "Descripción", "Estado"};
+        getRol();
+        ArrayList<Rol> listRoles = new ArrayList();
+        if (filtro.length() <= 0) {
+            listRoles = (ArrayList<Rol>) rol.List();
+        } else if (filtro.length() > 0) {
+            //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
+        }
+        modelo = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[4];
+        Iterator<Rol> itr = listRoles.iterator();
+        while (itr.hasNext()) {
+            Rol r = itr.next();
+            columna[0] = r.getIdRol();
+            columna[1] = r.getDescripcion();
+            columna[2] = (r.getEstado().equalsIgnoreCase("A") ? "Activo" : "Inactivo");
+            modelo.addRow(columna);
+        }
+        MR.tblRoles.setModel(modelo);
+        MR.tblRoles.getColumnModel().getColumn(0).setPreferredWidth(0);
+        MR.tblRoles.getColumnModel().getColumn(1).setCellRenderer(Alinear);
+        MR.tblRoles.getColumnModel().getColumn(2).setCellRenderer(Alinear);
 //        table.setRowHeight(30);
     }
 
