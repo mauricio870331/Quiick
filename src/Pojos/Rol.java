@@ -121,7 +121,6 @@ public class Rol extends Persistencia implements Serializable {
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareDelete);
             preparedStatement.setInt(1, idRol);
-
             transaccion = Rol.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
@@ -204,9 +203,5 @@ public class Rol extends Persistencia implements Serializable {
             }
         }
         return id;
-    }    
-
-    
-  
-
+    }  
 }

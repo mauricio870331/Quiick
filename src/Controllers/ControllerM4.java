@@ -65,7 +65,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author Mauricio Herrera
  */
-public class PrincipalController implements ActionListener, MouseListener, KeyListener {
+public class ControllerM4 implements ActionListener, MouseListener, KeyListener {
 
     private final Modulo1 M1 = GetPrincipal.getModulo1();
     private final Modulo2 M2 = GetPrincipal.getModulo2();
@@ -116,7 +116,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
     private Empresas empresas;
 
-    public PrincipalController() throws IOException {
+    public ControllerM4() throws IOException {
         inicomponents();
     }
 

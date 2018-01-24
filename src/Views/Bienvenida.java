@@ -23,13 +23,13 @@ public final class Bienvenida extends javax.swing.JFrame {
 
     /**
      * Creates new form Modulo1
-     */   
+     */
     boolean maximize = false;
     String VistaActual = "";
     ImageIcon ii = null;
     ImageIcon iin = null;
 
-    private RolxUser rolu;    
+    private RolxUser rolu;
     private InputStream img;
 
     public Bienvenida(RolxUser rolu) {
@@ -52,12 +52,6 @@ public final class Bienvenida extends javax.swing.JFrame {
 //        lblIdPagoAction.setVisible(false);
         // setSize(1024, 720);
     }
-
-    private Bienvenida() {
-
-    }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -432,7 +426,7 @@ public final class Bienvenida extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-  
+
     private void pnM1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnM1MouseEntered
         pnM1.setBackground(new Color(126, 137, 149));
         lblM1.setForeground(new Color(255, 255, 255));
@@ -477,7 +471,7 @@ public final class Bienvenida extends javax.swing.JFrame {
         this.dispose();
         Modulo1 M1 = GetPrincipal.getModulo1();
         if (img != null) {
-            try {                
+            try {
                 BufferedImage bi = ImageIO.read(img);
                 ii = new ImageIcon(bi);
                 Image conver = ii.getImage();
@@ -488,13 +482,12 @@ public final class Bienvenida extends javax.swing.JFrame {
                 System.out.println("error " + ex);
             }
         } else {
-            M1.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
+            M1.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
         }
         //Modulo 1        
         M1.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
         M1.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
-        M1.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));    
-        M1.setLocationRelativeTo(null);
+        M1.id_userlog.setText(Integer.toString(rolu.getObjUsuario().getObjUsuariosID().getIdUsuario()));       
         M1.setVisible(true);
     }//GEN-LAST:event_pnM1MouseClicked
 
@@ -513,9 +506,8 @@ public final class Bienvenida extends javax.swing.JFrame {
                 System.out.println("error " + ex);
             }
         } else {
-            M2.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
-        }
-        M2.setLocationRelativeTo(null);
+            M2.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
+        }        
         M2.setVisible(true);
     }//GEN-LAST:event_pnM2MouseClicked
 
@@ -534,7 +526,7 @@ public final class Bienvenida extends javax.swing.JFrame {
                 System.out.println("error " + ex);
             }
         } else {
-            M3.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
+            M3.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
         }
         M3.setLocationRelativeTo(null);
         M3.setVisible(true);
@@ -555,50 +547,10 @@ public final class Bienvenida extends javax.swing.JFrame {
                 System.out.println("error " + ex);
             }
         } else {
-            M4.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));            
-        }
-        M4.setLocationRelativeTo(null);
+            M4.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
+        }        
         M4.setVisible(true);
     }//GEN-LAST:event_pnM4MouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Bienvenida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Bienvenida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Bienvenida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Bienvenida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Bienvenida().setVisible(true);
-            }
-        });
-    }
-  
 
     public String getVistaActual() {
         return VistaActual;

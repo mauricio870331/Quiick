@@ -1,26 +1,13 @@
 package Views.Modales;
 
-import Controllers.PrincipalController;
-import Pojos.Musculos;
-import Pojos.Rol;
 import Pojos.Sedes;
-import Pojos.TipoDocumento;
-import Pojos.dias;
 import java.sql.SQLException;
 import Views.Modulo1;
-import com.toedter.calendar.JDateChooser;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -35,8 +22,7 @@ public final class NuevaSede extends javax.swing.JDialog {
      * Creates new form CategoriasRegistrar
      */
     Modulo1 principal;
-    ArrayList<Sedes> listObjectos = new ArrayList();
-    private PrincipalController prc;
+    ArrayList<Sedes> listObjectos = new ArrayList();   
     private final int idEmpresa;
     private Sedes s;
     Sedes currentSede;
