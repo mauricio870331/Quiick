@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-01-2018 a las 18:42:29
--- Versión del servidor: 10.1.21-MariaDB
--- Versión de PHP: 7.1.1
+-- Tiempo de generación: 28-01-2018 a las 22:04:09
+-- Versión del servidor: 10.1.10-MariaDB
+-- Versión de PHP: 7.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -515,7 +515,8 @@ INSERT INTO `perfiles` (`id_perfil`, `nombre`, `estado`, `create_at`, `update_at
 (2, 'Crear', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00'),
 (3, 'Editar', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00'),
 (4, 'Eliminar', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00'),
-(5, 'Buscar', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00');
+(5, 'Buscar', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00'),
+(6, 'Generar Reportes', 'A', '2018-01-28 11:31:33', '2018-01-28 11:48:56');
 
 -- --------------------------------------------------------
 
@@ -524,7 +525,6 @@ INSERT INTO `perfiles` (`id_perfil`, `nombre`, `estado`, `create_at`, `update_at
 --
 
 CREATE TABLE `perfiles_x_rol` (
-  `id` int(11) NOT NULL,
   `id_perfil` int(11) NOT NULL,
   `id_rol` int(11) NOT NULL,
   `estado` varchar(2) NOT NULL,
@@ -538,12 +538,13 @@ CREATE TABLE `perfiles_x_rol` (
 -- Volcado de datos para la tabla `perfiles_x_rol`
 --
 
-INSERT INTO `perfiles_x_rol` (`id`, `id_perfil`, `id_rol`, `estado`, `create_at`, `update_at`, `create_by`, `update_by`) VALUES
-(1, 1, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(2, 2, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(3, 3, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(4, 4, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(5, 5, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1);
+INSERT INTO `perfiles_x_rol` (`id_perfil`, `id_rol`, `estado`, `create_at`, `update_at`, `create_by`, `update_by`) VALUES
+(1, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(2, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(3, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(4, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(5, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(1, 2, 'A', '2018-01-28 15:54:18', '2018-01-28 15:54:18', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1070,7 +1071,6 @@ ALTER TABLE `perfiles`
 -- Indices de la tabla `perfiles_x_rol`
 --
 ALTER TABLE `perfiles_x_rol`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_perfil` (`id_perfil`),
   ADD KEY `id_rol` (`id_rol`);
 
@@ -1248,7 +1248,7 @@ ALTER TABLE `ejercicios`
 -- AUTO_INCREMENT de la tabla `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `idempresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idempresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `empresaproveedor`
 --
@@ -1293,12 +1293,7 @@ ALTER TABLE `pagoservice`
 -- AUTO_INCREMENT de la tabla `perfiles`
 --
 ALTER TABLE `perfiles`
-  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `perfiles_x_rol`
---
-ALTER TABLE `perfiles_x_rol`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
@@ -1318,7 +1313,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `idRol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idRol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `rolxuser`
 --
