@@ -11,7 +11,7 @@ public abstract class Persistencia {
 
     public Persistencia() {
 //        InicConection(1);//bd liliana
-        InicConection(2);//bd pruebas
+        InicConection(0);//bd pruebas
     }
 
     private void InicConection(int opc) {

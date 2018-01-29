@@ -98,8 +98,7 @@ public class Usuario extends Persistencia implements Serializable {
             preparedStatement.setInt(4, objPersona.getIdPersona());
             preparedStatement.setString(5, clave);
             preparedStatement.setString(6, nickName);
-            preparedStatement.setString(7, estado);
-            
+            preparedStatement.setString(7, estado);            
             transaccion = Usuario.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());

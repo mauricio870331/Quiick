@@ -145,14 +145,13 @@ public class Sedes extends Persistencia implements Serializable {
     @Override
     public int remove() {
         int transaccion = -1;
-        String PrepareDelete = "delete from Sedes where idSede=? and idempresa=?";
+        String PrepareDelete = "update Sedes set Estado = ? where idSede=?";
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareDelete);
-            preparedStatement.setInt(1, objSedesID.getIdSede());
-            preparedStatement.setInt(2, objSedesID.getIdEmpresa());
-
+            preparedStatement.setString(1, "I");
+            preparedStatement.setInt(2, objSedesID.getIdSede());
             transaccion = Sedes.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
@@ -170,7 +169,7 @@ public class Sedes extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         ArrayList<Sedes> List = new ArrayList();
-        String prepareQuery = "select * from Sedes where idempresa = " + objEmpresa.getIdEmpresa();
+        String prepareQuery = "select * from Sedes where Estado = 'A' and idempresa = " + objEmpresa.getIdEmpresa();
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Sedes.super.getConecion().query(prepareQuery);
@@ -199,14 +198,19 @@ public class Sedes extends Persistencia implements Serializable {
     
      public Sedes getSedeById(int id) {
         Sedes s = null;
-        String prepareQuery = "select idSede,Nombre from sedes where idSede = " + id + "";        
+        String prepareQuery = "select * from sedes where idSede = " + id + "";        
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Sedes.super.getConecion().query(prepareQuery);
             if (rs.absolute(1)) {
                 s = new Sedes();
                 s.getObjSedesID().setIdSede(rs.getInt(1));
-                s.setNombre(rs.getString(2));
+                s.getObjSedesID().setIdEmpresa(rs.getInt(2));
+                s.setEstado(rs.getString(3));
+                s.setNombre(rs.getString(4));
+                s.setDireccion(rs.getString(5));
+                s.setTelefono(rs.getString(6));
+                
             }
         } catch (SQLException ex) {
             System.out.println("Error Consulta : " + ex.toString());
@@ -225,6 +229,8 @@ public class Sedes extends Persistencia implements Serializable {
     public String toString() {
         return nombre;
     }
+
+    
 
     
     

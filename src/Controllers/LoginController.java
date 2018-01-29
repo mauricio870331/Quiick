@@ -11,6 +11,7 @@ import Views.Bienvenida;
 import Views.Modulo1;
 import Views.Login;
 import Views.Modulo2;
+import Views.ModuloRoot;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
 import java.awt.Image;
@@ -37,7 +38,7 @@ import javax.swing.JTextField;
 public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
-    private PrincipalController prc;
+    private final ModuloRoot MR = GetPrincipal.getModuloRoot();    
     Bienvenida bienvenida;
     Usuario u = null;
     private Set<Integer> pressed = new HashSet();
@@ -74,9 +75,16 @@ public class LoginController implements ActionListener {
                 if (rolu != null) {
 //                    switch (rolu.getObjRol().getIdRol()) {
                     lg.dispose();
-                    getBienvenida(rolu);
-                    getPrc();
-                    prc.setUsuarioLogeado(rolu);
+                    getCM1().setUsuarioLogeado(rolu);
+                    getCM2().setUsuarioLogeado(rolu);
+                    getCM3().setUsuarioLogeado(rolu);
+                    getCM4().setUsuarioLogeado(rolu);
+                    getCMRoot().setUsuarioLogeado(rolu);                    
+                    if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("root")) {
+                        MR.setVisible(true);
+                    } else {
+                        getBienvenida(rolu);
+                    }
                     u = null;
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Usuario o Clave Incorrecta..!", DesktopNotify.ERROR, 5000L);
@@ -90,8 +98,24 @@ public class LoginController implements ActionListener {
         }
     }
 
-    public PrincipalController getPrc() {
-        return prc = GetPrincipalController.getPrincipalController();
+    public ControllerM1 getCM1() {
+        return GetController.getControllerM1();
+    }
+
+    public ControllerM2 getCM2() {
+        return GetController.getControllerM2();
+    }
+
+    public ControllerM3 getCM3() {
+        return GetController.getControllerM3();
+    }
+
+    public ControllerM4 getCM4() {
+        return GetController.getControllerM4();
+    }
+    
+    public ControllerMRoot getCMRoot() {
+        return GetController.getControllerMRoot();
     }
 
     public int validarCampos(Object[] componentes) {
