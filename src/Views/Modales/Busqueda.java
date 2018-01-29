@@ -3,8 +3,10 @@ package Views.Modales;
 import Controllers.GetPrincipalController;
 import Controllers.PrincipalController;
 import Pojos.Usuario;
+import Pojos.producto;
 import java.sql.SQLException;
 import Views.Modulo1;
+import Views.Modulo2;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
@@ -20,32 +22,36 @@ public class Busqueda extends javax.swing.JDialog {
     /**
      * Creates new form CategoriasRegistrar
      */
-    Modulo1 principal;
+    Modulo1 M1;
+    Modulo2 M2;
     ArrayList<Object> listObjectos = new ArrayList();
     private PrincipalController prc;
 
-    public Busqueda(java.awt.Frame parent, boolean modal) throws SQLException {
+    public Busqueda(java.awt.Frame parent, boolean modal, int modulo) throws SQLException {
         super(parent, modal);
         initComponents();
         System.out.println("inicio edit");
         this.setLocationRelativeTo(null);
-        principal = (Modulo1) parent;
-        System.out.println("---- " + principal.getName());
-        System.out.println("---- " + principal.getTitle());
-        System.out.println("---- " + principal.getLayout().toString());
-        System.out.println("---- " + principal.getVistaActual());
+        if (modulo == 1) {
+            M1 = (Modulo1) parent;
+            if (M1.getVistaActual().equalsIgnoreCase("pnPagosService")
+                    || M1.getVistaActual().equalsIgnoreCase("pnReportes")) {
+                CargarPersonal();
+            }
+        } else if (modulo == 2) {
+            M2 = (Modulo2) parent;
+            System.out.println("--- " + M2.getVistaActual());
+            if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra")) {
+                CargarProductos();
+            }
 
-        if (principal.getVistaActual().equalsIgnoreCase("pnPagosService") || principal.getVistaActual().equalsIgnoreCase("pnReportes")) {
-            CargarPersonal();
         }
 
     }
 
     public void CargarPersonal() {
         Usuario p = new Usuario();
-
         listObjectos = (ArrayList<Object>) p.ListaUsuarios();
-
         DefaultTableModel model = new DefaultTableModel();
         String Titulos[] = {"id", "Cedula", "Nombre"};
         model = new DefaultTableModel(null, Titulos) {
@@ -54,26 +60,57 @@ public class Busqueda extends javax.swing.JDialog {
                 return false;
             }
         };
-
         Object[] columna = new Object[3];
 
         Iterator<Object> nombreIterator = listObjectos.iterator();
         while (nombreIterator.hasNext()) {
             p = (Usuario) nombreIterator.next();
-
             columna[0] = p.getObjPersona().getIdPersona();
             columna[1] = p.getObjPersona().getDocumento();
             columna[2] = p.getObjPersona().getNombreCompleto();
 
             model.addRow(columna);
         }
-//        model.addRow(new Object[]{"", ""});
         Datos.setModel(model);
         Datos.getColumnModel().getColumn(0).setMaxWidth(0);
         Datos.getColumnModel().getColumn(0).setMaxWidth(0);
         Datos.getColumnModel().getColumn(0).setPreferredWidth(0);
         Datos.getColumnModel().getColumn(1).setPreferredWidth(250);
         Datos.getColumnModel().getColumn(2).setPreferredWidth(100);
+        Datos.setRowHeight(20);
+        Datos.setModel(model);
+    }
+
+    public void CargarProductos() {
+        producto p = new producto();
+        listObjectos = (ArrayList<Object>) p.List();
+        DefaultTableModel model = new DefaultTableModel();
+        String Titulos[] = {"id","Codigo", "Nombre", "Stock"};
+        model = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[4];
+
+        Iterator<Object> nombreIterator = listObjectos.iterator();
+        while (nombreIterator.hasNext()) {
+            p = (producto) nombreIterator.next();
+            columna[0] = p.getCod_producto();
+            columna[1] = p.getSerieproducto();
+            columna[2] = p.getNombreProducto();
+            columna[3] = p.getStock();
+
+            model.addRow(columna);
+        }
+        Datos.setModel(model);
+        Datos.getColumnModel().getColumn(0).setMaxWidth(0);
+        Datos.getColumnModel().getColumn(0).setMaxWidth(0);
+        Datos.getColumnModel().getColumn(0).setPreferredWidth(0);
+        Datos.getColumnModel().getColumn(1).setPreferredWidth(100);
+        Datos.getColumnModel().getColumn(2).setPreferredWidth(250);
+        Datos.getColumnModel().getColumn(3).setPreferredWidth(100);
         Datos.setRowHeight(20);
         Datos.setModel(model);
     }
@@ -88,9 +125,9 @@ public class Busqueda extends javax.swing.JDialog {
 //            cod = (String) Datos.getValueAt(i, 0).toString().trim();
 //            prc = GetPrincipalController.getPrincipalController();
 //            int condicion = 1;
-////            JTable table = principal.tblListaPagosXuser;
+////            JTable table = M1.tblListaPagosXuser;
 //            for (Iterator<Object> it = listObjectos.iterator(); it.hasNext();) {
-//                if (principal.getVistaActual().equalsIgnoreCase("pnPagosService")) {
+//                if (M1.getVistaActual().equalsIgnoreCase("pnPagosService")) {
 //                    Usuario listObjecto = (Usuario) it.next();
 //                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
 //                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
@@ -98,13 +135,13 @@ public class Busqueda extends javax.swing.JDialog {
 //                        break;
 //                    }
 //                }
-//                if (principal.getVistaActual().equalsIgnoreCase("pnReportes")) {
+//                if (M1.getVistaActual().equalsIgnoreCase("pnReportes")) {
 //                    Usuario listObjecto = (Usuario) it.next();
 //                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
 //                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
 //                        prc.setUs(listObjecto);
 //                        condicion = 3;
-//                        table = principal.tblReportes;
+//                        table = M1.tblReportes;
 //                        break;
 //                    }
 //                }

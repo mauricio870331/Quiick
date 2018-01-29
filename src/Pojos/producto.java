@@ -14,9 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -43,6 +40,8 @@ public class producto extends Persistencia implements Serializable {
     private iva IvaP;
     private categoria categoria;
     private productosID productosID;
+
+    ArrayList<producto> ListProductos = new ArrayList<>();
 
     public producto() {
         super();
@@ -493,6 +492,14 @@ public class producto extends Persistencia implements Serializable {
 
     public BigDecimal PrecioSugerido(BigDecimal Costo, BigDecimal Ganancia) {
         return Costo.add(Costo.multiply(Ganancia.divide(new BigDecimal(100))));
+    }
+
+    public ArrayList<producto> getListProductos() {
+        return ListProductos;
+    }
+
+    public void setListProductos(ArrayList<producto> ListProductos) {
+        this.ListProductos = ListProductos;
     }
 
 }

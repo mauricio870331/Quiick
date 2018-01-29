@@ -13,6 +13,7 @@ import Views.Modulo1;
 import Views.FrmCapturePict;
 import Views.Modales.Busqueda;
 import Views.Modales.NuevaSede;
+import Views.Modales.NuevoProducto;
 import Views.Modulo2;
 import Views.Modulo3;
 import Views.Modulo4;
@@ -92,7 +93,11 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
     private TipoService Ts;
     private TipoPago Tp;
     private Proveedor pv;
+    private iva i;
+    public categoria c;
+    public Unidad u;
     private EmpresaProveedor ep;
+    public producto pr;
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat userFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     SimpleDateFormat hh = new SimpleDateFormat("HH:mm:ss");
@@ -128,6 +133,10 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         M2.mnuEditProveedor.addActionListener(this);
         M2.mnuDeleteProveedor.addActionListener(this);
         M2.btnCancelarProve.addActionListener(this);
+        M2.btnCompras.addActionListener(this);
+        M2.btnCompraTrans.addActionListener(this);
+        M2.BntTranCompraBuscar.addActionListener(this);
+        M2.BntTranCompraNuevo.addActionListener(this);
 ////        pr.mnuUsers.addMouseListener(this);
 ////        pr.mnuGimnasios.addMouseListener(this);     
 ////        pr.btnGuardar.addActionListener(this);
@@ -211,6 +220,30 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == M2.BntTranCompraNuevo) {
+            try {
+                new NuevoProducto(M2, true, this).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
+            }
+        }
+
+        if (e.getSource() == M2.BntTranCompraBuscar) {
+            try {
+                new Busqueda(M2, true, 2).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
+            }
+        }
+
+        if (e.getSource() == M2.btnCompraTrans) {
+            showPanel(2, "PnTransCompra");
+        }
+
+        if (e.getSource() == M2.btnCompras) {
+            showPanel(2, "PnCompras");
+        }
 
         if (e.getSource() == M2.btnProveedores || e.getSource() == M1.btnProveedores) {
             System.out.println("Ingreso a proveedores");
@@ -900,7 +933,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
 //            }
 //        }
-
 //
 //        if (e.getSource() == pr.mnuUpdate) {
 //            clearFormUsers();
@@ -1431,7 +1463,6 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
 //            generarReportes();
 //        }
-   
         //        if (e.getSource() == pr.mnuUpdate) {
         //            clearFormUsers();
         //            int fila = pr.tblUsers.getSelectedRow();
@@ -1961,7 +1992,7 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
         //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
         //            generarReportes();
         //        }
-  if (e.getSource() == M1.btnGuardarEmpresa) {
+        if (e.getSource() == M1.btnGuardarEmpresa) {
             Object[] componentes = {M1.txtDocNit, M1.txtNomEmpresa};
             if (validarCampos(componentes, "", M1) == 0) {
                 getEmpresas();
@@ -2108,10 +2139,26 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
                     case "PnProveedores":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(true);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
                         break;
                     case "PnEmpresaProveedor":
                         M2.PnEmpresaProveedor.setVisible(true);
                         M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        break;
+                    case "PnCompras":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        M2.PnCompras.setVisible(true);
+                        break;
+                    case "PnTransCompra":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(true);
                         break;
                 }
                 break;
@@ -3696,6 +3743,23 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 
         M2.tblProveedores.setRowHeight(30);
     }
+    
+    public void ListProductosAñadidos() {
+        getPr();
+        M2.tableProductosAdd.removeAll();
+        TablaModel tablaModel = new TablaModel(pr.getListProductos(), 2);
+        M2.tableProductosAdd.setModel(tablaModel.ModelListProveedor());
+        M2.tableProductosAdd.getColumnModel().getColumn(0).setPreferredWidth(10);
+        M2.tableProductosAdd.getColumnModel().getColumn(1).setPreferredWidth(50);
+        M2.tableProductosAdd.getColumnModel().getColumn(2).setPreferredWidth(20);
+        M2.tableProductosAdd.getColumnModel().getColumn(3).setPreferredWidth(50);
+        M2.tableProductosAdd.getColumnModel().getColumn(4).setPreferredWidth(20);
+        M2.tableProductosAdd.getColumnModel().getColumn(5).setPreferredWidth(10);
+        M2.tableProductosAdd.getColumnModel().getColumn(6).setPreferredWidth(20);
+        M2.tableProductosAdd.getColumnModel().getColumn(7).setPreferredWidth(6);
+
+        M2.tableProductosAdd.setRowHeight(30);
+    }
 
     public void CargarDatosEmpresaProvedor(int codigo) {
         int fila = M2.tblListaEmpresasProve.getSelectedRow();
@@ -3819,6 +3883,50 @@ public class PrincipalController implements ActionListener, MouseListener, KeyLi
 
     public void setEmpresas(Empresas empresas) {
         this.empresas = empresas;
+    }
+
+    public iva getI() {
+        if (i == null) {
+            i = new iva();
+        }
+        return i;
+    }
+
+    public void setI(iva i) {
+        this.i = i;
+    }
+
+    public categoria getC() {
+        if (c == null) {
+            c = new categoria();
+        }
+        return c;
+    }
+
+    public void setC(categoria c) {
+        this.c = c;
+    }
+
+    public Unidad getU() {
+        if (u == null) {
+            u = new Unidad();
+        }
+        return u;
+    }
+
+    public void setU(Unidad u) {
+        this.u = u;
+    }
+
+    public producto getPr() {
+        if (pr == null) {
+            pr = new producto();
+        }
+        return pr;
+    }
+
+    public void setPr(producto pr) {
+        this.pr = pr;
     }
 
 }
