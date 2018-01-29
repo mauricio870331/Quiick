@@ -9,6 +9,7 @@ import Views.Modulo1;
 import Views.Modulo2;
 import Views.Modulo3;
 import Views.Modulo4;
+import Views.ModuloRoot;
 
 /**
  *
@@ -20,6 +21,8 @@ public class GetPrincipal {
     public static Modulo2 M2 = null;
     public static Modulo3 M3 = null;
     public static Modulo4 M4 = null;
+    public static ModuloRoot MR = null;
+    
 
     public static Modulo1 getModulo1() {
         try {
@@ -33,6 +36,20 @@ public class GetPrincipal {
             System.out.println("error = " + e);
         }
         return M1;
+    }
+    
+    public static ModuloRoot getModuloRoot() {
+        try {
+            if (MR == null) {
+                MR = new ModuloRoot();
+                MR.setLocationRelativeTo(null);
+            } else {
+                System.out.println("Principal ya estaba instanceado");
+            }
+        } catch (Exception e) {
+            System.out.println("error = " + e);
+        }
+        return MR;
     }
 
     public static Modulo2 getModulo2() {

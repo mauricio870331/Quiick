@@ -9,27 +9,32 @@ import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author admin
  */
-public class Rol extends Persistencia implements Serializable {
+public class PerfilRoles extends Persistencia implements Serializable {
 
+    private ArrayList<String> perfiles;
     private int idRol;
-    private String Descripcion;
+    private int idUserlog;
     private String Estado;
+    SimpleDateFormat fFortmat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public Rol() {
+    public PerfilRoles() {
         super();
     }
 
-    public Rol(int idRol, String Descripcion, String Estado) {
-        super();
-        this.idRol = idRol;
-        this.Descripcion = Descripcion;
-        this.Estado = Estado;
+    public ArrayList<String> getPerfiles() {
+        return perfiles;
+    }
+
+    public void setPerfiles(ArrayList<String> perfiles) {
+        this.perfiles = perfiles;
     }
 
     public int getIdRol() {
@@ -38,14 +43,6 @@ public class Rol extends Persistencia implements Serializable {
 
     public void setIdRol(int idRol) {
         this.idRol = idRol;
-    }
-
-    public String getDescripcion() {
-        return Descripcion;
-    }
-
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
     }
 
     public String getEstado() {
@@ -57,22 +54,27 @@ public class Rol extends Persistencia implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return Descripcion;
-    }
-
-    @Override
     public int create() {
         int transaccion = -1;
-        String prepareInsert = "insert into Rol (Descripcion,estado) values (?,?)";
+        String deleteAfter = "delete from perfiles_x_rol where id_rol = ?";
+        String prepareInsert = "insert into perfiles_x_rol (id_perfil,id_rol,estado,create_at,update_at,create_by,update_by) values (?,?,?,?,?,?,?)";
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             this.getConecion().con.setAutoCommit(false);
-            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
-            preparedStatement.setString(1, Descripcion);
-            preparedStatement.setString(2, (Estado.equalsIgnoreCase("Activo") ? "A" : "I"));
-
-            transaccion = Rol.this.getConecion().transaccion(preparedStatement);
+            PreparedStatement prepareddelete = this.getConecion().con.prepareStatement(deleteAfter);
+            prepareddelete.setInt(1, idRol);
+            transaccion = PerfilRoles.this.getConecion().transaccion(prepareddelete);
+            for (String perfil : perfiles) {
+                PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
+                preparedStatement.setInt(1, Integer.parseInt(perfil));
+                preparedStatement.setInt(2, idRol);
+                preparedStatement.setString(3, Estado);
+                preparedStatement.setString(4, fFortmat.format(new Date()));
+                preparedStatement.setString(5, fFortmat.format(new Date()));
+                preparedStatement.setInt(6, idUserlog);
+                preparedStatement.setInt(7, idUserlog);
+                transaccion = PerfilRoles.this.getConecion().transaccion(preparedStatement);
+            }
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
         } finally {
@@ -87,29 +89,8 @@ public class Rol extends Persistencia implements Serializable {
     }
 
     @Override
-    public int edit() {
-        int transaccion = -1;
-        String PrepareUpdate = "update Rol set Descripcion=?,Estado=? where idRol=?";
-        try {
-            this.getConecion().con = this.getConecion().dataSource.getConnection();
-            this.getConecion().con.setAutoCommit(false);
-            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareUpdate);
-            preparedStatement.setString(1, Descripcion);
-            preparedStatement.setString(2, (Estado.equalsIgnoreCase("Activo") ? "A" : "I"));
-            preparedStatement.setInt(3, idRol);
-
-            transaccion = Rol.this.getConecion().transaccion(preparedStatement);
-        } catch (SQLException ex) {
-            System.out.println("Error SQL : " + ex.toString());
-        } finally {
-            try {
-                this.getConecion().getconecion().setAutoCommit(true);
-                this.getConecion().con.close();
-            } catch (SQLException ex) {
-                System.out.println(ex);
-            }
-        }
-        return transaccion;
+    public int edit() {             
+        return -1;
     }
 
     @Override
@@ -120,8 +101,8 @@ public class Rol extends Persistencia implements Serializable {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareDelete);
-            preparedStatement.setInt(1, idRol);
-            transaccion = Rol.this.getConecion().transaccion(preparedStatement);
+
+            transaccion = PerfilRoles.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
         } finally {
@@ -137,17 +118,15 @@ public class Rol extends Persistencia implements Serializable {
 
     @Override
     public java.util.List List() {
-        ArrayList<Rol> List = new ArrayList();
-        String prepareQuery = "select * from Rol";
+        ArrayList<String> List = new ArrayList();
+        String prepareQuery = "SELECT p.id_perfil FROM perfiles_x_rol pr "
+                + "join perfiles p on p.id_perfil = pr.id_perfil "
+                + "where id_rol = " + idRol;
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
-            ResultSet rs = Rol.super.getConecion().query(prepareQuery);
+            ResultSet rs = PerfilRoles.super.getConecion().query(prepareQuery);
             while (rs.next()) {
-                Rol tabla = new Rol();
-                tabla.setIdRol(rs.getInt(1));
-                tabla.setDescripcion(rs.getString(2));
-                tabla.setEstado(rs.getString(3));
-                List.add(tabla);
+                List.add(rs.getString(1));
             }
         } catch (SQLException ex) {
             System.out.println("Error Consulta : " + ex.toString());
@@ -160,17 +139,15 @@ public class Rol extends Persistencia implements Serializable {
         }
         return List;
     }
-    
-    
 
-    public Rol getRolbyId(int id_rol) {
-        Rol r = null;
+    public Perfil getPerfilbyId(int id_perfil) {
+        Perfil r = null;
         try {
-            String sql = "select * from rol where idRol = " + id_rol;
+            String sql = "select * from perfiles where id_perfil = " + id_perfil;
             this.getConecion().con = this.getConecion().dataSource.getConnection();
-            ResultSet rs = Rol.super.getConecion().query(sql);
+            ResultSet rs = PerfilRoles.super.getConecion().query(sql);
             if (rs.absolute(1)) {
-                r = new Rol(rs.getInt(1), rs.getString(2), rs.getString(3));
+                r = new Perfil(rs.getInt(1), rs.getString(2), rs.getString(3));
             }
         } catch (SQLException ex) {
             System.out.println("Error Consulta : " + ex.toString());
@@ -189,7 +166,7 @@ public class Rol extends Persistencia implements Serializable {
         try {
             String sql = "Select LAST_INSERT_ID()";
             this.getConecion().con = this.getConecion().dataSource.getConnection();
-            ResultSet rs = Rol.super.getConecion().query(sql);
+            ResultSet rs = PerfilRoles.super.getConecion().query(sql);
             if (rs.absolute(1)) {
                 id = rs.getInt(1);
             }
@@ -203,5 +180,14 @@ public class Rol extends Persistencia implements Serializable {
             }
         }
         return id;
-    }  
+    }
+
+    public int getIdUserlog() {
+        return idUserlog;
+    }
+
+    public void setIdUserlog(int idUserlog) {
+        this.idUserlog = idUserlog;
+    }
+
 }

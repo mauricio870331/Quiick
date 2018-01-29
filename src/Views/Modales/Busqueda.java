@@ -1,7 +1,5 @@
 package Views.Modales;
 
-import Controllers.GetPrincipalController;
-import Controllers.PrincipalController;
 import Pojos.Usuario;
 import Pojos.producto;
 import java.sql.SQLException;
@@ -25,7 +23,7 @@ public class Busqueda extends javax.swing.JDialog {
     Modulo1 M1;
     Modulo2 M2;
     ArrayList<Object> listObjectos = new ArrayList();
-    private PrincipalController prc;
+//    private PrincipalController prc;
 
     public Busqueda(java.awt.Frame parent, boolean modal, int modulo) throws SQLException {
         super(parent, modal);

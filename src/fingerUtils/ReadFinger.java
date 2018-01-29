@@ -6,8 +6,6 @@
 package fingerUtils;
 
 import Controllers.GetPrincipal;
-import Controllers.GetPrincipalController;
-import Controllers.PrincipalController;
 import Pojos.Asistencia;
 import Pojos.Huellas;
 import Pojos.PagoService;
@@ -63,7 +61,7 @@ public final class ReadFinger {
     private PagoService pagoservice;
     private Huellas huella;
     private persona objpersona;
-    private PrincipalController prc;
+//    private PrincipalController prc;
     IniciarAlerta iniAlerta;
     AnimarLbl animar;
     SimpleDateFormat hh = new SimpleDateFormat("HH:mm:ss");
@@ -78,7 +76,7 @@ public final class ReadFinger {
 //    AudioClip sonido;
 
     public ReadFinger() {
-        prc = GetPrincipalController.getPrincipalController();
+//        prc = GetPrincipalController.getPrincipalController();
 //        pr = GetPrincipal.getPrincipal();
         Iniciar();
     }
@@ -372,7 +370,7 @@ public final class ReadFinger {
                         a.setHoraMarcacion(new Date());
 
                         if (a.create() > 0) {
-                            prc.cargarTblAsistencias(null, null);//pendiente arreglar esta consulta
+//                            prc.cargarTblAsistencias(null, null);//pendiente arreglar esta consulta
                             DesktopNotify.showDesktopMessage("Aviso..!", "Usuario verificado: " + nombre
                                     + "", DesktopNotify.SUCCESS, 8000L);
                         } else {
@@ -383,7 +381,7 @@ public final class ReadFinger {
                         setAsistencias(null);
                         a = null;
                     } else {
-                        prc.cargarTblAsistencias(null, null);//pendiente arreglar esta consulta
+//                        prc.cargarTblAsistencias(null, null);//pendiente arreglar esta consulta
                         DesktopNotify.showDesktopMessage("Aviso..!", "Ya has asistido hoy, no es necesario volver a registrar la asistencia..!", DesktopNotify.WARNING, 8000L);
                     }
 
