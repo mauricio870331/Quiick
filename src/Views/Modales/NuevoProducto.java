@@ -1,7 +1,6 @@
 package Views.Modales;
 
-import Controllers.GetPrincipalController;
-import Controllers.PrincipalController;
+import Controllers.ControllerM2;
 import Pojos.Unidad;
 import Pojos.Usuario;
 import Pojos.categoria;
@@ -31,11 +30,11 @@ public class NuevoProducto extends javax.swing.JDialog {
      * Creates new form CategoriasRegistrar
      */
     Modulo2 M2;
-    private PrincipalController prc;
+    private ControllerM2 prc;
     Border Linea;
     Border Linea2;
 
-    public NuevoProducto(java.awt.Frame parent, boolean modal, PrincipalController p) throws SQLException {
+    public NuevoProducto(java.awt.Frame parent, boolean modal, ControllerM2 p) throws SQLException {
         super(parent, modal);
         initComponents();
         System.out.println("inicio edit");
@@ -451,6 +450,7 @@ public class NuevoProducto extends javax.swing.JDialog {
         p.setUnidad((Unidad) uni.getSelectedItem());
 
         prc.getPr().getListProductos().add(p);
+        prc.ListProductosAñadidos();
         this.dispose();
     }//GEN-LAST:event_BtnNewProductoActionPerformed
 
