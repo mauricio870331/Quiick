@@ -4161,12 +4161,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         while (nombreIterator.hasNext()) {
             Menus m = nombreIterator.next();
             pnMenuContent[i] = new JPanel();
-//            lblMnues[i] = new JLabel();
-//            lblMnues[i].setText(m.getNombre());
-//            lblMnues[i].setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-//            lblMnues[i].setForeground(new java.awt.Color(255, 255, 255));
-//            lblMnues[i].setAlignmentX(1200);
-//            lblMnues[i].setLocation(1200, i - 20);
             MR.pnMnus.add(crearPnMenu(pnMenuContent[i], m.getNombre(), m.getIdMenu()));
             i++;
         }
