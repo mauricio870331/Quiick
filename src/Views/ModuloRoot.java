@@ -324,6 +324,7 @@ public class ModuloRoot extends javax.swing.JFrame {
         pnTitleMnuUsers.setPreferredSize(new java.awt.Dimension(200, 25));
         pnTitleMnuUsers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel2.setBackground(new java.awt.Color(204, 0, 0));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("jLabel2");

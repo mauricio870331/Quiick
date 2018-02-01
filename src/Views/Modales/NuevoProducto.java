@@ -1,7 +1,7 @@
 package Views.Modales;
 
-import Controllers.GetPrincipalController;
-import Controllers.PrincipalController;
+//import Controllers.GetPrincipalController;
+//import Controllers.PrincipalController;
 import Pojos.Unidad;
 import Pojos.Usuario;
 import Pojos.categoria;
@@ -31,38 +31,38 @@ public class NuevoProducto extends javax.swing.JDialog {
      * Creates new form CategoriasRegistrar
      */
     Modulo2 M2;
-    private PrincipalController prc;
+//    private PrincipalController prc;
     Border Linea;
     Border Linea2;
 
-    public NuevoProducto(java.awt.Frame parent, boolean modal, PrincipalController p) throws SQLException {
+    public NuevoProducto(java.awt.Frame parent, boolean modal, Modulo2 p) throws SQLException {
         super(parent, modal);
         initComponents();
         System.out.println("inicio edit");
         this.setLocationRelativeTo(null);
         Linea = BorderFactory.createLineBorder(Color.RED, 2);
         Linea2 = BorderFactory.createLineBorder(Color.GRAY, 1);
-        prc = p;
+//        prc = p;
         inicarCarga();
 
     }
 
     public void inicarCarga() {
         //codigo.setText("" + controladorProducto.ventaProduct.getSecuencia().NumeradorObjecto("sq_mproducto"));
-        codigo.setText("1");
-
-        iva.removeAllItems();
-        for (iva listIva : (ArrayList<iva>) prc.getI().List()) {
-            iva.addItem(listIva);
-        }
-        categoria.removeAllItems();
-        for (categoria listcate : (ArrayList<categoria>) prc.getC().List()) {
-            categoria.addItem(listcate);
-        }
-        uni.removeAllItems();
-        for (Unidad listcate : (ArrayList<Unidad>) prc.getU().List()) {
-            uni.addItem(listcate);
-        }
+//        codigo.setText("1");
+//
+//        iva.removeAllItems();
+//        for (iva listIva : (ArrayList<iva>) prc.getI().List()) {
+//            iva.addItem(listIva);
+//        }
+//        categoria.removeAllItems();
+//        for (categoria listcate : (ArrayList<categoria>) prc.getC().List()) {
+//            categoria.addItem(listcate);
+//        }
+//        uni.removeAllItems();
+//        for (Unidad listcate : (ArrayList<Unidad>) prc.getU().List()) {
+//            uni.addItem(listcate);
+//        }
     }
 
     /**
@@ -331,19 +331,19 @@ public class NuevoProducto extends javax.swing.JDialog {
 
     private void costoFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_costoFFocusLost
         if (isNumero(costoF.getText())) {
-            if (costoF.getText().length() == 0 || costoF.getText().equalsIgnoreCase("0")) {
-                costoF.setBorder(Linea);
-            } else {
-                costoF.setBorder(Linea2);
-                prc.getC();
-                prc.c = (categoria) categoria.getSelectedItem();
-                if (prc.c.getGanancia().intValue() > 0) {
-                    BigDecimal valorProducto = null;
-                    valorProducto = (new BigDecimal(costoF.getText()).add(new BigDecimal(costoF.getText()).multiply(prc.c.getGanancia().divide(new BigDecimal(100)))));
-                    this.precioVenta.setText(" " + valorProducto.intValue());
-                }
-                costoF.setText("" + costoF.getText());
-            }
+//            if (costoF.getText().length() == 0 || costoF.getText().equalsIgnoreCase("0")) {
+//                costoF.setBorder(Linea);
+//            } else {
+//                costoF.setBorder(Linea2);
+//                prc.getC();
+//                prc.c = (categoria) categoria.getSelectedItem();
+//                if (prc.c.getGanancia().intValue() > 0) {
+//                    BigDecimal valorProducto = null;
+//                    valorProducto = (new BigDecimal(costoF.getText()).add(new BigDecimal(costoF.getText()).multiply(prc.c.getGanancia().divide(new BigDecimal(100)))));
+//                    this.precioVenta.setText(" " + valorProducto.intValue());
+//                }
+//                costoF.setText("" + costoF.getText());
+//            }
         } else {
             DesktopNotify.showDesktopMessage("Aviso..!", "El campo Costovrecibe solo valores Numericos , Mayores a cero", DesktopNotify.ERROR, 5000L);
         }
@@ -450,7 +450,7 @@ public class NuevoProducto extends javax.swing.JDialog {
         p.setIvaP((iva) iva.getSelectedItem());
         p.setUnidad((Unidad) uni.getSelectedItem());
 
-        prc.getPr().getListProductos().add(p);
+//        prc.getPr().getListProductos().add(p);
         this.dispose();
     }//GEN-LAST:event_BtnNewProductoActionPerformed
 

@@ -2271,7 +2271,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 
         listBtnMenus.forEach((listBtnMenu) -> {
             if (e.getSource() == listBtnMenu) {
-                System.out.println("btn " + listBtnMenu.getActionCommand());
+//                System.out.println("btn " + listBtnMenu.getActionCommand());
                 switch (listBtnMenu.getActionCommand()) {
                     case "Lista de Empresas":
                         ListEmpresas("");
@@ -4211,9 +4211,13 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         while (nombreIterator.hasNext()) {
             SubMenus s = nombreIterator.next();
             btnMnus[i] = new JButton();
-            btnMnus[i].setBackground(new java.awt.Color(54, 63, 73));
+            if (s.getSub_menu().equals("Verificar Asistencias")) {
+                btnMnus[i].setForeground(new java.awt.Color(255, 0, 0));
+            } else {
+                btnMnus[i].setForeground(new java.awt.Color(255, 255, 255));
+            }
             btnMnus[i].setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-            btnMnus[i].setForeground(new java.awt.Color(255, 255, 255));
+            btnMnus[i].setBackground(new java.awt.Color(54, 63, 73));
             btnMnus[i].setText(s.getSub_menu());
             btnMnus[i].setActionCommand(s.getSub_menu());
             btnMnus[i].setBorder(null);
