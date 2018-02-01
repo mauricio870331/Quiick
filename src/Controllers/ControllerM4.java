@@ -206,12 +206,12 @@ public class ControllerM4 implements ActionListener, MouseListener, KeyListener 
 //        System.out.println("pr.pnMicajaEstado.getText() " + pr.pnMicajaEstado.getText());
         MR.btnGuardarEmpresa.addActionListener(this);
         MR.btnCancelarEmpresa.addActionListener(this);
-        MR.btnEmpresas.addMouseListener(this);
+//        MR.btnEmpresas.addMouseListener(this);
         MR.mnuEditEmpresa.addActionListener(this);
         MR.mnuDeleteEmpresa.addActionListener(this);
         MR.mnuNewSede.addActionListener(this);
-        MR.btnGuardarRol.addActionListener(this);
-        MR.btnRoles.addActionListener(this);
+//        MR.btnGuardarRol.addActionListener(this);
+//        MR.btnRoles.addActionListener(this);
         MR.btnCancelarRol.addActionListener(this);
         MR.mnuEditRol.addActionListener(this);
         MR.mnuDeleteRol.addActionListener(this);
@@ -220,13 +220,13 @@ public class ControllerM4 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
-            System.out.println("Ingreso a proveedores");
-            CargarDatosInicialesProveedores(1, null);
-            cargarTiposDocumentosProveedor();
-            ListProveedores();
-            showPanel(2, "PnProveedores");
-        }
+//        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
+//            System.out.println("Ingreso a proveedores");
+//            CargarDatosInicialesProveedores(1, null);
+//            cargarTiposDocumentosProveedor();
+//            ListProveedores();
+//            showPanel(2, "PnProveedores");
+//        }
 
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
@@ -1967,15 +1967,15 @@ public class ControllerM4 implements ActionListener, MouseListener, KeyListener 
         //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
         //            generarReportes();
         //        }
-        if (e.getSource() == MR.btnEmpresas) {
-            ListEmpresas("");
-            showPanel(1, "pnEmpresas");
-        }
-
-        if (e.getSource() == MR.btnRoles) {
-            ListRoles("");
-            showPanel(1, "pnRoles");
-        }
+//        if (e.getSource() == MR.btnEmpresas) {
+//            ListEmpresas("");
+//            showPanel(1, "pnEmpresas");
+//        }
+//
+//        if (e.getSource() == MR.btnRoles) {
+//            ListRoles("");
+//            showPanel(1, "pnRoles");
+//        }
 
         if (e.getSource() == MR.btnGuardarEmpresa) {
             Object[] componentes = {MR.txtDocNit, MR.txtNomEmpresa};

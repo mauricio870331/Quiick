@@ -44,15 +44,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -67,13 +71,13 @@ import javax.swing.table.TableRowSorter;
  * @author Mauricio Herrera
  */
 public class ControllerMRoot implements ActionListener, MouseListener, KeyListener {
-    
+
     private final Modulo1 M1 = GetPrincipal.getModulo1();
     private final Modulo2 M2 = GetPrincipal.getModulo2();
     private final Modulo3 M3 = GetPrincipal.getModulo3();
     private final Modulo4 M4 = GetPrincipal.getModulo4();
     private final ModuloRoot MR = GetPrincipal.getModuloRoot();
-    
+
     public RolxUser UsuarioLogeado;
     private persona p;
     private RolxUser ruxuser;
@@ -111,17 +115,22 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
     String filtro = "";
     String opcPaginacion = "";
     private Object currentObject;
-    
+
     private int cantRegustrosUsuarios = 0;
     private final ArrayList<Ejercicios> newRutina = new ArrayList();
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
     private Empresas empresas;
     private Perfil perfil;
-    
+    private Menus menus;
+    private SubMenus submenus;
+    public JLabel lblMnues[];
+    public JPanel pnMenuContent[];
+    ArrayList<JButton> listBtnMenus = new ArrayList();
+
     public ControllerMRoot() throws IOException {
         inicomponents();
     }
-    
+
     private void inicomponents() throws IOException {
 ////        pr.mnuUsers.addMouseListener(this);
 ////        pr.mnuGimnasios.addMouseListener(this);     
@@ -130,7 +139,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        M1.mnuAsocFinger.addActionListener(this);
 ////        pr.btnBack.addActionListener(this);
 //        pr.btnAsistencias.addActionListener(this);
-//        pr.btnListUsers.addActionListener(this);
+//        MR.btnListUsers.addActionListener(this);        
 //        pr.mnuUpdate.addActionListener(this);
 //        pr.mnuDelete.addActionListener(this);
 ////        pr.btnGuardaAsistencia.addActionListener(this);
@@ -196,42 +205,45 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        cargarTblUsers(filtro);
 //        showPanel(2, "PnProveedores");
 //        System.out.println("pr.pnMicajaEstado.getText() " + pr.pnMicajaEstado.getText());
-        MR.btnGuardarEmpresa.addActionListener(this);
-        MR.btnCancelarEmpresa.addActionListener(this);
-        MR.btnEmpresas.addActionListener(this);
-        MR.mnuEditEmpresa.addActionListener(this);
-        MR.mnuDeleteEmpresa.addActionListener(this);
-        MR.mnuNewSede.addActionListener(this);
-        MR.btnGuardarRol.addActionListener(this);
-        MR.btnRoles.addActionListener(this);
-        MR.btnCancelarRol.addActionListener(this);
-        MR.mnuEditRol.addActionListener(this);
-        MR.mnuDeleteRol.addActionListener(this);
-        MR.mnuPerfilxRol.addActionListener(this);
-        MR.btnPerfil.addActionListener(this);
-        MR.btnGuardaPerfil.addActionListener(this);
-        MR.mnuEditPerfil.addActionListener(this);
-        MR.mnuDeletePerfil.addActionListener(this);
+
+//--nuevo--//
+//        MR.btnGuardarEmpresa.addActionListener(this);
+//        MR.btnCancelarEmpresa.addActionListener(this);
+//        MR.btnEmpresas.addActionListener(this);
+//        MR.mnuEditEmpresa.addActionListener(this);
+//        MR.mnuDeleteEmpresa.addActionListener(this);
+//        MR.mnuNewSede.addActionListener(this);
+//        MR.btnGuardarRol.addActionListener(this);
+//        MR.btnRoles.addActionListener(this);
+//        MR.btnCancelarRol.addActionListener(this);
+//        MR.mnuEditRol.addActionListener(this);
+//        MR.mnuDeleteRol.addActionListener(this);
+//        MR.mnuPerfilxRol.addActionListener(this);
+//        MR.btnPerfil.addActionListener(this);
+//        MR.btnGuardaPerfil.addActionListener(this);
+//        MR.mnuEditPerfil.addActionListener(this);
+//        MR.mnuDeletePerfil.addActionListener(this);
+        //--fin nuevo --//
+        cargarMenus();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
-            System.out.println("Ingreso a proveedores");
-            CargarDatosInicialesProveedores(1, null);
-            cargarTiposDocumentosProveedor();
-            ListProveedores();
-            showPanel(2, "PnProveedores");
-        }
-        
+
+//        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
+//            System.out.println("Ingreso a proveedores");
+//            CargarDatosInicialesProveedores(1, null);
+//            cargarTiposDocumentosProveedor();
+//            ListProveedores();
+//            showPanel(2, "PnProveedores");
+//        }
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
             getP();
-            
+
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-            
+
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -249,7 +261,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-            
+
             if (mns.length() == 0) {
                 if (pv.create() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear el proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -277,18 +289,18 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                     DesktopNotify.showDesktopMessage("Aviso..!", "Error al Eliminar Empresa", DesktopNotify.ERROR, 5000L);
                 }
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnCancelarProve) {
-            
+
             M2.txtDocProve.setText("");
             M2.txtNombresProve.setText("");
             M2.txtApellidosProve.setText("");
             M2.txtTelefonosProve.setText("");
             M2.btnGuardarProve.setText("Guardar");
         }
-        
+
         if (e.getSource() == M2.mnuEditProveedor) {
             int fila = M2.tblProveedores.getSelectedRow();
             if (fila >= 0) {
@@ -296,16 +308,16 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 CargarDatosProvedor(Integer.parseInt(codigo));
                 M2.btnGuardarProve.setText("Editar");
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Editar")) {
             getPv();
             getP();
-            
+
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-            
+
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -323,7 +335,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-            
+
             if (mns.length() == 0) {
                 if (pv.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -337,7 +349,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProvedorCancelar) {
             M2.txtProveEmpNombre.setText("");
             M2.txtProveEmpNit.setText("");
@@ -345,7 +357,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             M2.txtProveEmpTelefono.setText("");
             M2.btnEmpresaProveGuardar.setText("Guardar");
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Editar")) {
             getEp();
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
@@ -354,7 +366,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-            
+
             if (mns.length() == 0) {
                 if (ep.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar Empresa", DesktopNotify.INFORMATION, 5000L);
@@ -371,26 +383,26 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.mnuEditEmpresa) {
             int fila = M2.tblListaEmpresasProve.getSelectedRow();
             if (fila >= 0) {
                 String codigo = M2.tblListaEmpresasProve.getValueAt(fila, 0).toString();
                 CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Guardar")) {
             getEp();
-            
+
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
             ep.setNit(M2.txtProveEmpNit.getText().trim());
             ep.setDireccion(M2.txtProveEmpDireccion.getText().trim());
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-            
+
             if (mns.length() == 0) {
                 if (ep.getNombreEmpresa().length() > 0) {
                     if (ep.create() > 0) {
@@ -409,7 +421,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.btnViewEmpresaProvedor) {
             ListEmpresasProveedor("");
             showPanel(2, "PnEmpresaProveedor");
@@ -1964,21 +1976,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
         //            generarReportes();
         //        }
-        if (e.getSource() == MR.btnEmpresas) {
-            ListEmpresas("");
-            showPanel(0, "pnEmpresas");
-        }
-        
-        if (e.getSource() == MR.btnRoles) {
-            ListRoles("");
-            showPanel(0, "pnRoles");
-        }
-        
-        if (e.getSource() == MR.btnPerfil) {
-            ListPerfiles("");
-            showPanel(0, "pnPerfil");
-        }
-        
         if (e.getSource() == MR.btnGuardarEmpresa) {
             Object[] componentes = {MR.txtDocNit, MR.txtNomEmpresa};
             if (validarCampos(componentes, "", MR) == 0) {
@@ -2010,17 +2007,17 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
                 }
-                
+
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.btnCancelarEmpresa) {
             currentObject = null;
             LimpiarCampos("empresas");
         }
-        
+
         if (e.getSource() == MR.mnuEditEmpresa) {
             MR.btnGuardarEmpresa.setText("Editar");
             int fila = MR.tblEmpresas.getSelectedRow();
@@ -2045,7 +2042,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                         } catch (IOException ex) {
                             System.out.println("error " + ex);
                         }
-                        
+
                     } else {
                         MR.lblLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
                     }
@@ -2054,7 +2051,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuDeleteEmpresa) {
             int fila = MR.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
@@ -2078,7 +2075,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuNewSede) {
             int fila = MR.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
@@ -2121,17 +2118,17 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
                 }
-                
+
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.btnCancelarRol) {
             currentObject = null;
             LimpiarCampos("rol");
         }
-        
+
         if (e.getSource() == MR.mnuEditRol) {
             MR.btnGuardarRol.setText("Editar");
             int fila = MR.tblRoles.getSelectedRow();
@@ -2147,7 +2144,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuDeleteRol) {
             int fila = MR.tblRoles.getSelectedRow();
             if (fila >= 0) {
@@ -2170,23 +2167,23 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuPerfilxRol) {
-            
+
             int fila = MR.tblRoles.getSelectedRow();
             if (fila >= 0) {
                 getRol();
                 currentObject = rol.getRolbyId(Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()));
-                if (currentObject != null) {                    
+                if (currentObject != null) {
                     try {
-                        PerfilXRol pxr = new PerfilXRol(MR, true, Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()),UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
-                        pxr.lblRol.setText(pxr.lblRol.getText()+" "+((Rol) currentObject).getDescripcion());
+                        PerfilXRol pxr = new PerfilXRol(MR, true, Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()), UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
+                        pxr.lblRol.setText(pxr.lblRol.getText() + " " + ((Rol) currentObject).getDescripcion());
                         pxr.setLocationRelativeTo(null);
                         pxr.setVisible(true);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerMRoot.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 }
                 setRol(null);
             } else {
@@ -2222,17 +2219,17 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
                 }
-                
+
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.btnCancelarRol) {
             currentObject = null;
             LimpiarCampos("perfil");
         }
-        
+
         if (e.getSource() == MR.mnuEditPerfil) {
             MR.btnGuardaPerfil.setText("Editar");
             int fila = MR.tblPerfiles.getSelectedRow();
@@ -2248,7 +2245,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuDeleteRol) {
             int fila = MR.tblRoles.getSelectedRow();
             if (fila >= 0) {
@@ -2272,14 +2269,34 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
         }
 
+        listBtnMenus.forEach((listBtnMenu) -> {
+            if (e.getSource() == listBtnMenu) {
+                System.out.println("btn " + listBtnMenu.getActionCommand());
+                switch (listBtnMenu.getActionCommand()) {
+                    case "Lista de Empresas":
+                        ListEmpresas("");
+                        showPanel(0, "pnEmpresas");
+                        break;
+                    case "Lista de Roles":
+                        ListRoles("");
+                        showPanel(0, "pnRoles");
+                        break;
+                    case "Lista Perfiles":
+                        ListPerfiles("");
+                        showPanel(0, "pnPerfil");
+                        break;
+                }
+            }
+        });
+
         //******Fin Crud Perfiles ********\\
     }
-    
+
     private void addFilter() {
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.JPG)", "jpg"));
     }
-    
+
     public void showPanel(int Modulo, String string) {
         switch (Modulo) {
             case 0:
@@ -2325,11 +2342,11 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             case 4:
                 M4.setVistaActual(string);
                 break;
-            
+
         }
-        
+
     }
-    
+
     private void cargarTiposDocumentos() {
 //        Iterator<TipoDocumento> it = getTd().List().iterator();
 //        pr.cboTiposDoc.removeAllItems();
@@ -2345,7 +2362,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        setTd(null);
 //        t = null;
     }
-    
+
     private void CargarServicios() {
 //        getTs();
 //        pr.combotiposService.removeAllItems();
@@ -2357,7 +2374,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            pr.combotiposService1.addItem(listServicio);
 //        }
     }
-    
+
     private void CargarTiposPagos() {
 //        getTp();
 //        pr.combotiposPago.removeAllItems();
@@ -2368,7 +2385,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            pr.combotiposPago1.addItem(listServicio);
 //        }
     }
-    
+
     private void cargarDescuentosPagos(int condicion, int panel) {
 //        getTs();
 //        if (condicion == 1) {
@@ -2411,7 +2428,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        }
 
     }
-    
+
     public void PagosBuscarPersona(int condicion, JTable table) {
 //        switch (condicion) {
 //            case 1:
@@ -2456,7 +2473,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        setRd(null);
 //        r = null;
     }
-    
+
     private void cargarMusculos() {
 //        Iterator<Musculos> it = getMusculos().List().iterator();
 //        pr.cboMusculos.removeAllItems();
@@ -2471,7 +2488,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        setMusculos(null);
 //        m = null;
     }
-    
+
     private void cargarDiasMusculos() {
 //        Iterator<dias> it = getDias().List().iterator();
 //        Iterator<Musculos> itmus = getMusculos().List().iterator();
@@ -2500,7 +2517,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        d = null;
 //        e = null;
     }
-    
+
     private void cargarEmpresas() {//Gyms
 //        Iterator<Empresa> it = getEmp().List().iterator();
 //        pr.cboGym.removeAllItems();
@@ -2513,7 +2530,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        setEmp(null);
 ////        e = null;
     }
-    
+
     private void cargarSedesByEmprsa(int id_empresa) {//sede * Gyms
 //        Sedes s = getSede();
 //        s.getObjEmpresa().setIdempresa(id_empresa);
@@ -2531,7 +2548,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        setSede(null);
 //        s2 = null;
     }
-    
+
     private void cargarTblUsers(String filtro) throws IOException {
 //        pr.tblUsers.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2600,7 +2617,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        setRuxser(null);
 //        setTd(null);
     }
-    
+
     public void paginarRs() {
 //        total registros  
 //        float totalRegistros = getRuxuser().CountRs(filtro);
@@ -2610,7 +2627,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.totalRegistros.setText(texto);
 
     }
-    
+
     public void cargarTblAsistencias(Date inicio, Date fin) {
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 //        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -2653,7 +2670,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblAsistencias.setModel(modelo);
 //        setAd(null);
     }
-    
+
     private void cargarTblMusculos(String filtro) {
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 //        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -2693,7 +2710,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblMusculos.setRowHeight(25);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblEjercicios(String filtro) throws IOException {
 //        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2750,7 +2767,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblEjercicios.setRowHeight(60);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblEjercicios2(int idMusculo) throws IOException {
 //        pr.tblEjercicios2.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2813,7 +2830,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //
 //        setMusculos(null);
     }
-    
+
     private void cargarTblNewRutina() throws IOException {
 //        pr.tblNewRutina.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2866,7 +2883,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblNewRutina.setModel(modelo);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblRutinas(String filtro) throws IOException {
 //        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2923,7 +2940,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblEjercicios.setRowHeight(60);
 //        setMusculos(null);
     }
-    
+
     private void clearFormUsers() {
 //        pr.btnGuardar.setText("Guardar");
 //        pr.cboTiposDoc.setSelectedIndex(0);
@@ -2959,52 +2976,52 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            pr.txtUser, pr.txtClave, pr.cldDesdePagos, pr.cldHastaPagos, pr.cldFechaPagoHistory, pr.cldFechaPagoDesde, pr.cldFechaPagoHasta};
 //        resetCampos(componentes);
     }
-    
+
     public CaptureFinger getCf() {
         if (cf == null) {
             cf = new CaptureFinger();
         }
         return cf;
     }
-    
+
     public void setCf(CaptureFinger cf) {
         this.cf = cf;
     }
-    
+
     public ReadFinger getRf() {
         if (rf == null) {
             rf = new ReadFinger();
         }
         return rf;
     }
-    
+
     public void setRf(ReadFinger rf) {
         this.rf = rf;
     }
-    
+
     public Rol getRol() {
         if (rol == null) {
             rol = new Rol();
         }
         return rol;
     }
-    
+
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-    
+
     public TipoDocumento getTd() {
         if (td == null) {
             td = new TipoDocumento();
         }
         return td;
     }
-    
+
     public void setTd(TipoDocumento td) {
         this.td = td;
-        
+
     }
-    
+
     public int validarCampos(Object[] componentes, String nameComponent, Object Modulo) {
 //        ((Modulo1) Modulo).txtDocNit.getText();
         int countErrors = 0;
@@ -3065,7 +3082,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         }
         return countErrors;
     }
-    
+
     public void resetCampos(Object[] componentes) {
         for (Object componente : componentes) {
             if (componente instanceof JTextField) {
@@ -3079,34 +3096,34 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
         }
     }
-    
+
     public Asistencia getAd() {
         if (ad == null) {
             ad = new Asistencia();
         }
         return ad;
     }
-    
+
     public void setAd(Asistencia ad) {
         this.ad = ad;
     }
-    
+
     public int getCountAction() {
         return countAction;
     }
-    
+
     public void setCountAction(int countAction) {
         this.countAction += countAction;
     }
-    
+
     public String getFoto() {
         return foto;
     }
-    
+
     public void setFoto(String foto) {
         this.foto = foto;
     }
-    
+
     private void borrarImagenTemp() {
         try {
             File archivo = new File(System.getProperty("java.io.tmpdir") + "\\default.png");
@@ -3122,7 +3139,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             System.out.println(e);
         }
     }
-    
+
     public void setPrimero() {
         desde = 0;
         hasta = 10;
@@ -3131,7 +3148,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setMas() {
         desde += hasta;
         currentpage += 1;
@@ -3139,7 +3156,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setMenos() {
         if (desde > 0) {
             desde -= hasta;
@@ -3152,7 +3169,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setUltimo() {
         float totalRegistros = getRuxuser().CountRs(filtro);
         float totalPaginas = totalRegistros / cantidadregistros;
@@ -3163,7 +3180,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta + " totalPaginas " + currentpage + " ulttimo = " + ultimo);
     }
-    
+
     private void inhabilitarPaginacion() {
 //        System.out.println("opc " + opcPaginacion);
 //        float cant_reg = getRuxuser().CountRs(filtro);
@@ -3267,103 +3284,103 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //
 //        }
     }
-    
+
     public persona getP() {
         if (p == null) {
             p = new persona();
         }
         return p;
     }
-    
+
     public void setP(persona p) {
         this.p = p;
     }
-    
+
     public RolxUser getRuxuser() {
         if (ruxuser == null) {
             ruxuser = new RolxUser();
         }
         return ruxuser;
     }
-    
+
     public void setRuxser(RolxUser ruxuser) {
         this.ruxuser = ruxuser;
     }
-    
+
     public UsuarioID getUid() {
         if (uid == null) {
             uid = new UsuarioID();
         }
         return uid;
     }
-    
+
     public void setUid(UsuarioID uid) {
         this.uid = uid;
     }
-    
+
     public Usuario getUs() {
         if (us == null) {
             us = new Usuario();
         }
         return us;
     }
-    
+
     public void setUs(Usuario us) {
         this.us = us;
     }
-    
+
     public Sedes getSede() {
         if (sede == null) {
             sede = new Sedes();
         }
         return sede;
     }
-    
+
     public void setSede(Sedes sede) {
         this.sede = sede;
     }
-    
+
     public int getCantRegustrosUsuarios() {
         return cantRegustrosUsuarios;
     }
-    
+
     public void setCantRegustrosUsuarios(int cantRegustrosUsuarios) {
         this.cantRegustrosUsuarios = cantRegustrosUsuarios;
     }
-    
+
     public Musculos getMusculos() {
         if (musculos == null) {
             musculos = new Musculos();
         }
         return musculos;
     }
-    
+
     public void setMusculos(Musculos musculos) {
         this.musculos = musculos;
     }
-    
+
     public Ejercicios getEjercicio() {
         if (ejercicio == null) {
             ejercicio = new Ejercicios();
         }
         return ejercicio;
     }
-    
+
     public void setEjercicio(Ejercicios ejercicio) {
         this.ejercicio = ejercicio;
     }
-    
+
     public dias getDias() {
         if (dias == null) {
             dias = new dias();
         }
         return dias;
     }
-    
+
     public void setDias(dias dias) {
         this.dias = dias;
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
 //        if (e.getSource() == pr.tblEjercicios2) {
@@ -3462,7 +3479,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //
 //        }
     }
-    
+
     public void EstadoMiCaja() throws ClassNotFoundException {
 //        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
 //        getMiCaja();
@@ -3499,7 +3516,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 ////            pr.btnReporteCaja.setEnabled(true);
 //        }
     }
-    
+
     public void CargarDatosCaja(int condicion) {
 
 //        ArrayList<PagoService> listUsuario = new ArrayList();
@@ -3539,55 +3556,55 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblListaPagos.setRowHeight(30);
 ////        pr.tblListaPagos.getColumnModel().getColumn(2).setCellRenderer(Alinear);
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
-        
+
     }
-    
+
     private void cargarAllEjericios() {
         allEjercicios.clear();
         newRutina.clear();
         allEjercicios = (ArrayList<Ejercicios>) getEjercicio().List();
         setEjercicio(null);
     }
-    
+
     public Rutina getRutina() {
         if (rutina == null) {
             rutina = new Rutina();
         }
         return rutina;
     }
-    
+
     public void setRutina(Rutina rutina) {
         this.rutina = rutina;
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
 //        if (e.getSource() == pr.tblNewRutina) {
@@ -3606,7 +3623,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            }
 //        }
     }
-    
+
     public void RestaurarValoresViewPago(String Doc, String Nombre, boolean restaurarUser) {
 //        if (restaurarUser) {
 //            us = null;
@@ -3617,7 +3634,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.txtpagosCedula.setText(Doc);
 //        pr.txtpagosNombre.setText(Nombre);
     }
-    
+
     public void ListPagosXuser(JTable table) {
         if (us != null) {
             ArrayList<PagoService> listPagos = new ArrayList();
@@ -3664,7 +3681,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        ListPagosXuser(pr.tblListaPagosXuser);
 //        showPanel("pnPagosService");
     }
-    
+
     public void generarReportes() {
 //        //llamar metodo agerar reporte de pagoservices pojo
 //        Object[] componentes = {pr.txtUserForReports};
@@ -3685,63 +3702,63 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        }
 
     }
-    
+
     public CajaXUser getMiCaja() {
         if (MiCaja == null) {
             MiCaja = new CajaXUser();
         }
         return MiCaja;
     }
-    
+
     public void setMiCaja(CajaXUser MiCaja) {
         this.MiCaja = MiCaja;
     }
-    
+
     public RolxUser getUsuarioLogeado() {
         if (UsuarioLogeado == null) {
             UsuarioLogeado = new RolxUser();
         }
         return UsuarioLogeado;
     }
-    
+
     public void setUsuarioLogeado(RolxUser UsuarioLogeado) {
         getUsuarioLogeado();
         this.UsuarioLogeado = UsuarioLogeado;
     }
-    
+
     public PagoService getPagoService() {
         if (pagoService == null) {
             pagoService = new PagoService();
         }
         return pagoService;
     }
-    
+
     public void setPagoService(PagoService pagoService) {
         this.pagoService = pagoService;
     }
-    
+
     public TipoService getTs() {
         if (Ts == null) {
             Ts = new TipoService();
         }
         return Ts;
     }
-    
+
     public void setTs(TipoService Ts) {
         this.Ts = Ts;
     }
-    
+
     public TipoPago getTp() {
         if (Tp == null) {
             Tp = new TipoPago();
         }
         return Tp;
     }
-    
+
     public void setTp(TipoPago Tp) {
         this.Tp = Tp;
     }
-    
+
     public void Adaptador() {
         MR.addWindowListener(new WindowAdapter() {
             @Override
@@ -3756,7 +3773,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
         });
     }
-    
+
     private void cargarHistorialPagos(int id_usuario, Date desde, Date hasta, JTable table) {
 //        ArrayList<PagoService> listPagos = new ArrayList();
 //        listPagos = (ArrayList<PagoService>) getPagoService().ListPagosXClientes(id_usuario, desde, hasta);
@@ -3805,21 +3822,21 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        table.getColumnModel().getColumn(7).setCellRenderer(Alinear);
 //        table.setRowHeight(30);
     }
-    
+
     public Reportes getReportes() {
         if (reportes == null) {
             reportes = new Reportes();
         }
         return reportes;
     }
-    
+
     public void setReportes(Reportes reportes) {
         this.reportes = reportes;
     }
-    
+
     public void CargarDatosInicialesProveedores(int condicion, EmpresaProveedor ObjEmp) {
         getEp();
-        
+
         if (condicion == 1) {
             ArrayList<EmpresaProveedor> ListEmp = new ArrayList();
             ListEmp = (ArrayList<EmpresaProveedor>) ep.List();
@@ -3835,9 +3852,9 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 M2.cboEmpresasProveedor.addItem(empresaProveedor);
             }
         }
-        
+
     }
-    
+
     private void cargarTiposDocumentosProveedor() {
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
@@ -3853,17 +3870,17 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         setTd(null);
         t = null;
     }
-    
+
     public void ListEmpresasProveedor(String filtro) {
         getEp();
         ArrayList<EmpresaProveedor> listEmpresaProve = new ArrayList();
-        
+
         if (filtro.length() <= 0) {
             listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.List();
         } else if (filtro.length() > 0) {
             //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
         }
-        
+
         M2.tblListaEmpresasProve.removeAll();
         TablaModel tablaModel = new TablaModel(listEmpresaProve, 4);
         M2.tblListaEmpresasProve.setModel(tablaModel.ModelListEmpresasProveedor());
@@ -3872,16 +3889,16 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         M2.tblListaEmpresasProve.getColumnModel().getColumn(2).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(3).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(4).setPreferredWidth(10);
-        
+
         M2.tblListaEmpresasProve.setRowHeight(30);
     }
-    
+
     public void ListProveedores() {
         getPv();
         ArrayList<Proveedor> listaProveedores = new ArrayList();
-        
+
         listaProveedores = (ArrayList<Proveedor>) pv.List();
-        
+
         M2.tblProveedores.removeAll();
         TablaModel tablaModel = new TablaModel(listaProveedores, 3);
         M2.tblProveedores.setModel(tablaModel.ModelListProveedor());
@@ -3893,42 +3910,42 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         M2.tblProveedores.getColumnModel().getColumn(5).setPreferredWidth(10);
         M2.tblProveedores.getColumnModel().getColumn(6).setPreferredWidth(20);
         M2.tblProveedores.getColumnModel().getColumn(7).setPreferredWidth(6);
-        
+
         M2.tblProveedores.setRowHeight(30);
     }
-    
+
     public void CargarDatosEmpresaProvedor(int codigo) {
         int fila = M2.tblListaEmpresasProve.getSelectedRow();
         if (fila >= 0) {
             getEp();
             ep = ep.BuscarEmpresaXCodigo(codigo);
-            
+
             M2.txtProveEmpNombre.setText(ep.getNombreEmpresa());
             M2.txtProveEmpNit.setText(ep.getNit());
             M2.txtProveEmpDireccion.setText(ep.getDireccion());
             M2.txtProveEmpTelefono.setText(ep.getTelefono());
-            
+
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-    
+
     public void CargarDatosProvedor(int codigo) {
         int fila = M2.tblProveedores.getSelectedRow();
         if (fila >= 0) {
             getPv();
             pv = pv.BuscarProveedor(codigo);
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
-            
+
             M2.txtDocProve.setText(pv.getPersona().getDocumento());
             M2.txtNombresProve.setText(pv.getPersona().getNombre());
             M2.txtApellidosProve.setText(pv.getPersona().getApellido());
             M2.txtTelefonosProve.setText(pv.getPersona().getTelefono());
             CargarDatosInicialesProveedores(2, pv.getEmpresa());
-            
+
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-    
+
     public void LimpiarCampos(String menu) {
         switch (menu) {
             case "proveedores":
@@ -3958,7 +3975,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 break;
         }
     }
-    
+
     public void ListEmpresas(String filtro) {
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
         Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -3991,12 +4008,12 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         MR.tblEmpresas.setModel(modelo);
         MR.tblEmpresas.getColumnModel().getColumn(0).setMaxWidth(0);
         MR.tblEmpresas.getColumnModel().getColumn(0).setMinWidth(0);
-        MR.tblEmpresas.getColumnModel().getColumn(0).setPreferredWidth(0);      
+        MR.tblEmpresas.getColumnModel().getColumn(0).setPreferredWidth(0);
         MR.tblEmpresas.setModel(modelo);
 //        table.setRowHeight(30);
     }
-    
-    public void ListRoles(String filtro) {        
+
+    public void ListRoles(String filtro) {
         DefaultTableModel modelo;
         String Titulos[] = {"", "Descripción", "Estado"};
         getRol();
@@ -4028,7 +4045,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         MR.tblRoles.setModel(modelo);
 //        table.setRowHeight(30);
     }
-    
+
     public void ListPerfiles(String filtro) {
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
         Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -4063,49 +4080,162 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         MR.tblPerfiles.setModel(modelo);
 //        table.setRowHeight(30);
     }
-    
+
     public Proveedor getPv() {
         if (pv == null) {
             pv = new Proveedor();
         }
         return pv;
     }
-    
+
     public void setPv(Proveedor pv) {
         this.pv = pv;
     }
-    
+
     public EmpresaProveedor getEp() {
         if (ep == null) {
             ep = new EmpresaProveedor();
         }
         return ep;
     }
-    
+
     public void setEp(EmpresaProveedor ep) {
         this.ep = ep;
     }
-    
+
     public Empresas getEmpresas() {
         if (empresas == null) {
             empresas = new Empresas();
         }
         return empresas;
     }
-    
+
     public void setEmpresas(Empresas empresas) {
         this.empresas = empresas;
     }
-    
+
     public Perfil getPerfil() {
         if (perfil == null) {
             perfil = new Perfil();
         }
         return perfil;
     }
-    
+
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
-    
+
+    public Menus getMenus() {
+        if (menus == null) {
+            menus = new Menus();
+        }
+        return menus;
+    }
+
+    public void setMenus(Menus menus) {
+        this.menus = menus;
+    }
+
+    public SubMenus getSubmenus() {
+        if (submenus == null) {
+            submenus = new SubMenus();
+        }
+        return submenus;
+    }
+
+    public void setSubmenus(SubMenus submenus) {
+        this.submenus = submenus;
+    }
+
+    private void cargarMenus() {
+        getMenus();
+        List<Menus> list = menus.List();
+        int cantMenus = list.size();
+        MR.pnMnus.removeAll();
+        MR.pnMnus.setOpaque(false);
+        MR.pnMnus.setLayout(new java.awt.GridLayout(4, 1, 150, 0));
+        lblMnues = new JLabel[cantMenus];
+        pnMenuContent = new JPanel[cantMenus];
+        int i = 0;
+        Iterator<Menus> nombreIterator = list.iterator();
+        while (nombreIterator.hasNext()) {
+            Menus m = nombreIterator.next();
+            pnMenuContent[i] = new JPanel();
+//            lblMnues[i] = new JLabel();
+//            lblMnues[i].setText(m.getNombre());
+//            lblMnues[i].setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+//            lblMnues[i].setForeground(new java.awt.Color(255, 255, 255));
+//            lblMnues[i].setAlignmentX(1200);
+//            lblMnues[i].setLocation(1200, i - 20);
+            MR.pnMnus.add(crearPnMenu(pnMenuContent[i], m.getNombre(), m.getIdMenu()));
+            i++;
+        }
+        setMenus(null);
+        MR.pnMnus.updateUI();
+    }
+
+    public JPanel crearPnMenu(JPanel panel, String texto, int idMenu) {
+        getSubmenus();
+        submenus.setIdMenu(idMenu);
+        List<SubMenus> list = submenus.List();
+        int cantSubMenus = list.size();
+        JButton btnMnus[] = new JButton[cantSubMenus];
+        int i = 0;
+
+        panel.setOpaque(false);
+        panel.setLayout(new java.awt.BorderLayout());
+
+        JPanel pnTitleMnuUsers = new JPanel();
+        JPanel pnContentMnuUsers = new JPanel();
+        JLabel lblTextMenu = new JLabel();
+        JSeparator sp = new JSeparator();
+
+        //add tittle mnu
+        pnTitleMnuUsers.setOpaque(false);
+        pnTitleMnuUsers.setPreferredSize(new java.awt.Dimension(200, 25));
+        pnTitleMnuUsers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblTextMenu.setFont(new java.awt.Font("Segoe UI", 3, 11)); // NOI18N
+        lblTextMenu.setForeground(new java.awt.Color(255, 255, 255));
+        lblTextMenu.setText(texto);
+
+        pnTitleMnuUsers.add(lblTextMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 4, 190, -1));
+        pnTitleMnuUsers.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 19, 180, -1));
+
+        //add content mnu
+        pnContentMnuUsers.setOpaque(false);
+        pnContentMnuUsers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        //add btnMnus
+        Iterator<SubMenus> nombreIterator = list.iterator();
+        int y = 0;
+        while (nombreIterator.hasNext()) {
+            SubMenus s = nombreIterator.next();
+            btnMnus[i] = new JButton();
+            btnMnus[i].setBackground(new java.awt.Color(54, 63, 73));
+            btnMnus[i].setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            btnMnus[i].setForeground(new java.awt.Color(255, 255, 255));
+            btnMnus[i].setText(s.getSub_menu());
+            btnMnus[i].setActionCommand(s.getSub_menu());
+            btnMnus[i].setBorder(null);
+            btnMnus[i].setBorderPainted(false);
+            btnMnus[i].setContentAreaFilled(false);
+            btnMnus[i].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnMnus[i].setFocusPainted(false);
+            btnMnus[i].setHideActionText(true);
+            btnMnus[i].setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+            btnMnus[i].setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+            btnMnus[i].setIconTextGap(1);
+            btnMnus[i].addActionListener(this);
+            pnContentMnuUsers.add(btnMnus[i], new org.netbeans.lib.awtextra.AbsoluteConstraints(10, y, -1, 20));
+            listBtnMenus.add(btnMnus[i]);
+            i++;
+            y += 17;
+        }
+        setSubmenus(null);
+        panel.add(pnTitleMnuUsers, java.awt.BorderLayout.PAGE_START);
+        panel.add(pnContentMnuUsers, java.awt.BorderLayout.CENTER);
+        panel.updateUI();
+        return panel;
+    }
+
 }
