@@ -218,7 +218,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        MR.btnCancelarRol.addActionListener(this);
 //        MR.mnuEditRol.addActionListener(this);
 //        MR.mnuDeleteRol.addActionListener(this);
-//        MR.mnuPerfilxRol.addActionListener(this);
+        MR.mnuPerfilxRol.addActionListener(this);
 //        MR.btnPerfil.addActionListener(this);
 //        MR.btnGuardaPerfil.addActionListener(this);
 //        MR.mnuEditPerfil.addActionListener(this);

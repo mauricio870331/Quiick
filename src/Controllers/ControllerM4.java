@@ -3635,7 +3635,7 @@ public class ControllerM4 implements ActionListener, MouseListener, KeyListener 
     }
 
     public void Adaptador() {
-        MR.addWindowListener(new WindowAdapter() {
+        M4.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
                 Object[] opciones = {"Aceptar", "Cancelar"};

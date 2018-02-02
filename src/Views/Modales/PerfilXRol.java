@@ -27,7 +27,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
     private PerfilRoles perfilxrol;
     public JCheckBox cb[];
     public ArrayList<String> listPerfilesToRol = new ArrayList<>();
-    
+
     public PerfilXRol(java.awt.Frame parent, boolean modal, int idRol, int userLog) throws SQLException {
         super(parent, modal);
         initComponents();
@@ -35,7 +35,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
         this.userLog = userLog;
         crearCheckbox(this);
     }
-    
+
     public void crearCheckbox(PerfilXRol modal) {
         List<Perfil> perilesList = getPerfil().List();
         getPerfilxrol().setIdRol(idRol);
@@ -51,6 +51,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
             cb[i] = new JCheckBox();
             cb[i].setText(p.getDescripcion());
             cb[i].setActionCommand(p.getIdPerfil() + "");
+            cb[i].setOpaque(false);
             cb[i].addItemListener(modal);
             if (actuales.contains(Integer.toString(p.getIdPerfil()))) {
                 cb[i].setSelected(true);
@@ -63,9 +64,9 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
         setPerfilxrol(null);
         pnPerfiles.updateUI();
     }
-    
+
     public void RecuperarElemento() {
-        
+
     }
 
     /**
@@ -87,11 +88,15 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Asignar Perfiles a Rol");
+        setMaximumSize(new java.awt.Dimension(403, 281));
+        setMinimumSize(new java.awt.Dimension(403, 281));
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
 
         jPanel1.setBackground(java.awt.Color.white);
         jPanel1.setMinimumSize(new java.awt.Dimension(540, 400));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(linea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 267, 375, -1));
 
         jPanel2.setBackground(new java.awt.Color(54, 63, 73));
 
@@ -117,19 +122,25 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
                 .addGap(94, 94, 94))
         );
 
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 51));
+
         pnPerfiles.setBackground(new java.awt.Color(255, 255, 255));
-        pnPerfiles.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnPerfiles.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Perfiles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 12), new java.awt.Color(54, 63, 73))); // NOI18N
+        pnPerfiles.setForeground(new java.awt.Color(54, 63, 73));
+        pnPerfiles.setOpaque(false);
 
         javax.swing.GroupLayout pnPerfilesLayout = new javax.swing.GroupLayout(pnPerfiles);
         pnPerfiles.setLayout(pnPerfilesLayout);
         pnPerfilesLayout.setHorizontalGroup(
             pnPerfilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 379, Short.MAX_VALUE)
+            .addGap(0, 368, Short.MAX_VALUE)
         );
         pnPerfilesLayout.setVerticalGroup(
             pnPerfilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 226, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        jPanel1.add(pnPerfiles, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 62, 380, 160));
 
         btnGuardarPerfilxrol.setBackground(new java.awt.Color(54, 63, 73));
         btnGuardarPerfilxrol.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -156,6 +167,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
                 btnGuardarPerfilxrolActionPerformed(evt);
             }
         });
+        jPanel1.add(btnGuardarPerfilxrol, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 74, -1));
 
         btnCancelarPerfilxrol.setBackground(new java.awt.Color(54, 63, 73));
         btnCancelarPerfilxrol.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -182,42 +194,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
                 btnCancelarPerfilxrolActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnGuardarPerfilxrol, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelarPerfilxrol, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(linea1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardarPerfilxrol)
-                    .addComponent(btnCancelarPerfilxrol))
-                .addGap(10, 10, 10)
-                .addComponent(linea1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel1.add(btnCancelarPerfilxrol, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 240, 74, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -227,7 +204,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -243,8 +220,11 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
 
     private void btnGuardarPerfilxrolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarPerfilxrolActionPerformed
         if (listPerfilesToRol.isEmpty()) {
-            DesktopNotify.showDesktopMessage("Aviso..!", "Debes Seleccionar almenos un peril", DesktopNotify.ERROR, 5000L);
+            pnPerfiles.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)), "Perfiles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 12), new java.awt.Color(54, 63, 73))); // NOI18N
+            DesktopNotify.showDesktopMessage("Aviso..!", "Debes Seleccionar almenos un perfil", DesktopNotify.ERROR, 5000L);
         } else {
+            pnPerfiles.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Perfiles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 12), new java.awt.Color(54, 63, 73))); // NOI18N
+            pnPerfiles.setForeground(new java.awt.Color(54, 63, 73));
             getPerfilxrol();
             perfilxrol.setIdRol(idRol);
             perfilxrol.setPerfiles(listPerfilesToRol);
@@ -267,7 +247,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
             }
-            
+
         }
     }//GEN-LAST:event_btnGuardarPerfilxrolActionPerformed
 
@@ -286,8 +266,8 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
         pnPerfiles.removeAll();
         this.dispose();
     }//GEN-LAST:event_btnCancelarPerfilxrolActionPerformed
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnCancelarPerfilxrol;
     public javax.swing.JButton btnGuardarPerfilxrol;
@@ -304,11 +284,11 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
         }
         return pefil;
     }
-    
+
     public void setPerfil(Perfil pefil) {
         this.pefil = pefil;
     }
-    
+
     @Override
     public void itemStateChanged(ItemEvent e) {
         for (int i = 0; i < pnPerfiles.getComponentCount(); i++) {
@@ -333,16 +313,16 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
             }
         }
     }
-    
+
     public PerfilRoles getPerfilxrol() {
         if (perfilxrol == null) {
             perfilxrol = new PerfilRoles();
         }
         return perfilxrol;
     }
-    
+
     public void setPerfilxrol(PerfilRoles perfilxrol) {
         this.perfilxrol = perfilxrol;
     }
-    
+
 }
