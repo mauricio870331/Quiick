@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-02-2018 a las 21:35:01
--- Versión del servidor: 10.1.21-MariaDB
--- Versión de PHP: 7.1.1
+-- Tiempo de generación: 04-02-2018 a las 18:48:27
+-- Versión del servidor: 10.1.10-MariaDB
+-- Versión de PHP: 7.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -482,6 +482,18 @@ INSERT INTO `menus` (`id_menu`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `menus_usuarios`
+--
+
+CREATE TABLE `menus_usuarios` (
+  `id_submenu` int(11) NOT NULL,
+  `id_menu` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `musculos`
 --
 
@@ -615,7 +627,8 @@ INSERT INTO `perfiles_x_rol` (`id`, `id_perfil`, `id_rol`, `estado`, `create_at`
 (2, 2, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
 (3, 3, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
 (4, 4, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(5, 5, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1);
+(5, 5, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(9, 1, 3, 'A', '2018-02-02 09:02:17', '2018-02-02 09:02:17', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1171,6 +1184,13 @@ ALTER TABLE `menus`
   ADD PRIMARY KEY (`id_menu`);
 
 --
+-- Indices de la tabla `menus_usuarios`
+--
+ALTER TABLE `menus_usuarios`
+  ADD PRIMARY KEY (`id_submenu`,`id_menu`,`idUsuario`),
+  ADD KEY `idUsuario` (`idUsuario`);
+
+--
 -- Indices de la tabla `musculos`
 --
 ALTER TABLE `musculos`
@@ -1436,7 +1456,7 @@ ALTER TABLE `perfiles`
 -- AUTO_INCREMENT de la tabla `perfiles_x_rol`
 --
 ALTER TABLE `perfiles_x_rol`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
@@ -1540,6 +1560,13 @@ ALTER TABLE `ejercicios`
 --
 ALTER TABLE `huellas`
   ADD CONSTRAINT `usuario_huellas_fk` FOREIGN KEY (`idUsuario`,`usuario`,`idSede`,`idempresa`,`idPersona`) REFERENCES `usuario` (`idUsuario`, `usuario`, `idSede`, `idempresa`, `idPersona`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `menus_usuarios`
+--
+ALTER TABLE `menus_usuarios`
+  ADD CONSTRAINT `menus_usuarios_ibfk_1` FOREIGN KEY (`id_submenu`,`id_menu`) REFERENCES `sub_menus` (`id_submenu`, `id_menu`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `menus_usuarios_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `pagoservice`

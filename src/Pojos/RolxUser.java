@@ -441,16 +441,20 @@ public class RolxUser extends Persistencia implements Serializable {
         return r;
     }
 
-    public List<RolxUser> List(int desde, int hasta, String filtro) {
+    public List<RolxUser> List(int desde, int hasta, String filtro, String idRol) {
         ArrayList<RolxUser> List = new ArrayList();
         String and = "";
         if (!filtro.equals("")) {
             and = " and (p.Documento like '%" + filtro + "%' or p.Nombre like '%" + filtro + "%' or p.Apellidos like '%" + filtro + "%')";
         }
+        String condicion = "";
+        if (!idRol.equalsIgnoreCase("root")) {
+            condicion = " and r.idRol <> 1";
+        }
         String prepareQuery = "SELECT * FROM usuario u, persona p, rolxuser ru, rol r "
                 + "where u.idPersona = p.idPersona "
                 + "and ru.idUsuario = u.idUsuario "
-                + "and ru.idRol = r.idRol and p.Estado = 'A' and u.Estado = 'A' and p.Documento <> '1113626301'" + and + " limit " + desde + ", " + hasta + "";
+                + "and ru.idRol = r.idRol and p.Estado = 'A' and u.Estado = 'A'" + condicion + and + " limit " + desde + ", " + hasta + "";
 //        System.out.println("prepareQuery " + prepareQuery);
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
@@ -500,16 +504,20 @@ public class RolxUser extends Persistencia implements Serializable {
         return List;
     }
 
-    public int CountRs(String filtro) {
+    public int CountRs(String filtro, String idRol) {
         int totalRg = 0;
         String and = "";
         if (!filtro.equals("")) {
             and = " and (p.Documento like '%" + filtro + "%' or p.Nombre like '%" + filtro + "%' or p.Apellidos like '%" + filtro + "%')";
         }
+        String condicion = "";
+        if (!idRol.equalsIgnoreCase("root")) {
+            condicion = " and r.idRol <> 1";
+        }
         String prepareQuery = "SELECT count(*) FROM usuario u, persona p, rolxuser ru, rol r "
                 + "where u.idPersona = p.idPersona "
                 + "and ru.idUsuario = u.idUsuario "
-                + "and ru.idRol = r.idRol and p.Estado = 'A' and u.Estado = 'A' and p.Documento <> '1113626301'" + and + "";
+                + "and ru.idRol = r.idRol and p.Estado = 'A' and u.Estado = 'A' " + condicion + and + "";
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = RolxUser.super.getConecion().query(prepareQuery);

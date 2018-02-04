@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import Pojos.RolxUser;
 import Views.Modulo1;
 import Views.Modulo2;
 import Views.Modulo3;
@@ -78,10 +79,10 @@ public class GetController {
         return M4;
     }
      
-      public static ControllerMRoot getControllerMRoot() {
+      public static ControllerMRoot getControllerMRoot(RolxUser UsuarioLogeado) {
         try {
             if (MR == null) {
-                MR = new ControllerMRoot();
+                MR = new ControllerMRoot(UsuarioLogeado);
             } else {
                 System.out.println("Controlador Modulo Root ya fue instanceado");
             }

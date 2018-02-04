@@ -3046,7 +3046,7 @@ public class ControllerM4 implements ActionListener, MouseListener, KeyListener 
     }
 
     public void setUltimo() {
-        float totalRegistros = getRuxuser().CountRs(filtro);
+        float totalRegistros = getRuxuser().CountRs(filtro,"");
         float totalPaginas = totalRegistros / cantidadregistros;
         int ultimo = (int) (totalRegistros) - (((int) totalPaginas % 2 == 0) ? cantidadregistros : 1);
         desde = ultimo;

@@ -5,31 +5,23 @@
  */
 package Controllers;
 
-import Pojos.RolxUser;
 import Pojos.Usuario;
 import Views.Bienvenida;
-import Views.Modulo1;
 import Views.Login;
-import Views.Modulo2;
 import Views.ModuloRoot;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import Pojos.RolxUser;
 
 /**
  *
@@ -38,7 +30,7 @@ import javax.swing.JTextField;
 public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
-    private final ModuloRoot MR = GetPrincipal.getModuloRoot();    
+    private final ModuloRoot MR = GetPrincipal.getModuloRoot();
     Bienvenida bienvenida;
     Usuario u = null;
     private Set<Integer> pressed = new HashSet();
@@ -79,12 +71,13 @@ public class LoginController implements ActionListener {
                     getCM2().setUsuarioLogeado(rolu);
                     getCM3().setUsuarioLogeado(rolu);
                     getCM4().setUsuarioLogeado(rolu);
-                    getCMRoot().setUsuarioLogeado(rolu);                    
+                    getCMRoot(rolu);
                     if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("root")) {
                         MR.setVisible(true);
                     } else {
                         getBienvenida(rolu);
                     }
+
                     u = null;
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Usuario o Clave Incorrecta..!", DesktopNotify.ERROR, 5000L);
@@ -113,9 +106,9 @@ public class LoginController implements ActionListener {
     public ControllerM4 getCM4() {
         return GetController.getControllerM4();
     }
-    
-    public ControllerMRoot getCMRoot() {
-        return GetController.getControllerMRoot();
+
+    public ControllerMRoot getCMRoot(RolxUser UsuarioLogeado) {
+        return GetController.getControllerMRoot(UsuarioLogeado);
     }
 
     public int validarCampos(Object[] componentes) {

@@ -58,7 +58,7 @@ public class Rol extends Persistencia implements Serializable {
 
     @Override
     public String toString() {
-        return Descripcion;
+        return Descripcion + " " + idRol;
     }
 
     @Override
@@ -160,8 +160,6 @@ public class Rol extends Persistencia implements Serializable {
         }
         return List;
     }
-    
-    
 
     public Rol getRolbyId(int id_rol) {
         Rol r = null;
@@ -203,5 +201,5 @@ public class Rol extends Persistencia implements Serializable {
             }
         }
         return id;
-    }  
+    }
 }
