@@ -22,6 +22,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import Pojos.RolxUser;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -34,6 +40,8 @@ public class LoginController implements ActionListener {
     Bienvenida bienvenida;
     Usuario u = null;
     private Set<Integer> pressed = new HashSet();
+    ImageIcon ii = null;
+    ImageIcon iin = null;
 
     public LoginController() {
         inicomponents();
@@ -73,6 +81,23 @@ public class LoginController implements ActionListener {
                     getCM4().setUsuarioLogeado(rolu);
                     getCMRoot(rolu);
                     if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("root")) {
+                        InputStream img = rolu.getObjUsuario().getObjPersona().getFoto();
+                        if (img != null) {
+                            try {
+                                BufferedImage bi = ImageIO.read(img);
+                                ii = new ImageIcon(bi);
+                                Image conver = ii.getImage();
+                                Image tam = conver.getScaledInstance(MR.UserLogPicture.getWidth(), MR.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
+                                iin = new ImageIcon(tam);
+                                MR.UserLogPicture.setIcon(iin);
+                            } catch (IOException ex) {
+                                System.out.println("error " + ex);
+                            }
+                        } else {
+                            MR.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
+                        }
+                        MR.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
+                        MR.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
                         MR.setVisible(true);
                     } else {
                         getBienvenida(rolu);

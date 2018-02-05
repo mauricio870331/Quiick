@@ -143,8 +143,8 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
         pncontent1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        btnGuardarPerfilxrol = new javax.swing.JButton();
-        btnCancelarPerfilxrol = new javax.swing.JButton();
+        btnGuardarMenusUser = new javax.swing.JButton();
+        btnCancelarMenusUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Asignar Perfiles a Rol");
@@ -227,55 +227,55 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
 
         jPanel7.setPreferredSize(new java.awt.Dimension(574, 40));
 
-        btnGuardarPerfilxrol.setBackground(new java.awt.Color(54, 63, 73));
-        btnGuardarPerfilxrol.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnGuardarPerfilxrol.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardarPerfilxrol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
-        btnGuardarPerfilxrol.setText("Guardar");
-        btnGuardarPerfilxrol.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        btnGuardarPerfilxrol.setContentAreaFilled(false);
-        btnGuardarPerfilxrol.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnGuardarPerfilxrol.setFocusPainted(false);
-        btnGuardarPerfilxrol.setHideActionText(true);
-        btnGuardarPerfilxrol.setIconTextGap(1);
-        btnGuardarPerfilxrol.setOpaque(true);
-        btnGuardarPerfilxrol.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnGuardarMenusUser.setBackground(new java.awt.Color(54, 63, 73));
+        btnGuardarMenusUser.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnGuardarMenusUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardarMenusUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
+        btnGuardarMenusUser.setText("Guardar");
+        btnGuardarMenusUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btnGuardarMenusUser.setContentAreaFilled(false);
+        btnGuardarMenusUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardarMenusUser.setFocusPainted(false);
+        btnGuardarMenusUser.setHideActionText(true);
+        btnGuardarMenusUser.setIconTextGap(1);
+        btnGuardarMenusUser.setOpaque(true);
+        btnGuardarMenusUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnGuardarPerfilxrolMouseEntered(evt);
+                btnGuardarMenusUserMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnGuardarPerfilxrolMouseExited(evt);
+                btnGuardarMenusUserMouseExited(evt);
             }
         });
-        btnGuardarPerfilxrol.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardarMenusUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarPerfilxrolActionPerformed(evt);
+                btnGuardarMenusUserActionPerformed(evt);
             }
         });
 
-        btnCancelarPerfilxrol.setBackground(new java.awt.Color(54, 63, 73));
-        btnCancelarPerfilxrol.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnCancelarPerfilxrol.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancelarPerfilxrol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
-        btnCancelarPerfilxrol.setText("Cancelar");
-        btnCancelarPerfilxrol.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        btnCancelarPerfilxrol.setContentAreaFilled(false);
-        btnCancelarPerfilxrol.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCancelarPerfilxrol.setFocusPainted(false);
-        btnCancelarPerfilxrol.setHideActionText(true);
-        btnCancelarPerfilxrol.setIconTextGap(1);
-        btnCancelarPerfilxrol.setOpaque(true);
-        btnCancelarPerfilxrol.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnCancelarMenusUser.setBackground(new java.awt.Color(54, 63, 73));
+        btnCancelarMenusUser.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnCancelarMenusUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelarMenusUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cancel.png"))); // NOI18N
+        btnCancelarMenusUser.setText("Cancelar");
+        btnCancelarMenusUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btnCancelarMenusUser.setContentAreaFilled(false);
+        btnCancelarMenusUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelarMenusUser.setFocusPainted(false);
+        btnCancelarMenusUser.setHideActionText(true);
+        btnCancelarMenusUser.setIconTextGap(1);
+        btnCancelarMenusUser.setOpaque(true);
+        btnCancelarMenusUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnCancelarPerfilxrolMouseEntered(evt);
+                btnCancelarMenusUserMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnCancelarPerfilxrolMouseExited(evt);
+                btnCancelarMenusUserMouseExited(evt);
             }
         });
-        btnCancelarPerfilxrol.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelarMenusUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarPerfilxrolActionPerformed(evt);
+                btnCancelarMenusUserActionPerformed(evt);
             }
         });
 
@@ -285,9 +285,9 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(535, Short.MAX_VALUE)
-                .addComponent(btnGuardarPerfilxrol, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGuardarMenusUser, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
-                .addComponent(btnCancelarPerfilxrol, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCancelarMenusUser, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -295,8 +295,8 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGuardarPerfilxrol)
-                    .addComponent(btnCancelarPerfilxrol))
+                    .addComponent(btnGuardarMenusUser)
+                    .addComponent(btnCancelarMenusUser))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -316,15 +316,15 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGuardarPerfilxrolMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarPerfilxrolMouseEntered
-        btnGuardarPerfilxrol.setBackground(new Color(124, 124, 124));
-    }//GEN-LAST:event_btnGuardarPerfilxrolMouseEntered
+    private void btnGuardarMenusUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMenusUserMouseEntered
+        btnGuardarMenusUser.setBackground(new Color(124, 124, 124));
+    }//GEN-LAST:event_btnGuardarMenusUserMouseEntered
 
-    private void btnGuardarPerfilxrolMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarPerfilxrolMouseExited
-        btnGuardarPerfilxrol.setBackground(new Color(54, 63, 73));
-    }//GEN-LAST:event_btnGuardarPerfilxrolMouseExited
+    private void btnGuardarMenusUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMenusUserMouseExited
+        btnGuardarMenusUser.setBackground(new Color(54, 63, 73));
+    }//GEN-LAST:event_btnGuardarMenusUserMouseExited
 
-    private void btnGuardarPerfilxrolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarPerfilxrolActionPerformed
+    private void btnGuardarMenusUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMenusUserActionPerformed
         if (listMenususuario.isEmpty()) {
             DesktopNotify.showDesktopMessage("Aviso..!", "Debes Seleccionar almenos un menu", DesktopNotify.ERROR, 5000L);
         } else {
@@ -343,28 +343,28 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
             }
 
         }
-    }//GEN-LAST:event_btnGuardarPerfilxrolActionPerformed
+    }//GEN-LAST:event_btnGuardarMenusUserActionPerformed
 
-    private void btnCancelarPerfilxrolMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarPerfilxrolMouseEntered
-        btnCancelarPerfilxrol.setBackground(new Color(124, 124, 124));
-    }//GEN-LAST:event_btnCancelarPerfilxrolMouseEntered
+    private void btnCancelarMenusUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMenusUserMouseEntered
+        btnCancelarMenusUser.setBackground(new Color(124, 124, 124));
+    }//GEN-LAST:event_btnCancelarMenusUserMouseEntered
 
-    private void btnCancelarPerfilxrolMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarPerfilxrolMouseExited
-        btnCancelarPerfilxrol.setBackground(new Color(54, 63, 73));
-    }//GEN-LAST:event_btnCancelarPerfilxrolMouseExited
+    private void btnCancelarMenusUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMenusUserMouseExited
+        btnCancelarMenusUser.setBackground(new Color(54, 63, 73));
+    }//GEN-LAST:event_btnCancelarMenusUserMouseExited
 
-    private void btnCancelarPerfilxrolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPerfilxrolActionPerformed
+    private void btnCancelarMenusUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarMenusUserActionPerformed
 //        listPerfilesToRol.clear();
 //        setPerfil(null);
 //        setPerfilxrol(null);
 //        pnPerfiles.removeAll();
 //        this.dispose();
-    }//GEN-LAST:event_btnCancelarPerfilxrolActionPerformed
+    }//GEN-LAST:event_btnCancelarMenusUserActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnCancelarPerfilxrol;
-    public javax.swing.JButton btnGuardarPerfilxrol;
+    public javax.swing.JButton btnCancelarMenusUser;
+    public javax.swing.JButton btnGuardarMenusUser;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;

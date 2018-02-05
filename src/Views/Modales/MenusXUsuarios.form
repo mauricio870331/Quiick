@@ -215,9 +215,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="535" max="32767" attributes="0"/>
-                      <Component id="btnGuardarPerfilxrol" min="-2" pref="74" max="-2" attributes="0"/>
+                      <Component id="btnGuardarMenusUser" min="-2" pref="74" max="-2" attributes="0"/>
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                      <Component id="btnCancelarPerfilxrol" min="-2" pref="74" max="-2" attributes="0"/>
+                      <Component id="btnCancelarMenusUser" min="-2" pref="74" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -227,8 +227,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnGuardarPerfilxrol" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnCancelarPerfilxrol" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnGuardarMenusUser" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnCancelarMenusUser" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -236,7 +236,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnGuardarPerfilxrol">
+            <Component class="javax.swing.JButton" name="btnGuardarMenusUser">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="49" green="3f" red="36" type="rgb"/>
@@ -268,15 +268,15 @@
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarPerfilxrolMouseEntered"/>
-                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarPerfilxrolMouseExited"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarPerfilxrolActionPerformed"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarMenusUserMouseEntered"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarMenusUserMouseExited"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarMenusUserActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="btnCancelarPerfilxrol">
+            <Component class="javax.swing.JButton" name="btnCancelarMenusUser">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="49" green="3f" red="36" type="rgb"/>
@@ -308,9 +308,9 @@
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarPerfilxrolMouseEntered"/>
-                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarPerfilxrolMouseExited"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarPerfilxrolActionPerformed"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarMenusUserMouseEntered"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarMenusUserMouseExited"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarMenusUserActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

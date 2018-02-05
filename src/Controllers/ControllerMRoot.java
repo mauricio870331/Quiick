@@ -2190,7 +2190,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             int fila = MR.tblUsers.getSelectedRow();
             if (fila >= 0) {
                 try {
-                    String usuario = MR.tblUsers.getValueAt(fila, 3).toString() + " " + MR.tblUsers.getValueAt(fila, 49).toString();
+                    String usuario = MR.tblUsers.getValueAt(fila, 3).toString() + " " + MR.tblUsers.getValueAt(fila, 4).toString();
                     MenusXUsuarios mxu = new MenusXUsuarios(MR, true, Integer.parseInt(MR.tblUsers.getValueAt(fila, 9).toString()));
                     mxu.lblUser.setText(mxu.lblUser.getText() + " " + usuario);
                     mxu.setLocationRelativeTo(null);

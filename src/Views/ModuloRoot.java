@@ -223,6 +223,7 @@ public class ModuloRoot extends javax.swing.JFrame {
         btnMenosReg = new javax.swing.JButton();
         btnFindUser3 = new javax.swing.JButton();
 
+        mnuAddMenues.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/asignMenu.png"))); // NOI18N
         mnuAddMenues.setText("Asignar Menus");
         popupTblUsers.add(mnuAddMenues);
 
@@ -342,14 +343,15 @@ public class ModuloRoot extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(UserLogPicture, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nomRolUserlog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nomUserLog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nomRolUserlog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nomUserLog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(UserLogPicture, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
