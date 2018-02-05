@@ -238,7 +238,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
             } else {
                 msn = "Perfiles editados con exito..!";
                 msnerror = "Ocurrio un error al editar los perfiles..!";
-                result = perfilxrol.edit();
+                result = perfilxrol.create();
             }
             if (result > 0) {
                 DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
@@ -307,9 +307,6 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
                 if (listPerfilesToRol.isEmpty()) {
                     listPerfilesToRol.clear();
                 }
-//                listPerfilesToRol.forEach((string) -> {
-//                    System.out.println("perfil " + string);
-//                });
             }
         }
     }

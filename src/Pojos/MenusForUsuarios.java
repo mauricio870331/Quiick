@@ -10,19 +10,29 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author admin
  */
-public class SubMenus extends Persistencia implements Serializable {
+public class MenusForUsuarios extends Persistencia implements Serializable {
 
     private int idSubMenu;
     private int idMenu;
-    private String sub_menu;
+    private int idUsuario;
+    private ArrayList<MenusForUsuarios> listaMenus;
 
-    public SubMenus() {
+    public MenusForUsuarios() {
         super();
+    }
+
+    public int getIdSubMenu() {
+        return idSubMenu;
+    }
+
+    public void setIdSubMenu(int idSubMenu) {
+        this.idSubMenu = idSubMenu;
     }
 
     public int getIdMenu() {
@@ -33,28 +43,48 @@ public class SubMenus extends Persistencia implements Serializable {
         this.idMenu = idMenu;
     }
 
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    @Override
+    public String toString() {
+        return idSubMenu + "_" + idMenu;
+    }
+
     @Override
     public int create() {
         int transaccion = -1;
-//        String prepareInsert = "insert into Musculos (descripcion,estado) values (?,?)";
-//        try {
-//            this.getConecion().con = this.getConecion().dataSource.getConnection();
-//            this.getConecion().con.setAutoCommit(false);
-//            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
-//            preparedStatement.setString(1, descripcion);
-//            preparedStatement.setString(2, Estado);
-//
-//            transaccion = Menus.this.getConecion().transaccion(preparedStatement);
-//        } catch (SQLException ex) {
-//            System.out.println("Error SQL : " + ex.toString());
-//        } finally {
-//            try {
-//                this.getConecion().getconecion().setAutoCommit(true);
-//                this.getConecion().con.close();
-//            } catch (SQLException ex) {
-//                System.out.println(ex);
-//            }
-//        }
+        String deleteAfter = "delete from menus_usuarios where idUsuario = ?";
+        String prepareInsert = "insert into menus_usuarios (id_submenu,id_menu,idUsuario) values (?,?,?)";
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            this.getConecion().con.setAutoCommit(false);
+            PreparedStatement preparedelete = this.getConecion().con.prepareStatement(deleteAfter);
+            preparedelete.setInt(1, listaMenus.get(0).getIdUsuario());
+            transaccion = MenusForUsuarios.this.getConecion().transaccion(preparedelete);
+            for (MenusForUsuarios next : listaMenus) {
+                PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
+                preparedStatement.setInt(1, next.getIdSubMenu());
+                preparedStatement.setInt(2, next.getIdMenu());
+                preparedStatement.setInt(3, next.getIdUsuario());
+                transaccion = MenusForUsuarios.this.getConecion().transaccion(preparedStatement);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error SQL : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().getconecion().setAutoCommit(true);
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
         return transaccion;
     }
 
@@ -121,19 +151,16 @@ public class SubMenus extends Persistencia implements Serializable {
 
     @Override
     public java.util.List List() {
-        ArrayList<SubMenus> List = new ArrayList();
-        String prepareQuery = "select sm.* from sub_menus sm "
-                + "inner join menus_usuarios mu on sm.id_submenu = mu.id_submenu "
-                + "where sm.id_menu = " + getIdMenu();
-//        System.out.println("prepareQuery " + prepareQuery);
+        ArrayList<MenusForUsuarios> List = new ArrayList();
+        String prepareQuery = "select * from menus_usuarios where idUsuario = " + idUsuario;
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
-            ResultSet rs = SubMenus.super.getConecion().query(prepareQuery);
+            ResultSet rs = MenusForUsuarios.super.getConecion().query(prepareQuery);
             while (rs.next()) {
-                SubMenus tabla = new SubMenus();
+                MenusForUsuarios tabla = new MenusForUsuarios();
                 tabla.setIdSubMenu(rs.getInt(1));
                 tabla.setIdMenu(rs.getInt(2));
-                tabla.setSub_menu(rs.getString(3));
+                tabla.setIdUsuario(rs.getInt(3));
                 List.add(tabla);
             }
         } catch (SQLException ex) {
@@ -149,34 +176,56 @@ public class SubMenus extends Persistencia implements Serializable {
         return List;
     }
 
-    public ArrayList<SubMenus> List(String filtro) {
-//        ArrayList<Menus> List = new ArrayList();
-//        String prepareQuery = "select * from Musculos where Estado = 'A' and Descripcion like '%" + filtro + "%'";
-//        System.out.println("prepareQuery " + prepareQuery);
+    public ArrayList<MenusForUsuarios> ListMenus(String filtro) {
+        ArrayList<MenusForUsuarios> List = (ArrayList<MenusForUsuarios>) List();
+//        Iterator<MenusXUsuarios> iterator = List.iterator();
+//        ArrayList<SubMenus> ListSubmenus = new ArrayList();
+//        String prepareQuery = "select * from sub_menus";
 //        try {
 //            this.getConecion().con = this.getConecion().dataSource.getConnection();
-//            ResultSet rs = Menus.super.getConecion().query(prepareQuery);
+//            ResultSet rs = MenusForUsuarios.super.getConecion().query(prepareQuery);
 //            while (rs.next()) {
-//                Menus tabla = new Menus();
-//                tabla.setIdMusculo(rs.getInt(1));
-//                tabla.setdescripcion(rs.getString(2));
-//                tabla.setEstado(rs.getString(3));
-//                List.add(tabla);
+//                SubMenus tabla = new SubMenus();
+//                tabla.setIdSubMenu(rs.getInt(1));
+//                tabla.setIdMenu(rs.getInt(2));
+//                tabla.setSub_menu(rs.getString(3));
+//                ListSubmenus.add(tabla);
+//            }
+//            while (iterator.hasNext()) {
+//                MenusForUsuarios next = iterator.next();
+//                next.setListSubmenus(addSubmenusArray(next, ListSubmenus));  
 //            }
 //        } catch (SQLException ex) {
 //            System.out.println("Error Consulta : " + ex.toString());
 //        } finally {
 //            try {
-//                this.getConecion().con.close();
+//                this.getConecion().getconecion().setAutoCommit(true);
+////                this.getConecion().con.close();
 //            } catch (SQLException ex) {
 //                System.out.println(ex);
 //            }
 //        }
-        return null;
+        return List;
     }
 
-    public SubMenus getMusculoById(int idMusculo) {
-        SubMenus m = new SubMenus();
+    public ArrayList<SubMenus> addSubmenusArray(MenusForUsuarios mnu, ArrayList<SubMenus> ListSubmenus) {
+        ArrayList<SubMenus> listaForMenu = new ArrayList();
+        Iterator<SubMenus> sitr = ListSubmenus.iterator();
+        while (sitr.hasNext()) {
+            SubMenus next = sitr.next();
+            if (mnu.getIdMenu() == next.getIdMenu()) {
+                SubMenus s = new SubMenus();
+                s.setIdSubMenu(next.getIdSubMenu());
+                s.setIdMenu(next.getIdMenu());
+                s.setSub_menu(next.getSub_menu());
+                listaForMenu.add(s);
+            }
+        }
+        return listaForMenu;
+    }
+
+    public MenusForUsuarios getMusculoById(int idMusculo) {
+        MenusForUsuarios m = new MenusForUsuarios();
 //        String prepareQuery = "select * from Musculos where idMusculo = " + idMusculo + "  and Estado = 'A'";
 //        try {
 //            this.getConecion().con = this.getConecion().dataSource.getConnection();
@@ -203,7 +252,7 @@ public class SubMenus extends Persistencia implements Serializable {
         String prepareQuery = "select Descripcion from Musculos where idMusculo = " + idMusculo + "  and Estado = 'A'";
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
-            ResultSet rs = SubMenus.super.getConecion().query(prepareQuery);
+            ResultSet rs = MenusForUsuarios.super.getConecion().query(prepareQuery);
             if (rs.absolute(1)) {
                 nombre = rs.getString(1);
             }
@@ -219,25 +268,11 @@ public class SubMenus extends Persistencia implements Serializable {
         return nombre;
     }
 
-    public int getIdSubMenu() {
-        return idSubMenu;
+    public ArrayList<MenusForUsuarios> getListaMenus() {
+        return listaMenus;
     }
 
-    public void setIdSubMenu(int idSubMenu) {
-        this.idSubMenu = idSubMenu;
+    public void setListaMenus(ArrayList<MenusForUsuarios> listaMenus) {
+        this.listaMenus = listaMenus;
     }
-
-    public String getSub_menu() {
-        return sub_menu;
-    }
-
-    public void setSub_menu(String sub_menu) {
-        this.sub_menu = sub_menu;
-    }
-
-    @Override
-    public String toString() {
-        return "SubMenus{" + "idSubMenu=" + idSubMenu + ", idMenu=" + idMenu + ", sub_menu=" + sub_menu + '}';
-    }
-
 }
