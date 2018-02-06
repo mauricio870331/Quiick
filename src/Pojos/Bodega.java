@@ -145,6 +145,7 @@ public class Bodega extends Persistencia implements Serializable {
     public java.util.List ListXSedes(int sede) {
         ArrayList<Bodega> List = new ArrayList();
         String prepareQuery = "select idBodega,idempresa,idSede,nombreBodega,estado from Bodega where idSede=" + sede;
+        System.out.println(prepareQuery);
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Bodega.super.getConecion().query(prepareQuery);

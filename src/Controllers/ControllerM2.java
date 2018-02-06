@@ -68,13 +68,13 @@ import javax.swing.table.TableRowSorter;
  * @author Mauricio Herrera
  */
 public class ControllerM2 implements ActionListener, MouseListener, KeyListener {
-    
+
     private final Modulo1 M1 = GetPrincipal.getModulo1();
     private final Modulo2 M2 = GetPrincipal.getModulo2();
     private final Modulo3 M3 = GetPrincipal.getModulo3();
     private final Modulo4 M4 = GetPrincipal.getModulo4();
     private final ModuloRoot MR = GetPrincipal.getModuloRoot();
-    
+
     public RolxUser UsuarioLogeado;
     private persona p;
     private RolxUser ruxuser;
@@ -95,7 +95,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private PagoService pagoService;
     private TipoService Ts;
     private TipoPago Tp;
-    private Proveedor pv;
+    public Proveedor pv;
     private EmpresaProveedor ep;
     public categoria c;
     public iva i;
@@ -104,6 +104,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private compra_producto cp;
     private compradetalle cd;
     private Bodega b;
+    private objectobusqueda ob;
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat userFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     SimpleDateFormat hh = new SimpleDateFormat("HH:mm:ss");
@@ -119,16 +120,16 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     String filtro = "";
     String opcPaginacion = "";
     private Object currentObject;
-    
+
     private int cantRegustrosUsuarios = 0;
     private final ArrayList<Ejercicios> newRutina = new ArrayList();
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
     private Empresas empresas;
-    
+
     public ControllerM2() throws IOException {
         inicomponents();
     }
-    
+
     private void inicomponents() throws IOException {
         M2.btnProveedores.addActionListener(this);
         M2.btnGuardarProve.addActionListener(this);
@@ -144,18 +145,53 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.BntTranCompraBuscar.addActionListener(this);
         M2.BntTranCompraNuevo.addActionListener(this);
         M2.btnCompraNueva.addActionListener(this);
+        M2.txtComboSedeCompra.addActionListener(this);
+        M2.mnuBuscarProveedor.addActionListener(this);
         Adaptador();
         cargarMenu();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        if (e.getSource() == M2.mnuBuscarProveedor) {
+            try {
+                getOb();
+                ob.setTitulo("Buscar Proveedor");
+                ob.setFiltro("Nombre ó Cedula");
+                ob.setModulo(2);
+                ob.setCondicion(2);
+                ob.setM2(this);
+                new Busqueda(M2, true, ob).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
+            }
+        }
+
+        if (e.getSource() == M2.BntTranCompraBuscar) {
+            try {
+                System.out.println("Click en buscar producto");
+                getOb();
+                ob.setTitulo("Buscar Producto");
+                ob.setFiltro("Nombre ó Cedula");
+                ob.setModulo(2);
+                ob.setCondicion(1);
+                ob.setM2(this);
+                new Busqueda(M2, true, ob).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
+            }
+        }
+
+        if (e.getSource() == M2.txtComboSedeCompra) {
+            System.out.println("acciono");
+            ListBodegas();
+        }
+
         if (e.getSource() == M2.btnCompraNueva) {
             getCp();
-            
+
         }
-        
+
         if (e.getSource() == M2.BntTranCompraNuevo) {
             try {
                 new NuevoProducto(M2, true, this).setVisible(true);
@@ -163,24 +199,18 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 System.out.println("Error al abrir modal");
             }
         }
-        
-        if (e.getSource() == M2.BntTranCompraBuscar) {
-            try {
-                new Busqueda(M2, true, 2).setVisible(true);
-            } catch (SQLException ex) {
-                System.out.println("Error al abrir modal");
-            }
-        }
-        
+
         if (e.getSource() == M2.btnCompraTrans) {
             ListProductosAñadidos();
+            ListSedes();
+            CargarDatosProveedor(null);
             showPanel(2, "PnTransCompra");
         }
-        
+
         if (e.getSource() == M2.btnCompras) {
             showPanel(2, "PnCompras");
         }
-        
+
         if (e.getSource() == M2.btnProveedores) {
             System.out.println("Ingreso a proveedores");
             CargarDatosInicialesProveedores(1, null);
@@ -188,14 +218,14 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             ListProveedores();
             showPanel(2, "PnProveedores");
         }
-        
+
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
             getP();
-            
+
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-            
+
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -213,7 +243,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-            
+
             if (mns.length() == 0) {
                 if (pv.create() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear el proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -241,18 +271,18 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                     DesktopNotify.showDesktopMessage("Aviso..!", "Error al Eliminar Empresa", DesktopNotify.ERROR, 5000L);
                 }
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnCancelarProve) {
-            
+
             M2.txtDocProve.setText("");
             M2.txtNombresProve.setText("");
             M2.txtApellidosProve.setText("");
             M2.txtTelefonosProve.setText("");
             M2.btnGuardarProve.setText("Guardar");
         }
-        
+
         if (e.getSource() == M2.mnuEditProveedor) {
             int fila = M2.tblProveedores.getSelectedRow();
             if (fila >= 0) {
@@ -260,16 +290,16 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 CargarDatosProvedor(Integer.parseInt(codigo));
                 M2.btnGuardarProve.setText("Editar");
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Editar")) {
             getPv();
             getP();
-            
+
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-            
+
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -287,7 +317,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-            
+
             if (mns.length() == 0) {
                 if (pv.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -301,7 +331,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProvedorCancelar) {
             M2.txtProveEmpNombre.setText("");
             M2.txtProveEmpNit.setText("");
@@ -309,7 +339,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             M2.txtProveEmpTelefono.setText("");
             M2.btnEmpresaProveGuardar.setText("Guardar");
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Editar")) {
             getEp();
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
@@ -318,7 +348,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-            
+
             if (mns.length() == 0) {
                 if (ep.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar Empresa", DesktopNotify.INFORMATION, 5000L);
@@ -335,26 +365,26 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.mnuEditEmpresa) {
             int fila = M2.tblListaEmpresasProve.getSelectedRow();
             if (fila >= 0) {
                 String codigo = M2.tblListaEmpresasProve.getValueAt(fila, 0).toString();
                 CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Guardar")) {
             getEp();
-            
+
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
             ep.setNit(M2.txtProveEmpNit.getText().trim());
             ep.setDireccion(M2.txtProveEmpDireccion.getText().trim());
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-            
+
             if (mns.length() == 0) {
                 if (ep.getNombreEmpresa().length() > 0) {
                     if (ep.create() > 0) {
@@ -373,19 +403,19 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.btnViewEmpresaProvedor) {
             ListEmpresasProveedor("");
             showPanel(2, "PnEmpresaProveedor");
         }
-        
+
     }
-    
+
     private void addFilter() {
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.JPG)", "jpg"));
     }
-    
+
     public void showPanel(int Modulo, String string) {
         switch (Modulo) {
             case 1:
@@ -393,6 +423,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 MR.setVisible(true);
                 break;
             case 2:
+                M2.setVistaActual(string);
                 switch (string) {
                     case "PnProveedores":
                         M2.PnEmpresaProveedor.setVisible(false);
@@ -426,83 +457,83 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             case 4:
                 M4.setVistaActual(string);
                 break;
-            
+
         }
-        
+
     }
-    
+
     public CaptureFinger getCf() {
         if (cf == null) {
             cf = new CaptureFinger();
         }
         return cf;
     }
-    
+
     public void setCf(CaptureFinger cf) {
         this.cf = cf;
     }
-    
+
     public ReadFinger getRf() {
         if (rf == null) {
             rf = new ReadFinger();
         }
         return rf;
     }
-    
+
     public void setRf(ReadFinger rf) {
         this.rf = rf;
     }
-    
+
     public Rol getRol() {
         if (rol == null) {
             rol = new Rol();
         }
         return rol;
     }
-    
+
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-    
+
     public TipoDocumento getTd() {
         if (td == null) {
             td = new TipoDocumento();
         }
         return td;
     }
-    
+
     public void setTd(TipoDocumento td) {
         this.td = td;
-        
+
     }
-    
+
     public Asistencia getAd() {
         if (ad == null) {
             ad = new Asistencia();
         }
         return ad;
     }
-    
+
     public void setAd(Asistencia ad) {
         this.ad = ad;
     }
-    
+
     public int getCountAction() {
         return countAction;
     }
-    
+
     public void setCountAction(int countAction) {
         this.countAction += countAction;
     }
-    
+
     public String getFoto() {
         return foto;
     }
-    
+
     public void setFoto(String foto) {
         this.foto = foto;
     }
-    
+
     private void borrarImagenTemp() {
         try {
             File archivo = new File(System.getProperty("java.io.tmpdir") + "\\default.png");
@@ -518,7 +549,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             System.out.println(e);
         }
     }
-    
+
     public void setPrimero() {
         desde = 0;
         hasta = 10;
@@ -527,7 +558,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setMas() {
         desde += hasta;
         currentpage += 1;
@@ -535,7 +566,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setMenos() {
         if (desde > 0) {
             desde -= hasta;
@@ -548,7 +579,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setUltimo() {
         float totalRegistros = getRuxuser().CountRs(filtro);
         float totalPaginas = totalRegistros / cantidadregistros;
@@ -559,7 +590,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta + " totalPaginas " + currentpage + " ulttimo = " + ultimo);
     }
-    
+
     private void inhabilitarPaginacion() {
 //        System.out.println("opc " + opcPaginacion);
 //        float cant_reg = getRuxuser().CountRs(filtro);
@@ -663,149 +694,149 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //
 //        }
     }
-    
+
     public persona getP() {
         if (p == null) {
             p = new persona();
         }
         return p;
     }
-    
+
     public void setP(persona p) {
         this.p = p;
     }
-    
+
     public RolxUser getRuxuser() {
         if (ruxuser == null) {
             ruxuser = new RolxUser();
         }
         return ruxuser;
     }
-    
+
     public void setRuxser(RolxUser ruxuser) {
         this.ruxuser = ruxuser;
     }
-    
+
     public UsuarioID getUid() {
         if (uid == null) {
             uid = new UsuarioID();
         }
         return uid;
     }
-    
+
     public void setUid(UsuarioID uid) {
         this.uid = uid;
     }
-    
+
     public Usuario getUs() {
         if (us == null) {
             us = new Usuario();
         }
         return us;
     }
-    
+
     public void setUs(Usuario us) {
         this.us = us;
     }
-    
+
     public Sedes getSede() {
         if (sede == null) {
             sede = new Sedes();
         }
         return sede;
     }
-    
+
     public void setSede(Sedes sede) {
         this.sede = sede;
     }
-    
+
     public int getCantRegustrosUsuarios() {
         return cantRegustrosUsuarios;
     }
-    
+
     public void setCantRegustrosUsuarios(int cantRegustrosUsuarios) {
         this.cantRegustrosUsuarios = cantRegustrosUsuarios;
     }
-    
+
     public Musculos getMusculos() {
         if (musculos == null) {
             musculos = new Musculos();
         }
         return musculos;
     }
-    
+
     public void setMusculos(Musculos musculos) {
         this.musculos = musculos;
     }
-    
+
     public Ejercicios getEjercicio() {
         if (ejercicio == null) {
             ejercicio = new Ejercicios();
         }
         return ejercicio;
     }
-    
+
     public void setEjercicio(Ejercicios ejercicio) {
         this.ejercicio = ejercicio;
     }
-    
+
     public dias getDias() {
         if (dias == null) {
             dias = new dias();
         }
         return dias;
     }
-    
+
     public void setDias(dias dias) {
         this.dias = dias;
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
 //        if (e.getSource() == pr.tblEjercicios2) {
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
-        
+
     }
-    
+
     public Rutina getRutina() {
         if (rutina == null) {
             rutina = new Rutina();
         }
         return rutina;
     }
-    
+
     public void setRutina(Rutina rutina) {
         this.rutina = rutina;
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
 //        if (e.getSource() == pr.tblNewRutina) {
@@ -824,7 +855,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            }
 //        }
     }
-    
+
     public void RestaurarValoresViewPago(String Doc, String Nombre, boolean restaurarUser) {
 //        if (restaurarUser) {
 //            us = null;
@@ -835,7 +866,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //        pr.txtpagosCedula.setText(Doc);
 //        pr.txtpagosNombre.setText(Nombre);
     }
-    
+
     public void ListPagosXuser(JTable table) {
         if (us != null) {
             ArrayList<PagoService> listPagos = new ArrayList();
@@ -882,7 +913,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //        ListPagosXuser(pr.tblListaPagosXuser);
 //        showPanel("pnPagosService");
     }
-    
+
     public void generarReportes() {
 //        //llamar metodo agerar reporte de pagoservices pojo
 //        Object[] componentes = {pr.txtUserForReports};
@@ -903,63 +934,63 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //        }
 
     }
-    
+
     public CajaXUser getMiCaja() {
         if (MiCaja == null) {
             MiCaja = new CajaXUser();
         }
         return MiCaja;
     }
-    
+
     public void setMiCaja(CajaXUser MiCaja) {
         this.MiCaja = MiCaja;
     }
-    
+
     public RolxUser getUsuarioLogeado() {
         if (UsuarioLogeado == null) {
             UsuarioLogeado = new RolxUser();
         }
         return UsuarioLogeado;
     }
-    
+
     public void setUsuarioLogeado(RolxUser UsuarioLogeado) {
         getUsuarioLogeado();
         this.UsuarioLogeado = UsuarioLogeado;
     }
-    
+
     public PagoService getPagoService() {
         if (pagoService == null) {
             pagoService = new PagoService();
         }
         return pagoService;
     }
-    
+
     public void setPagoService(PagoService pagoService) {
         this.pagoService = pagoService;
     }
-    
+
     public TipoService getTs() {
         if (Ts == null) {
             Ts = new TipoService();
         }
         return Ts;
     }
-    
+
     public void setTs(TipoService Ts) {
         this.Ts = Ts;
     }
-    
+
     public TipoPago getTp() {
         if (Tp == null) {
             Tp = new TipoPago();
         }
         return Tp;
     }
-    
+
     public void setTp(TipoPago Tp) {
         this.Tp = Tp;
     }
-    
+
     public void Adaptador() {
         M2.addWindowListener(new WindowAdapter() {
             @Override
@@ -974,7 +1005,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             }
         });
     }
-    
+
     private void cargarHistorialPagos(int id_usuario, Date desde, Date hasta, JTable table) {
 //        ArrayList<PagoService> listPagos = new ArrayList();
 //        listPagos = (ArrayList<PagoService>) getPagoService().ListPagosXClientes(id_usuario, desde, hasta);
@@ -1023,21 +1054,21 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //        table.getColumnModel().getColumn(7).setCellRenderer(Alinear);
 //        table.setRowHeight(30);
     }
-    
+
     public Reportes getReportes() {
         if (reportes == null) {
             reportes = new Reportes();
         }
         return reportes;
     }
-    
+
     public void setReportes(Reportes reportes) {
         this.reportes = reportes;
     }
-    
+
     public void CargarDatosInicialesProveedores(int condicion, EmpresaProveedor ObjEmp) {
         getEp();
-        
+
         if (condicion == 1) {
             ArrayList<EmpresaProveedor> ListEmp = new ArrayList();
             ListEmp = (ArrayList<EmpresaProveedor>) ep.List();
@@ -1053,9 +1084,9 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 M2.cboEmpresasProveedor.addItem(empresaProveedor);
             }
         }
-        
+
     }
-    
+
     private void cargarTiposDocumentosProveedor() {
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
@@ -1071,17 +1102,17 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         setTd(null);
         t = null;
     }
-    
+
     public void ListEmpresasProveedor(String filtro) {
         getEp();
         ArrayList<EmpresaProveedor> listEmpresaProve = new ArrayList();
-        
+
         if (filtro.length() <= 0) {
             listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.List();
         } else if (filtro.length() > 0) {
             //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
         }
-        
+
         M2.tblListaEmpresasProve.removeAll();
         TablaModel tablaModel = new TablaModel(listEmpresaProve, 4);
         M2.tblListaEmpresasProve.setModel(tablaModel.ModelListEmpresasProveedor());
@@ -1090,16 +1121,16 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.tblListaEmpresasProve.getColumnModel().getColumn(2).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(3).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(4).setPreferredWidth(10);
-        
+
         M2.tblListaEmpresasProve.setRowHeight(30);
     }
-    
+
     public void ListProveedores() {
         getPv();
         ArrayList<Proveedor> listaProveedores = new ArrayList();
-        
+
         listaProveedores = (ArrayList<Proveedor>) pv.List();
-        
+
         M2.tblProveedores.removeAll();
         TablaModel tablaModel = new TablaModel(listaProveedores, 3);
         M2.tblProveedores.setModel(tablaModel.ModelListProveedor());
@@ -1111,42 +1142,57 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.tblProveedores.getColumnModel().getColumn(5).setPreferredWidth(10);
         M2.tblProveedores.getColumnModel().getColumn(6).setPreferredWidth(20);
         M2.tblProveedores.getColumnModel().getColumn(7).setPreferredWidth(6);
-        
+
         M2.tblProveedores.setRowHeight(30);
     }
-    
+
     public void CargarDatosEmpresaProvedor(int codigo) {
         int fila = M2.tblListaEmpresasProve.getSelectedRow();
         if (fila >= 0) {
             getEp();
             ep = ep.BuscarEmpresaXCodigo(codigo);
-            
+
             M2.txtProveEmpNombre.setText(ep.getNombreEmpresa());
             M2.txtProveEmpNit.setText(ep.getNit());
             M2.txtProveEmpDireccion.setText(ep.getDireccion());
             M2.txtProveEmpTelefono.setText(ep.getTelefono());
-            
+
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-    
+
     public void CargarDatosProvedor(int codigo) {
         int fila = M2.tblProveedores.getSelectedRow();
         if (fila >= 0) {
             getPv();
             pv = pv.BuscarProveedor(codigo);
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
-            
+
             M2.txtDocProve.setText(pv.getPersona().getDocumento());
             M2.txtNombresProve.setText(pv.getPersona().getNombre());
             M2.txtApellidosProve.setText(pv.getPersona().getApellido());
             M2.txtTelefonosProve.setText(pv.getPersona().getTelefono());
             CargarDatosInicialesProveedores(2, pv.getEmpresa());
-            
+
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-    
+
+    public void CargarDatosProveedor(Proveedor p) {
+        if (p == null) {
+            M2.txtProveedorCompra.setText("");
+            M2.txtnomProveedornombre.setText("");
+            M2.txtempproemprnombre.setText("");
+
+        } else if (p != null) {
+            getPv();
+            pv = p;
+            M2.txtProveedorCompra.setText(p.getPersona().getDocumento());
+            M2.txtnomProveedornombre.setText(p.getPersona().getNombreCompleto());
+            M2.txtempproemprnombre.setText(p.getEmpresa().getNombreEmpresa());
+        }
+    }
+
     public void cargarMenu() {
         if (VistaActual.getMenu().length() > 1) {
             switch (VistaActual.getMenu()) {
@@ -1160,7 +1206,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         }
         VistaActual.setMenu("");
     }
-    
+
     public void ListProductosAñadidos() {
         getPr();
         M2.tableProductosAdd.removeAll();
@@ -1178,10 +1224,10 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.tableProductosAdd.getColumnModel().getColumn(7).setPreferredWidth(10);
         M2.tableProductosAdd.getColumnModel().getColumn(8).setPreferredWidth(10);
         M2.tableProductosAdd.getColumnModel().getColumn(9).setPreferredWidth(10);
-        
+
         M2.tableProductosAdd.setRowHeight(30);
     }
-    
+
     public void ListSedes() {
         getSede();
         ArrayList<Sedes> listSedes = new ArrayList<>();
@@ -1190,18 +1236,19 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             M2.txtComboSedeCompra.addItem(sede);
         }
     }
-    
+
     public void ListBodegas() {
+        M2.txtComboBodegasCompra.removeAllItems();
         getB();
         getSede();
         sede = (Sedes) M2.txtComboSedeCompra.getSelectedItem();
         ArrayList<Bodega> listBodega = new ArrayList<>();
         listBodega = (ArrayList<Bodega>) b.ListXSedes(sede.getObjSedesID().getIdSede());
         for (Bodega bodega : listBodega) {
-//            M2.txtComboBodegasCompra.addItem(bodega);
+            M2.txtComboBodegasCompra.addItem(bodega);
         }
     }
-    
+
     public void LimpiarCampos(String menu) {
         switch (menu) {
             case "proveedores":
@@ -1212,115 +1259,126 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 break;
         }
     }
-    
+
     public Proveedor getPv() {
         if (pv == null) {
             pv = new Proveedor();
         }
         return pv;
     }
-    
+
     public void setPv(Proveedor pv) {
         this.pv = pv;
     }
-    
+
     public EmpresaProveedor getEp() {
         if (ep == null) {
             ep = new EmpresaProveedor();
         }
         return ep;
     }
-    
+
     public void setEp(EmpresaProveedor ep) {
         this.ep = ep;
     }
-    
+
     public Empresas getEmpresas() {
         if (empresas == null) {
             empresas = new Empresas();
         }
         return empresas;
     }
-    
+
     public void setEmpresas(Empresas empresas) {
         this.empresas = empresas;
     }
-    
+
     public iva getI() {
         if (i == null) {
             i = new iva();
         }
         return i;
     }
-    
+
     public void setI(iva i) {
         this.i = i;
     }
-    
+
     public categoria getC() {
         if (c == null) {
             c = new categoria();
         }
         return c;
     }
-    
+
     public void setC(categoria c) {
         this.c = c;
     }
-    
+
     public Unidad getU() {
         if (u == null) {
             u = new Unidad();
         }
         return u;
     }
-    
+
     public void setU(Unidad u) {
         this.u = u;
     }
-    
+
     public producto getPr() {
         if (pr == null) {
             pr = new producto();
         }
         return pr;
     }
-    
+
     public void setPr(producto pr) {
         this.pr = pr;
     }
-    
+
     public compra_producto getCp() {
         if (cp == null) {
             cp = new compra_producto();
         }
         return cp;
     }
-    
+
     public void setCp(compra_producto cp) {
         this.cp = cp;
     }
-    
+
     public compradetalle getCd() {
         if (cd == null) {
             cd = new compradetalle();
         }
         return cd;
     }
-    
+
     public void setCd(compradetalle cd) {
         this.cd = cd;
     }
-    
+
     public Bodega getB() {
         if (b == null) {
             b = new Bodega();
         }
         return b;
     }
-    
+
     public void setB(Bodega b) {
         this.b = b;
     }
-    
+
+    public objectobusqueda getOb() {
+        if (ob == null) {
+            ob = new objectobusqueda();
+        }
+        return ob;
+    }
+
+    public void setOb(objectobusqueda ob) {
+        this.ob = ob;
+    }
+
 }

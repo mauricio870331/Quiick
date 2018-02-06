@@ -38,7 +38,7 @@ import javax.swing.JTextField;
 public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
-    private final ModuloRoot MR = GetPrincipal.getModuloRoot();    
+    private final ModuloRoot MR = GetPrincipal.getModuloRoot();
     Bienvenida bienvenida;
     Usuario u = null;
     private Set<Integer> pressed = new HashSet();
@@ -79,9 +79,11 @@ public class LoginController implements ActionListener {
                     getCM2().setUsuarioLogeado(rolu);
                     getCM3().setUsuarioLogeado(rolu);
                     getCM4().setUsuarioLogeado(rolu);
-                    getCMRoot().setUsuarioLogeado(rolu);                    
+                    getCMRoot().setUsuarioLogeado(rolu);
                     if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("root")) {
-                        MR.setVisible(true);
+                        //MR.setVisible(true);
+                        getBienvenida(rolu);
+                        bienvenida.setVisible(true);
                     } else {
                         getBienvenida(rolu);
                     }
@@ -113,7 +115,7 @@ public class LoginController implements ActionListener {
     public ControllerM4 getCM4() {
         return GetController.getControllerM4();
     }
-    
+
     public ControllerMRoot getCMRoot() {
         return GetController.getControllerMRoot();
     }

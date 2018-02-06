@@ -27,21 +27,21 @@ public class Modulo2 extends javax.swing.JFrame {
      * Creates new form Modulo1
      */
     int x,
-
-    /**
-     * Creates new form Modulo1
-     */
-    y;
+            /**
+             * Creates new form Modulo1
+             */
+            y;
     boolean maximize = false;
     String VistaActual = "";
-    
+
     public LoginController login;
-    
+
     public Modulo2() {
         initComponents();
         this.getContentPane().setBackground(new Color(34, 41, 50));
         setIconImage(new ImageIcon(getClass().getResource("/icons/favicon_2.png")).getImage());
         setTitle("AppGym V 1.0 - RC 2017-09-17");
+        setExtendedState(this.MAXIMIZED_BOTH);
 //        idpersonaOld.setVisible(false);
 //        idUsuarioOld.setVisible(false);
 //        idRolxuserOld.setVisible(false);
@@ -98,6 +98,8 @@ public class Modulo2 extends javax.swing.JFrame {
         popupProveedores = new javax.swing.JPopupMenu();
         mnuEditProveedor = new javax.swing.JMenuItem();
         mnuDeleteProveedor = new javax.swing.JMenuItem();
+        popupBuscarProveedor = new javax.swing.JPopupMenu();
+        mnuBuscarProveedor = new javax.swing.JMenuItem();
         jPanel10 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -188,10 +190,10 @@ public class Modulo2 extends javax.swing.JFrame {
         jLabel98 = new javax.swing.JLabel();
         txtEstadoCompra = new javax.swing.JComboBox<>();
         jLabel99 = new javax.swing.JLabel();
-        txtProveedorCompra1 = new javax.swing.JTextField();
-        txtnomProveedorCompra1 = new javax.swing.JTextField();
+        txtProveedorCompra = new javax.swing.JTextField();
+        txtnomProveedornombre = new javax.swing.JTextField();
         jLabel100 = new javax.swing.JLabel();
-        txtempprovedorcompra1 = new javax.swing.JTextField();
+        txtempproemprnombre = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel101 = new javax.swing.JLabel();
         txtComboSedeCompra = new javax.swing.JComboBox<>();
@@ -308,6 +310,10 @@ public class Modulo2 extends javax.swing.JFrame {
         mnuDeleteProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
         mnuDeleteProveedor.setText("Eliminar");
         popupProveedores.add(mnuDeleteProveedor);
+
+        mnuBuscarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Eraser.png"))); // NOI18N
+        mnuBuscarProveedor.setText("Buscar Proveedores");
+        popupBuscarProveedor.add(mnuBuscarProveedor);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(54, 63, 73));
@@ -1323,18 +1329,18 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
                         .addGap(349, 349, 349)
                         .addComponent(btnCompraNueva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(27, 27, 27))
                     .addComponent(jScrollPane19)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(TxtbuscarProductoCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                        .addComponent(TxtbuscarProductoCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BntTranCompraBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                        .addComponent(BntTranCompraBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BntTranCompraNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                        .addComponent(BntTranCompraNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                         .addGap(612, 612, 612)))
                 .addContainerGap())
         );
@@ -1345,15 +1351,15 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(TxtbuscarProductoCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                        .addComponent(TxtbuscarProductoCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(BntTranCompraBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BntTranCompraNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(btnCompraNueva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1383,20 +1389,23 @@ public class Modulo2 extends javax.swing.JFrame {
         txtEstadoCompra.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Cancelado" }));
 
         jLabel99.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel99.setText("Poveedor");
+        jLabel99.setText("Poveedor*");
         jLabel99.setPreferredSize(new java.awt.Dimension(64, 16));
 
-        txtProveedorCompra1.setPreferredSize(new java.awt.Dimension(64, 16));
+        txtProveedorCompra.setComponentPopupMenu(popupBuscarProveedor);
+        txtProveedorCompra.setPreferredSize(new java.awt.Dimension(64, 16));
 
-        txtnomProveedorCompra1.setPreferredSize(new java.awt.Dimension(64, 16));
+        txtnomProveedornombre.setEnabled(false);
+        txtnomProveedornombre.setPreferredSize(new java.awt.Dimension(64, 16));
 
         jLabel100.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel100.setText("Empresa");
 
-        txtempprovedorcompra1.setPreferredSize(new java.awt.Dimension(6, 16));
-        txtempprovedorcompra1.addActionListener(new java.awt.event.ActionListener() {
+        txtempproemprnombre.setEnabled(false);
+        txtempproemprnombre.setPreferredSize(new java.awt.Dimension(6, 16));
+        txtempproemprnombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtempprovedorcompra1ActionPerformed(evt);
+                txtempproemprnombreActionPerformed(evt);
             }
         });
 
@@ -1430,21 +1439,21 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtFacCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtFechaCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtEstadoCompra, 0, 190, Short.MAX_VALUE))
+                            .addComponent(txtEstadoCompra, 0, 136, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel99, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                            .addComponent(jLabel99, javax.swing.GroupLayout.PREFERRED_SIZE, 54, Short.MAX_VALUE)
                             .addComponent(jLabel100, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel98, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtProveedorCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                                .addComponent(txtProveedorCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtnomProveedorCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                                .addComponent(txtnomProveedornombre, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                                 .addGap(15, 15, 15))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtempprovedorcompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                                .addComponent(txtempproemprnombre, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
                                 .addContainerGap())
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtComboSedeCompra, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1468,7 +1477,7 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addComponent(jLabel100, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(txtempprovedorcompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtempproemprnombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEstadoCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1482,9 +1491,9 @@ public class Modulo2 extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtProveedorCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtProveedorCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel99, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtnomProveedorCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtnomProveedornombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(88, 88, 88))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
@@ -1505,7 +1514,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel69.setLayout(jPanel69Layout);
         jPanel69Layout.setHorizontalGroup(
             jPanel69Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1023, Short.MAX_VALUE)
+            .addGap(0, 860, Short.MAX_VALUE)
         );
         jPanel69Layout.setVerticalGroup(
             jPanel69Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1888,9 +1897,9 @@ public class Modulo2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReporteCaja2MouseExited
 
-    private void txtempprovedorcompra1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtempprovedorcompra1ActionPerformed
+    private void txtempproemprnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtempproemprnombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtempprovedorcompra1ActionPerformed
+    }//GEN-LAST:event_txtempproemprnombreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1929,19 +1938,19 @@ public class Modulo2 extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public LoginController getLogin() {
         return login;
     }
-    
+
     public void setLogin(LoginController login) {
         this.login = login;
     }
-    
+
     public String getVistaActual() {
         return VistaActual;
     }
-    
+
     public void setVistaActual(String VistaActual) {
         this.VistaActual = VistaActual;
     }
@@ -2035,6 +2044,7 @@ public class Modulo2 extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JMenuItem mnuAddRutina;
     public javax.swing.JMenuItem mnuAsocFinger;
+    public javax.swing.JMenuItem mnuBuscarProveedor;
     public javax.swing.JMenuItem mnuBusqueda;
     public javax.swing.JMenuItem mnuDelete;
     public javax.swing.JMenuItem mnuDeleteCate;
@@ -2062,6 +2072,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JLabel onOff;
     public javax.swing.JLabel pnMicajaMns3;
     public javax.swing.JPopupMenu poopupHistoryPays;
+    private javax.swing.JPopupMenu popupBuscarProveedor;
     private javax.swing.JPopupMenu popupCategoria;
     private javax.swing.JPopupMenu popupEjercicios;
     private javax.swing.JPopupMenu popupEmpresaProveedor;
@@ -2088,11 +2099,11 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JTextField txtProveEmpNit;
     public javax.swing.JTextField txtProveEmpNombre;
     public javax.swing.JTextField txtProveEmpTelefono;
-    private javax.swing.JTextField txtProveedorCompra1;
+    public javax.swing.JTextField txtProveedorCompra;
     public javax.swing.JTextField txtTelefonosProve;
     public javax.swing.JComboBox<TipoDocumento> txtTipoDocProveedor;
-    private javax.swing.JTextField txtempprovedorcompra1;
-    private javax.swing.JTextField txtnomProveedorCompra1;
+    public javax.swing.JTextField txtempproemprnombre;
+    public javax.swing.JTextField txtnomProveedornombre;
     // End of variables declaration//GEN-END:variables
 
 }
