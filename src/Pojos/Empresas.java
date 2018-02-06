@@ -44,6 +44,13 @@ public class Empresas extends Persistencia implements Serializable {
         super();
     }
 
+    public Empresas(int idEmpresa, String nombre) {
+        this.idEmpresa = idEmpresa;
+        this.nombre = nombre;
+    }
+    
+    
+
     public SimpleDateFormat getSa() {
         return sa;
     }
@@ -365,5 +372,12 @@ public class Empresas extends Persistencia implements Serializable {
     public void setNit(String nit) {
         this.nit = nit;
     }
+
+    @Override
+    public String toString() {
+        return  nombre ;
+    }
+    
+    
 
 }

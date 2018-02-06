@@ -27,8 +27,7 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
      */
     private final int idUser;
     private Menus menus;
-    private MenusForUsuarios mnusxusers;
-    private String usuario;
+    private MenusForUsuarios mnusxusers;    
     public JCheckBox cb[];
     public JLabel lblMenus[];
     public JPanel pnMNU[];

@@ -58,7 +58,7 @@ public class Rol extends Persistencia implements Serializable {
 
     @Override
     public String toString() {
-        return Descripcion + " " + idRol;
+        return Descripcion;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class Rol extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         ArrayList<Rol> List = new ArrayList();
-        String prepareQuery = "select * from Rol";
+        String prepareQuery = "select * from Rol where Descripcion <> 'Root'";
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Rol.super.getConecion().query(prepareQuery);
