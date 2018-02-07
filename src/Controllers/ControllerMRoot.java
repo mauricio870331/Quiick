@@ -156,7 +156,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 ////        pr.btnLastReg.addActionListener(this);
 ////        pr.btnFindUser.addActionListener(this);
 //        pr.mnuGenerarPago.addActionListener(this);
-
 ////        pr.btnBuscarAsistencias.addActionListener(this);
 //        pr.btnListMusculos.addActionListener(this);
 //        pr.btnListEjercicios.addActionListener(this);
@@ -464,8 +463,8 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        }
 //
         if (e.getSource() == MR.cboRol) {
-            Rol r = (Rol) MR.cboRol.getSelectedItem();            
-            if (r==null) {
+            Rol r = (Rol) MR.cboRol.getSelectedItem();
+            if (r == null) {
                 return;
             }
             if (r.getDescripcion().equals("Administrador")) {
@@ -693,10 +692,10 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        }
 //
         if (e.getSource() == MR.cboGym) {
-            Empresas empre = (Empresas) MR.cboGym.getSelectedItem();            
+            Empresas empre = (Empresas) MR.cboGym.getSelectedItem();
             if (empre == null) {
                 return;
-            }            
+            }
             if (!empre.getNombre().equals("Seleccione")) {
                 cargarSedesByEmprsa(empre.getIdEmpresa());
             }
@@ -2289,36 +2288,33 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
         }
 
-        listBtnMenus.forEach(new Consumer<JButton>() {
-            @Override
-            public void accept(JButton listBtnMenu) {
-                if (e.getSource() == listBtnMenu) {
+        listBtnMenus.forEach((JButton listBtnMenu) -> {
+            if (e.getSource() == listBtnMenu) {
 //                System.out.println("btn " + listBtnMenu.getActionCommand());
-                    switch (listBtnMenu.getActionCommand()) {
-                        case "Lista de Empresas":
-                            ListEmpresas("");
-                            showPanel(0, "pnEmpresas");
-                            break;
-                        case "Lista de Roles":
-                            ListRoles("");
-                            showPanel(0, "pnRoles");
-                            break;
-                        case "Lista Perfiles":
-                            ListPerfiles("");
-                            showPanel(0, "pnPerfil");
-                            break;
-                        case "Lista de Usuarios":
-                            try {
+                switch (listBtnMenu.getActionCommand()) {
+                    case "Lista de Empresas":
+                        ListEmpresas("");
+                        showPanel(0, "pnEmpresas");
+                        break;
+                    case "Lista de Roles":
+                        ListRoles("");
+                        showPanel(0, "pnRoles");
+                        break;
+                    case "Lista Perfiles":
+                        ListPerfiles("");
+                        showPanel(0, "pnPerfil");
+                        break;
+                    case "Lista de Usuarios":
+                        try {
 //                                pr.cldDesdePagos.setDate(null);
 //                                pr.cldHastaPagos.setDate(null);
-                                clearFormUsers();
-                                cargarTblUsers(filtro, UsuarioLogeado.getObjRol().getDescripcion());
-                                showPanel(0, "pnUsuarios");
-                            } catch (IOException ex) {
-                                System.out.println("error " + ex);
-                            }
-                            break;
-                    }
+                            clearFormUsers();
+                            cargarTblUsers(filtro, UsuarioLogeado.getObjRol().getDescripcion());
+                            showPanel(0, "pnUsuarios");
+                        } catch (IOException ex) {
+                            System.out.println("error " + ex);
+                        }
+                        break;
                 }
             }
         });
@@ -2578,7 +2574,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             Empresas next = it.next();
             MR.cboGym.addItem(next);
         }
-        setEmpresas(null);        
+        setEmpresas(null);
     }
 
     private void cargarSedesByEmprsa(int id_empresa) {//sede * Gyms
