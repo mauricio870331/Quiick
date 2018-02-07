@@ -131,9 +131,34 @@ public class Menus extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         ArrayList<Menus> List = new ArrayList();
+        String prepareQuery = "select * from menus";
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            ResultSet rs = Menus.super.getConecion().query(prepareQuery);
+            while (rs.next()) {
+                Menus tabla = new Menus();
+                tabla.setIdMenu(rs.getInt(1));
+                tabla.setNombre(rs.getString(2));
+                List.add(tabla);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().getconecion().setAutoCommit(true);
+//                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return List;
+    }
+
+    public java.util.List ListMenusForUser() {
+        ArrayList<Menus> List = new ArrayList();
         String prepareQuery = "select distinct m.* from menus m "
                 + "inner join menus_usuarios mu on mu.id_menu = m.id_menu "
-                + "where mu.idUsuario = " + idUsuarioMenu;        
+                + "where mu.idUsuario = " + idUsuarioMenu;
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Menus.super.getConecion().query(prepareQuery);
@@ -180,7 +205,7 @@ public class Menus extends Persistencia implements Serializable {
         } finally {
             try {
                 this.getConecion().getconecion().setAutoCommit(true);
-//                this.getConecion().con.close();
+                this.getConecion().con.close();
             } catch (SQLException ex) {
                 System.out.println(ex);
             }

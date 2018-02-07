@@ -27,7 +27,7 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
      */
     private final int idUser;
     private Menus menus;
-    private MenusForUsuarios mnusxusers;    
+    private MenusForUsuarios mnusxusers;
     public JCheckBox cb[];
     public JLabel lblMenus[];
     public JPanel pnMNU[];
@@ -37,12 +37,12 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
     public MenusXUsuarios(java.awt.Frame parent, boolean modal, int idUser) throws SQLException {
         super(parent, modal);
         initComponents();
-        this.idUser = idUser;
+        this.idUser = idUser;   
         crearCheckbox(this);
     }
 
     public void crearCheckbox(MenusXUsuarios modal) {
-        getMenus();
+        getMenus();        
         List<Menus> list = menus.ListMenus("");
         int cantMenus = list.size();
         pnMenus.removeAll();
@@ -146,7 +146,8 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
         btnCancelarMenusUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Asignar Perfiles a Rol");
+        setTitle("Asignar Menus a Usuario");
+        setAlwaysOnTop(true);
         setMinimumSize(new java.awt.Dimension(403, 281));
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);

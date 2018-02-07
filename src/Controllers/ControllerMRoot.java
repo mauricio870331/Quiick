@@ -190,8 +190,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 ////        pr.btnEditPagacancel.addActionListener(this);
 ////        pr.txtClave.setEnabled(false);
 ////        pr.txtClave.setText("123456");
-////        pr.btnCancelarEjercicio.addActionListener(this);
-////        pr.cldNacimiento.setDate(new Date());
+////        pr.btnCancelarEjercicio.addActionListener(this);        
 ////        pr.btnReporteCaja.addActionListener(this);
 ////        pr.btnBackReports.addActionListener(this);
 ////        pr.btnGenerarReporteByTipo.addActionListener(this);
@@ -2361,6 +2360,8 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                         MR.pnPerfil.setVisible(true);
                         break;
                     case "pnUsuarios":
+                        cargarTiposDocumentos();
+                        MR.cldNacimiento.setDate(new Date());
                         cargarRoles();
                         cargarEmpresas();
                         MR.pnBienvenidaRoot.setVisible(false);
@@ -2398,19 +2399,19 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
     }
 
     private void cargarTiposDocumentos() {
-//        Iterator<TipoDocumento> it = getTd().List().iterator();
-//        pr.cboTiposDoc.removeAllItems();
-//        TipoDocumento t = new TipoDocumento();
-//        t.setIdTipoDocumento(0);
-//        t.setDescripcion("Seleccione");
-//        t.setEstado("A");
-//        pr.cboTiposDoc.addItem(t);
-//        while (it.hasNext()) {
-//            TipoDocumento next = it.next();
-//            pr.cboTiposDoc.addItem(next);
-//        }
-//        setTd(null);
-//        t = null;
+        Iterator<TipoDocumento> it = getTd().List().iterator();
+        MR.cboTiposDoc.removeAllItems();
+        TipoDocumento t = new TipoDocumento();
+        t.setIdTipoDocumento(0);
+        t.setDescripcion("Seleccione");
+        t.setEstado("A");
+        MR.cboTiposDoc.addItem(t);
+        while (it.hasNext()) {
+            TipoDocumento next = it.next();
+            MR.cboTiposDoc.addItem(next);
+        }
+        setTd(null);
+        t = null;
     }
 
     private void CargarServicios() {
@@ -4198,7 +4199,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
     private void cargarMenus() {
         getMenus();
         menus.setIdUsuarioMenu(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
-        List<Menus> list = menus.List();
+        List<Menus> list = menus.ListMenusForUser();
         int cantMenus = list.size();
         MR.pnMnus.removeAll();
         MR.pnMnus.setOpaque(false);
