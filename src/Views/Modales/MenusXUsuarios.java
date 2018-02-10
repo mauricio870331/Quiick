@@ -1,7 +1,10 @@
 package Views.Modales;
 
+import Controllers.ControllerMRoot;
+import Controllers.GetController;
 import Pojos.Menus;
 import Pojos.MenusForUsuarios;
+import Pojos.RolxUser;
 import Pojos.SubMenus;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
@@ -33,16 +36,18 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
     public JPanel pnMNU[];
     public ArrayList<MenusForUsuarios> listMenususuario = new ArrayList<>();
     public ArrayList<JCheckBox> listCheckBox = new ArrayList();
+    public RolxUser UsuarioLogeado;
 
-    public MenusXUsuarios(java.awt.Frame parent, boolean modal, int idUser) throws SQLException {
+    public MenusXUsuarios(java.awt.Frame parent, boolean modal, int idUser, RolxUser UsuarioLogeado) throws SQLException {
         super(parent, modal);
         initComponents();
-        this.idUser = idUser;   
+        this.idUser = idUser;
+        this.UsuarioLogeado = UsuarioLogeado;
         crearCheckbox(this);
     }
 
     public void crearCheckbox(MenusXUsuarios modal) {
-        getMenus();        
+        getMenus();
         List<Menus> list = menus.ListMenus("");
         int cantMenus = list.size();
         pnMenus.removeAll();
@@ -336,12 +341,11 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
             result = mnusxusers.create();
             if (result > 0) {
                 DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
-                //                cargarSedes();
+                getCMRoot(getUsuarioLogeado()).cargarMenus();
                 setMnusxusers(null);
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
             }
-
         }
     }//GEN-LAST:event_btnGuardarMenusUserActionPerformed
 
@@ -354,11 +358,11 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
     }//GEN-LAST:event_btnCancelarMenusUserMouseExited
 
     private void btnCancelarMenusUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarMenusUserActionPerformed
-//        listPerfilesToRol.clear();
-//        setPerfil(null);
-//        setPerfilxrol(null);
-//        pnPerfiles.removeAll();
-//        this.dispose();
+        listMenususuario.clear();
+        setMnusxusers(null);
+        setMenus(null);
+        pnMenus.removeAll();
+        this.dispose();
     }//GEN-LAST:event_btnCancelarMenusUserActionPerformed
 
 
@@ -421,6 +425,21 @@ public final class MenusXUsuarios extends javax.swing.JDialog implements ItemLis
 
     public void setMnusxusers(MenusForUsuarios mnusxusers) {
         this.mnusxusers = mnusxusers;
+    }
+
+    public RolxUser getUsuarioLogeado() {
+        if (UsuarioLogeado == null) {
+            UsuarioLogeado = new RolxUser();
+        }
+        return UsuarioLogeado;
+    }
+
+    public void setUsuarioLogeado(RolxUser UsuarioLogeado) {
+        this.UsuarioLogeado = UsuarioLogeado;
+    }
+
+    public ControllerMRoot getCMRoot(RolxUser UsuarioLogeado) {
+        return GetController.getControllerMRoot(UsuarioLogeado);
     }
 
 }

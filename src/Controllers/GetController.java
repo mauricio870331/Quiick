@@ -6,11 +6,6 @@
 package Controllers;
 
 import Pojos.RolxUser;
-import Views.Modulo1;
-import Views.Modulo2;
-import Views.Modulo3;
-import Views.Modulo4;
-import Views.ModuloRoot;
 import java.io.IOException;
 
 /**
@@ -30,8 +25,6 @@ public class GetController {
         try {
             if (M1 == null) {
                 M1 = new ControllerM1();                
-            } else {
-                System.out.println("Controlador Modulo 1 ya fue instanceado");
             }
         } catch (IOException e) {
             System.out.println("error = " + e);
@@ -44,9 +37,7 @@ public class GetController {
         try {
             if (M2 == null) {
                 M2 = new ControllerM2();
-            } else {
-                System.out.println("Controlador Modulo 2 ya fue instanceado");
-            }
+            } 
         } catch (IOException e) {
             System.out.println("error = " + e);
         }
@@ -57,9 +48,7 @@ public class GetController {
         try {
             if (M3 == null) {
                 M3 = new ControllerM3();
-            } else {
-                System.out.println("Controlador Modulo 3 ya fue instanceado");
-            }
+            } 
         } catch (IOException e) {
             System.out.println("error = " + e);
         }
@@ -70,9 +59,7 @@ public class GetController {
         try {
             if (M4 == null) {
                 M4 = new ControllerM4();
-            } else {
-                System.out.println("Controlador Modulo 4 ya fue instanceado");
-            }
+            } 
         } catch (IOException e) {
             System.out.println("error = " + e);
         }
@@ -83,13 +70,10 @@ public class GetController {
         try {
             if (MR == null) {
                 MR = new ControllerMRoot(UsuarioLogeado);
-            } else {
-                System.out.println("Controlador Modulo Root ya fue instanceado");
-            }
+            } 
         } catch (IOException e) {
             System.out.println("error = " + e);
         }
         return MR;
     }
-
 }

@@ -29,9 +29,7 @@ public class GetPrincipal {
             if (M1 == null) {
                 M1 = new Modulo1();
                 M1.setLocationRelativeTo(null);
-            } else {
-                System.out.println("Principal ya estaba instanceado");
-            }
+            } 
         } catch (Exception e) {
             System.out.println("error = " + e);
         }
@@ -43,9 +41,7 @@ public class GetPrincipal {
             if (MR == null) {
                 MR = new ModuloRoot();
                 MR.setLocationRelativeTo(null);
-            } else {
-                System.out.println("Principal ya estaba instanceado");
-            }
+            } 
         } catch (Exception e) {
             System.out.println("error = " + e);
         }
@@ -57,9 +53,7 @@ public class GetPrincipal {
             if (M2 == null) {
                 M2 = new Modulo2();
                 M2.setLocationRelativeTo(null);
-            } else {
-                System.out.println("Principal ya estaba instanceado");
-            }
+            } 
         } catch (Exception e) {
             System.out.println("error = " + e);
         }
@@ -71,9 +65,7 @@ public class GetPrincipal {
             if (M3 == null) {
                 M3 = new Modulo3();
                 M3.setLocationRelativeTo(null);
-            } else {
-                System.out.println("Principal ya estaba instanceado");
-            }
+            } 
         } catch (Exception e) {
             System.out.println("error = " + e);
         }
@@ -85,9 +77,7 @@ public class GetPrincipal {
             if (M4 == null) {
                 M4 = new Modulo4();
                 M4.setLocationRelativeTo(null);
-            } else {
-                System.out.println("Principal ya estaba instanceado");
-            }
+            } 
         } catch (Exception e) {
             System.out.println("error = " + e);
         }

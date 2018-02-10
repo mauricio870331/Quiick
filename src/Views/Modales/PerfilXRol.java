@@ -53,7 +53,7 @@ public final class PerfilXRol extends javax.swing.JDialog implements ItemListene
             cb[i].setActionCommand(p.getIdPerfil() + "");
             cb[i].setOpaque(false);
             cb[i].addItemListener(modal);
-            if (actuales.contains(Integer.toString(p.getIdPerfil()))) {
+            if (actuales.contains(p.getDescripcion())) {
                 cb[i].setSelected(true);
                 listPerfilesToRol.add(p.getIdPerfil() + "");
             }

@@ -46,7 +46,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -88,7 +87,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
     private Usuario us;
     private TipoDocumento td;
     private Rol rol;
-
+    private PerfilRoles perfilxrol;
     private Sedes sede;
     private Asistencia ad;
     private Musculos musculos;
@@ -195,11 +194,9 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 ////        pr.btnGenerarReporteByTipo.addActionListener(this);
 ////        pr.preloader.setVisible(false);
 ////        pr.combotiposService1.addActionListener(this);
-        Adaptador();
 //        getMiCaja().CierreCajasAuto();
 //        setMiCaja(null);
 //        cargarTiposDocumentos();
-
 //        cargarTblUsers(filtro);
 //        showPanel(2, "PnProveedores");
 //        System.out.println("pr.pnMicajaEstado.getText() " + pr.pnMicajaEstado.getText());
@@ -215,6 +212,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        MR.btnCancelarRol.addActionListener(this);
 //        MR.mnuEditRol.addActionListener(this);
 //        MR.mnuDeleteRol.addActionListener(this);
+        Adaptador();
         MR.mnuPerfilxRol.addActionListener(this);
         MR.mnuUpdateUser.addActionListener(this);
         MR.btnGuardarUser.addActionListener(this);
@@ -229,6 +227,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        MR.mnuDeletePerfil.addActionListener(this);
         //--fin nuevo --//       
         cargarMenus();
+        cargarPerfilesXRol();
     }
 
     @Override
@@ -2198,7 +2197,8 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             if (fila >= 0) {
                 try {
                     String usuario = MR.tblUsers.getValueAt(fila, 3).toString() + " " + MR.tblUsers.getValueAt(fila, 4).toString();
-                    MenusXUsuarios mxu = new MenusXUsuarios(MR, true, Integer.parseInt(MR.tblUsers.getValueAt(fila, 9).toString()));
+                    MenusXUsuarios mxu = new MenusXUsuarios(MR, true, Integer.parseInt(MR.tblUsers.getValueAt(fila, 9).toString()), getUsuarioLogeado());
+
                     mxu.lblUser.setText(mxu.lblUser.getText() + " " + usuario);
                     mxu.setLocationRelativeTo(null);
                     mxu.setVisible(true);
@@ -4192,7 +4192,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         this.submenus = submenus;
     }
 
-    private void cargarMenus() {
+    public void cargarMenus() {
         getMenus();
         menus.setIdUsuarioMenu(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
         List<Menus> list = menus.ListMenusForUser();
@@ -4280,6 +4280,25 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         panel.add(pnContentMnuUsers, java.awt.BorderLayout.CENTER);
         panel.updateUI();
         return panel;
+    }
+
+    public void cargarPerfilesXRol() {
+        getPerfilxrol().setIdRol(UsuarioLogeado.getObjRol().getIdRol());
+        List<String> actuales = getPerfilxrol().List();
+        actuales.forEach((next) -> {
+            System.out.println("next " + next);
+        });
+    }
+
+    public PerfilRoles getPerfilxrol() {
+        if (perfilxrol == null) {
+            perfilxrol = new PerfilRoles();
+        }
+        return perfilxrol;
+    }
+
+    public void setPerfilxrol(PerfilRoles perfilxrol) {
+        this.perfilxrol = perfilxrol;
     }
 
 }
