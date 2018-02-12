@@ -167,7 +167,7 @@ public class ModuloRoot extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblPerfiles = new javax.swing.JTable();
         pnUsuarios = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
+        PnHeaderUsers = new javax.swing.JPanel();
         cboTiposDoc = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtDoc = new javax.swing.JTextField();
@@ -209,7 +209,7 @@ public class ModuloRoot extends javax.swing.JFrame {
         idSedeOld = new javax.swing.JTextField();
         usuarioOld = new javax.swing.JTextField();
         idRolOld = new javax.swing.JTextField();
-        jPanel8 = new javax.swing.JPanel();
+        pnBodyUsers = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblUsers = new javax.swing.JTable();
         txtFindUser3 = new javax.swing.JTextField();
@@ -234,6 +234,7 @@ public class ModuloRoot extends javax.swing.JFrame {
 
         mnuAddMenues.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/asignMenu.png"))); // NOI18N
         mnuAddMenues.setText("Asignar Menus");
+        mnuAddMenues.setName("Guardar"); // NOI18N
         popupTblUsers.add(mnuAddMenues);
 
         mnuAsocFinger.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Finger18px.png"))); // NOI18N
@@ -352,13 +353,10 @@ public class ModuloRoot extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(nomUserLog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(nomRolUserlog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(nomUserLog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomRolUserlog, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -1187,9 +1185,9 @@ public class ModuloRoot extends javax.swing.JFrame {
 
         pnUsuarios.setLayout(new java.awt.BorderLayout());
 
-        jPanel7.setBackground(new java.awt.Color(54, 63, 73));
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Usuarios", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
-        jPanel7.setPreferredSize(new java.awt.Dimension(711, 230));
+        PnHeaderUsers.setBackground(new java.awt.Color(54, 63, 73));
+        PnHeaderUsers.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Usuarios", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
+        PnHeaderUsers.setPreferredSize(new java.awt.Dimension(711, 230));
 
         cboTiposDoc.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 
@@ -1258,15 +1256,8 @@ public class ModuloRoot extends javax.swing.JFrame {
         btnGuardarUser.setFocusPainted(false);
         btnGuardarUser.setHideActionText(true);
         btnGuardarUser.setIconTextGap(1);
+        btnGuardarUser.setName("Guardar"); // NOI18N
         btnGuardarUser.setOpaque(true);
-        btnGuardarUser.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnGuardarUserMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnGuardarUserMouseExited(evt);
-            }
-        });
 
         btnAdjuntarfoto1.setBackground(new java.awt.Color(54, 63, 73));
         btnAdjuntarfoto1.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -1347,48 +1338,50 @@ public class ModuloRoot extends javax.swing.JFrame {
         jLabel27.setForeground(new java.awt.Color(255, 255, 255));
         jLabel27.setText("Clave:");
 
+        txtClave.setName("txtClave"); // NOI18N
+
         jLabel28.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setText("Foto:");
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        javax.swing.GroupLayout PnHeaderUsersLayout = new javax.swing.GroupLayout(PnHeaderUsers);
+        PnHeaderUsers.setLayout(PnHeaderUsersLayout);
+        PnHeaderUsersLayout.setHorizontalGroup(
+            PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnHeaderUsersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnHeaderUsersLayout.createSequentialGroup()
+                        .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PnHeaderUsersLayout.createSequentialGroup()
+                                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtNombres, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                                     .addComponent(cboTiposDoc, 0, 178, Short.MAX_VALUE)
                                     .addComponent(cboRol, javax.swing.GroupLayout.Alignment.TRAILING, 0, 178, Short.MAX_VALUE)
                                     .addComponent(cboGym, 0, 178, Short.MAX_VALUE)
                                     .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                                     .addComponent(txtDoc, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                                     .addComponent(cboSedes, 0, 178, Short.MAX_VALUE)
                                     .addComponent(txtClave, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                                     .addComponent(txtApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addGroup(PnHeaderUsersLayout.createSequentialGroup()
                                 .addComponent(idpersonaOld, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(idUsuarioOld, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1405,30 +1398,30 @@ public class ModuloRoot extends javax.swing.JFrame {
                                 .addGap(42, 42, 42)
                                 .addComponent(fileChosed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(10, 10, 10)))
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                        .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PnHeaderUsersLayout.createSequentialGroup()
                                 .addGap(7, 7, 7)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtDireccion))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addGroup(PnHeaderUsersLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnGuardarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PnHeaderUsersLayout.createSequentialGroup()
+                                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PnHeaderUsersLayout.createSequentialGroup()
                                         .addGap(6, 6, 6)
-                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                    .addGroup(PnHeaderUsersLayout.createSequentialGroup()
                                         .addGap(7, 7, 7)
                                         .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnAdjuntarfoto1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cboSexo, 0, 206, Short.MAX_VALUE)
                                     .addComponent(txtTelefonos)
@@ -1436,11 +1429,11 @@ public class ModuloRoot extends javax.swing.JFrame {
                     .addComponent(btnCapturePhoto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        PnHeaderUsersLayout.setVerticalGroup(
+            PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnHeaderUsersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel1)
                     .addComponent(cboTiposDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
@@ -1448,7 +1441,7 @@ public class ModuloRoot extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel5)
                     .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20)
@@ -1456,7 +1449,7 @@ public class ModuloRoot extends javax.swing.JFrame {
                     .addComponent(txtTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel8)
                     .addComponent(cboRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
@@ -1464,7 +1457,7 @@ public class ModuloRoot extends javax.swing.JFrame {
                     .addComponent(jLabel22)
                     .addComponent(cldNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel21)
                     .addComponent(cboGym, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel25)
@@ -1472,8 +1465,8 @@ public class ModuloRoot extends javax.swing.JFrame {
                     .addComponent(jLabel17)
                     .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                         .addComponent(jLabel26)
                         .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel27)
@@ -1483,16 +1476,16 @@ public class ModuloRoot extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCapturePhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnGuardarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(fileChosed, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(idpersonaOld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(idUsuarioOld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(idRolxuserOld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(PnHeaderUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(idEmpresaOld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(idSedeOld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(usuarioOld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1500,9 +1493,11 @@ public class ModuloRoot extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnUsuarios.add(jPanel7, java.awt.BorderLayout.PAGE_START);
+        pnUsuarios.add(PnHeaderUsers, java.awt.BorderLayout.PAGE_START);
 
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        pnBodyUsers.setBackground(new java.awt.Color(255, 255, 255));
+
+        jScrollPane4.setName("panelListado"); // NOI18N
 
         tblUsers.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tblUsers.setForeground(new java.awt.Color(34, 41, 50));
@@ -1528,6 +1523,7 @@ public class ModuloRoot extends javax.swing.JFrame {
         txtFindUser3.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         txtFindUser3.setForeground(new java.awt.Color(255, 255, 255));
         txtFindUser3.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtFindUser3.setName("txtBuscar"); // NOI18N
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(34, 41, 50));
@@ -1540,6 +1536,7 @@ public class ModuloRoot extends javax.swing.JFrame {
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel11.setName("panelPaginador"); // NOI18N
 
         totalRegistros.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         totalRegistros.setForeground(new java.awt.Color(34, 41, 50));
@@ -1667,6 +1664,7 @@ public class ModuloRoot extends javax.swing.JFrame {
         btnFindUser3.setFocusPainted(false);
         btnFindUser3.setHideActionText(true);
         btnFindUser3.setIconTextGap(1);
+        btnFindUser3.setName("Buscar"); // NOI18N
         btnFindUser3.setOpaque(true);
         btnFindUser3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -1677,15 +1675,15 @@ public class ModuloRoot extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnBodyUsersLayout = new javax.swing.GroupLayout(pnBodyUsers);
+        pnBodyUsers.setLayout(pnBodyUsersLayout);
+        pnBodyUsersLayout.setHorizontalGroup(
+            pnBodyUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnBodyUsersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnBodyUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addGroup(pnBodyUsersLayout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtFindUser3, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1696,11 +1694,11 @@ public class ModuloRoot extends javax.swing.JFrame {
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        pnBodyUsersLayout.setVerticalGroup(
+            pnBodyUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnBodyUsersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(pnBodyUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel15)
                     .addComponent(txtFindUser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1712,7 +1710,7 @@ public class ModuloRoot extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnUsuarios.add(jPanel8, java.awt.BorderLayout.CENTER);
+        pnUsuarios.add(pnBodyUsers, java.awt.BorderLayout.CENTER);
 
         pnBienvenidaRoot.setBackground(new java.awt.Color(54, 63, 73));
 
@@ -1787,10 +1785,10 @@ public class ModuloRoot extends javax.swing.JFrame {
                 .addContainerGap(344, Short.MAX_VALUE))
         );
 
-        jLayeredPane1.setLayer(pnEmpresas, javax.swing.JLayeredPane.PALETTE_LAYER);
+        jLayeredPane1.setLayer(pnEmpresas, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(pnRoles, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(pnPerfil, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(pnUsuarios, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(pnUsuarios, javax.swing.JLayeredPane.PALETTE_LAYER);
         jLayeredPane1.setLayer(pnBienvenidaRoot, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
@@ -1913,14 +1911,6 @@ public class ModuloRoot extends javax.swing.JFrame {
         btnCancelar.setBackground(new Color(54, 63, 73));
     }//GEN-LAST:event_btnCancelarMouseExited
 
-    private void btnGuardarUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarUserMouseEntered
-        btnGuardarUser.setBackground(new Color(124, 124, 124));
-    }//GEN-LAST:event_btnGuardarUserMouseEntered
-
-    private void btnGuardarUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarUserMouseExited
-        btnGuardarUser.setBackground(new Color(54, 63, 73));
-    }//GEN-LAST:event_btnGuardarUserMouseExited
-
     private void btnAdjuntarfoto1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdjuntarfoto1MouseEntered
         btnAdjuntarfoto.setBackground(new Color(124, 124, 124));
     }//GEN-LAST:event_btnAdjuntarfoto1MouseEntered
@@ -2033,6 +2023,7 @@ public class ModuloRoot extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JPanel PnHeaderUsers;
     private javax.swing.JPanel PnMenuPrincipal;
     public com.bolivia.label.CLabel UserLogPicture;
     public javax.swing.JButton btnAdjuntarfoto;
@@ -2107,7 +2098,7 @@ public class ModuloRoot extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel90;
-    private javax.swing.JLayeredPane jLayeredPane1;
+    public javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
@@ -2124,13 +2115,11 @@ public class ModuloRoot extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel59;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel60;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    public javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
@@ -2161,6 +2150,7 @@ public class ModuloRoot extends javax.swing.JFrame {
     public javax.swing.JLabel nomRolUserlog;
     public javax.swing.JLabel nomUserLog;
     public javax.swing.JPanel pnBienvenidaRoot;
+    public javax.swing.JPanel pnBodyUsers;
     private javax.swing.JPanel pnContentsMnuusers;
     public javax.swing.JPanel pnEmpresas;
     private javax.swing.JPanel pnHeaderEmpresas;

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
@@ -98,11 +99,11 @@ public class LoginController implements ActionListener {
                         }
                         MR.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
                         MR.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
+//                        MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         MR.setVisible(true);
                     } else {
                         getBienvenida(rolu);
                     }
-
                     u = null;
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Usuario o Clave Incorrecta..!", DesktopNotify.ERROR, 5000L);

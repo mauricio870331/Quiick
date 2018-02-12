@@ -55,6 +55,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -3615,12 +3616,16 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        if (e.getSource() == MR.btnGuardarUser) {
+            MR.btnGuardarUser.setBackground(new Color(124, 124, 124));
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        if (e.getSource() == MR.btnGuardarUser) {
+            MR.btnGuardarUser.setBackground(new Color(54, 63, 73));
+        }
     }
 
     private void cargarAllEjericios() {
@@ -4285,9 +4290,31 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
     public void cargarPerfilesXRol() {
         getPerfilxrol().setIdRol(UsuarioLogeado.getObjRol().getIdRol());
         List<String> actuales = getPerfilxrol().List();
-        actuales.forEach((next) -> {
-            System.out.println("next " + next);
-        });
+        //agregar los componentes que se van a validar para habilitar por perfil
+        Object[] componentes = {MR.btnGuardarUser, MR.mnuAddMenues};
+        for (Object componente : componentes) {
+            if (componente instanceof JButton) {
+                if (!actuales.contains(((JButton) componente).getName())) {
+                    ((JButton) componente).setEnabled(false);
+                    ((JButton) componente).removeMouseListener(this);
+                    ((JButton) componente).setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(34, 41, 50)));
+                } else {
+                    ((JButton) componente).setEnabled(true);
+                    ((JButton) componente).addMouseListener(this);
+                    ((JButton) componente).setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+                }
+            }
+
+            if (componente instanceof JMenuItem) {
+                if (!actuales.contains(((JMenuItem) componente).getName())) {
+                    ((JMenuItem) componente).setEnabled(false);
+                } else {
+                    ((JMenuItem) componente).setEnabled(true);
+                }
+            }
+
+        }
+
     }
 
     public PerfilRoles getPerfilxrol() {

@@ -14,6 +14,7 @@
               <Image iconType="3" name="/icons/asignMenu.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Asignar Menus"/>
+            <Property name="name" type="java.lang.String" value="Guardar" noResource="true"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -367,15 +368,10 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="nomUserLog" min="-2" pref="180" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="nomRolUserlog" min="-2" pref="180" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="nomUserLog" min="-2" pref="180" max="-2" attributes="0"/>
+                          <Component id="nomRolUserlog" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -653,6 +649,9 @@
           </Border>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="Center"/>
@@ -703,7 +702,6 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JLayeredPane.layer" type="java.lang.Integer" value="100"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
 
@@ -2134,12 +2132,13 @@
         </Container>
         <Container class="javax.swing.JPanel" name="pnUsuarios">
           <AuxValues>
+            <AuxValue name="JLayeredPane.layer" type="java.lang.Integer" value="100"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel7">
+            <Container class="javax.swing.JPanel" name="PnHeaderUsers">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="49" green="3f" red="36" type="rgb"/>
@@ -2156,6 +2155,9 @@
                   <Dimension value="[711, 230]"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                   <BorderConstraints direction="First"/>
@@ -2549,12 +2551,9 @@
                     <Property name="focusPainted" type="boolean" value="false"/>
                     <Property name="hideActionText" type="boolean" value="true"/>
                     <Property name="iconTextGap" type="int" value="1"/>
+                    <Property name="name" type="java.lang.String" value="Guardar" noResource="true"/>
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarUserMouseEntered"/>
-                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarUserMouseExited"/>
-                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
@@ -2776,6 +2775,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="txtClave">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="txtClave" noResource="true"/>
+                  </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
@@ -2833,12 +2835,15 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel8">
+            <Container class="javax.swing.JPanel" name="pnBodyUsers">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                   <BorderConstraints direction="Center"/>
@@ -2888,7 +2893,11 @@
               </Layout>
               <SubComponents>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="panelListado" noResource="true"/>
+                  </Properties>
                   <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
 
@@ -2940,6 +2949,7 @@
                     <Property name="caretColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="txtBuscar" noResource="true"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -2983,6 +2993,7 @@
                         <EtchetBorder/>
                       </Border>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="panelPaginador" noResource="true"/>
                   </Properties>
 
                   <Layout>
@@ -3218,6 +3229,7 @@
                     <Property name="focusPainted" type="boolean" value="false"/>
                     <Property name="hideActionText" type="boolean" value="true"/>
                     <Property name="iconTextGap" type="int" value="1"/>
+                    <Property name="name" type="java.lang.String" value="Buscar" noResource="true"/>
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
                   <Events>
