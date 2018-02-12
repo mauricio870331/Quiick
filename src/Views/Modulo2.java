@@ -184,9 +184,9 @@ public class Modulo2 extends javax.swing.JFrame {
         btnCompraNueva = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel96 = new javax.swing.JLabel();
-        txtFacCompra1 = new javax.swing.JTextField();
+        txtFacCompra = new javax.swing.JTextField();
         jLabel97 = new javax.swing.JLabel();
-        txtFechaCompra1 = new com.toedter.calendar.JDateChooser();
+        txtFechaCompra = new com.toedter.calendar.JDateChooser();
         jLabel98 = new javax.swing.JLabel();
         txtEstadoCompra = new javax.swing.JComboBox<>();
         jLabel99 = new javax.swing.JLabel();
@@ -1329,18 +1329,18 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                         .addGap(349, 349, 349)
                         .addComponent(btnCompraNueva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(27, 27, 27))
                     .addComponent(jScrollPane19)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(TxtbuscarProductoCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(TxtbuscarProductoCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BntTranCompraBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                        .addComponent(BntTranCompraBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BntTranCompraNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                        .addComponent(BntTranCompraNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                         .addGap(612, 612, 612)))
                 .addContainerGap())
         );
@@ -1376,12 +1376,12 @@ public class Modulo2 extends javax.swing.JFrame {
         jLabel96.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel96.setText("No. Factura ");
 
-        txtFacCompra1.setPreferredSize(new java.awt.Dimension(64, 16));
+        txtFacCompra.setPreferredSize(new java.awt.Dimension(64, 16));
 
         jLabel97.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel97.setText("Fecha");
 
-        txtFechaCompra1.setPreferredSize(new java.awt.Dimension(64, 16));
+        txtFechaCompra.setPreferredSize(new java.awt.Dimension(64, 16));
 
         jLabel98.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel98.setText("Sede");
@@ -1437,9 +1437,9 @@ public class Modulo2 extends javax.swing.JFrame {
                                 .addComponent(jLabel101, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtFacCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtFechaCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtEstadoCompra, 0, 136, Short.MAX_VALUE))
+                            .addComponent(txtFacCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFechaCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtEstadoCompra, 0, 131, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel99, javax.swing.GroupLayout.PREFERRED_SIZE, 54, Short.MAX_VALUE)
@@ -1448,12 +1448,12 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtProveedorCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                .addComponent(txtProveedorCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtnomProveedornombre, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                                .addComponent(txtnomProveedornombre, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                                 .addGap(15, 15, 15))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtempproemprnombre, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                                .addComponent(txtempproemprnombre, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
                                 .addContainerGap())
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtComboSedeCompra, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1471,7 +1471,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addComponent(jLabel97, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(txtFechaCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtFechaCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(jLabel100, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1498,7 +1498,7 @@ public class Modulo2 extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFacCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtFacCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel96, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(92, 92, 92))
         );
@@ -1514,7 +1514,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel69.setLayout(jPanel69Layout);
         jPanel69Layout.setHorizontalGroup(
             jPanel69Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 860, Short.MAX_VALUE)
+            .addGap(0, 849, Short.MAX_VALUE)
         );
         jPanel69Layout.setVerticalGroup(
             jPanel69Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1651,7 +1651,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel66.setLayout(jPanel66Layout);
         jPanel66Layout.setHorizontalGroup(
             jPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
+            .addGap(0, 409, Short.MAX_VALUE)
         );
         jPanel66Layout.setVerticalGroup(
             jPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1692,7 +1692,7 @@ public class Modulo2 extends javax.swing.JFrame {
             .addGroup(jPanel67Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel67Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
+                    .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
                     .addGroup(jPanel67Layout.createSequentialGroup()
                         .addComponent(pnMicajaMns3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1705,7 +1705,7 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addComponent(pnMicajaMns3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(190, Short.MAX_VALUE))
         );
 
         PnCompras.add(jPanel67, java.awt.BorderLayout.CENTER);
@@ -1721,11 +1721,11 @@ public class Modulo2 extends javax.swing.JFrame {
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 849, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(PnProveedores, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(PnProveedores, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 849, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(PnEmpresaProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 849, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(PnTransCompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(PnTransCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 849, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addGap(13, 13, 13)
@@ -2090,9 +2090,9 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JComboBox<Bodega> txtComboBodegasCompra;
     public javax.swing.JComboBox<Sedes> txtComboSedeCompra;
     public javax.swing.JTextField txtDocProve;
-    private javax.swing.JComboBox<String> txtEstadoCompra;
-    private javax.swing.JTextField txtFacCompra1;
-    public com.toedter.calendar.JDateChooser txtFechaCompra1;
+    public javax.swing.JComboBox<String> txtEstadoCompra;
+    public javax.swing.JTextField txtFacCompra;
+    public com.toedter.calendar.JDateChooser txtFechaCompra;
     public javax.swing.JTextField txtFindUser1;
     public javax.swing.JTextField txtNombresProve;
     public javax.swing.JTextField txtProveEmpDireccion;

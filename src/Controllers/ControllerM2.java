@@ -147,12 +147,39 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.btnCompraNueva.addActionListener(this);
         M2.txtComboSedeCompra.addActionListener(this);
         M2.mnuBuscarProveedor.addActionListener(this);
+        M2.btnCompraNueva.addActionListener(this);
         Adaptador();
         cargarMenu();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == M2.btnCompraNueva) {
+            getCp();
+            getCd();
+            Bodega b = new Bodega();
+
+            cp.getCompra_productoID().setCod_factura(M2.txtFacCompra.getText().trim());
+            cp.getCompra_productoID().setCod_proveedor(pv.getIdProveedor());
+            Date dateStarting = (Date) M2.txtFechaCompra.getDate();
+            cp.setFechacompra(dateStarting);
+            cp.setEstadoCompra(M2.txtEstadoCompra.getSelectedItem().toString());
+            cp.setCantidadproductos(new BigDecimal(pr.getListProductos().size()));
+
+            b = (Bodega) M2.txtComboBodegasCompra.getSelectedItem();
+            cp.setBodega(b.getIdBodega().intValue());
+
+            if (cp.create() > 0) {
+
+                DesktopNotify.showDesktopMessage("Aviso..!", "Exito al realizar la compra", DesktopNotify.INFORMATION, 5000L);
+//                LimpiarCampos("proveedores");
+//                ListProveedores();
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Error al crear compra", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
         if (e.getSource() == M2.mnuBuscarProveedor) {
             try {
                 getOb();
@@ -201,6 +228,8 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         }
 
         if (e.getSource() == M2.btnCompraTrans) {
+            getCp();
+            cp.setCostocompra(new BigDecimal(0));
             ListProductosAñadidos();
             ListSedes();
             CargarDatosProveedor(null);
@@ -1209,6 +1238,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     public void ListProductosAñadidos() {
         getPr();
+        getCp();
         M2.tableProductosAdd.removeAll();
         TablaModel tablaModel = new TablaModel(pr.getListProductos(), 2);
         M2.tableProductosAdd.setModel(tablaModel.ModelListProductosAñadidos());

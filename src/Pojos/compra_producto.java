@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -78,7 +77,8 @@ public class compra_producto extends Persistencia implements Serializable {
 
             preparedStatement.setString(1, compra_productoID.getCod_factura());
             preparedStatement.setBigDecimal(2, compra_productoID.getCod_proveedor());
-            preparedStatement.setDate(3, (java.sql.Date) fechacompra);
+            preparedStatement.setDate(3,new java.sql.Date(fechacompra.getTime()));
+
             preparedStatement.setString(4, estadoCompra);
             preparedStatement.setBigDecimal(5, costocompra);
             preparedStatement.setBigDecimal(6, cantidadproductos);
