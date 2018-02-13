@@ -4290,7 +4290,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
     public void cargarPerfilesXRol() {
         getPerfilxrol().setIdRol(UsuarioLogeado.getObjRol().getIdRol());
         List<String> actuales = getPerfilxrol().List();
-        //agregar los componentes que se van a validar para habilitar por perfil
+        //agregar los componentes que se van a validar para habilitar por rol
         Object[] componentes = {MR.btnGuardarUser, MR.mnuAddMenues};
         for (Object componente : componentes) {
             if (componente instanceof JButton) {
@@ -4304,7 +4304,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                     ((JButton) componente).setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
                 }
             }
-
             if (componente instanceof JMenuItem) {
                 if (!actuales.contains(((JMenuItem) componente).getName())) {
                     ((JMenuItem) componente).setEnabled(false);
