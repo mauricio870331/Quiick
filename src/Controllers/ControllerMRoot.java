@@ -12,6 +12,7 @@ import Utils.TablaModel;
 import Views.Modulo1;
 import Views.FrmCapturePict;
 import Views.Modales.Busqueda;
+import Views.Modales.MenusXUsuarios;
 import Views.Modales.NuevaSede;
 import Views.Modales.PerfilXRol;
 import Views.Modulo2;
@@ -44,15 +45,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -67,13 +73,13 @@ import javax.swing.table.TableRowSorter;
  * @author Mauricio Herrera
  */
 public class ControllerMRoot implements ActionListener, MouseListener, KeyListener {
-    
+
     private final Modulo1 M1 = GetPrincipal.getModulo1();
     private final Modulo2 M2 = GetPrincipal.getModulo2();
     private final Modulo3 M3 = GetPrincipal.getModulo3();
     private final Modulo4 M4 = GetPrincipal.getModulo4();
     private final ModuloRoot MR = GetPrincipal.getModuloRoot();
-    
+
     public RolxUser UsuarioLogeado;
     private persona p;
     private RolxUser ruxuser;
@@ -82,6 +88,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
     private Usuario us;
     private TipoDocumento td;
     private Rol rol;
+    private PerfilRoles perfilxrol;
     private Sedes sede;
     private Asistencia ad;
     private Musculos musculos;
@@ -111,27 +118,33 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
     String filtro = "";
     String opcPaginacion = "";
     private Object currentObject;
-    
+
     private int cantRegustrosUsuarios = 0;
     private final ArrayList<Ejercicios> newRutina = new ArrayList();
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
     private Empresas empresas;
     private Perfil perfil;
-    
-    public ControllerMRoot() throws IOException {
+    private Menus menus;
+    private SubMenus submenus;
+    public JLabel lblMnues[];
+    public JPanel pnMenuContent[];
+    ArrayList<JButton> listBtnMenus = new ArrayList();
+
+    public ControllerMRoot(RolxUser UsuarioLogeado) throws IOException {
+        this.UsuarioLogeado = UsuarioLogeado;
         inicomponents();
+
     }
-    
+
     private void inicomponents() throws IOException {
 ////        pr.mnuUsers.addMouseListener(this);
 ////        pr.mnuGimnasios.addMouseListener(this);     
-////        pr.btnGuardar.addActionListener(this);
+
 ////        pr.btnCancelar.addActionListener(this);
 //        M1.mnuAsocFinger.addActionListener(this);
 ////        pr.btnBack.addActionListener(this);
 //        pr.btnAsistencias.addActionListener(this);
-//        pr.btnListUsers.addActionListener(this);
-//        pr.mnuUpdate.addActionListener(this);
+//        MR.btnListUsers.addActionListener(this); 
 //        pr.mnuDelete.addActionListener(this);
 ////        pr.btnGuardaAsistencia.addActionListener(this);
 //        pr.btnAsistenciaManual.addActionListener(this);
@@ -143,7 +156,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 ////        pr.btnLastReg.addActionListener(this);
 ////        pr.btnFindUser.addActionListener(this);
 //        pr.mnuGenerarPago.addActionListener(this);
-////        pr.cboGym.addActionListener(this);
 ////        pr.btnBuscarAsistencias.addActionListener(this);
 //        pr.btnListMusculos.addActionListener(this);
 //        pr.btnListEjercicios.addActionListener(this);
@@ -175,63 +187,67 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.mnuDeletePagos.addActionListener(this);
 ////        pr.btnEditPago.addActionListener(this);
 ////        pr.btnEditPagacancel.addActionListener(this);
-////        pr.cboRol.addActionListener(this);
-////        pr.txtUser.setEnabled(false);
-////        pr.txtUser.setText(userFormat.format(new Date()));
 ////        pr.txtClave.setEnabled(false);
 ////        pr.txtClave.setText("123456");
-////        pr.btnCancelarEjercicio.addActionListener(this);
-////        pr.cldNacimiento.setDate(new Date());
+////        pr.btnCancelarEjercicio.addActionListener(this);        
 ////        pr.btnReporteCaja.addActionListener(this);
 ////        pr.btnBackReports.addActionListener(this);
 ////        pr.btnGenerarReporteByTipo.addActionListener(this);
 ////        pr.preloader.setVisible(false);
 ////        pr.combotiposService1.addActionListener(this);
-        Adaptador();
 //        getMiCaja().CierreCajasAuto();
 //        setMiCaja(null);
 //        cargarTiposDocumentos();
-//        cargarRoles();
-//        cargarEmpresas();
 //        cargarTblUsers(filtro);
 //        showPanel(2, "PnProveedores");
 //        System.out.println("pr.pnMicajaEstado.getText() " + pr.pnMicajaEstado.getText());
-        MR.btnGuardarEmpresa.addActionListener(this);
-        MR.btnCancelarEmpresa.addActionListener(this);
-        MR.btnEmpresas.addActionListener(this);
-        MR.mnuEditEmpresa.addActionListener(this);
-        MR.mnuDeleteEmpresa.addActionListener(this);
-        MR.mnuNewSede.addActionListener(this);
-        MR.btnGuardarRol.addActionListener(this);
-        MR.btnRoles.addActionListener(this);
-        MR.btnCancelarRol.addActionListener(this);
-        MR.mnuEditRol.addActionListener(this);
-        MR.mnuDeleteRol.addActionListener(this);
+//--nuevo--//
+//        MR.btnGuardarEmpresa.addActionListener(this);
+//        MR.btnCancelarEmpresa.addActionListener(this);
+//        MR.btnEmpresas.addActionListener(this);
+//        MR.mnuEditEmpresa.addActionListener(this);
+//        MR.mnuDeleteEmpresa.addActionListener(this);
+//        MR.mnuNewSede.addActionListener(this);
+//        MR.btnGuardarRol.addActionListener(this);
+//        MR.btnRoles.addActionListener(this);
+//        MR.btnCancelarRol.addActionListener(this);
+//        MR.mnuEditRol.addActionListener(this);
+//        MR.mnuDeleteRol.addActionListener(this);
+        Adaptador();
         MR.mnuPerfilxRol.addActionListener(this);
-        MR.btnPerfil.addActionListener(this);
-        MR.btnGuardaPerfil.addActionListener(this);
-        MR.mnuEditPerfil.addActionListener(this);
-        MR.mnuDeletePerfil.addActionListener(this);
+        MR.mnuUpdateUser.addActionListener(this);
+        MR.btnGuardarUser.addActionListener(this);
+        MR.mnuAddMenues.addActionListener(this);
+        MR.txtUser.setEnabled(false);
+        MR.txtUser.setText(userFormat.format(new Date()));
+        MR.cboRol.addActionListener(this);
+        MR.cboGym.addActionListener(this);
+//        MR.btnPerfil.addActionListener(this);
+//        MR.btnGuardaPerfil.addActionListener(this);
+//        MR.mnuEditPerfil.addActionListener(this);
+//        MR.mnuDeletePerfil.addActionListener(this);
+        //--fin nuevo --//       
+        cargarMenus();
+        cargarPerfilesXRol();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
-            System.out.println("Ingreso a proveedores");
-            CargarDatosInicialesProveedores(1, null);
-            cargarTiposDocumentosProveedor();
-            ListProveedores();
-            showPanel(2, "PnProveedores");
-        }
-        
+
+//        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
+//            System.out.println("Ingreso a proveedores");
+//            CargarDatosInicialesProveedores(1, null);
+//            cargarTiposDocumentosProveedor();
+//            ListProveedores();
+//            showPanel(2, "PnProveedores");
+//        }
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
             getP();
-            
+
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-            
+
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -249,7 +265,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-            
+
             if (mns.length() == 0) {
                 if (pv.create() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al crear el proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -277,18 +293,18 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                     DesktopNotify.showDesktopMessage("Aviso..!", "Error al Eliminar Empresa", DesktopNotify.ERROR, 5000L);
                 }
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnCancelarProve) {
-            
+
             M2.txtDocProve.setText("");
             M2.txtNombresProve.setText("");
             M2.txtApellidosProve.setText("");
             M2.txtTelefonosProve.setText("");
             M2.btnGuardarProve.setText("Guardar");
         }
-        
+
         if (e.getSource() == M2.mnuEditProveedor) {
             int fila = M2.tblProveedores.getSelectedRow();
             if (fila >= 0) {
@@ -296,16 +312,16 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 CargarDatosProvedor(Integer.parseInt(codigo));
                 M2.btnGuardarProve.setText("Editar");
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Editar")) {
             getPv();
             getP();
-            
+
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
             EmpresaProveedor empresa = (EmpresaProveedor) M2.cboEmpresasProveedor.getSelectedItem();
-            
+
             p.setDocumento(M2.txtDocProve.getText());
             p.setIdtipoDocumento(t.getIdTipoDocumento());
             p.setNombre(M2.txtNombresProve.getText());
@@ -323,7 +339,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             pv.setPersona(p);
             pv.setEstado("A");
             String mns = p.ValidacionCampos(3);
-            
+
             if (mns.length() == 0) {
                 if (pv.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar proveedor", DesktopNotify.INFORMATION, 5000L);
@@ -337,7 +353,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProvedorCancelar) {
             M2.txtProveEmpNombre.setText("");
             M2.txtProveEmpNit.setText("");
@@ -345,7 +361,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             M2.txtProveEmpTelefono.setText("");
             M2.btnEmpresaProveGuardar.setText("Guardar");
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Editar")) {
             getEp();
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
@@ -354,7 +370,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-            
+
             if (mns.length() == 0) {
                 if (ep.edit() > 0) {
                     DesktopNotify.showDesktopMessage("Aviso..!", "Exito al Modificar Empresa", DesktopNotify.INFORMATION, 5000L);
@@ -371,26 +387,26 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.mnuEditEmpresa) {
             int fila = M2.tblListaEmpresasProve.getSelectedRow();
             if (fila >= 0) {
                 String codigo = M2.tblListaEmpresasProve.getValueAt(fila, 0).toString();
                 CargarDatosEmpresaProvedor(Integer.parseInt(codigo));
             }
-            
+
         }
-        
+
         if (e.getSource() == M2.btnEmpresaProveGuardar && M2.btnEmpresaProveGuardar.getText().trim().equals("Guardar")) {
             getEp();
-            
+
             ep.setNombreEmpresa(M2.txtProveEmpNombre.getText().trim());
             ep.setNit(M2.txtProveEmpNit.getText().trim());
             ep.setDireccion(M2.txtProveEmpDireccion.getText().trim());
             ep.setTelefono(M2.txtProveEmpTelefono.getText().trim());
             ep.setEstado("A");
             String mns = ep.ValidacionCampos();
-            
+
             if (mns.length() == 0) {
                 if (ep.getNombreEmpresa().length() > 0) {
                     if (ep.create() > 0) {
@@ -409,7 +425,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", mns, DesktopNotify.INFORMATION, 5000L);
             }
         }
-        
+
         if (e.getSource() == M2.btnViewEmpresaProvedor) {
             ListEmpresasProveedor("");
             showPanel(2, "PnEmpresaProveedor");
@@ -446,21 +462,24 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            }
 //        }
 //
-//        if (e.getSource() == pr.cboRol) {
-//            Rol r = (Rol) pr.cboRol.getSelectedItem();
-//            if (r.getDescripcion().equals("Administrador")) {
-//                pr.txtUser.setEnabled(true);
-//                pr.txtClave.setEnabled(true);
-//                pr.txtUser.setText("");
-//                pr.txtClave.setText("");
-//            } else {
-//                pr.txtUser.setEnabled(false);
-//                pr.txtUser.setText(userFormat.format(new Date()));
-//                pr.txtClave.setEnabled(false);
-//                pr.txtClave.setText("123456");
-//            }
-//
-//        }
+        if (e.getSource() == MR.cboRol) {
+            Rol r = (Rol) MR.cboRol.getSelectedItem();
+            if (r == null) {
+                return;
+            }
+            if (r.getDescripcion().equals("Administrador")) {
+                MR.txtUser.setEnabled(true);
+                MR.txtClave.setEnabled(true);
+                MR.txtUser.setText("");
+                MR.txtClave.setText("");
+            } else {
+                MR.txtUser.setEnabled(false);
+                MR.txtUser.setText(userFormat.format(new Date()));
+                MR.txtClave.setEnabled(false);
+                MR.txtClave.setText("123456");
+            }
+
+        }
 //
 //        if (e.getSource() == pr.mnuDeletePagos) {
 //            int fila = pr.tblHistoryPays.getSelectedRow();
@@ -672,12 +691,15 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            IniciarPagos("", "", true);
 //        }
 //
-//        if (e.getSource() == pr.cboGym) {
-//            Empresa empre = (Empresa) pr.cboGym.getSelectedItem();
-//            if (!empre.getNombre().equals("Seleccione")) {
-//                cargarSedesByEmprsa(empre.getIdempresa());
-//            }
-//        }
+        if (e.getSource() == MR.cboGym) {
+            Empresas empre = (Empresas) MR.cboGym.getSelectedItem();
+            if (empre == null) {
+                return;
+            }
+            if (!empre.getNombre().equals("Seleccione")) {
+                cargarSedesByEmprsa(empre.getIdEmpresa());
+            }
+        }
 //
 //        if (e.getSource() == pr.btnTransaccionCaja || e.getSource() == pr.btnBackReports) {
 //            try {
@@ -769,17 +791,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            }
 //        }
 //
-//        if (e.getSource() == pr.btnListUsers) {
-//            try {
-//                pr.cldDesdePagos.setDate(null);
-//                pr.cldHastaPagos.setDate(null);
-//                clearFormUsers();
-//                cargarTblUsers(filtro);
-//                showPanel("mnuUsers");
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//        }
 //
 //        if (e.getSource() == pr.btnListMusculos) {
 //            cargarTblMusculos("");
@@ -906,7 +917,62 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            }
 //        }
 //
-//        if (e.getSource() == pr.mnuUpdate) {
+//
+//        if (e.getSource() == pr.mnuDelete) {
+//            int fila = pr.tblUsers.getSelectedRow();
+//            if (fila >= 0) {
+//                Object[] opciones = {"Si", "No"};
+//                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el usuario?", "Mensaje de Confirmación",
+//                        JOptionPane.YES_NO_OPTION,
+//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+//                if (eleccion == JOptionPane.YES_OPTION) {
+//                    try {
+//                        int id_persona = Integer.parseInt(pr.tblUsers.getValueAt(fila, 0).toString());
+//                        RolxUser p = getRuxuser().getDatosPersonaById(id_persona);
+//                        if (p.remove() > 0) {
+//                            DesktopNotify.showDesktopMessage("Informacion..!", "Usuario Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
+//                            cargarTblUsers(filtro);
+//                        } else {
+//                            DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el usuario", DesktopNotify.ERROR, 5000L);
+//                        }
+//                    } catch (IOException ex) {
+//                        System.out.println("error " + ex);
+//                    }
+//                }
+//            } else {
+//                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+//            }
+//        }
+//
+//        if (e.getSource() == pr.mnuDeleteEjercicio) {
+//            int fila = pr.tblEjercicios.getSelectedRow();
+//            if (fila >= 0) {
+//                Object[] opciones = {"Si", "No"};
+//                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el ejercicio?", "Mensaje de Confirmación",
+//                        JOptionPane.YES_NO_OPTION,
+//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+//                if (eleccion == JOptionPane.YES_OPTION) {
+//                    try {
+//                        Ejercicios objEjercicio = getEjercicio();
+//                        objEjercicio.getObjEjerciciosID().setIdEjercicio(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 0).toString()));
+//                        objEjercicio.getObjEjerciciosID().setIdMusculo(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 4).toString()));
+//                        if (objEjercicio.remove() > 0) {
+//                            DesktopNotify.showDesktopMessage("Informacion..!", "Ejercicio Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
+//                            cargarTblEjercicios("");
+//                            setEjercicio(null);
+//                        } else {
+//                            DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el Ejercicio", DesktopNotify.ERROR, 5000L);
+//                        }
+//                    } catch (IOException ex) {
+//                        DesktopNotify.showDesktopMessage("Error..!", ex.toString(), DesktopNotify.ERROR, 5000L);
+//                    }
+//                }
+//            } else {
+//                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+//            }
+//        }
+//
+//        if (e.getSource() == MR.mnuUpdateUser) {
 //            clearFormUsers();
 //            int fila = pr.tblUsers.getSelectedRow();
 //            if (fila >= 0) {
@@ -968,142 +1034,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            } else {
 //                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
 //            }
-//        }
-//
-//        if (e.getSource() == pr.mnuDelete) {
-//            int fila = pr.tblUsers.getSelectedRow();
-//            if (fila >= 0) {
-//                Object[] opciones = {"Si", "No"};
-//                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el usuario?", "Mensaje de Confirmación",
-//                        JOptionPane.YES_NO_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-//                if (eleccion == JOptionPane.YES_OPTION) {
-//                    try {
-//                        int id_persona = Integer.parseInt(pr.tblUsers.getValueAt(fila, 0).toString());
-//                        RolxUser p = getRuxuser().getDatosPersonaById(id_persona);
-//                        if (p.remove() > 0) {
-//                            DesktopNotify.showDesktopMessage("Informacion..!", "Usuario Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
-//                            cargarTblUsers(filtro);
-//                        } else {
-//                            DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el usuario", DesktopNotify.ERROR, 5000L);
-//                        }
-//                    } catch (IOException ex) {
-//                        System.out.println("error " + ex);
-//                    }
-//                }
-//            } else {
-//                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.mnuDeleteEjercicio) {
-//            int fila = pr.tblEjercicios.getSelectedRow();
-//            if (fila >= 0) {
-//                Object[] opciones = {"Si", "No"};
-//                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el ejercicio?", "Mensaje de Confirmación",
-//                        JOptionPane.YES_NO_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-//                if (eleccion == JOptionPane.YES_OPTION) {
-//                    try {
-//                        Ejercicios objEjercicio = getEjercicio();
-//                        objEjercicio.getObjEjerciciosID().setIdEjercicio(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 0).toString()));
-//                        objEjercicio.getObjEjerciciosID().setIdMusculo(Integer.parseInt(pr.tblEjercicios.getValueAt(fila, 4).toString()));
-//                        if (objEjercicio.remove() > 0) {
-//                            DesktopNotify.showDesktopMessage("Informacion..!", "Ejercicio Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
-//                            cargarTblEjercicios("");
-//                            setEjercicio(null);
-//                        } else {
-//                            DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el Ejercicio", DesktopNotify.ERROR, 5000L);
-//                        }
-//                    } catch (IOException ex) {
-//                        DesktopNotify.showDesktopMessage("Error..!", ex.toString(), DesktopNotify.ERROR, 5000L);
-//                    }
-//                }
-//            } else {
-//                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnGuardar) {
-//            String msnok = null;
-//            String msnerror = null;
-//            try {
-//                Object[] componentes = {pr.cboTiposDoc, pr.cboRol, pr.txtDoc, pr.txtDireccion,
-//                    pr.txtNombres, pr.txtApellidos, pr.txtTelefonos, pr.cboGym, pr.cboSedes,
-//                    pr.cldNacimiento, pr.cboSexo,
-//                    pr.txtUser, pr.txtClave};
-//                if (validarCampos(componentes, "") == 0) {
-//                    TipoDocumento t = (TipoDocumento) pr.cboTiposDoc.getSelectedItem();
-//                    Rol r = (Rol) pr.cboRol.getSelectedItem();
-//                    Empresa emp = (Empresa) pr.cboGym.getSelectedItem();
-//                    Sedes sede = (Sedes) pr.cboSedes.getSelectedItem();
-//                    persona p = getP();
-//                    UsuarioID uid = getUid();
-//                    Usuario us = getUs();
-//                    RolxUser roluser = getRuxuser();
-//                    uid.setUsuario(pr.txtUser.getText());
-//                    uid.setIdSede(sede.getObjSedesID().getIdSede());
-//                    uid.setIdempresa(emp.getIdempresa());
-//                    p.setDocumento(pr.txtDoc.getText());
-//                    p.setIdtipoDocumento(t.getIdTipoDocumento());
-//                    p.setNombre(pr.txtNombres.getText());
-//                    p.setApellido(pr.txtApellidos.getText());
-//                    p.setNombreCompleto(pr.txtNombres.getText() + " " + pr.txtApellidos.getText());
-//                    p.setDireccion(pr.txtDireccion.getText());
-//                    p.setTelefono(pr.txtTelefonos.getText());
-//                    p.setSexo((String) pr.cboSexo.getSelectedItem());
-//                    p.setFechaNacimiento(pr.cldNacimiento.getDate());
-//                    p.setCorreo(pr.txtCorreo.getText());
-//                    p.setEstado("A");
-//                    p.setPathFoto(getFoto());
-//                    us.setObjUsuariosID(uid);
-//                    us.setEstado("A");
-//                    us.setClave(new String(pr.txtClave.getPassword()));
-//                    us.setNickName(pr.txtNombres.getText());
-//                    us.setObjPersona(p);
-//                    roluser.setObjUsuario(us);
-//                    roluser.setObjRol(r);
-//                    int response = 0;
-//                    switch (pr.btnGuardar.getText()) {
-//                        case "Guardar":
-//                            msnok = "Usuario Creado Con Exito.";
-//                            msnerror = "Error al crear el usuario";
-//                            response = roluser.create();
-//                            break;
-//                        case "Actualizar":
-//                            msnok = "Usuario Actualizado Con Exito.";
-//                            msnerror = "Error al actualizar el usuario";
-//                            roluser.setIdpersonaOld(Integer.parseInt(pr.idpersonaOld.getText()));
-//                            roluser.setIdUsuarioOld(Integer.parseInt(pr.idUsuarioOld.getText()));
-//                            roluser.setIdRolxUserOld(Integer.parseInt(pr.idRolxuserOld.getText()));
-//                            roluser.setUsuarioOld(pr.usuarioOld.getText());
-//                            roluser.setIdEmpresaOld(Integer.parseInt(pr.idEmpresaOld.getText()));
-//                            roluser.setIdsedeOld(Integer.parseInt(pr.idSedeOld.getText()));
-//                            roluser.setIdRolOld(Integer.parseInt(pr.idRolOld.getText()));
-//                            response = roluser.edit();
-//                            break;
-//                    }
-//                    if (response > 0) {
-//                        //crear usuario
-//                        DesktopNotify.showDesktopMessage("Informacion..!", msnok, DesktopNotify.SUCCESS, 6000L);
-//                        clearFormUsers();
-//                    } else {
-//                        DesktopNotify.showDesktopMessage("Informacion..!", msnerror, DesktopNotify.ERROR, 6000L);
-//                    }
-//                    setP(null);
-//                    setUid(null);
-//                    setUs(null);
-//                    setRuxser(null);
-//                    cargarTblUsers(filtro);
-//                    borrarImagenTemp();
-//                } else {
-//                    DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
-//
-//                }
-//            } catch (IOException ex) {
-//                System.out.println("error " + ex);
-//            }
-//
 //        }
 //
 //        if (e.getSource() == pr.btnCancelarEjercicio) {
@@ -1964,21 +1894,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         //        if (e.getSource() == pr.btnGenerarReporteByTipo) {
         //            generarReportes();
         //        }
-        if (e.getSource() == MR.btnEmpresas) {
-            ListEmpresas("");
-            showPanel(0, "pnEmpresas");
-        }
-        
-        if (e.getSource() == MR.btnRoles) {
-            ListRoles("");
-            showPanel(0, "pnRoles");
-        }
-        
-        if (e.getSource() == MR.btnPerfil) {
-            ListPerfiles("");
-            showPanel(0, "pnPerfil");
-        }
-        
         if (e.getSource() == MR.btnGuardarEmpresa) {
             Object[] componentes = {MR.txtDocNit, MR.txtNomEmpresa};
             if (validarCampos(componentes, "", MR) == 0) {
@@ -2010,17 +1925,17 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
                 }
-                
+
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.btnCancelarEmpresa) {
             currentObject = null;
             LimpiarCampos("empresas");
         }
-        
+
         if (e.getSource() == MR.mnuEditEmpresa) {
             MR.btnGuardarEmpresa.setText("Editar");
             int fila = MR.tblEmpresas.getSelectedRow();
@@ -2045,7 +1960,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                         } catch (IOException ex) {
                             System.out.println("error " + ex);
                         }
-                        
+
                     } else {
                         MR.lblLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
                     }
@@ -2054,7 +1969,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuDeleteEmpresa) {
             int fila = MR.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
@@ -2078,7 +1993,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuNewSede) {
             int fila = MR.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
@@ -2093,6 +2008,90 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
+
+        //***********CRUD USUARIOS***********\\
+        if (e.getSource() == MR.btnGuardarUser) {
+            String msnok = null;
+            String msnerror = null;
+            try {
+                Object[] componentes = {MR.cboTiposDoc, MR.cboRol, MR.txtDoc, MR.txtDireccion,
+                    MR.txtNombres, MR.txtApellidos, MR.txtTelefonos, MR.cboGym, MR.cboSedes,
+                    MR.cldNacimiento, MR.cboSexo,
+                    MR.txtUser, MR.txtClave};
+                if (validarCampos(componentes, "", MR) == 0) {
+                    TipoDocumento t = (TipoDocumento) MR.cboTiposDoc.getSelectedItem();
+                    Rol r = (Rol) MR.cboRol.getSelectedItem();
+                    Empresas emp = (Empresas) MR.cboGym.getSelectedItem();
+                    Sedes sede = (Sedes) MR.cboSedes.getSelectedItem();
+                    persona p = getP();
+                    UsuarioID uid = getUid();
+                    Usuario us = getUs();
+                    RolxUser roluser = getRuxuser();
+                    uid.setUsuario(MR.txtUser.getText());
+                    uid.setIdSede(sede.getObjSedesID().getIdSede());
+                    uid.setIdempresa(emp.getIdEmpresa());
+                    p.setDocumento(MR.txtDoc.getText());
+                    p.setIdtipoDocumento(t.getIdTipoDocumento());
+                    p.setNombre(MR.txtNombres.getText());
+                    p.setApellido(MR.txtApellidos.getText());
+                    p.setNombreCompleto(MR.txtNombres.getText() + " " + MR.txtApellidos.getText());
+                    p.setDireccion(MR.txtDireccion.getText());
+                    p.setTelefono(MR.txtTelefonos.getText());
+                    p.setSexo((String) MR.cboSexo.getSelectedItem());
+                    p.setFechaNacimiento(MR.cldNacimiento.getDate());
+                    p.setCorreo(MR.txtCorreo.getText());
+                    p.setEstado("A");
+                    p.setPathFoto(getFoto());
+                    us.setObjUsuariosID(uid);
+                    us.setEstado("A");
+                    us.setClave(new String(MR.txtClave.getPassword()));
+                    us.setNickName(MR.txtNombres.getText());
+                    us.setObjPersona(p);
+                    roluser.setObjUsuario(us);
+                    roluser.setObjRol(r);
+                    int response = 0;
+                    switch (MR.btnGuardarUser.getText()) {
+                        case "Guardar":
+                            msnok = "Usuario Creado Con Exito.";
+                            msnerror = "Error al crear el usuario";
+                            response = roluser.create();
+                            break;
+                        case "Actualizar":
+                            msnok = "Usuario Actualizado Con Exito.";
+                            msnerror = "Error al actualizar el usuario";
+                            roluser.setIdpersonaOld(Integer.parseInt(MR.idpersonaOld.getText()));
+                            roluser.setIdUsuarioOld(Integer.parseInt(MR.idUsuarioOld.getText()));
+                            roluser.setIdRolxUserOld(Integer.parseInt(MR.idRolxuserOld.getText()));
+                            roluser.setUsuarioOld(MR.usuarioOld.getText());
+                            roluser.setIdEmpresaOld(Integer.parseInt(MR.idEmpresaOld.getText()));
+                            roluser.setIdsedeOld(Integer.parseInt(MR.idSedeOld.getText()));
+                            roluser.setIdRolOld(Integer.parseInt(MR.idRolOld.getText()));
+                            response = roluser.edit();
+                            break;
+                    }
+                    if (response > 0) {
+                        //crear usuario
+                        DesktopNotify.showDesktopMessage("Informacion..!", msnok, DesktopNotify.SUCCESS, 6000L);
+                        clearFormUsers();
+                    } else {
+                        DesktopNotify.showDesktopMessage("Informacion..!", msnerror, DesktopNotify.ERROR, 6000L);
+                    }
+                    setP(null);
+                    setUid(null);
+                    setUs(null);
+                    setRuxser(null);
+                    cargarTblUsers(filtro, UsuarioLogeado.getObjRol().getDescripcion());
+                    borrarImagenTemp();
+                } else {
+                    DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
+
+                }
+            } catch (IOException ex) {
+                System.out.println("error " + ex);
+            }
+
+        }
+        //**************************FIN CRUD USUARIOS*********************\\
 
         //******Crud Roles ********\\
         if (e.getSource() == MR.btnGuardarRol) {
@@ -2121,17 +2120,17 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
                 }
-                
+
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.btnCancelarRol) {
             currentObject = null;
             LimpiarCampos("rol");
         }
-        
+
         if (e.getSource() == MR.mnuEditRol) {
             MR.btnGuardarRol.setText("Editar");
             int fila = MR.tblRoles.getSelectedRow();
@@ -2147,7 +2146,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuDeleteRol) {
             int fila = MR.tblRoles.getSelectedRow();
             if (fila >= 0) {
@@ -2170,25 +2169,43 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuPerfilxRol) {
-            
+
             int fila = MR.tblRoles.getSelectedRow();
             if (fila >= 0) {
                 getRol();
                 currentObject = rol.getRolbyId(Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()));
-                if (currentObject != null) {                    
+                if (currentObject != null) {
                     try {
-                        PerfilXRol pxr = new PerfilXRol(MR, true, Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()),UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
-                        pxr.lblRol.setText(pxr.lblRol.getText()+" "+((Rol) currentObject).getDescripcion());
+                        PerfilXRol pxr = new PerfilXRol(MR, true, Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()), UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
+                        pxr.lblRol.setText(pxr.lblRol.getText() + " " + ((Rol) currentObject).getDescripcion());
                         pxr.setLocationRelativeTo(null);
                         pxr.setVisible(true);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerMRoot.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 }
                 setRol(null);
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
+        if (e.getSource() == MR.mnuAddMenues) {
+            int fila = MR.tblUsers.getSelectedRow();
+            if (fila >= 0) {
+                try {
+                    String usuario = MR.tblUsers.getValueAt(fila, 3).toString() + " " + MR.tblUsers.getValueAt(fila, 4).toString();
+                    MenusXUsuarios mxu = new MenusXUsuarios(MR, true, Integer.parseInt(MR.tblUsers.getValueAt(fila, 9).toString()), getUsuarioLogeado());
+
+                    mxu.lblUser.setText(mxu.lblUser.getText() + " " + usuario);
+                    mxu.setLocationRelativeTo(null);
+                    mxu.setVisible(true);
+                } catch (SQLException ex) {
+                    System.out.println("error linea 2307 " + ex);
+                }
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
@@ -2222,17 +2239,17 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 } else {
                     DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
                 }
-                
+
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.btnCancelarRol) {
             currentObject = null;
             LimpiarCampos("perfil");
         }
-        
+
         if (e.getSource() == MR.mnuEditPerfil) {
             MR.btnGuardaPerfil.setText("Editar");
             int fila = MR.tblPerfiles.getSelectedRow();
@@ -2248,7 +2265,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
         }
-        
+
         if (e.getSource() == MR.mnuDeleteRol) {
             int fila = MR.tblRoles.getSelectedRow();
             if (fila >= 0) {
@@ -2272,14 +2289,45 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
         }
 
+        listBtnMenus.forEach((JButton listBtnMenu) -> {
+            if (e.getSource() == listBtnMenu) {
+//                System.out.println("btn " + listBtnMenu.getActionCommand());
+                switch (listBtnMenu.getActionCommand()) {
+                    case "Lista de Empresas":
+                        ListEmpresas("");
+                        showPanel(0, "pnEmpresas");
+                        break;
+                    case "Lista de Roles":
+                        ListRoles("");
+                        showPanel(0, "pnRoles");
+                        break;
+                    case "Lista Perfiles":
+                        ListPerfiles("");
+                        showPanel(0, "pnPerfil");
+                        break;
+                    case "Lista de Usuarios":
+                        try {
+//                                pr.cldDesdePagos.setDate(null);
+//                                pr.cldHastaPagos.setDate(null);
+                            clearFormUsers();
+                            cargarTblUsers(filtro, UsuarioLogeado.getObjRol().getDescripcion());
+                            showPanel(0, "pnUsuarios");
+                        } catch (IOException ex) {
+                            System.out.println("error " + ex);
+                        }
+                        break;
+                }
+            }
+        });
         //******Fin Crud Perfiles ********\\
+
     }
-    
+
     private void addFilter() {
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.JPG)", "jpg"));
     }
-    
+
     public void showPanel(int Modulo, String string) {
         switch (Modulo) {
             case 0:
@@ -2288,19 +2336,36 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 MR.setVistaActual(string);
                 switch (string) {
                     case "pnEmpresas":
+                        MR.pnBienvenidaRoot.setVisible(false);
                         MR.pnRoles.setVisible(false);
                         MR.pnPerfil.setVisible(false);
+                        MR.pnUsuarios.setVisible(false);
                         MR.pnEmpresas.setVisible(true);
                         break;
                     case "pnRoles":
+                        MR.pnBienvenidaRoot.setVisible(false);
                         MR.pnEmpresas.setVisible(false);
                         MR.pnPerfil.setVisible(false);
+                        MR.pnUsuarios.setVisible(false);
                         MR.pnRoles.setVisible(true);
                         break;
                     case "pnPerfil":
+                        MR.pnBienvenidaRoot.setVisible(false);
                         MR.pnEmpresas.setVisible(false);
                         MR.pnRoles.setVisible(false);
+                        MR.pnUsuarios.setVisible(false);
                         MR.pnPerfil.setVisible(true);
+                        break;
+                    case "pnUsuarios":
+                        cargarTiposDocumentos();
+                        MR.cldNacimiento.setDate(new Date());
+                        cargarRoles();
+                        cargarEmpresas();
+                        MR.pnBienvenidaRoot.setVisible(false);
+                        MR.pnEmpresas.setVisible(false);
+                        MR.pnRoles.setVisible(false);
+                        MR.pnPerfil.setVisible(false);
+                        MR.pnUsuarios.setVisible(true);
                         break;
                 }
                 break;
@@ -2325,27 +2390,27 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             case 4:
                 M4.setVistaActual(string);
                 break;
-            
+
         }
-        
+
     }
-    
+
     private void cargarTiposDocumentos() {
-//        Iterator<TipoDocumento> it = getTd().List().iterator();
-//        pr.cboTiposDoc.removeAllItems();
-//        TipoDocumento t = new TipoDocumento();
-//        t.setIdTipoDocumento(0);
-//        t.setDescripcion("Seleccione");
-//        t.setEstado("A");
-//        pr.cboTiposDoc.addItem(t);
-//        while (it.hasNext()) {
-//            TipoDocumento next = it.next();
-//            pr.cboTiposDoc.addItem(next);
-//        }
-//        setTd(null);
-//        t = null;
+        Iterator<TipoDocumento> it = getTd().List().iterator();
+        MR.cboTiposDoc.removeAllItems();
+        TipoDocumento t = new TipoDocumento();
+        t.setIdTipoDocumento(0);
+        t.setDescripcion("Seleccione");
+        t.setEstado("A");
+        MR.cboTiposDoc.addItem(t);
+        while (it.hasNext()) {
+            TipoDocumento next = it.next();
+            MR.cboTiposDoc.addItem(next);
+        }
+        setTd(null);
+        t = null;
     }
-    
+
     private void CargarServicios() {
 //        getTs();
 //        pr.combotiposService.removeAllItems();
@@ -2357,7 +2422,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            pr.combotiposService1.addItem(listServicio);
 //        }
     }
-    
+
     private void CargarTiposPagos() {
 //        getTp();
 //        pr.combotiposPago.removeAllItems();
@@ -2368,7 +2433,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            pr.combotiposPago1.addItem(listServicio);
 //        }
     }
-    
+
     private void cargarDescuentosPagos(int condicion, int panel) {
 //        getTs();
 //        if (condicion == 1) {
@@ -2411,7 +2476,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        }
 
     }
-    
+
     public void PagosBuscarPersona(int condicion, JTable table) {
 //        switch (condicion) {
 //            case 1:
@@ -2443,20 +2508,20 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        setTp(null);
 //    }
     private void cargarRoles() {
-//        Iterator<Rol> it = getRd().List().iterator();
-//        pr.cboRol.removeAllItems();
-//        Rol r = new Rol();
-//        r.setIdRol(0);
-//        r.setDescripcion("Seleccione");
-//        pr.cboRol.addItem(r);
-//        while (it.hasNext()) {
-//            Rol next = it.next();
-//            pr.cboRol.addItem(next);
-//        }
-//        setRd(null);
-//        r = null;
+        Iterator<Rol> it = getRol().List().iterator();
+        MR.cboRol.removeAllItems();
+        Rol r = new Rol();
+        r.setIdRol(0);
+        r.setDescripcion("Seleccione");
+        MR.cboRol.addItem(r);
+        while (it.hasNext()) {
+            Rol next = it.next();
+            MR.cboRol.addItem(next);
+        }
+        setRol(null);
+        r = null;
     }
-    
+
     private void cargarMusculos() {
 //        Iterator<Musculos> it = getMusculos().List().iterator();
 //        pr.cboMusculos.removeAllItems();
@@ -2471,7 +2536,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        setMusculos(null);
 //        m = null;
     }
-    
+
     private void cargarDiasMusculos() {
 //        Iterator<dias> it = getDias().List().iterator();
 //        Iterator<Musculos> itmus = getMusculos().List().iterator();
@@ -2500,107 +2565,106 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        d = null;
 //        e = null;
     }
-    
+
     private void cargarEmpresas() {//Gyms
-//        Iterator<Empresa> it = getEmp().List().iterator();
-//        pr.cboGym.removeAllItems();
-////        Empresa e = new Empresa(0, "Seleccione");
-////        pr.cboGym.addItem(e);
-//        while (it.hasNext()) {
-//            Empresa next = it.next();
-//            pr.cboGym.addItem(next);
-//        }
-//        setEmp(null);
-////        e = null;
+        Iterator<Empresas> it = getEmpresas().List().iterator();
+        MR.cboGym.removeAllItems();
+//        Empresas e = new Empresas(0, "Seleccione");
+//        MR.cboGym.addItem(e);
+        while (it.hasNext()) {
+            Empresas next = it.next();
+            MR.cboGym.addItem(next);
+        }
+        setEmpresas(null);
     }
-    
+
     private void cargarSedesByEmprsa(int id_empresa) {//sede * Gyms
-//        Sedes s = getSede();
-//        s.getObjEmpresa().setIdempresa(id_empresa);
-//        Iterator<Sedes> it = s.List().iterator();
-//        pr.cboSedes.removeAllItems();
-////        Sedes s2 = new Sedes();
-////        s2.getObjSedesID().setIdSede(0);
-////        s2.getObjSedesID().setIdEmpresa(0);
-////        s2.setNombre("Seleccione");
-////        pr.cboSedes.addItem(s2);
-//        while (it.hasNext()) {
-//            Sedes next = it.next();
-//            pr.cboSedes.addItem(next);
-//        }
-//        setSede(null);
+        Sedes s = getSede();
+        s.getObjEmpresa().setIdEmpresa(id_empresa);
+        Iterator<Sedes> it = s.List().iterator();
+        MR.cboSedes.removeAllItems();
+//        Sedes s2 = new Sedes();
+//        s2.getObjSedesID().setIdSede(0);
+//        s2.getObjSedesID().setIdEmpresa(0);
+//        s2.setNombre("Seleccione");
+//        pr.cboSedes.addItem(s2);
+        while (it.hasNext()) {
+            Sedes next = it.next();
+            MR.cboSedes.addItem(next);
+        }
+        setSede(null);
 //        s2 = null;
     }
-    
-    private void cargarTblUsers(String filtro) throws IOException {
-//        pr.tblUsers.setDefaultRenderer(Object.class, new ImagensTabla());
-//        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
-//        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
-//        DefaultTableModel modelo;
-//        String Titulos[] = {"id", "Tipo Documento", "Documento", "Nombres", "Apellidos", "Dirección", "Teléfono", "Rol", "Foto", ""};
-//        modelo = new DefaultTableModel(null, Titulos) {
-//            @Override
-//            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
-//                return false;
-//            }
-//        };
-//        Object[] columna = new Object[10];
-//        setCantRegustrosUsuarios(getRuxuser().CountRs(filtro));
-//        inhabilitarPaginacion();
-//        Iterator<RolxUser> itr = getRuxuser().List(desde, hasta, filtro).iterator();
-//        paginarRs();
-//        while (itr.hasNext()) {
-//            RolxUser u = itr.next();
-//            columna[0] = (int) u.getObjUsuario().getObjPersona().getIdPersona();
-//            columna[1] = getTd().getTipoDocById(u.getObjUsuario().getObjPersona().getIdtipoDocumento()).getDescripcion();
-//            columna[2] = u.getObjUsuario().getObjPersona().getDocumento();
-//            columna[3] = u.getObjUsuario().getObjPersona().getNombre();
-//            columna[4] = u.getObjUsuario().getObjPersona().getApellido();
-//            columna[5] = u.getObjUsuario().getObjPersona().getDireccion();
-//            columna[6] = u.getObjUsuario().getObjPersona().getTelefono();
-//            columna[7] = getRuxuser().getRolbyIdRolXUser(u.getIdRolxUser());
-//            columna[9] = u.getObjUsuario().getObjUsuariosID().getIdUsuario();
-//            InputStream img = u.getObjUsuario().getObjPersona().getFoto();
-//            if (img != null) {
-//                BufferedImage bi = ImageIO.read(img);
-//                ii = new ImageIcon(bi);
-//                Image conver = ii.getImage();
-//                Image tam = conver.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-//                iin = new ImageIcon(tam);
-//                columna[8] = new JLabel(iin);
-//            } else {
-//                columna[8] = new JLabel(new javax.swing.ImageIcon(getClass().getResource("/icons/user52.png")));
-//
-//            }
-//            modelo.addRow(columna);
-//        }
-//        pr.tblUsers.setModel(modelo);
-//        TableRowSorter<TableModel> ordenar = new TableRowSorter<>(modelo);
-//        pr.tblUsers.setRowSorter(ordenar);
-//        pr.tblUsers.getColumnModel().getColumn(0).setMaxWidth(0);
-//        pr.tblUsers.getColumnModel().getColumn(0).setMinWidth(0);
-//        pr.tblUsers.getColumnModel().getColumn(0).setPreferredWidth(0);
-//        pr.tblUsers.getColumnModel().getColumn(9).setMaxWidth(0);
-//        pr.tblUsers.getColumnModel().getColumn(9).setMinWidth(0);
-//        pr.tblUsers.getColumnModel().getColumn(9).setPreferredWidth(0);
-//        pr.tblUsers.getColumnModel().getColumn(1).setMaxWidth(105);
-//        pr.tblUsers.getColumnModel().getColumn(1).setMinWidth(105);
-//        pr.tblUsers.getColumnModel().getColumn(1).setPreferredWidth(105);
-//        pr.tblUsers.getColumnModel().getColumn(7).setMaxWidth(80);
-//        pr.tblUsers.getColumnModel().getColumn(7).setMinWidth(80);
-//        pr.tblUsers.getColumnModel().getColumn(7).setPreferredWidth(80);
-//        pr.tblUsers.getColumnModel().getColumn(1).setCellRenderer(Alinear);
-//        pr.tblUsers.getColumnModel().getColumn(2).setCellRenderer(Alinear);
-//        pr.tblUsers.getColumnModel().getColumn(3).setCellRenderer(Alinear);
-//        pr.tblUsers.getColumnModel().getColumn(4).setCellRenderer(Alinear);
-//        pr.tblUsers.getColumnModel().getColumn(5).setCellRenderer(Alinear);
-//        pr.tblUsers.getColumnModel().getColumn(6).setCellRenderer(Alinear);
-//        pr.tblUsers.setModel(modelo);
-//        pr.tblUsers.setRowHeight(60);
-//        setRuxser(null);
-//        setTd(null);
+
+    private void cargarTblUsers(String filtro, String idRol) throws IOException {
+        MR.tblUsers.setDefaultRenderer(Object.class, new ImagensTabla());
+        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
+        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
+        DefaultTableModel modelo;
+        String Titulos[] = {"id", "Tipo Documento", "Documento", "Nombres", "Apellidos", "Dirección", "Teléfono", "Rol", "Foto", ""};
+        modelo = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[10];
+        setCantRegustrosUsuarios(getRuxuser().CountRs(filtro, idRol));
+        inhabilitarPaginacion();
+        Iterator<RolxUser> itr = getRuxuser().List(desde, hasta, filtro, idRol).iterator();
+        paginarRs();
+        while (itr.hasNext()) {
+            RolxUser u = itr.next();
+            columna[0] = (int) u.getObjUsuario().getObjPersona().getIdPersona();
+            columna[1] = getTd().getTipoDocById(u.getObjUsuario().getObjPersona().getIdtipoDocumento()).getDescripcion();
+            columna[2] = u.getObjUsuario().getObjPersona().getDocumento();
+            columna[3] = u.getObjUsuario().getObjPersona().getNombre();
+            columna[4] = u.getObjUsuario().getObjPersona().getApellido();
+            columna[5] = u.getObjUsuario().getObjPersona().getDireccion();
+            columna[6] = u.getObjUsuario().getObjPersona().getTelefono();
+            columna[7] = getRuxuser().getRolbyIdRolXUser(u.getIdRolxUser());
+            columna[9] = u.getObjUsuario().getObjUsuariosID().getIdUsuario();
+            InputStream img = u.getObjUsuario().getObjPersona().getFoto();
+            if (img != null) {
+                BufferedImage bi = ImageIO.read(img);
+                ii = new ImageIcon(bi);
+                Image conver = ii.getImage();
+                Image tam = conver.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+                iin = new ImageIcon(tam);
+                columna[8] = new JLabel(iin);
+            } else {
+                columna[8] = new JLabel(new javax.swing.ImageIcon(getClass().getResource("/icons/user52.png")));
+
+            }
+            modelo.addRow(columna);
+        }
+        MR.tblUsers.setModel(modelo);
+        TableRowSorter<TableModel> ordenar = new TableRowSorter<>(modelo);
+        MR.tblUsers.setRowSorter(ordenar);
+        MR.tblUsers.getColumnModel().getColumn(0).setMaxWidth(0);
+        MR.tblUsers.getColumnModel().getColumn(0).setMinWidth(0);
+        MR.tblUsers.getColumnModel().getColumn(0).setPreferredWidth(0);
+        MR.tblUsers.getColumnModel().getColumn(9).setMaxWidth(0);
+        MR.tblUsers.getColumnModel().getColumn(9).setMinWidth(0);
+        MR.tblUsers.getColumnModel().getColumn(9).setPreferredWidth(0);
+        MR.tblUsers.getColumnModel().getColumn(1).setMaxWidth(105);
+        MR.tblUsers.getColumnModel().getColumn(1).setMinWidth(105);
+        MR.tblUsers.getColumnModel().getColumn(1).setPreferredWidth(105);
+        MR.tblUsers.getColumnModel().getColumn(7).setMaxWidth(80);
+        MR.tblUsers.getColumnModel().getColumn(7).setMinWidth(80);
+        MR.tblUsers.getColumnModel().getColumn(7).setPreferredWidth(80);
+        MR.tblUsers.getColumnModel().getColumn(1).setCellRenderer(Alinear);
+        MR.tblUsers.getColumnModel().getColumn(2).setCellRenderer(Alinear);
+        MR.tblUsers.getColumnModel().getColumn(3).setCellRenderer(Alinear);
+        MR.tblUsers.getColumnModel().getColumn(4).setCellRenderer(Alinear);
+        MR.tblUsers.getColumnModel().getColumn(5).setCellRenderer(Alinear);
+        MR.tblUsers.getColumnModel().getColumn(6).setCellRenderer(Alinear);
+        MR.tblUsers.setModel(modelo);
+        MR.tblUsers.setRowHeight(60);
+        setRuxser(null);
+        setTd(null);
     }
-    
+
     public void paginarRs() {
 //        total registros  
 //        float totalRegistros = getRuxuser().CountRs(filtro);
@@ -2610,7 +2674,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.totalRegistros.setText(texto);
 
     }
-    
+
     public void cargarTblAsistencias(Date inicio, Date fin) {
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 //        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -2653,7 +2717,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblAsistencias.setModel(modelo);
 //        setAd(null);
     }
-    
+
     private void cargarTblMusculos(String filtro) {
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 //        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -2693,7 +2757,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblMusculos.setRowHeight(25);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblEjercicios(String filtro) throws IOException {
 //        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2750,7 +2814,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblEjercicios.setRowHeight(60);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblEjercicios2(int idMusculo) throws IOException {
 //        pr.tblEjercicios2.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2813,7 +2877,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //
 //        setMusculos(null);
     }
-    
+
     private void cargarTblNewRutina() throws IOException {
 //        pr.tblNewRutina.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2866,7 +2930,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblNewRutina.setModel(modelo);
 //        setMusculos(null);
     }
-    
+
     private void cargarTblRutinas(String filtro) throws IOException {
 //        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
 //        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
@@ -2923,7 +2987,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblEjercicios.setRowHeight(60);
 //        setMusculos(null);
     }
-    
+
     private void clearFormUsers() {
 //        pr.btnGuardar.setText("Guardar");
 //        pr.cboTiposDoc.setSelectedIndex(0);
@@ -2959,52 +3023,52 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            pr.txtUser, pr.txtClave, pr.cldDesdePagos, pr.cldHastaPagos, pr.cldFechaPagoHistory, pr.cldFechaPagoDesde, pr.cldFechaPagoHasta};
 //        resetCampos(componentes);
     }
-    
+
     public CaptureFinger getCf() {
         if (cf == null) {
             cf = new CaptureFinger();
         }
         return cf;
     }
-    
+
     public void setCf(CaptureFinger cf) {
         this.cf = cf;
     }
-    
+
     public ReadFinger getRf() {
         if (rf == null) {
             rf = new ReadFinger();
         }
         return rf;
     }
-    
+
     public void setRf(ReadFinger rf) {
         this.rf = rf;
     }
-    
+
     public Rol getRol() {
         if (rol == null) {
             rol = new Rol();
         }
         return rol;
     }
-    
+
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-    
+
     public TipoDocumento getTd() {
         if (td == null) {
             td = new TipoDocumento();
         }
         return td;
     }
-    
+
     public void setTd(TipoDocumento td) {
         this.td = td;
-        
+
     }
-    
+
     public int validarCampos(Object[] componentes, String nameComponent, Object Modulo) {
 //        ((Modulo1) Modulo).txtDocNit.getText();
         int countErrors = 0;
@@ -3021,8 +3085,8 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             if (componente instanceof JComboBox) {
                 boolean equals = false;
                 if (((JComboBox) componente).getSelectedItem() instanceof TipoDocumento) {
-//                    TipoDocumento t = (TipoDocumento) Modulo.cboTiposDoc.getSelectedItem();
-//                    equals = t.toString().equals("Seleccione");
+                    TipoDocumento t = (TipoDocumento) ((ModuloRoot) Modulo).cboTiposDoc.getSelectedItem();
+                    equals = t.toString().equals("Seleccione");
                 } else if (((JComboBox) componente).getSelectedItem() instanceof Rol) {
 //                    Rol r = (Rol) pr.cboRol.getSelectedItem();
 //                    equals = r.toString().equals("Seleccione");
@@ -3065,7 +3129,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         }
         return countErrors;
     }
-    
+
     public void resetCampos(Object[] componentes) {
         for (Object componente : componentes) {
             if (componente instanceof JTextField) {
@@ -3079,34 +3143,34 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
         }
     }
-    
+
     public Asistencia getAd() {
         if (ad == null) {
             ad = new Asistencia();
         }
         return ad;
     }
-    
+
     public void setAd(Asistencia ad) {
         this.ad = ad;
     }
-    
+
     public int getCountAction() {
         return countAction;
     }
-    
+
     public void setCountAction(int countAction) {
         this.countAction += countAction;
     }
-    
+
     public String getFoto() {
         return foto;
     }
-    
+
     public void setFoto(String foto) {
         this.foto = foto;
     }
-    
+
     private void borrarImagenTemp() {
         try {
             File archivo = new File(System.getProperty("java.io.tmpdir") + "\\default.png");
@@ -3122,7 +3186,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             System.out.println(e);
         }
     }
-    
+
     public void setPrimero() {
         desde = 0;
         hasta = 10;
@@ -3131,7 +3195,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setMas() {
         desde += hasta;
         currentpage += 1;
@@ -3139,7 +3203,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setMenos() {
         if (desde > 0) {
             desde -= hasta;
@@ -3152,9 +3216,9 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta);
     }
-    
+
     public void setUltimo() {
-        float totalRegistros = getRuxuser().CountRs(filtro);
+        float totalRegistros = getRuxuser().CountRs(filtro, UsuarioLogeado.getObjRol().getDescripcion());
         float totalPaginas = totalRegistros / cantidadregistros;
         int ultimo = (int) (totalRegistros) - (((int) totalPaginas % 2 == 0) ? cantidadregistros : 1);
         desde = ultimo;
@@ -3163,7 +3227,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         inhabilitarPaginacion();
         System.out.println("desde = " + desde + " hasta = " + hasta + " totalPaginas " + currentpage + " ulttimo = " + ultimo);
     }
-    
+
     private void inhabilitarPaginacion() {
 //        System.out.println("opc " + opcPaginacion);
 //        float cant_reg = getRuxuser().CountRs(filtro);
@@ -3267,103 +3331,103 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //
 //        }
     }
-    
+
     public persona getP() {
         if (p == null) {
             p = new persona();
         }
         return p;
     }
-    
+
     public void setP(persona p) {
         this.p = p;
     }
-    
+
     public RolxUser getRuxuser() {
         if (ruxuser == null) {
             ruxuser = new RolxUser();
         }
         return ruxuser;
     }
-    
+
     public void setRuxser(RolxUser ruxuser) {
         this.ruxuser = ruxuser;
     }
-    
+
     public UsuarioID getUid() {
         if (uid == null) {
             uid = new UsuarioID();
         }
         return uid;
     }
-    
+
     public void setUid(UsuarioID uid) {
         this.uid = uid;
     }
-    
+
     public Usuario getUs() {
         if (us == null) {
             us = new Usuario();
         }
         return us;
     }
-    
+
     public void setUs(Usuario us) {
         this.us = us;
     }
-    
+
     public Sedes getSede() {
         if (sede == null) {
             sede = new Sedes();
         }
         return sede;
     }
-    
+
     public void setSede(Sedes sede) {
         this.sede = sede;
     }
-    
+
     public int getCantRegustrosUsuarios() {
         return cantRegustrosUsuarios;
     }
-    
+
     public void setCantRegustrosUsuarios(int cantRegustrosUsuarios) {
         this.cantRegustrosUsuarios = cantRegustrosUsuarios;
     }
-    
+
     public Musculos getMusculos() {
         if (musculos == null) {
             musculos = new Musculos();
         }
         return musculos;
     }
-    
+
     public void setMusculos(Musculos musculos) {
         this.musculos = musculos;
     }
-    
+
     public Ejercicios getEjercicio() {
         if (ejercicio == null) {
             ejercicio = new Ejercicios();
         }
         return ejercicio;
     }
-    
+
     public void setEjercicio(Ejercicios ejercicio) {
         this.ejercicio = ejercicio;
     }
-    
+
     public dias getDias() {
         if (dias == null) {
             dias = new dias();
         }
         return dias;
     }
-    
+
     public void setDias(dias dias) {
         this.dias = dias;
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
 //        if (e.getSource() == pr.tblEjercicios2) {
@@ -3462,7 +3526,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //
 //        }
     }
-    
+
     public void EstadoMiCaja() throws ClassNotFoundException {
 //        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
 //        getMiCaja();
@@ -3499,7 +3563,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 ////            pr.btnReporteCaja.setEnabled(true);
 //        }
     }
-    
+
     public void CargarDatosCaja(int condicion) {
 
 //        ArrayList<PagoService> listUsuario = new ArrayList();
@@ -3539,55 +3603,59 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.tblListaPagos.setRowHeight(30);
 ////        pr.tblListaPagos.getColumnModel().getColumn(2).setCellRenderer(Alinear);
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+        if (e.getSource() == MR.btnGuardarUser) {
+            MR.btnGuardarUser.setBackground(new Color(124, 124, 124));
+        }
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
-        
+        if (e.getSource() == MR.btnGuardarUser) {
+            MR.btnGuardarUser.setBackground(new Color(54, 63, 73));
+        }
     }
-    
+
     private void cargarAllEjericios() {
         allEjercicios.clear();
         newRutina.clear();
         allEjercicios = (ArrayList<Ejercicios>) getEjercicio().List();
         setEjercicio(null);
     }
-    
+
     public Rutina getRutina() {
         if (rutina == null) {
             rutina = new Rutina();
         }
         return rutina;
     }
-    
+
     public void setRutina(Rutina rutina) {
         this.rutina = rutina;
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
 //        if (e.getSource() == pr.tblNewRutina) {
@@ -3606,7 +3674,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            }
 //        }
     }
-    
+
     public void RestaurarValoresViewPago(String Doc, String Nombre, boolean restaurarUser) {
 //        if (restaurarUser) {
 //            us = null;
@@ -3617,7 +3685,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        pr.txtpagosCedula.setText(Doc);
 //        pr.txtpagosNombre.setText(Nombre);
     }
-    
+
     public void ListPagosXuser(JTable table) {
         if (us != null) {
             ArrayList<PagoService> listPagos = new ArrayList();
@@ -3664,7 +3732,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        ListPagosXuser(pr.tblListaPagosXuser);
 //        showPanel("pnPagosService");
     }
-    
+
     public void generarReportes() {
 //        //llamar metodo agerar reporte de pagoservices pojo
 //        Object[] componentes = {pr.txtUserForReports};
@@ -3685,63 +3753,62 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        }
 
     }
-    
+
     public CajaXUser getMiCaja() {
         if (MiCaja == null) {
             MiCaja = new CajaXUser();
         }
         return MiCaja;
     }
-    
+
     public void setMiCaja(CajaXUser MiCaja) {
         this.MiCaja = MiCaja;
     }
-    
+
     public RolxUser getUsuarioLogeado() {
         if (UsuarioLogeado == null) {
             UsuarioLogeado = new RolxUser();
         }
         return UsuarioLogeado;
     }
-    
+
     public void setUsuarioLogeado(RolxUser UsuarioLogeado) {
-        getUsuarioLogeado();
         this.UsuarioLogeado = UsuarioLogeado;
     }
-    
+
     public PagoService getPagoService() {
         if (pagoService == null) {
             pagoService = new PagoService();
         }
         return pagoService;
     }
-    
+
     public void setPagoService(PagoService pagoService) {
         this.pagoService = pagoService;
     }
-    
+
     public TipoService getTs() {
         if (Ts == null) {
             Ts = new TipoService();
         }
         return Ts;
     }
-    
+
     public void setTs(TipoService Ts) {
         this.Ts = Ts;
     }
-    
+
     public TipoPago getTp() {
         if (Tp == null) {
             Tp = new TipoPago();
         }
         return Tp;
     }
-    
+
     public void setTp(TipoPago Tp) {
         this.Tp = Tp;
     }
-    
+
     public void Adaptador() {
         MR.addWindowListener(new WindowAdapter() {
             @Override
@@ -3756,7 +3823,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
         });
     }
-    
+
     private void cargarHistorialPagos(int id_usuario, Date desde, Date hasta, JTable table) {
 //        ArrayList<PagoService> listPagos = new ArrayList();
 //        listPagos = (ArrayList<PagoService>) getPagoService().ListPagosXClientes(id_usuario, desde, hasta);
@@ -3805,21 +3872,21 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //        table.getColumnModel().getColumn(7).setCellRenderer(Alinear);
 //        table.setRowHeight(30);
     }
-    
+
     public Reportes getReportes() {
         if (reportes == null) {
             reportes = new Reportes();
         }
         return reportes;
     }
-    
+
     public void setReportes(Reportes reportes) {
         this.reportes = reportes;
     }
-    
+
     public void CargarDatosInicialesProveedores(int condicion, EmpresaProveedor ObjEmp) {
         getEp();
-        
+
         if (condicion == 1) {
             ArrayList<EmpresaProveedor> ListEmp = new ArrayList();
             ListEmp = (ArrayList<EmpresaProveedor>) ep.List();
@@ -3835,9 +3902,9 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 M2.cboEmpresasProveedor.addItem(empresaProveedor);
             }
         }
-        
+
     }
-    
+
     private void cargarTiposDocumentosProveedor() {
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
@@ -3853,17 +3920,17 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         setTd(null);
         t = null;
     }
-    
+
     public void ListEmpresasProveedor(String filtro) {
         getEp();
         ArrayList<EmpresaProveedor> listEmpresaProve = new ArrayList();
-        
+
         if (filtro.length() <= 0) {
             listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.List();
         } else if (filtro.length() > 0) {
             //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
         }
-        
+
         M2.tblListaEmpresasProve.removeAll();
         TablaModel tablaModel = new TablaModel(listEmpresaProve, 4);
         M2.tblListaEmpresasProve.setModel(tablaModel.ModelListEmpresasProveedor());
@@ -3872,16 +3939,16 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         M2.tblListaEmpresasProve.getColumnModel().getColumn(2).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(3).setPreferredWidth(10);
         M2.tblListaEmpresasProve.getColumnModel().getColumn(4).setPreferredWidth(10);
-        
+
         M2.tblListaEmpresasProve.setRowHeight(30);
     }
-    
+
     public void ListProveedores() {
         getPv();
         ArrayList<Proveedor> listaProveedores = new ArrayList();
-        
+
         listaProveedores = (ArrayList<Proveedor>) pv.List();
-        
+
         M2.tblProveedores.removeAll();
         TablaModel tablaModel = new TablaModel(listaProveedores, 3);
         M2.tblProveedores.setModel(tablaModel.ModelListProveedor());
@@ -3893,42 +3960,42 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         M2.tblProveedores.getColumnModel().getColumn(5).setPreferredWidth(10);
         M2.tblProveedores.getColumnModel().getColumn(6).setPreferredWidth(20);
         M2.tblProveedores.getColumnModel().getColumn(7).setPreferredWidth(6);
-        
+
         M2.tblProveedores.setRowHeight(30);
     }
-    
+
     public void CargarDatosEmpresaProvedor(int codigo) {
         int fila = M2.tblListaEmpresasProve.getSelectedRow();
         if (fila >= 0) {
             getEp();
             ep = ep.BuscarEmpresaXCodigo(codigo);
-            
+
             M2.txtProveEmpNombre.setText(ep.getNombreEmpresa());
             M2.txtProveEmpNit.setText(ep.getNit());
             M2.txtProveEmpDireccion.setText(ep.getDireccion());
             M2.txtProveEmpTelefono.setText(ep.getTelefono());
-            
+
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-    
+
     public void CargarDatosProvedor(int codigo) {
         int fila = M2.tblProveedores.getSelectedRow();
         if (fila >= 0) {
             getPv();
             pv = pv.BuscarProveedor(codigo);
             TipoDocumento t = (TipoDocumento) M2.txtTipoDocProveedor.getSelectedItem();
-            
+
             M2.txtDocProve.setText(pv.getPersona().getDocumento());
             M2.txtNombresProve.setText(pv.getPersona().getNombre());
             M2.txtApellidosProve.setText(pv.getPersona().getApellido());
             M2.txtTelefonosProve.setText(pv.getPersona().getTelefono());
             CargarDatosInicialesProveedores(2, pv.getEmpresa());
-            
+
             M2.btnEmpresaProveGuardar.setText("Editar");
         }
     }
-    
+
     public void LimpiarCampos(String menu) {
         switch (menu) {
             case "proveedores":
@@ -3958,7 +4025,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 break;
         }
     }
-    
+
     public void ListEmpresas(String filtro) {
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
         Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -3991,12 +4058,12 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         MR.tblEmpresas.setModel(modelo);
         MR.tblEmpresas.getColumnModel().getColumn(0).setMaxWidth(0);
         MR.tblEmpresas.getColumnModel().getColumn(0).setMinWidth(0);
-        MR.tblEmpresas.getColumnModel().getColumn(0).setPreferredWidth(0);      
+        MR.tblEmpresas.getColumnModel().getColumn(0).setPreferredWidth(0);
         MR.tblEmpresas.setModel(modelo);
 //        table.setRowHeight(30);
     }
-    
-    public void ListRoles(String filtro) {        
+
+    public void ListRoles(String filtro) {
         DefaultTableModel modelo;
         String Titulos[] = {"", "Descripción", "Estado"};
         getRol();
@@ -4028,7 +4095,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         MR.tblRoles.setModel(modelo);
 //        table.setRowHeight(30);
     }
-    
+
     public void ListPerfiles(String filtro) {
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
         Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -4063,49 +4130,201 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         MR.tblPerfiles.setModel(modelo);
 //        table.setRowHeight(30);
     }
-    
+
     public Proveedor getPv() {
         if (pv == null) {
             pv = new Proveedor();
         }
         return pv;
     }
-    
+
     public void setPv(Proveedor pv) {
         this.pv = pv;
     }
-    
+
     public EmpresaProveedor getEp() {
         if (ep == null) {
             ep = new EmpresaProveedor();
         }
         return ep;
     }
-    
+
     public void setEp(EmpresaProveedor ep) {
         this.ep = ep;
     }
-    
+
     public Empresas getEmpresas() {
         if (empresas == null) {
             empresas = new Empresas();
         }
         return empresas;
     }
-    
+
     public void setEmpresas(Empresas empresas) {
         this.empresas = empresas;
     }
-    
+
     public Perfil getPerfil() {
         if (perfil == null) {
             perfil = new Perfil();
         }
         return perfil;
     }
-    
+
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
-    
+
+    public Menus getMenus() {
+        if (menus == null) {
+            menus = new Menus();
+        }
+        return menus;
+    }
+
+    public void setMenus(Menus menus) {
+        this.menus = menus;
+    }
+
+    public SubMenus getSubmenus() {
+        if (submenus == null) {
+            submenus = new SubMenus();
+        }
+        return submenus;
+    }
+
+    public void setSubmenus(SubMenus submenus) {
+        this.submenus = submenus;
+    }
+
+    public void cargarMenus() {
+        getMenus();
+        menus.setIdUsuarioMenu(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
+        List<Menus> list = menus.ListMenusForUser();
+        int cantMenus = list.size();
+        MR.pnMnus.removeAll();
+        MR.pnMnus.setOpaque(false);
+        MR.pnMnus.setLayout(new java.awt.GridLayout(cantMenus, 1, 150, 0));
+        lblMnues = new JLabel[cantMenus];
+        pnMenuContent = new JPanel[cantMenus];
+        int i = 0;
+        Iterator<Menus> nombreIterator = list.iterator();
+        while (nombreIterator.hasNext()) {
+            Menus m = nombreIterator.next();
+            pnMenuContent[i] = new JPanel();
+            MR.pnMnus.add(crearPnMenu(pnMenuContent[i], m.getNombre(), m.getIdMenu()));
+            i++;
+        }
+        setMenus(null);
+        MR.pnMnus.updateUI();
+    }
+
+    public JPanel crearPnMenu(JPanel panel, String texto, int idMenu) {
+        getSubmenus();
+        submenus.setIdMenu(idMenu);
+        List<SubMenus> list = submenus.List();
+        int cantSubMenus = list.size();
+        JButton btnMnus[] = new JButton[cantSubMenus];
+        int i = 0;
+
+        panel.setOpaque(false);
+        panel.setLayout(new java.awt.BorderLayout());
+
+        JPanel pnTitleMnuUsers = new JPanel();
+        JPanel pnContentMnuUsers = new JPanel();
+        JLabel lblTextMenu = new JLabel();
+        JSeparator sp = new JSeparator();
+
+        //add tittle mnu
+        pnTitleMnuUsers.setOpaque(false);
+        pnTitleMnuUsers.setPreferredSize(new java.awt.Dimension(200, 25));
+        pnTitleMnuUsers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblTextMenu.setFont(new java.awt.Font("Segoe UI", 3, 11)); // NOI18N
+        lblTextMenu.setForeground(new java.awt.Color(255, 255, 255));
+        lblTextMenu.setText(texto);
+
+        pnTitleMnuUsers.add(lblTextMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 4, 190, -1));
+        pnTitleMnuUsers.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 19, 180, -1));
+
+        //add content mnu
+        pnContentMnuUsers.setOpaque(false);
+        pnContentMnuUsers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        //add btnMnus
+        Iterator<SubMenus> nombreIterator = list.iterator();
+        int y = 0;
+        while (nombreIterator.hasNext()) {
+            SubMenus s = nombreIterator.next();
+            btnMnus[i] = new JButton();
+            if (s.getSub_menu().equals("Verificar Asistencias")) {
+                btnMnus[i].setForeground(new java.awt.Color(255, 0, 0));
+            } else {
+                btnMnus[i].setForeground(new java.awt.Color(255, 255, 255));
+            }
+            btnMnus[i].setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            btnMnus[i].setBackground(new java.awt.Color(54, 63, 73));
+            btnMnus[i].setText(s.getSub_menu());
+            btnMnus[i].setActionCommand(s.getSub_menu());
+            btnMnus[i].setBorder(null);
+            btnMnus[i].setBorderPainted(false);
+            btnMnus[i].setContentAreaFilled(false);
+            btnMnus[i].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnMnus[i].setFocusPainted(false);
+            btnMnus[i].setHideActionText(true);
+            btnMnus[i].setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+            btnMnus[i].setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+            btnMnus[i].setIconTextGap(1);
+            btnMnus[i].addActionListener(this);
+            pnContentMnuUsers.add(btnMnus[i], new org.netbeans.lib.awtextra.AbsoluteConstraints(10, y, -1, 20));
+            listBtnMenus.add(btnMnus[i]);
+            i++;
+            y += 17;
+        }
+        setSubmenus(null);
+        panel.add(pnTitleMnuUsers, java.awt.BorderLayout.PAGE_START);
+        panel.add(pnContentMnuUsers, java.awt.BorderLayout.CENTER);
+        panel.updateUI();
+        return panel;
+    }
+
+    public void cargarPerfilesXRol() {
+        getPerfilxrol().setIdRol(UsuarioLogeado.getObjRol().getIdRol());
+        List<String> actuales = getPerfilxrol().List();
+        //agregar los componentes que se van a validar para habilitar por rol
+        Object[] componentes = {MR.btnGuardarUser, MR.mnuAddMenues};
+        for (Object componente : componentes) {
+            if (componente instanceof JButton) {
+                if (!actuales.contains(((JButton) componente).getName())) {
+                    ((JButton) componente).setEnabled(false);
+                    ((JButton) componente).removeMouseListener(this);
+                    ((JButton) componente).setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(34, 41, 50)));
+                } else {
+                    ((JButton) componente).setEnabled(true);
+                    ((JButton) componente).addMouseListener(this);
+                    ((JButton) componente).setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+                }
+            }
+            if (componente instanceof JMenuItem) {
+                if (!actuales.contains(((JMenuItem) componente).getName())) {
+                    ((JMenuItem) componente).setEnabled(false);
+                } else {
+                    ((JMenuItem) componente).setEnabled(true);
+                }
+            }
+
+        }
+
+    }
+
+    public PerfilRoles getPerfilxrol() {
+        if (perfilxrol == null) {
+            perfilxrol = new PerfilRoles();
+        }
+        return perfilxrol;
+    }
+
+    public void setPerfilxrol(PerfilRoles perfilxrol) {
+        this.perfilxrol = perfilxrol;
+    }
+
 }

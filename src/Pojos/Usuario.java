@@ -17,72 +17,72 @@ import java.util.List;
  * @author admin
  */
 public class Usuario extends Persistencia implements Serializable {
-    
+
     private String clave;
     private String nickName;
     private String estado;
-    
+
     private UsuarioID objUsuariosID;
     private persona objPersona;
     private Sedes objSede;
-    
+
     public int totalregistros = 0;
-    
+
     public Usuario() {
         super();
     }
-    
+
     public String getClave() {
         return clave;
     }
-    
+
     public void setClave(String clave) {
         this.clave = clave;
     }
-    
+
     public String getNickName() {
         return nickName;
     }
-    
+
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-    
+
     public String getEstado() {
         return estado;
     }
-    
+
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
+
     public UsuarioID getObjUsuariosID() {
-        if (objUsuariosID==null) {
+        if (objUsuariosID == null) {
             objUsuariosID = new UsuarioID();
         }
         return objUsuariosID;
     }
-    
+
     public void setObjUsuariosID(UsuarioID objUsuariosID) {
         this.objUsuariosID = objUsuariosID;
     }
-    
+
     public persona getObjPersona() {
         return objPersona;
     }
-    
+
     public void setObjPersona(persona objPersona) {
         this.objPersona = objPersona;
     }
-    
+
     public Sedes getObjSede() {
         return objSede;
     }
-    
+
     public void setObjSede(Sedes objSede) {
         this.objSede = objSede;
     }
-    
+
     @Override
     public int create() {
         int transaccion = -1;
@@ -98,7 +98,7 @@ public class Usuario extends Persistencia implements Serializable {
             preparedStatement.setInt(4, objPersona.getIdPersona());
             preparedStatement.setString(5, clave);
             preparedStatement.setString(6, nickName);
-            preparedStatement.setString(7, estado);            
+            preparedStatement.setString(7, estado);
             transaccion = Usuario.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
@@ -112,7 +112,7 @@ public class Usuario extends Persistencia implements Serializable {
         }
         return transaccion;
     }
-    
+
     @Override
     public int edit() {
         int transaccion = -1;
@@ -130,7 +130,7 @@ public class Usuario extends Persistencia implements Serializable {
             preparedStatement.setInt(6, objUsuariosID.getIdSede());
             preparedStatement.setInt(7, objUsuariosID.getIdempresa());
             preparedStatement.setInt(8, objUsuariosID.getIdPersona());
-            
+
             transaccion = Usuario.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
@@ -144,7 +144,7 @@ public class Usuario extends Persistencia implements Serializable {
         }
         return transaccion;
     }
-    
+
     @Override
     public int remove() {
         int transaccion = -1;
@@ -158,7 +158,7 @@ public class Usuario extends Persistencia implements Serializable {
             preparedStatement.setInt(3, objUsuariosID.getIdSede());
             preparedStatement.setInt(4, objUsuariosID.getIdempresa());
             preparedStatement.setInt(5, objUsuariosID.getIdPersona());
-            
+
             transaccion = Usuario.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
@@ -172,23 +172,29 @@ public class Usuario extends Persistencia implements Serializable {
         }
         return transaccion;
     }
-    
+
     public RolxUser Login(String user, String pass) {
-        Usuario us = new Usuario();
-        persona p = new persona();
-        UsuarioID userId = new UsuarioID();
+        Usuario us = null;
+        persona p = null;
+        UsuarioID userId = null;
         RolxUser roluser = null;
-        Rol rol = new Rol();
+        Rol rol = null;
         String prepareQuery = "SELECT * FROM usuario u, persona p, rolxuser ru, rol r "
                 + "where u.idPersona = p.idPersona "
                 + "and ru.idUsuario = u.idUsuario "
                 + "and ru.idRol = r.idRol "
                 + "and u.usuario = '" + user + "' and u.clave = '" + pass + "'";
+
+//        System.out.println("prepareQuery " + prepareQuery);
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Usuario.super.getConecion().query(prepareQuery);
             if (rs.absolute(1)) {
+                us = new Usuario();
+                p = new persona();
+                userId = new UsuarioID();
                 roluser = new RolxUser();
+                rol = new Rol();
                 userId.setIdUsuario(rs.getInt(1));
                 userId.setUsuario(rs.getString(2));
                 userId.setIdSede(rs.getInt(3));
@@ -203,7 +209,7 @@ public class Usuario extends Persistencia implements Serializable {
                 us.setNickName(rs.getString(7));
                 us.setEstado(rs.getString(8));
                 us.setObjPersona(p);
-                rol.setIdRol(rs.getInt(29));
+                rol.setIdRol(rs.getInt(23));
                 rol.setDescripcion(rs.getString(30));
                 rol.setEstado(rs.getString(31));
                 roluser.setObjUsuario(us);
@@ -221,7 +227,7 @@ public class Usuario extends Persistencia implements Serializable {
         }
         return roluser;
     }
-    
+
     public int ultimoid() {
         int id = -1;
         try {
@@ -242,15 +248,15 @@ public class Usuario extends Persistencia implements Serializable {
         }
         return id;
     }
-    
+
     @Override
     public List List() {
         return null;
     }
-    
+
     public ArrayList ListaUsuarios() {
         ArrayList<Usuario> listUsuarios = new ArrayList();
-        
+
         String prepareQuery = "SELECT * FROM usuario u, persona p "
                 + "where u.idPersona = p.idPersona and p.estado='A' and p.Documento <> '1113626301'";
         try {
@@ -277,7 +283,7 @@ public class Usuario extends Persistencia implements Serializable {
                 us.setEstado(rs.getString(8));
                 us.setObjPersona(p);
                 listUsuarios.add(us);
-                
+
             }
         } catch (SQLException ex) {
             System.out.println("Error Consulta : " + ex.toString());
@@ -343,5 +349,5 @@ public class Usuario extends Persistencia implements Serializable {
         }
         return users;
     }
-    
+
 }

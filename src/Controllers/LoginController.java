@@ -5,31 +5,30 @@
  */
 package Controllers;
 
-import Pojos.RolxUser;
 import Pojos.Usuario;
 import Views.Bienvenida;
-import Views.Modulo1;
 import Views.Login;
-import Views.Modulo2;
 import Views.ModuloRoot;
 import ds.desktop.notify.DesktopNotify;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import Pojos.RolxUser;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
@@ -42,6 +41,8 @@ public class LoginController implements ActionListener {
     Bienvenida bienvenida;
     Usuario u = null;
     private Set<Integer> pressed = new HashSet();
+    ImageIcon ii = null;
+    ImageIcon iin = null;
 
     public LoginController() {
         inicomponents();
@@ -79,11 +80,28 @@ public class LoginController implements ActionListener {
                     getCM2().setUsuarioLogeado(rolu);
                     getCM3().setUsuarioLogeado(rolu);
                     getCM4().setUsuarioLogeado(rolu);
-                    getCMRoot().setUsuarioLogeado(rolu);
+
+                    getCMRoot(rolu);
                     if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("root")) {
-                        //MR.setVisible(true);
-                        getBienvenida(rolu);
-                        bienvenida.setVisible(true);
+                        InputStream img = rolu.getObjUsuario().getObjPersona().getFoto();
+                        if (img != null) {
+                            try {
+                                BufferedImage bi = ImageIO.read(img);
+                                ii = new ImageIcon(bi);
+                                Image conver = ii.getImage();
+                                Image tam = conver.getScaledInstance(MR.UserLogPicture.getWidth(), MR.UserLogPicture.getHeight(), Image.SCALE_SMOOTH);
+                                iin = new ImageIcon(tam);
+                                MR.UserLogPicture.setIcon(iin);
+                            } catch (IOException ex) {
+                                System.out.println("error " + ex);
+                            }
+                        } else {
+                            MR.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
+                        }
+                        MR.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
+                        MR.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
+//                        MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        MR.setVisible(true);
                     } else {
                         getBienvenida(rolu);
                     }
@@ -116,8 +134,10 @@ public class LoginController implements ActionListener {
         return GetController.getControllerM4();
     }
 
-    public ControllerMRoot getCMRoot() {
-        return GetController.getControllerMRoot();
+
+    public ControllerMRoot getCMRoot(RolxUser UsuarioLogeado) {
+        return GetController.getControllerMRoot(UsuarioLogeado);
+
     }
 
     public int validarCampos(Object[] componentes) {
