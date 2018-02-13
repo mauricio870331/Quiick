@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-01-2018 a las 22:04:09
+-- Tiempo de generación: 04-02-2018 a las 18:48:27
 -- Versión del servidor: 10.1.10-MariaDB
 -- Versión de PHP: 7.0.2
 
@@ -100,6 +100,20 @@ INSERT INTO `asistencia` (`idAsistencia`, `idUsuario`, `usuario`, `idSede`, `ide
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `bodega`
+--
+
+CREATE TABLE `bodega` (
+  `idBodega` int(11) NOT NULL,
+  `idempresa` int(11) NOT NULL,
+  `idSede` int(11) NOT NULL,
+  `nombreBodega` varchar(30) NOT NULL,
+  `estado` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cajaxuser`
 --
 
@@ -177,6 +191,43 @@ CREATE TABLE `cliente` (
   `idPersona` int(11) NOT NULL,
   `TipoCliente` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `compra_detalle`
+--
+
+CREATE TABLE `compra_detalle` (
+  `idCompra` int(11) NOT NULL,
+  `serie_producto` varchar(40) NOT NULL,
+  `nombre_producto` varchar(50) NOT NULL,
+  `costo` decimal(14,2) NOT NULL,
+  `idiva` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `valor_venta` int(11) NOT NULL,
+  `cod_unidad` int(11) NOT NULL,
+  `idDetalle` int(11) NOT NULL,
+  `cod_producto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `compra_productos`
+--
+
+CREATE TABLE `compra_productos` (
+  `idCompra` int(11) NOT NULL,
+  `cod_factura` varchar(20) NOT NULL,
+  `cod_proveedor` int(11) NOT NULL,
+  `fecha_compra` date NOT NULL,
+  `estado_factura` varchar(20) NOT NULL,
+  `costoCompra` decimal(14,2) NOT NULL,
+  `CantidadProductos` int(5) NOT NULL,
+  `idBodega` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -410,6 +461,39 @@ INSERT INTO `medidaxmusculo` (`idMedidaXMusculo`, `IdMusculo`, `idMedida`, `Desc
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `menus`
+--
+
+CREATE TABLE `menus` (
+  `id_menu` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `menus`
+--
+
+INSERT INTO `menus` (`id_menu`, `nombre`) VALUES
+(1, 'Gestión de Usuarios'),
+(2, 'Módulos'),
+(3, 'Ingresos'),
+(4, 'Configuración');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `menus_usuarios`
+--
+
+CREATE TABLE `menus_usuarios` (
+  `id_submenu` int(11) NOT NULL,
+  `id_menu` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `musculos`
 --
 
@@ -515,8 +599,7 @@ INSERT INTO `perfiles` (`id_perfil`, `nombre`, `estado`, `create_at`, `update_at
 (2, 'Crear', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00'),
 (3, 'Editar', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00'),
 (4, 'Eliminar', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00'),
-(5, 'Buscar', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00'),
-(6, 'Generar Reportes', 'A', '2018-01-28 11:31:33', '2018-01-28 11:48:56');
+(5, 'Buscar', 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -525,6 +608,7 @@ INSERT INTO `perfiles` (`id_perfil`, `nombre`, `estado`, `create_at`, `update_at
 --
 
 CREATE TABLE `perfiles_x_rol` (
+  `id` int(11) NOT NULL,
   `id_perfil` int(11) NOT NULL,
   `id_rol` int(11) NOT NULL,
   `estado` varchar(2) NOT NULL,
@@ -538,13 +622,13 @@ CREATE TABLE `perfiles_x_rol` (
 -- Volcado de datos para la tabla `perfiles_x_rol`
 --
 
-INSERT INTO `perfiles_x_rol` (`id_perfil`, `id_rol`, `estado`, `create_at`, `update_at`, `create_by`, `update_by`) VALUES
-(1, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(2, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(3, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(4, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(5, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
-(1, 2, 'A', '2018-01-28 15:54:18', '2018-01-28 15:54:18', 1, 1);
+INSERT INTO `perfiles_x_rol` (`id`, `id_perfil`, `id_rol`, `estado`, `create_at`, `update_at`, `create_by`, `update_by`) VALUES
+(1, 1, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(2, 2, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(3, 3, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(4, 4, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(5, 5, 1, 'A', '2018-01-24 00:00:00', '2018-01-24 00:00:00', 1, 1),
+(9, 1, 3, 'A', '2018-02-02 09:02:17', '2018-02-02 09:02:17', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -786,6 +870,35 @@ INSERT INTO `sedes` (`idSede`, `idempresa`, `Estado`, `Nombre`, `direccion`, `Te
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `sub_menus`
+--
+
+CREATE TABLE `sub_menus` (
+  `id_submenu` int(11) NOT NULL,
+  `id_menu` int(11) NOT NULL,
+  `sub_menu` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `sub_menus`
+--
+
+INSERT INTO `sub_menus` (`id_submenu`, `id_menu`, `sub_menu`) VALUES
+(1, 1, 'Lista de Usuarios'),
+(2, 1, 'Verificar Asistencias'),
+(3, 1, 'Asistencia Manual'),
+(4, 2, 'Caja'),
+(5, 3, 'Mi Caja'),
+(6, 4, 'Lista de Empresas'),
+(7, 4, 'Lista de Roles'),
+(8, 4, 'Lista Perfiles'),
+(9, 4, 'Asignar Perfil a Rol'),
+(10, 4, 'Lista Proveedores'),
+(11, 4, 'Lista de Musculos');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tiopventa`
 --
 
@@ -961,6 +1074,12 @@ ALTER TABLE `asistencia`
   ADD KEY `usuario_asistencia_fk` (`idUsuario`,`usuario`,`idSede`,`idempresa`,`idPersona`);
 
 --
+-- Indices de la tabla `bodega`
+--
+ALTER TABLE `bodega`
+  ADD PRIMARY KEY (`idBodega`,`idempresa`,`idSede`);
+
+--
 -- Indices de la tabla `cajaxuser`
 --
 ALTER TABLE `cajaxuser`
@@ -978,6 +1097,19 @@ ALTER TABLE `categoria`
 --
 ALTER TABLE `cliente`
   ADD KEY `persona_cliente_fk` (`idPersona`);
+
+--
+-- Indices de la tabla `compra_detalle`
+--
+ALTER TABLE `compra_detalle`
+  ADD PRIMARY KEY (`idCompra`,`serie_producto`,`idDetalle`);
+
+--
+-- Indices de la tabla `compra_productos`
+--
+ALTER TABLE `compra_productos`
+  ADD PRIMARY KEY (`idCompra`,`cod_factura`,`cod_proveedor`),
+  ADD KEY `cod_proveedor` (`cod_proveedor`);
 
 --
 -- Indices de la tabla `dias`
@@ -1046,6 +1178,19 @@ ALTER TABLE `medidaxmusculo`
   ADD KEY `idMedida` (`idMedida`);
 
 --
+-- Indices de la tabla `menus`
+--
+ALTER TABLE `menus`
+  ADD PRIMARY KEY (`id_menu`);
+
+--
+-- Indices de la tabla `menus_usuarios`
+--
+ALTER TABLE `menus_usuarios`
+  ADD PRIMARY KEY (`id_submenu`,`id_menu`,`idUsuario`),
+  ADD KEY `idUsuario` (`idUsuario`);
+
+--
 -- Indices de la tabla `musculos`
 --
 ALTER TABLE `musculos`
@@ -1071,6 +1216,7 @@ ALTER TABLE `perfiles`
 -- Indices de la tabla `perfiles_x_rol`
 --
 ALTER TABLE `perfiles_x_rol`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_perfil` (`id_perfil`),
   ADD KEY `id_rol` (`id_rol`);
 
@@ -1161,6 +1307,13 @@ ALTER TABLE `salidaentradaproductos`
 ALTER TABLE `sedes`
   ADD PRIMARY KEY (`idSede`,`idempresa`),
   ADD KEY `empresa_sedes_fk` (`idempresa`);
+
+--
+-- Indices de la tabla `sub_menus`
+--
+ALTER TABLE `sub_menus`
+  ADD PRIMARY KEY (`id_submenu`,`id_menu`),
+  ADD KEY `id_menu` (`id_menu`);
 
 --
 -- Indices de la tabla `tiopventa`
@@ -1280,6 +1433,11 @@ ALTER TABLE `medidas`
 ALTER TABLE `medidaxmusculo`
   MODIFY `idMedidaXMusculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
+-- AUTO_INCREMENT de la tabla `menus`
+--
+ALTER TABLE `menus`
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT de la tabla `musculos`
 --
 ALTER TABLE `musculos`
@@ -1293,7 +1451,12 @@ ALTER TABLE `pagoservice`
 -- AUTO_INCREMENT de la tabla `perfiles`
 --
 ALTER TABLE `perfiles`
-  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla `perfiles_x_rol`
+--
+ALTER TABLE `perfiles_x_rol`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
@@ -1339,6 +1502,11 @@ ALTER TABLE `rutinauser`
 --
 ALTER TABLE `sedes`
   MODIFY `idSede` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `sub_menus`
+--
+ALTER TABLE `sub_menus`
+  MODIFY `id_submenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `tipodocumento`
 --
@@ -1392,6 +1560,13 @@ ALTER TABLE `ejercicios`
 --
 ALTER TABLE `huellas`
   ADD CONSTRAINT `usuario_huellas_fk` FOREIGN KEY (`idUsuario`,`usuario`,`idSede`,`idempresa`,`idPersona`) REFERENCES `usuario` (`idUsuario`, `usuario`, `idSede`, `idempresa`, `idPersona`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `menus_usuarios`
+--
+ALTER TABLE `menus_usuarios`
+  ADD CONSTRAINT `menus_usuarios_ibfk_1` FOREIGN KEY (`id_submenu`,`id_menu`) REFERENCES `sub_menus` (`id_submenu`, `id_menu`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `menus_usuarios_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `pagoservice`
@@ -1460,6 +1635,12 @@ ALTER TABLE `rutinauser`
 --
 ALTER TABLE `sedes`
   ADD CONSTRAINT `empresa_sedes_fk` FOREIGN KEY (`idempresa`) REFERENCES `empresa` (`idempresa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `sub_menus`
+--
+ALTER TABLE `sub_menus`
+  ADD CONSTRAINT `sub_menus_ibfk_1` FOREIGN KEY (`id_menu`) REFERENCES `menus` (`id_menu`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuario`

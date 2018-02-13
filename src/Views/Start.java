@@ -32,6 +32,6 @@ public class Start {
         lg = GetLogin.getLogin();
         lg.setVisible(true);
         lg.setLocationRelativeTo(null);
-        LoginController lgController = new LoginController();
+        LoginController loginController = new LoginController();
     }
 }

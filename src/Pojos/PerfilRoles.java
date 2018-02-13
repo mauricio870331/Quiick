@@ -119,7 +119,7 @@ public class PerfilRoles extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         ArrayList<String> List = new ArrayList();
-        String prepareQuery = "SELECT p.id_perfil FROM perfiles_x_rol pr "
+        String prepareQuery = "SELECT p.nombre FROM perfiles_x_rol pr "
                 + "join perfiles p on p.id_perfil = pr.id_perfil "
                 + "where id_rol = " + idRol;
         try {
