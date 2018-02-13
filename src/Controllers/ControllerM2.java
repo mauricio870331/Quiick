@@ -443,6 +443,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private void addFilter() {
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.JPG)", "jpg"));
+        System.err.println("---");
     }
 
     public void showPanel(int Modulo, String string) {
