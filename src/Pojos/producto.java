@@ -5,9 +5,6 @@
  */
 package Pojos;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;

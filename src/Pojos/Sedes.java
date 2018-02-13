@@ -169,7 +169,11 @@ public class Sedes extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         ArrayList<Sedes> List = new ArrayList();
-        String prepareQuery = "select * from Sedes where Estado = 'A' and idempresa = " + objEmpresa.getIdEmpresa();        
+
+        String prepareQuery = "select * from Sedes where Estado = 'A'";
+
+       // String prepareQuery = "select * from Sedes where Estado = 'A' and idempresa = " + objEmpresa.getIdEmpresa();        
+
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = Sedes.super.getConecion().query(prepareQuery);

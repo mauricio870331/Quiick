@@ -9,10 +9,12 @@ import Pojos.*;
 import Utils.ImagensTabla;
 import Utils.Reportes;
 import Utils.TablaModel;
+import Utils.VistaActual;
 import Views.Modulo1;
 import Views.FrmCapturePict;
 import Views.Modales.Busqueda;
 import Views.Modales.NuevaSede;
+import Views.Modales.NuevoProducto;
 import Views.Modulo2;
 import Views.Modulo3;
 import Views.Modulo4;
@@ -93,8 +95,16 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private PagoService pagoService;
     private TipoService Ts;
     private TipoPago Tp;
-    private Proveedor pv;
+    public Proveedor pv;
     private EmpresaProveedor ep;
+    public categoria c;
+    public iva i;
+    public Unidad u;
+    private producto pr;
+    private compra_producto cp;
+    private compradetalle cd;
+    private Bodega b;
+    private objectobusqueda ob;
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat userFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     SimpleDateFormat hh = new SimpleDateFormat("HH:mm:ss");
@@ -121,7 +131,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     }
 
     private void inicomponents() throws IOException {
-        M1.btnProveedores.addActionListener(this);
         M2.btnProveedores.addActionListener(this);
         M2.btnGuardarProve.addActionListener(this);
         M2.btnViewEmpresaProvedor.addActionListener(this);
@@ -131,71 +140,17 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.mnuEditProveedor.addActionListener(this);
         M2.mnuDeleteProveedor.addActionListener(this);
         M2.btnCancelarProve.addActionListener(this);
-////        pr.mnuUsers.addMouseListener(this);
-////        pr.mnuGimnasios.addMouseListener(this);     
-////        pr.btnGuardar.addActionListener(this);
-////        pr.btnCancelar.addActionListener(this);
-//        M1.mnuAsocFinger.addActionListener(this);
-////        pr.btnBack.addActionListener(this);
-//        pr.btnAsistencias.addActionListener(this);
-//        pr.btnListUsers.addActionListener(this);
-//        pr.mnuUpdate.addActionListener(this);
-//        pr.mnuDelete.addActionListener(this);
-////        pr.btnGuardaAsistencia.addActionListener(this);
-//        pr.btnAsistenciaManual.addActionListener(this);
-////        pr.btnAdjuntarfoto.addActionListener(this);
-////        pr.btnCapturePhoto.addActionListener(this);
-////        pr.btnPrimerReg.addActionListener(this);
-////        pr.btnSiguienteReg.addActionListener(this);
-////        pr.btnMenosReg.addActionListener(this);
-////        pr.btnLastReg.addActionListener(this);
-////        pr.btnFindUser.addActionListener(this);
-//        pr.mnuGenerarPago.addActionListener(this);
-////        pr.cboGym.addActionListener(this);
-////        pr.btnBuscarAsistencias.addActionListener(this);
-//        pr.btnListMusculos.addActionListener(this);
-//        pr.btnListEjercicios.addActionListener(this);
-////        pr.btnGuardarMusculo.addActionListener(this);
-////        pr.btnCancelarMusculo.addActionListener(this);
-//        pr.mnuUpdateMusculo.addActionListener(this);
-//        pr.mnuDeleteMusculo.addActionListener(this);
-////        pr.btnFindMusculo.addActionListener(this);
-////        pr.btnSelectFotoEjercicio.addActionListener(this);
-////        pr.btnGuardarEjercicio.addActionListener(this);
-//        pr.mnuUpdateEjercicio.addActionListener(this);
-//        pr.mnuDeleteEjercicio.addActionListener(this);
-//        pr.btnGestionRutinas.addActionListener(this);
-////        pr.cboMusculos2.addActionListener(this);
-////        pr.tblEjercicios2.addMouseListener(this);
-////        pr.tblNewRutina.addMouseListener(this);
-////        pr.BtnGuardarRutina.addActionListener(this);
-////        pr.btnCaja.addActionListener(this);
-//        pr.btnTransaccionCaja.addActionListener(this);
-////        pr.btnPagosCaja.addActionListener(this);
-////        pr.BtnGenerarPagos.addActionListener(this);
-//        pr.mnuBusqueda.addActionListener(this);
-////        pr.combotiposService.addActionListener(this);
-////        pr.comboDescuentos.addActionListener(this);
-////        pr.btnCancelarPagos.addActionListener(this);
-//        pr.mnuHistoryPays.addActionListener(this);
-////        pr.btnBuscarPago.addActionListener(this);
-//        pr.mnuEditFechasPagos.addActionListener(this);
-//        pr.mnuDeletePagos.addActionListener(this);
-////        pr.btnEditPago.addActionListener(this);
-////        pr.btnEditPagacancel.addActionListener(this);
-////        pr.cboRol.addActionListener(this);
-////        pr.txtUser.setEnabled(false);
-////        pr.txtUser.setText(userFormat.format(new Date()));
-////        pr.txtClave.setEnabled(false);
-////        pr.txtClave.setText("123456");
-////        pr.btnCancelarEjercicio.addActionListener(this);
-////        pr.cldNacimiento.setDate(new Date());
-////        pr.btnReporteCaja.addActionListener(this);
-////        pr.btnBackReports.addActionListener(this);
-////        pr.btnGenerarReporteByTipo.addActionListener(this);
-////        pr.preloader.setVisible(false);
-////        pr.combotiposService1.addActionListener(this);
+        M2.btnCompras.addActionListener(this);
+        M2.btnCompraTrans.addActionListener(this);
+        M2.BntTranCompraBuscar.addActionListener(this);
+        M2.BntTranCompraNuevo.addActionListener(this);
+        M2.btnCompraNueva.addActionListener(this);
+        M2.txtComboSedeCompra.addActionListener(this);
+        M2.mnuBuscarProveedor.addActionListener(this);
+        M2.btnCompraNueva.addActionListener(this);
         Adaptador();
+        cargarMenu();
+
 //        getMiCaja().CierreCajasAuto();
 //        setMiCaja(null);
 //        cargarTiposDocumentos();
@@ -215,10 +170,105 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         MR.btnCancelarRol.addActionListener(this);
         MR.mnuEditRol.addActionListener(this);
         MR.mnuDeleteRol.addActionListener(this);
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+
+        if (e.getSource() == M2.btnCompraNueva) {
+            getCp();
+            getCd();
+            Bodega b = new Bodega();
+
+            cp.getCompra_productoID().setCod_factura(M2.txtFacCompra.getText().trim());
+            cp.getCompra_productoID().setCod_proveedor(pv.getIdProveedor());
+            Date dateStarting = (Date) M2.txtFechaCompra.getDate();
+            cp.setFechacompra(dateStarting);
+            cp.setEstadoCompra(M2.txtEstadoCompra.getSelectedItem().toString());
+            cp.setCantidadproductos(new BigDecimal(pr.getListProductos().size()));
+
+            b = (Bodega) M2.txtComboBodegasCompra.getSelectedItem();
+            cp.setBodega(b.getIdBodega().intValue());
+
+            if (cp.create() > 0) {
+
+                DesktopNotify.showDesktopMessage("Aviso..!", "Exito al realizar la compra", DesktopNotify.INFORMATION, 5000L);
+//                LimpiarCampos("proveedores");
+//                ListProveedores();
+            } else {
+                DesktopNotify.showDesktopMessage("Aviso..!", "Error al crear compra", DesktopNotify.ERROR, 5000L);
+            }
+        }
+
+        if (e.getSource() == M2.mnuBuscarProveedor) {
+            try {
+                getOb();
+                ob.setTitulo("Buscar Proveedor");
+                ob.setFiltro("Nombre ó Cedula");
+                ob.setModulo(2);
+                ob.setCondicion(2);
+                ob.setM2(this);
+                new Busqueda(M2, true, ob).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
+            }
+        }
+
+        if (e.getSource() == M2.BntTranCompraBuscar) {
+            try {
+                System.out.println("Click en buscar producto");
+                getOb();
+                ob.setTitulo("Buscar Producto");
+                ob.setFiltro("Nombre ó Cedula");
+                ob.setModulo(2);
+                ob.setCondicion(1);
+                ob.setM2(this);
+                new Busqueda(M2, true, ob).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
+            }
+        }
+
+        if (e.getSource() == M2.txtComboSedeCompra) {
+            System.out.println("acciono");
+            ListBodegas();
+        }
+
+        if (e.getSource() == M2.btnCompraNueva) {
+            getCp();
+
+        }
+
+        if (e.getSource() == M2.BntTranCompraNuevo) {
+            try {
+                new NuevoProducto(M2, true, this).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
+            }
+        }
+
+        if (e.getSource() == M2.btnCompraTrans) {
+            getCp();
+            cp.setCostocompra(new BigDecimal(0));
+            ListProductosAñadidos();
+            ListSedes();
+            CargarDatosProveedor(null);
+            showPanel(2, "PnTransCompra");
+        }
+
+        if (e.getSource() == M2.btnCompras) {
+            showPanel(2, "PnCompras");
+        }
+
+        if (e.getSource() == M2.btnProveedores) {
+            System.out.println("Ingreso a proveedores");
+            CargarDatosInicialesProveedores(1, null);
+            cargarTiposDocumentosProveedor();
+            ListProveedores();
+            showPanel(2, "PnProveedores");
+        }
 
 //        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
 //            System.out.println("Ingreso a proveedores");
@@ -227,6 +277,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            ListProveedores();
 //            showPanel(2, "PnProveedores");
 //        }
+
 
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
@@ -417,6 +468,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             ListEmpresasProveedor("");
             showPanel(2, "PnEmpresaProveedor");
         }
+
 
 //
 //        if (e.getSource() == pr.mnuEditFechasPagos) {
@@ -2704,152 +2756,59 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //        pr.tblEjercicios2.setRowHeight(60);
 //
 //        setMusculos(null);
+
     }
 
-    private void cargarTblNewRutina() throws IOException {
-//        pr.tblNewRutina.setDefaultRenderer(Object.class, new ImagensTabla());
-//        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
-//        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
-//        DefaultTableModel modelo;
-//        String Titulos[] = {"idEjercicio", "Accion", "Ejercicio", "Musculo", "", "Dia", "Series", "Repeticiones", "Observación"};
-//
-//        modelo = new DefaultTableModel(null, Titulos) {
-//            @Override
-//            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
-//                return column == 6 || column == 7 || column == 8;
-//
-//            }
-//        };
-//
-//        Object[] columna = new Object[9];
-//        Iterator<Ejercicios> itr = newRutina.iterator();
-//        while (itr.hasNext()) {
-//            Musculos m = new Musculos();
-//            dias d = new dias();
-//            Ejercicios e = itr.next();
-//            columna[0] = (int) e.getObjEjerciciosID().getIdEjercicio();
-//            columna[1] = "Quitar";
-//            columna[2] = e.getDescripcion();
-//            columna[3] = m.getNombreMusculoById(e.getObjEjerciciosID().getIdMusculo());
-//            columna[4] = (int) e.getObjEjerciciosID().getIdMusculo();
-//            columna[5] = d.getDiaById(e.getDia());
-//            columna[6] = "";
-//            columna[7] = "";
-//            columna[8] = "";
-//            modelo.addRow(columna);
-//            m = null;
-//        }
-//        pr.tblNewRutina.setModel(modelo);
-//        TableRowSorter<TableModel> ordenar = new TableRowSorter<>(modelo);
-//        pr.tblNewRutina.setRowSorter(ordenar);
-//        pr.tblNewRutina.getColumnModel().getColumn(0).setMaxWidth(0);
-//        pr.tblNewRutina.getColumnModel().getColumn(0).setMinWidth(0);
-//        pr.tblNewRutina.getColumnModel().getColumn(0).setPreferredWidth(0);
-//        pr.tblNewRutina.getColumnModel().getColumn(1).setMaxWidth(60);
-//        pr.tblNewRutina.getColumnModel().getColumn(1).setMinWidth(60);
-//        pr.tblNewRutina.getColumnModel().getColumn(1).setPreferredWidth(60);
-//        pr.tblNewRutina.getColumnModel().getColumn(4).setMaxWidth(0);
-//        pr.tblNewRutina.getColumnModel().getColumn(4).setMinWidth(0);
-//        pr.tblNewRutina.getColumnModel().getColumn(4).setPreferredWidth(0);
-////        pr.tblNewRutina.getColumnModel().getColumn(6).setMaxWidth(0);
-////        pr.tblNewRutina.getColumnModel().getColumn(6).setMinWidth(0);
-////        pr.tblNewRutina.getColumnModel().getColumn(6).setPreferredWidth(0);
-//        pr.tblNewRutina.getColumnModel().getColumn(2).setCellRenderer(Alinear);
-//        pr.tblNewRutina.setModel(modelo);
-//        setMusculos(null);
+    private void addFilter() {
+        FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
+        FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.JPG)", "jpg"));
+        System.err.println("---");
     }
 
-    private void cargarTblRutinas(String filtro) throws IOException {
-//        pr.tblEjercicios.setDefaultRenderer(Object.class, new ImagensTabla());
-//        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
-//        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
-//        DefaultTableModel modelo;
-//        String Titulos[] = {"id", "Ejercicio", "Musculo", "Foto", ""};
-//        modelo = new DefaultTableModel(null, Titulos) {
-//            @Override
-//            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
-//                return false;
-//            }
-//        };
-//        Object[] columna = new Object[5];
-//        Iterator<Ejercicios> itr = null;
-//        if (filtro.equals("")) {
-//            itr = getEjercicio().List().iterator();
-//        } else {
-//            itr = getEjercicio().List(filtro).iterator();
-//        }
-//        while (itr.hasNext()) {
-//            Musculos m = new Musculos();
-//            Ejercicios e = itr.next();
-//            columna[0] = (int) e.getObjEjerciciosID().getIdEjercicio();
-//            columna[1] = e.getDescripcion();
-//            columna[2] = m.getNombreMusculoById(e.getObjEjerciciosID().getIdMusculo());
-//            columna[4] = (int) e.getObjEjerciciosID().getIdMusculo();
-//            InputStream img = e.getImagen();
-//            if (img != null) {
-//                BufferedImage bi = ImageIO.read(img);
-//                ii = new ImageIcon(bi);
-//                Image conver = ii.getImage();
-//                Image tam = conver.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-//                iin = new ImageIcon(tam);
-//                columna[3] = new JLabel(iin);
-//            } else {
-//                columna[3] = new JLabel(new javax.swing.ImageIcon(getClass().getResource("/icons/Treadmill_50px.png")));
-//            }
-//            modelo.addRow(columna);
-//            m = null;
-//        }
-//
-//        pr.tblEjercicios.setModel(modelo);
-//        TableRowSorter<TableModel> ordenar = new TableRowSorter<>(modelo);
-//        pr.tblEjercicios.setRowSorter(ordenar);
-//        pr.tblEjercicios.getColumnModel().getColumn(0).setMaxWidth(0);
-//        pr.tblEjercicios.getColumnModel().getColumn(0).setMinWidth(0);
-//        pr.tblEjercicios.getColumnModel().getColumn(0).setPreferredWidth(0);
-//        pr.tblEjercicios.getColumnModel().getColumn(4).setMaxWidth(0);
-//        pr.tblEjercicios.getColumnModel().getColumn(4).setMinWidth(0);
-//        pr.tblEjercicios.getColumnModel().getColumn(4).setPreferredWidth(0);
-//        pr.tblEjercicios.getColumnModel().getColumn(1).setCellRenderer(Alinear);
-//        pr.tblEjercicios.getColumnModel().getColumn(2).setCellRenderer(Alinear);
-//        pr.tblEjercicios.setModel(modelo);
-//        pr.tblEjercicios.setRowHeight(60);
-//        setMusculos(null);
-    }
+    public void showPanel(int Modulo, String string) {
+        switch (Modulo) {
+            case 1:
+                M2.setVisible(false);
+                MR.setVisible(true);
+                break;
+            case 2:
+                M2.setVistaActual(string);
+                switch (string) {
+                    case "PnProveedores":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(true);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        break;
+                    case "PnEmpresaProveedor":
+                        M2.PnEmpresaProveedor.setVisible(true);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        break;
+                    case "PnCompras":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        M2.PnCompras.setVisible(true);
+                        break;
+                    case "PnTransCompra":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(true);
+                        break;
+                }
+                break;
+            case 3:
+                M3.setVistaActual(string);
+                break;
+            case 4:
+                M4.setVistaActual(string);
+                break;
 
-    private void clearFormUsers() {
-//        pr.btnGuardar.setText("Guardar");
-//        pr.cboTiposDoc.setSelectedIndex(0);
-//        pr.cboRol.setSelectedIndex(0);
-//        pr.txtDoc.setText("");
-//        pr.txtDireccion.setText("");
-//        pr.txtNombres.setText("");
-//        pr.txtApellidos.setText("");
-//        pr.txtTelefonos.setText("");
-//        pr.cboTiposDoc.requestFocus();
-//        pr.fileChosed.setText("");
-//        pr.cboGym.setSelectedIndex(0);
-//        if (pr.cboSedes.getItemCount() > 0) {
-//            pr.cboSedes.setSelectedIndex(0);
-//        }
-//        pr.txtCorreo.setText("");
-//        pr.cldNacimiento.setDate(new Date());
-//        pr.cboSexo.setSelectedIndex(0);
-//        pr.txtUser.setText("");
-//        pr.txtClave.setText("");
-//        pr.idpersonaOld.setText("");
-//        pr.idUsuarioOld.setText("");
-//        pr.idRolxuserOld.setText("");
-//        pr.idEmpresaOld.setText("");
-//        pr.idSedeOld.setText("");
-//        pr.usuarioOld.setText("");
-//        pr.idRolOld.setText("");
-//        setFoto("");
-//        setCountAction(0);
-//        pr.cLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
-//        Object[] componentes = {pr.cboTiposDoc, pr.cboRol, pr.txtDoc, pr.txtDireccion,
-//            pr.txtNombres, pr.txtApellidos, pr.txtTelefonos, pr.cboGym, pr.cboSedes, pr.cldNacimiento, pr.cboSexo,
-//            pr.txtUser, pr.txtClave, pr.cldDesdePagos, pr.cldHastaPagos, pr.cldFechaPagoHistory, pr.cldFechaPagoDesde, pr.cldFechaPagoHasta};
-//        resetCampos(componentes);
+        }
+
     }
 
     public CaptureFinger getCf() {
@@ -2895,81 +2854,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     public void setTd(TipoDocumento td) {
         this.td = td;
 
-    }
-
-    public int validarCampos(Object[] componentes, String nameComponent, Object Modulo) {
-//        ((Modulo1) Modulo).txtDocNit.getText();
-        int countErrors = 0;
-        for (Object componente : componentes) {
-            if (componente instanceof JTextField) {
-                boolean equals = ((JTextField) componente).getText().equals("");
-                if (equals) {
-                    countErrors++;
-                    ((JTextField) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
-                } else {
-                    ((JTextField) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-                }
-            }
-            if (componente instanceof JComboBox) {
-                boolean equals = false;
-                if (((JComboBox) componente).getSelectedItem() instanceof TipoDocumento) {
-//                    TipoDocumento t = (TipoDocumento) Modulo.cboTiposDoc.getSelectedItem();
-//                    equals = t.toString().equals("Seleccione");
-                } else if (((JComboBox) componente).getSelectedItem() instanceof Rol) {
-//                    Rol r = (Rol) pr.cboRol.getSelectedItem();
-//                    equals = r.toString().equals("Seleccione");
-                } else if (((JComboBox) componente).getSelectedItem() instanceof Empresas) {
-//                    Empresas r = (Empresas) pr.cboGym.getSelectedItem();
-//                    equals = r.toString().equals("Seleccione");
-                } else if (((JComboBox) componente).getSelectedItem() instanceof Sedes) {
-//                    Sedes r = (Sedes) pr.cboSedes.getSelectedItem();
-//                    equals = r.toString().equals("Seleccione");
-                } else if (((JComboBox) componente).getSelectedItem() instanceof Musculos) {
-//                    Musculos r;
-//                    if (nameComponent.equals("cboMusculos")) {
-//                        r = (Musculos) pr.cboMusculos.getSelectedItem();
-//                    } else {
-//                        r = (Musculos) pr.cboMusculos2.getSelectedItem();
-//                    }
-//                    equals = r.toString().equals("Seleccione");
-                } else if (((JComboBox) componente).getSelectedItem() instanceof dias) {
-//                    dias d = (dias) pr.cboDia.getSelectedItem();
-//                    equals = d.toString().equals("Seleccione");
-                } else if (((JComboBox) componente).getSelectedItem() instanceof String) {
-                    equals = ((JComboBox) componente).getSelectedItem().equals("Seleccione");
-                }
-                if (equals) {
-                    countErrors++;
-                    ((JComboBox) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
-                } else {
-                    ((JComboBox) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-                }
-            }
-            if (componente instanceof JDateChooser) {
-                boolean equals = ((JDateChooser) componente).getDate() == null;
-                if (equals) {
-                    countErrors++;
-                    ((JDateChooser) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#EE1313")));  //2C6791                  
-                } else {
-                    ((JDateChooser) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-                }
-            }
-        }
-        return countErrors;
-    }
-
-    public void resetCampos(Object[] componentes) {
-        for (Object componente : componentes) {
-            if (componente instanceof JTextField) {
-                ((JTextField) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-            }
-            if (componente instanceof JComboBox) {
-                ((JComboBox) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-            }
-            if (componente instanceof JDateChooser) {
-                ((JDateChooser) componente).setBorder(BorderFactory.createLineBorder(Color.decode("#848484")));
-            }
-        }
     }
 
     public Asistencia getAd() {
@@ -3259,177 +3143,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void mouseClicked(MouseEvent e) {
 //        if (e.getSource() == pr.tblEjercicios2) {
-//
-//            int fila = pr.tblEjercicios2.getSelectedRow();
-//            String idEjercicio = pr.tblEjercicios2.getValueAt(fila, 0).toString();
-//            String OpcionEjercicioSelected = pr.tblEjercicios2.getValueAt(fila, 1).toString();
-//            Ejercicios ej = getEjercicio().getEjercicioById(Integer.parseInt(idEjercicio));
-//            if (fila >= 0) {
-//                Object[] componentes = {pr.txtDescRutina, pr.cboDia, pr.cboMusculos2};
-//                if (validarCampos(componentes, "cboMusculos2") == 0) {
-//                    if (OpcionEjercicioSelected.equals("Agregar")) {
-//                        boolean existe = false;
-//                        for (Ejercicios ejercicios : newRutina) {
-//                            if (ejercicios.getObjEjerciciosID().getIdEjercicio() == ej.getObjEjerciciosID().getIdEjercicio()) {
-//                                existe = true;
-//                            }
-//                        }
-//                        for (int i = 0; i < allEjercicios.size(); i++) {
-//                            if (allEjercicios.get(i).getObjEjerciciosID().getIdEjercicio() == ej.getObjEjerciciosID().getIdEjercicio()) {
-//                                allEjercicios.get(i).setOpcion("Quitar");
-//                            }
-//                        }
-//                        if (!existe) {
-//                            dias d = (dias) pr.cboDia.getSelectedItem();
-//                            ej.setDia(d.getIdDias());
-//                            newRutina.add(ej);
-//                            d = null;
-//                        } else {
-//                            DesktopNotify.showDesktopMessage("Aviso..!", "El ejercicio seleccionado ya esta en la lista..!", DesktopNotify.WARNING, 6000L);
-//                        }
-//                        pr.tblEjercicios2.setValueAt("Quitar", fila, 1);
-//                    } else {
-//                        pr.tblEjercicios2.setValueAt("Agregar", fila, 1);
-//
-//                        for (int i = 0; i < allEjercicios.size(); i++) {
-//                            if (allEjercicios.get(i).getObjEjerciciosID().getIdEjercicio() == ej.getObjEjerciciosID().getIdEjercicio()) {
-//                                allEjercicios.get(i).setOpcion("Agregar");
-//                            }
-//                        }
-//
-//                        for (int i = 0; i < newRutina.size(); i++) {
-//                            if (newRutina.get(i).getObjEjerciciosID().getIdEjercicio() == ej.getObjEjerciciosID().getIdEjercicio()) {
-//                                newRutina.remove(i);
-//                            }
-//                        }
-//                    }
-//                    try {
-//                        if (newRutina.isEmpty()) {
-//                            newRutina.clear();
-//                        }
-//                        cargarTblNewRutina();
-//                    } catch (IOException ex) {
-//                        System.out.println("error " + ex);
-//                    }
-//                    setEjercicio(null);
-//                    ej = null;
-//                } else {
-//                    DesktopNotify.showDesktopMessage("Informacion..!", "Los campos marcados en rojo son obligatorios..!", DesktopNotify.ERROR, 6000L);
-//                }
-//            }
-
-//        }
-//
-//        if (e.getSource() == pr.tblNewRutina) {
-//            int fila = pr.tblNewRutina.getSelectedRow();
-//            int column = pr.tblNewRutina.getSelectedColumn();
-//            if (fila >= 0 && column == 1) {
-//                try {
-//                    String idEjercicio = pr.tblNewRutina.getValueAt(fila, 0).toString();
-//                    Ejercicios ej = getEjercicio().getEjercicioById(Integer.parseInt(idEjercicio));
-//                    Musculos musculo = (Musculos) pr.cboMusculos2.getSelectedItem();
-//                    //pr.tblEjercicios2.setValueAt("Agregar", Integer.parseInt(pr.tblNewRutina.getValueAt(fila, 6).toString()), 1);
-//                    for (int i = 0; i < allEjercicios.size(); i++) {
-//                        if (allEjercicios.get(i).getObjEjerciciosID().getIdEjercicio() == Integer.parseInt(idEjercicio)) {
-//                            allEjercicios.get(i).setOpcion("Agregar");
-//                        }
-//                    }
-//                    for (int i = 0; i < newRutina.size(); i++) {
-//                        if (newRutina.get(i).getObjEjerciciosID().getIdEjercicio() == Integer.parseInt(idEjercicio)) {
-//                            newRutina.remove(i);
-//                        }
-//                    }
-//                    if (pr.tblEjercicios2.getRowCount() > 0 && musculo.getIdMusculo() == ej.getObjEjerciciosID().getIdMusculo()) {
-//                        cargarTblEjercicios2(ej.getObjEjerciciosID().getIdMusculo());
-//                    }
-//                    if (newRutina.isEmpty()) {
-//                        newRutina.clear();
-//                    }
-//                    cargarTblNewRutina();
-//                    ej = null;
-//                } catch (IOException ex) {
-//                    System.out.println("error " + ex);
-//                }
-//            }
-//
-//        }
-    }
-
-    public void EstadoMiCaja() throws ClassNotFoundException {
-//        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
-//        getMiCaja();
-//        System.out.println("iniciamos");
-//        if (pr.pnMicajaEstado.getText().equals("CERRADA") || pr.pnMicajaEstado.getText().equals("Estado")) {
-//            pr.BtnGenerarPagos.setEnabled(false);
-//        }
-//        MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-//        System.out.println("seguimos");
-//        MiCaja = MiCaja.MiCaja();
-//        System.out.println("MiCaja " + MiCaja);
-//        if (MiCaja != null) {
-//            pr.pnMicajaMns.setVisible(true);
-//            pr.pnMicajaEstado.setText("Abierta");
-//            pr.btnCaja.setText("Cerrar");
-////            pr.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Wallet.png")));
-//            CargarDatosCaja(1);
-////            pr.btnReporteCaja.setEnabled(false);
-//            pr.btnDetallePago.setEnabled(true);
-//            pr.BtnGenerarPagos.setEnabled(true);
-//            System.out.println("Mi caja : " + MiCaja.getObjCajaxUserID().getIdcaja());
-//            pr.pnMicajaMns.setText("MI CAJA #" + MiCaja.getObjCajaxUserID().getIdcaja() + "         " + dt1.format(new Date()));
-//            pr.pnMicajaMns2.setText("Historial de Pagos");
-//        } else {
-//            pr.pnMicajaMns.setVisible(false);
-//            CargarDatosCaja(2);
-//            this.pr.pnMicajaMns2.setVisible(true);
-//            pr.btnDetallePago.setEnabled(false);
-//            pr.btnCaja.setText("Abrir");
-//            this.pr.pnMicajaMns2.setText("Datos de la ultima caja Abierta ");
-//            pr.pnMicajaEstado.setText("CERRADA");
-//            pr.BtnGenerarPagos.setEnabled(false);
-////            pr.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/CashRegister.png")));
-////            pr.btnReporteCaja.setEnabled(true);
-//        }
-    }
-
-    public void CargarDatosCaja(int condicion) {
-
-//        ArrayList<PagoService> listUsuario = new ArrayList();
-//        getPagoService();
-//        if (MiCaja != null) {
-//            pagoService.getObjPagoServiceID().setIdcaja(MiCaja.getObjCajaxUserID().getIdcaja());
-//        } else {
-//            pagoService.getObjPagoServiceID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-//        }
-//
-//        listUsuario = (ArrayList<PagoService>) pagoService.ListPagosXUsers(condicion);
-//
-//        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
-//        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
-//        DefaultTableModel modelo;
-//        String Titulos[] = {"Factura", "Servicio", "Valor"};
-//        modelo = new DefaultTableModel(null, Titulos) {
-//            @Override
-//            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
-//                return false;
-//            }
-//        };
-//        Object[] columna = new Object[4];
-//        Iterator<PagoService> listPagos = listUsuario.iterator();
-//        while (listPagos.hasNext()) {
-//            PagoService u = listPagos.next();
-//            columna[0] = u.getObjPagoServiceID().getIdPago();
-//            columna[1] = u.getObjTipoService().getDescripcion();
-//            columna[2] = u.getValorTotal();
-//
-//            modelo.addRow(columna);
-//        }
-//        pr.tblListaPagos.setModel(modelo);
-//        pr.tblListaPagos.getColumnModel().getColumn(0).setPreferredWidth(100);
-//        pr.tblListaPagos.getColumnModel().getColumn(1).setPreferredWidth(100);
-//        pr.tblListaPagos.getColumnModel().getColumn(2).setPreferredWidth(100);
-//        pr.tblListaPagos.setRowHeight(30);
-////        pr.tblListaPagos.getColumnModel().getColumn(2).setCellRenderer(Alinear);
     }
 
     @Override
@@ -3450,13 +3163,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    private void cargarAllEjericios() {
-        allEjercicios.clear();
-        newRutina.clear();
-        allEjercicios = (ArrayList<Ejercicios>) getEjercicio().List();
-        setEjercicio(null);
     }
 
     public Rutina getRutina() {
@@ -3821,6 +3527,78 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         }
     }
 
+    public void CargarDatosProveedor(Proveedor p) {
+        if (p == null) {
+            M2.txtProveedorCompra.setText("");
+            M2.txtnomProveedornombre.setText("");
+            M2.txtempproemprnombre.setText("");
+
+        } else if (p != null) {
+            getPv();
+            pv = p;
+            M2.txtProveedorCompra.setText(p.getPersona().getDocumento());
+            M2.txtnomProveedornombre.setText(p.getPersona().getNombreCompleto());
+            M2.txtempproemprnombre.setText(p.getEmpresa().getNombreEmpresa());
+        }
+    }
+
+    public void cargarMenu() {
+        if (VistaActual.getMenu().length() > 1) {
+            switch (VistaActual.getMenu()) {
+                case "PnProveedores":
+                    CargarDatosInicialesProveedores(1, null);
+                    cargarTiposDocumentosProveedor();
+                    ListProveedores();
+                    showPanel(2, "PnProveedores");
+                    break;
+            }
+        }
+        VistaActual.setMenu("");
+    }
+
+    public void ListProductosAñadidos() {
+        getPr();
+        getCp();
+        M2.tableProductosAdd.removeAll();
+        TablaModel tablaModel = new TablaModel(pr.getListProductos(), 2);
+        M2.tableProductosAdd.setModel(tablaModel.ModelListProductosAñadidos());
+        M2.tableProductosAdd.getColumnModel().getColumn(0).setMaxWidth(0);
+        M2.tableProductosAdd.getColumnModel().getColumn(0).setMinWidth(0);
+        M2.tableProductosAdd.getColumnModel().getColumn(0).setPreferredWidth(0);
+        M2.tableProductosAdd.getColumnModel().getColumn(1).setPreferredWidth(10);
+        M2.tableProductosAdd.getColumnModel().getColumn(2).setPreferredWidth(50);
+        M2.tableProductosAdd.getColumnModel().getColumn(3).setPreferredWidth(30);
+        M2.tableProductosAdd.getColumnModel().getColumn(4).setPreferredWidth(10);
+        M2.tableProductosAdd.getColumnModel().getColumn(5).setPreferredWidth(10);
+        M2.tableProductosAdd.getColumnModel().getColumn(6).setPreferredWidth(10);
+        M2.tableProductosAdd.getColumnModel().getColumn(7).setPreferredWidth(10);
+        M2.tableProductosAdd.getColumnModel().getColumn(8).setPreferredWidth(10);
+        M2.tableProductosAdd.getColumnModel().getColumn(9).setPreferredWidth(10);
+
+        M2.tableProductosAdd.setRowHeight(30);
+    }
+
+    public void ListSedes() {
+        getSede();
+        ArrayList<Sedes> listSedes = new ArrayList<>();
+        listSedes = (ArrayList<Sedes>) sede.List();
+        for (Sedes sede : listSedes) {
+            M2.txtComboSedeCompra.addItem(sede);
+        }
+    }
+
+    public void ListBodegas() {
+        M2.txtComboBodegasCompra.removeAllItems();
+        getB();
+        getSede();
+        sede = (Sedes) M2.txtComboSedeCompra.getSelectedItem();
+        ArrayList<Bodega> listBodega = new ArrayList<>();
+        listBodega = (ArrayList<Bodega>) b.ListXSedes(sede.getObjSedesID().getIdSede());
+        for (Bodega bodega : listBodega) {
+            M2.txtComboBodegasCompra.addItem(bodega);
+        }
+    }
+
     public void LimpiarCampos(String menu) {
         switch (menu) {
             case "proveedores":
@@ -3829,92 +3607,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 M2.txtApellidosProve.setText("");
                 M2.txtTelefonosProve.setText("");
                 break;
-            case "empresas":
-                MR.txtDocNit.setText("");
-                MR.txtNomEmpresa.setText("");
-                MR.txtDirEmpresa.setText("");
-                MR.txtTelEmpresa.setText("");
-                setFoto("");
-                setEmpresas(null);
-                break;
-            case "rol":
-                MR.txtDescRol.setText("");
-                MR.cboEstadoRol.setSelectedIndex(0);
-                break;
         }
-    }
-
-    public void ListEmpresas(String filtro) {
-        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
-        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
-        DefaultTableModel modelo;
-        String Titulos[] = {"", "NIT", "Nombre", "Direccion", "Telefono"};
-        getEmpresas();
-        ArrayList<Empresas> listEmpresas = new ArrayList();
-        if (filtro.length() <= 0) {
-            listEmpresas = (ArrayList<Empresas>) empresas.List();
-        } else if (filtro.length() > 0) {
-            //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
-        }
-        modelo = new DefaultTableModel(null, Titulos) {
-            @Override
-            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
-                return false;
-            }
-        };
-        Object[] columna = new Object[5];
-        Iterator<Empresas> itr = listEmpresas.iterator();
-        while (itr.hasNext()) {
-            Empresas e = itr.next();
-            columna[0] = e.getIdEmpresa();
-            columna[1] = e.getNit();
-            columna[2] = e.getNombre();
-            columna[3] = e.getDireccion();
-            columna[4] = e.getTelefonos();
-            modelo.addRow(columna);
-        }
-        MR.tblEmpresas.setModel(modelo);
-        MR.tblEmpresas.getColumnModel().getColumn(0).setPreferredWidth(0);
-        MR.tblEmpresas.getColumnModel().getColumn(1).setPreferredWidth(150);
-        MR.tblEmpresas.getColumnModel().getColumn(1).setCellRenderer(Alinear);
-        MR.tblEmpresas.getColumnModel().getColumn(2).setCellRenderer(Alinear);
-        MR.tblEmpresas.getColumnModel().getColumn(3).setCellRenderer(Alinear);
-        MR.tblEmpresas.getColumnModel().getColumn(4).setCellRenderer(Alinear);
-//        table.setRowHeight(30);
-    }
-
-    public void ListRoles(String filtro) {
-        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
-        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
-        DefaultTableModel modelo;
-        String Titulos[] = {"", "Descripción", "Estado"};
-        getRol();
-        ArrayList<Rol> listRoles = new ArrayList();
-        if (filtro.length() <= 0) {
-            listRoles = (ArrayList<Rol>) rol.List();
-        } else if (filtro.length() > 0) {
-            //listEmpresaProve = (ArrayList<EmpresaProveedor>) ep.BuscarProducto(filtro);
-        }
-        modelo = new DefaultTableModel(null, Titulos) {
-            @Override
-            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
-                return false;
-            }
-        };
-        Object[] columna = new Object[4];
-        Iterator<Rol> itr = listRoles.iterator();
-        while (itr.hasNext()) {
-            Rol r = itr.next();
-            columna[0] = r.getIdRol();
-            columna[1] = r.getDescripcion();
-            columna[2] = (r.getEstado().equalsIgnoreCase("A") ? "Activo" : "Inactivo");
-            modelo.addRow(columna);
-        }
-        MR.tblRoles.setModel(modelo);
-        MR.tblRoles.getColumnModel().getColumn(0).setPreferredWidth(0);
-        MR.tblRoles.getColumnModel().getColumn(1).setCellRenderer(Alinear);
-        MR.tblRoles.getColumnModel().getColumn(2).setCellRenderer(Alinear);
-//        table.setRowHeight(30);
     }
 
     public Proveedor getPv() {
@@ -3948,6 +3641,94 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     public void setEmpresas(Empresas empresas) {
         this.empresas = empresas;
+    }
+
+    public iva getI() {
+        if (i == null) {
+            i = new iva();
+        }
+        return i;
+    }
+
+    public void setI(iva i) {
+        this.i = i;
+    }
+
+    public categoria getC() {
+        if (c == null) {
+            c = new categoria();
+        }
+        return c;
+    }
+
+    public void setC(categoria c) {
+        this.c = c;
+    }
+
+    public Unidad getU() {
+        if (u == null) {
+            u = new Unidad();
+        }
+        return u;
+    }
+
+    public void setU(Unidad u) {
+        this.u = u;
+    }
+
+    public producto getPr() {
+        if (pr == null) {
+            pr = new producto();
+        }
+        return pr;
+    }
+
+    public void setPr(producto pr) {
+        this.pr = pr;
+    }
+
+    public compra_producto getCp() {
+        if (cp == null) {
+            cp = new compra_producto();
+        }
+        return cp;
+    }
+
+    public void setCp(compra_producto cp) {
+        this.cp = cp;
+    }
+
+    public compradetalle getCd() {
+        if (cd == null) {
+            cd = new compradetalle();
+        }
+        return cd;
+    }
+
+    public void setCd(compradetalle cd) {
+        this.cd = cd;
+    }
+
+    public Bodega getB() {
+        if (b == null) {
+            b = new Bodega();
+        }
+        return b;
+    }
+
+    public void setB(Bodega b) {
+        this.b = b;
+    }
+
+    public objectobusqueda getOb() {
+        if (ob == null) {
+            ob = new objectobusqueda();
+        }
+        return ob;
+    }
+
+    public void setOb(objectobusqueda ob) {
+        this.ob = ob;
     }
 
 }

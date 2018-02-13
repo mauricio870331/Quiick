@@ -80,6 +80,7 @@ public class LoginController implements ActionListener {
                     getCM2().setUsuarioLogeado(rolu);
                     getCM3().setUsuarioLogeado(rolu);
                     getCM4().setUsuarioLogeado(rolu);
+
                     getCMRoot(rolu);
                     if (rolu.getObjRol().getDescripcion().equalsIgnoreCase("root")) {
                         InputStream img = rolu.getObjUsuario().getObjPersona().getFoto();
@@ -133,8 +134,10 @@ public class LoginController implements ActionListener {
         return GetController.getControllerM4();
     }
 
+
     public ControllerMRoot getCMRoot(RolxUser UsuarioLogeado) {
         return GetController.getControllerMRoot(UsuarioLogeado);
+
     }
 
     public int validarCampos(Object[] componentes) {
