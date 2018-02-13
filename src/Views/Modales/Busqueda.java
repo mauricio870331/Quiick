@@ -1,6 +1,9 @@
 package Views.Modales;
 
+import Controllers.ControllerM2;
+import Pojos.Proveedor;
 import Pojos.Usuario;
+import Pojos.objectobusqueda;
 import Pojos.producto;
 import java.sql.SQLException;
 import Views.Modulo1;
@@ -23,28 +26,37 @@ public class Busqueda extends javax.swing.JDialog {
     Modulo1 M1;
     Modulo2 M2;
     ArrayList<Object> listObjectos = new ArrayList();
-//    private PrincipalController prc;
+    private ControllerM2 prc;
+    objectobusqueda objecto;
 
-    public Busqueda(java.awt.Frame parent, boolean modal, int modulo) throws SQLException {
+    public Busqueda(java.awt.Frame parent, boolean modal, objectobusqueda ob) throws SQLException {
         super(parent, modal);
         initComponents();
         System.out.println("inicio edit");
         this.setLocationRelativeTo(null);
-        if (modulo == 1) {
+        this.objecto = ob;
+        this.filtro.setText(ob.getFiltro());
+        this.titulo.setText(ob.getFiltro());
+        if (this.objecto.getModulo() == 1) {
             M1 = (Modulo1) parent;
             if (M1.getVistaActual().equalsIgnoreCase("pnPagosService")
                     || M1.getVistaActual().equalsIgnoreCase("pnReportes")) {
                 CargarPersonal();
             }
-        } else if (modulo == 2) {
+        } else if (this.objecto.getModulo() == 2) {
+            prc = ob.getM2();
             M2 = (Modulo2) parent;
             System.out.println("--- " + M2.getVistaActual());
-            if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra")) {
+            if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && ob.getCondicion() == 1) {
+                System.out.println("Buscar Producto");
                 CargarProductos();
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && ob.getCondicion() == 2) {
+                System.out.println("Buscar Proveedor");
+                CargarProveedores();
+
             }
 
         }
-
     }
 
     public void CargarPersonal() {
@@ -83,7 +95,7 @@ public class Busqueda extends javax.swing.JDialog {
         producto p = new producto();
         listObjectos = (ArrayList<Object>) p.List();
         DefaultTableModel model = new DefaultTableModel();
-        String Titulos[] = {"id","Codigo", "Nombre", "Stock"};
+        String Titulos[] = {"id", "Codigo", "Nombre", "Stock"};
         model = new DefaultTableModel(null, Titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
@@ -95,7 +107,7 @@ public class Busqueda extends javax.swing.JDialog {
         Iterator<Object> nombreIterator = listObjectos.iterator();
         while (nombreIterator.hasNext()) {
             p = (producto) nombreIterator.next();
-            columna[0] = p.getCod_producto();
+            columna[0] = p.getProductosID().getCod_producto();
             columna[1] = p.getSerieproducto();
             columna[2] = p.getNombreProducto();
             columna[3] = p.getStock();
@@ -113,40 +125,94 @@ public class Busqueda extends javax.swing.JDialog {
         Datos.setModel(model);
     }
 
+    public void CargarProveedores() {
+        Proveedor p = new Proveedor();
+        listObjectos = (ArrayList<Object>) p.List();
+        DefaultTableModel model = new DefaultTableModel();
+        String Titulos[] = {"id", "Empresa", "Cedula", "Nombre"};
+        model = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[4];
+
+        Iterator<Object> nombreIterator = listObjectos.iterator();
+        while (nombreIterator.hasNext()) {
+            p = (Proveedor) nombreIterator.next();
+            columna[0] = p.getIdProveedor();
+            columna[1] = p.getEmpresa().getNombreEmpresa();
+            columna[2] = p.getPersona().getDocumento();
+            columna[3] = p.getPersona().getNombre() + " " + p.getPersona().getApellido();
+
+            model.addRow(columna);
+        }
+        Datos.setModel(model);
+        Datos.getColumnModel().getColumn(0).setMaxWidth(0);
+        Datos.getColumnModel().getColumn(0).setMaxWidth(0);
+        Datos.getColumnModel().getColumn(0).setPreferredWidth(0);
+        Datos.getColumnModel().getColumn(1).setPreferredWidth(250);
+        Datos.getColumnModel().getColumn(2).setPreferredWidth(100);
+        Datos.getColumnModel().getColumn(3).setPreferredWidth(250);
+        Datos.setRowHeight(20);
+        Datos.setModel(model);
+    }
+
     public void RecuperarElemento() {
-//        int i = Datos.getSelectedRow();
-//        String cod = "";
-//
-//        if (i == -1) {
-//            JOptionPane.showMessageDialog(null, "Favor... seleccione una fila");
-//        } else {
-//            cod = (String) Datos.getValueAt(i, 0).toString().trim();
-//            prc = GetPrincipalController.getPrincipalController();
-//            int condicion = 1;
-////            JTable table = M1.tblListaPagosXuser;
-//            for (Iterator<Object> it = listObjectos.iterator(); it.hasNext();) {
-//                if (M1.getVistaActual().equalsIgnoreCase("pnPagosService")) {
-//                    Usuario listObjecto = (Usuario) it.next();
-//                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
-//                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
-//                        prc.setUs(listObjecto);
-//                        break;
-//                    }
-//                }
-//                if (M1.getVistaActual().equalsIgnoreCase("pnReportes")) {
-//                    Usuario listObjecto = (Usuario) it.next();
-//                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
-//                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
-//                        prc.setUs(listObjecto);
-//                        condicion = 3;
-//                        table = M1.tblReportes;
-//                        break;
-//                    }
-//                }
-//            }
-//            prc.PagosBuscarPersona(condicion, table);
-//            this.dispose();
-//        }
+        int i = Datos.getSelectedRow();
+        String cod = "";
+
+        if (i == -1) {
+            JOptionPane.showMessageDialog(null, "Favor... seleccione una fila");
+        } else {
+            cod = (String) Datos.getValueAt(i, 0).toString().trim();
+            System.out.println("codigo : " + cod);
+//            JTable table = M1.tblListaPagosXuser;
+            for (Iterator<Object> it = listObjectos.iterator(); it.hasNext();) {
+                if (this.objecto.getModulo() == 1) {
+                    if (M1.getVistaActual().equalsIgnoreCase("pnPagosService")) {
+                        Usuario listObjecto = (Usuario) it.next();
+                        if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
+                            System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
+                            prc.setUs(listObjecto);
+                            break;
+                        }
+                    }
+                    if (M1.getVistaActual().equalsIgnoreCase("pnReportes")) {
+                        Usuario listObjecto = (Usuario) it.next();
+                        if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
+                            System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
+                            prc.setUs(listObjecto);
+                            //this.objecto.get = 3;
+                            //table = M1.tblReportes;
+                            break;
+                        }
+                    }
+                } else if (this.objecto.getModulo() == 2) {
+                    if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && this.objecto.getCondicion() == 1) {
+                        producto listObjecto = (producto) it.next();
+                        if (Integer.parseInt(cod) == listObjecto.getProductosID().getCod_producto().intValue()) {
+                            prc.getPr().getListProductos().add(listObjecto);
+                            prc.ListProductosAñadidos();
+                            break;
+                        }
+
+                    } else if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && this.objecto.getCondicion() == 2) {
+                        System.out.println("Buscar Proveedor");
+                        Proveedor listObjecto = (Proveedor) it.next();
+                        if (Integer.parseInt(cod) == listObjecto.getIdProveedor().intValue()) {
+                            prc.CargarDatosProveedor(listObjecto);
+                            break;
+                        }
+
+                    }
+                }
+
+            }
+            //prc.PagosBuscarPersona(condicion, table);
+            this.dispose();
+        }
 
     }
 
@@ -161,10 +227,10 @@ public class Busqueda extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         nombrePersona = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
+        filtro = new javax.swing.JLabel();
         linea1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
+        titulo = new javax.swing.JLabel();
         ContenedorBuscar = new javax.swing.JScrollPane();
         Datos = new javax.swing.JTable();
         btnBuscarCliente = new javax.swing.JButton();
@@ -180,17 +246,17 @@ public class Busqueda extends javax.swing.JDialog {
         nombrePersona.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel1.add(nombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 340, 29));
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(54, 63, 73));
-        jLabel11.setText("Nombre");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        filtro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        filtro.setForeground(new java.awt.Color(54, 63, 73));
+        filtro.setText("Nombre");
+        jPanel1.add(filtro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
         jPanel1.add(linea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 530, 10));
 
         jPanel2.setBackground(new java.awt.Color(54, 63, 73));
 
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Buscar Clientes");
+        titulo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        titulo.setForeground(new java.awt.Color(255, 255, 255));
+        titulo.setText("Buscar Clientes");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -198,18 +264,18 @@ public class Busqueda extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(225, Short.MAX_VALUE))
+                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(230, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 555, 40));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 40));
 
         Datos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -264,7 +330,6 @@ public class Busqueda extends javax.swing.JDialog {
         btnBuscarCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         btnBuscarCliente.setContentAreaFilled(false);
         btnBuscarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBuscarCliente.setEnabled(false);
         btnBuscarCliente.setFocusPainted(false);
         btnBuscarCliente.setHideActionText(true);
         btnBuscarCliente.setIconTextGap(3);
@@ -309,7 +374,9 @@ public class Busqueda extends javax.swing.JDialog {
     private void DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DatosMouseClicked
         //        // TODO add your handling code here:
         //        System.out.println("click : " + evt.getClickCount());
-        RecuperarElemento();
+        if (evt.getClickCount() == 2) {
+            RecuperarElemento();
+        }
 
     }//GEN-LAST:event_DatosMouseClicked
 
@@ -383,11 +450,11 @@ public class Busqueda extends javax.swing.JDialog {
     private javax.swing.JScrollPane ContenedorBuscar;
     private javax.swing.JTable Datos;
     public javax.swing.JButton btnBuscarCliente;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel filtro;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator linea1;
     private javax.swing.JTextField nombrePersona;
+    private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
 }

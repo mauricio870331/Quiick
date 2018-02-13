@@ -9,6 +9,7 @@ import Pojos.*;
 import Utils.ImagensTabla;
 import Utils.Reportes;
 import Utils.TablaModel;
+import Utils.VistaActual;
 import Views.Modulo1;
 import Views.FrmCapturePict;
 import Views.Modales.Busqueda;
@@ -220,6 +221,12 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+
+        if (e.getSource() == M1.btnProveedores ) {
+            VistaActual.setMenu("PnProveedores");
+            showPanel(2, "PnProveedores");
+        }
+
 //        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
 //            System.out.println("Ingreso a proveedores");
 //            CargarDatosInicialesProveedores(1, null);
@@ -227,6 +234,7 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
 //            ListProveedores();
 //            showPanel(2, "PnProveedores");
 //        }
+
 
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
@@ -2198,18 +2206,7 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
                 break;
             case 2:
                 M1.setVisible(false);
-                M2.setVisible(true);
-                M2.setVistaActual(string);
-                switch (string) {
-                    case "PnProveedores":
-                        M2.PnEmpresaProveedor.setVisible(false);
-                        M2.PnProveedores.setVisible(true);
-                        break;
-                    case "PnEmpresaProveedor":
-                        M2.PnEmpresaProveedor.setVisible(true);
-                        M2.PnProveedores.setVisible(false);
-                        break;
-                }
+                M2.setVisible(true);               
                 break;
             case 3:
                 M3.setVistaActual(string);
