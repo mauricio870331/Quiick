@@ -176,7 +176,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-
         if (e.getSource() == M2.btnCompraNueva) {
             getCp();
             getCd();
@@ -243,10 +242,10 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
         if (e.getSource() == M2.BntTranCompraNuevo) {
             try {
-                new NuevoProducto(M2, true, this).setVisible(true);
+                new NuevoProducto(M2, true, M2).setVisible(true);
             } catch (SQLException ex) {
-                System.out.println("Error al abrir modal");
-            }
+                 System.out.println("Error al abrir modal");
+            }           
         }
 
         if (e.getSource() == M2.btnCompraTrans) {
@@ -277,8 +276,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            ListProveedores();
 //            showPanel(2, "PnProveedores");
 //        }
-
-
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
             getP();
@@ -468,7 +465,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             ListEmpresasProveedor("");
             showPanel(2, "PnEmpresaProveedor");
         }
-
 
 //
 //        if (e.getSource() == pr.mnuEditFechasPagos) {
@@ -2028,202 +2024,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            ListRoles("");
 //            showPanel(1, "pnRoles");
 //        }
-
-        if (e.getSource() == MR.btnGuardarEmpresa) {
-            Object[] componentes = {MR.txtDocNit, MR.txtNomEmpresa};
-            if (validarCampos(componentes, "", MR) == 0) {
-                getEmpresas();
-                empresas.setNit(MR.txtDocNit.getText());
-                empresas.setNombre(MR.txtNomEmpresa.getText());
-                empresas.setDireccion(MR.txtDirEmpresa.getText());
-                empresas.setTelefonos(MR.txtTelEmpresa.getText());
-                empresas.setPathLogo(foto);
-                empresas.setCreate_at(new Date());
-                int result = 0;
-                String msn = "Empresa creada con exito..!";
-                String msnerror = "Ocurrio un error al crear la empresa..!";
-                if (MR.btnGuardarEmpresa.getText().equalsIgnoreCase("Guardar")) {
-                    result = empresas.create();
-                } else {
-                    msn = "Empresa editada con exito..!";
-                    msnerror = "Ocurrio un error al editar la empresa..!";
-                    empresas.setIdEmpresa(((Empresas) currentObject).getIdEmpresa());
-                    result = empresas.edit();
-                }
-                if (result > 0) {
-                    DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
-                    setFoto("");
-                    setEmpresas(null);
-                    ListEmpresas("");
-                    currentObject = null;
-                    LimpiarCampos("empresas");
-                    MR.btnGuardarEmpresa.setText("Guardar");
-                } else {
-                    DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
-                }
-
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
-            }
-        }
-
-        if (e.getSource() == MR.btnCancelarEmpresa) {
-            currentObject = null;
-            LimpiarCampos("empresas");
-        }
-
-        if (e.getSource() == MR.mnuEditEmpresa) {
-            MR.btnGuardarEmpresa.setText("Editar");
-            int fila = MR.tblEmpresas.getSelectedRow();
-            if (fila >= 0) {
-                getEmpresas();
-                currentObject = empresas.findById(Integer.parseInt(MR.tblEmpresas.getValueAt(fila, 0).toString()));
-                if (currentObject != null) {
-                    MR.txtDocNit.setText(((Empresas) currentObject).getNit());
-                    MR.txtNomEmpresa.setText(((Empresas) currentObject).getNombre());
-                    MR.txtDirEmpresa.setText(((Empresas) currentObject).getDireccion());
-                    MR.txtTelEmpresa.setText(((Empresas) currentObject).getTelefonos());
-                    InputStream img = ((Empresas) currentObject).getLogo();
-                    if (img != null) {
-                        BufferedImage bi;
-                        try {
-                            bi = ImageIO.read(img);
-                            ii = new ImageIcon(bi);
-                            Image conver = ii.getImage();
-                            Image tam = conver.getScaledInstance(MR.lblLogoEmpresa.getWidth(), MR.lblLogoEmpresa.getHeight(), Image.SCALE_SMOOTH);
-                            iin = new ImageIcon(tam);
-                            MR.lblLogoEmpresa.setIcon(iin);
-                        } catch (IOException ex) {
-                            System.out.println("error " + ex);
-                        }
-
-                    } else {
-                        MR.lblLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user40.png")));
-                    }
-                }
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-            }
-        }
-
-        if (e.getSource() == MR.mnuDeleteEmpresa) {
-            int fila = MR.tblEmpresas.getSelectedRow();
-            if (fila >= 0) {
-                Object[] opciones = {"Si", "No"};
-                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar la empresa?", "Mensaje de Confirmación",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-                if (eleccion == JOptionPane.YES_OPTION) {
-                    int id_empresa = Integer.parseInt(MR.tblEmpresas.getValueAt(fila, 0).toString());
-                    getEmpresas();
-                    empresas.setIdEmpresa(id_empresa);
-                    if (empresas.remove() > 0) {
-                        DesktopNotify.showDesktopMessage("Informacion..!", "Empresa Eliminada con exito", DesktopNotify.SUCCESS, 6000L);
-                        setEmpresas(null);
-                        ListEmpresas("");
-                    } else {
-                        DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar la empresa", DesktopNotify.ERROR, 5000L);
-                    }
-                }
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-            }
-        }
-
-        if (e.getSource() == MR.mnuNewSede) {
-            int fila = MR.tblEmpresas.getSelectedRow();
-            if (fila >= 0) {
-                try {
-                    NuevaSede s = new NuevaSede(MR, true, Integer.parseInt(MR.tblEmpresas.getValueAt(fila, 0).toString()));
-                    s.setLocationRelativeTo(null);
-                    s.setVisible(true);
-                } catch (SQLException ex) {
-                    System.out.println("error linea 1541 " + ex);
-                }
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-            }
-        }
-
-        //******Crud Roles ********\\
-        if (e.getSource() == MR.btnGuardarRol) {
-            Object[] componentes = {MR.txtDescRol, MR.cboEstadoRol};
-            if (validarCampos(componentes, "", MR) == 0) {
-                getRol();
-                rol.setDescripcion(MR.txtDescRol.getText());
-                rol.setEstado((String) MR.cboEstadoRol.getSelectedItem());
-                int result = 0;
-                String msn = "Rol creado con exito..!";
-                String msnerror = "Ocurrio un error al crear el rol..!";
-                if (MR.btnGuardarRol.getText().equalsIgnoreCase("Guardar")) {
-                    result = rol.create();
-                } else {
-                    msn = "Rol editado con exito..!";
-                    msnerror = "Ocurrio un error al editar el rol..!";
-                    rol.setIdRol(((Rol) currentObject).getIdRol());
-                    result = rol.edit();
-                }
-                if (result > 0) {
-                    DesktopNotify.showDesktopMessage("Aviso..!", msn, DesktopNotify.SUCCESS, 5000L);
-                    setRol(null);
-                    ListRoles("");
-                    currentObject = null;
-                    LimpiarCampos("rol");
-                    MR.btnGuardarRol.setText("Guardar");
-                } else {
-                    DesktopNotify.showDesktopMessage("Aviso..!", msnerror, DesktopNotify.FAIL, 5000L);
-                }
-
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Los campos Marcados en rojo son obligatorios...!", DesktopNotify.ERROR, 5000L);
-            }
-        }
-
-        if (e.getSource() == MR.btnCancelarRol) {
-            currentObject = null;
-            LimpiarCampos("rol");
-        }
-
-        if (e.getSource() == MR.mnuEditRol) {
-            MR.btnGuardarRol.setText("Editar");
-            int fila = MR.tblRoles.getSelectedRow();
-            if (fila >= 0) {
-                getRol();
-                currentObject = rol.getRolbyId(Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()));
-                if (currentObject != null) {
-                    MR.txtDescRol.setText(((Rol) currentObject).getDescripcion());
-                    MR.cboEstadoRol.setSelectedItem((((Rol) currentObject).getEstado().equalsIgnoreCase("A")) ? "Activo" : "Inactivo");
-                }
-                setRol(null);
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-            }
-        }        
-        
-        if (e.getSource() == MR.mnuDeleteRol) {
-            int fila = MR.tblRoles.getSelectedRow();
-            if (fila >= 0) {
-                Object[] opciones = {"Si", "No"};
-                int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el rol?", "Mensaje de Confirmación",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-                if (eleccion == JOptionPane.YES_OPTION) {                    
-                    getRol();
-                    rol.setIdRol(Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()));
-                    if (rol.remove() > 0) {
-                        DesktopNotify.showDesktopMessage("Informacion..!", "Rol Eliminado con exito", DesktopNotify.SUCCESS, 6000L);
-                        setRol(null);
-                        ListRoles("");
-                    } else {
-                        DesktopNotify.showDesktopMessage("Aviso..!", "Ocurrio un error al eliminar el rol", DesktopNotify.ERROR, 5000L);
-                    }
-                }
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
-            }
-        }
-
-        //******Fin Crud Roles ********\\
+       
     }
 
     private void addFilter() {
@@ -2249,17 +2050,31 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 }
                 break;
             case 2:
-                M1.setVisible(false);
-                M2.setVisible(true);
                 M2.setVistaActual(string);
                 switch (string) {
                     case "PnProveedores":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(true);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
                         break;
                     case "PnEmpresaProveedor":
                         M2.PnEmpresaProveedor.setVisible(true);
                         M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        break;
+                    case "PnCompras":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        M2.PnCompras.setVisible(true);
+                        break;
+                    case "PnTransCompra":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(true);
                         break;
                 }
                 break;
@@ -2759,58 +2574,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     }
 
-    private void addFilter() {
-        FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
-        FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.JPG)", "jpg"));
-        System.err.println("---");
-    }
-
-    public void showPanel(int Modulo, String string) {
-        switch (Modulo) {
-            case 1:
-                M2.setVisible(false);
-                MR.setVisible(true);
-                break;
-            case 2:
-                M2.setVistaActual(string);
-                switch (string) {
-                    case "PnProveedores":
-                        M2.PnEmpresaProveedor.setVisible(false);
-                        M2.PnProveedores.setVisible(true);
-                        M2.PnCompras.setVisible(false);
-                        M2.PnTransCompra.setVisible(false);
-                        break;
-                    case "PnEmpresaProveedor":
-                        M2.PnEmpresaProveedor.setVisible(true);
-                        M2.PnProveedores.setVisible(false);
-                        M2.PnCompras.setVisible(false);
-                        M2.PnTransCompra.setVisible(false);
-                        break;
-                    case "PnCompras":
-                        M2.PnEmpresaProveedor.setVisible(false);
-                        M2.PnProveedores.setVisible(false);
-                        M2.PnTransCompra.setVisible(false);
-                        M2.PnCompras.setVisible(true);
-                        break;
-                    case "PnTransCompra":
-                        M2.PnEmpresaProveedor.setVisible(false);
-                        M2.PnProveedores.setVisible(false);
-                        M2.PnCompras.setVisible(false);
-                        M2.PnTransCompra.setVisible(true);
-                        break;
-                }
-                break;
-            case 3:
-                M3.setVistaActual(string);
-                break;
-            case 4:
-                M4.setVistaActual(string);
-                break;
-
-        }
-
-    }
-
     public CaptureFinger getCf() {
         if (cf == null) {
             cf = new CaptureFinger();
@@ -2930,7 +2693,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     }
 
     public void setUltimo() {
-        float totalRegistros = getRuxuser().CountRs(filtro,"");
+        float totalRegistros = getRuxuser().CountRs(filtro, "");
         float totalPaginas = totalRegistros / cantidadregistros;
         int ultimo = (int) (totalRegistros) - (((int) totalPaginas % 2 == 0) ? cantidadregistros : 1);
         desde = ultimo;
