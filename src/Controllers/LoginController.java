@@ -22,6 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import Pojos.RolxUser;
+import Views.Modulo2;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
     private final ModuloRoot MR = GetPrincipal.getModuloRoot();
+    private final Modulo2 M2 = GetPrincipal.getModulo2();
     Bienvenida bienvenida;
     Usuario u = null;
     private Set<Integer> pressed = new HashSet();
@@ -101,7 +103,8 @@ public class LoginController implements ActionListener {
                         MR.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
                         MR.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
 //                        MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                        MR.setVisible(true);
+//                        MR.setVisible(true);
+                       M2.setVisible(true);
                     } else {
                         getBienvenida(rolu);
                     }
@@ -133,7 +136,6 @@ public class LoginController implements ActionListener {
     public ControllerM4 getCM4() {
         return GetController.getControllerM4();
     }
-
 
     public ControllerMRoot getCMRoot(RolxUser UsuarioLogeado) {
         return GetController.getControllerMRoot(UsuarioLogeado);
