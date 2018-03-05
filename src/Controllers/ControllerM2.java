@@ -147,6 +147,10 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.btnCompraNueva.addActionListener(this);
         M2.txtComboSedeCompra.addActionListener(this);
         M2.mnuBuscarProveedor.addActionListener(this);
+        M2.btnTransaccionCaja.addActionListener(this);
+        M2.BntTranVentaBuscar.addActionListener(this);
+        M2.btnventa.addActionListener(this);
+
         Adaptador();
         cargarMenu();
 
@@ -174,6 +178,11 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == M2.btnventa) {
+            CalculosVenta();
+            showPanel(2, "PnTransVenta");
+        }
 
         if (e.getSource() == M2.btnCompraNueva) {
             getCp();
@@ -233,7 +242,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             }
         }
 
-        if (e.getSource() == M2.BntTranCompraBuscar) {
+        if (e.getSource() == M2.BntTranCompraBuscar || e.getSource() == M2.BntTranVentaBuscar) {
             try {
                 System.out.println("Click en buscar producto");
                 getOb();
@@ -743,15 +752,16 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            }
 //        }
 //
-//        if (e.getSource() == pr.btnTransaccionCaja || e.getSource() == pr.btnBackReports) {
-//            try {
-//                EstadoMiCaja();
-//                showPanel("btnTransaccionCaja");
-//            } catch (ClassNotFoundException ex) {
-//                System.out.println("Error al Validar Estado de la caja.");
-//            }
-//        }
-//
+        if (e.getSource() == M2.btnTransaccionCaja) {
+            try {
+                System.out.println("Transaccion de caja");
+                EstadoMiCaja();
+                showPanel(2, "btnTransaccionCaja");
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Error al Validar Estado de la caja.");
+            }
+        }
+
 //        if (e.getSource() == pr.btnCaja) {
 //            if (pr.pnMicajaEstado.getText().equalsIgnoreCase("Cerrada")) {
 //                String base = JOptionPane.showInputDialog(null, "Base :", "Abrir Turno", 1);
@@ -2047,9 +2057,10 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     public void showPanel(int Modulo, String string) {
         switch (Modulo) {
             case 1:
-                M2.setVisible(false);
-                MR.setVisible(true);
+                M2.setVisible(true);
+                MR.setVisible(false);
                 MR.setVistaActual(string);
+                M2.setVistaActual(string);
                 switch (string) {
                     case "pnEmpresas":
                         MR.pnRoles.setVisible(false);
@@ -2068,25 +2079,49 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(true);
                         M2.PnCompras.setVisible(false);
+                        M2.pnMiCaja.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
                         M2.PnTransCompra.setVisible(false);
                         break;
                     case "PnEmpresaProveedor":
                         M2.PnEmpresaProveedor.setVisible(true);
                         M2.PnProveedores.setVisible(false);
                         M2.PnCompras.setVisible(false);
+                        M2.pnMiCaja.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
                         M2.PnTransCompra.setVisible(false);
                         break;
                     case "PnCompras":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(false);
                         M2.PnTransCompra.setVisible(false);
+                        M2.pnMiCaja.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
                         M2.PnCompras.setVisible(true);
                         break;
                     case "PnTransCompra":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(false);
                         M2.PnCompras.setVisible(false);
+                        M2.pnMiCaja.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
                         M2.PnTransCompra.setVisible(true);
+                        break;
+                    case "btnTransaccionCaja":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
+                        M2.pnMiCaja.setVisible(true);
+                        break;
+                    case "PnTransVenta":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        M2.PnTransVenta.setVisible(true);
+                        M2.pnMiCaja.setVisible(false);
                         break;
                 }
                 break;
@@ -3059,6 +3094,43 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     }
 
+    public void EstadoMiCaja() throws ClassNotFoundException {
+//        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
+//        getMiCaja();
+//        System.out.println("iniciamos");
+//        if (pr.pnMicajaEstado.getText().equals("CERRADA") || pr.pnMicajaEstado.getText().equals("Estado")) {
+//            pr.BtnGenerarPagos.setEnabled(false);
+//        }
+//        MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+//        System.out.println("seguimos");
+//        MiCaja = MiCaja.MiCaja();
+//        System.out.println("MiCaja " + MiCaja);
+//        if (MiCaja != null) {
+//            pr.pnMicajaMns.setVisible(true);
+//            pr.pnMicajaEstado.setText("Abierta");
+//            pr.btnCaja.setText("Cerrar");
+////            pr.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Wallet.png")));
+//            CargarDatosCaja(1);
+////            pr.btnReporteCaja.setEnabled(false);
+//            pr.btnDetallePago.setEnabled(true);
+//            pr.BtnGenerarPagos.setEnabled(true);
+//            System.out.println("Mi caja : " + MiCaja.getObjCajaxUserID().getIdcaja());
+//            pr.pnMicajaMns.setText("MI CAJA #" + MiCaja.getObjCajaxUserID().getIdcaja() + "         " + dt1.format(new Date()));
+//            pr.pnMicajaMns2.setText("Historial de Pagos");
+//        } else {
+//            pr.pnMicajaMns.setVisible(false);
+//            CargarDatosCaja(2);
+//            this.pr.pnMicajaMns2.setVisible(true);
+//            pr.btnDetallePago.setEnabled(false);
+//            pr.btnCaja.setText("Abrir");
+//            this.pr.pnMicajaMns2.setText("Datos de la ultima caja Abierta ");
+//            pr.pnMicajaEstado.setText("CERRADA");
+//            pr.BtnGenerarPagos.setEnabled(false);
+//            pr.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/CashRegister.png")));
+//            pr.btnReporteCaja.setEnabled(true);
+//        }
+    }
+
     public CajaXUser getMiCaja() {
         if (MiCaja == null) {
             MiCaja = new CajaXUser();
@@ -3351,6 +3423,49 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.tableProductosAdd.getColumnModel().getColumn(9).setPreferredWidth(10);
 
         M2.tableProductosAdd.setRowHeight(30);
+    }
+
+    public void ListProductosVenta() {
+        getPr();
+        M2.VentaProductosAdd.removeAll();
+        TablaModel tablaModel = new TablaModel(pr.getListProductos(), 2);
+        M2.VentaProductosAdd.setModel(tablaModel.ModelListProductosVenta());
+        M2.VentaProductosAdd.getColumnModel().getColumn(0).setMaxWidth(0);
+        M2.VentaProductosAdd.getColumnModel().getColumn(0).setMinWidth(0);
+        M2.VentaProductosAdd.getColumnModel().getColumn(0).setPreferredWidth(0);
+        M2.VentaProductosAdd.getColumnModel().getColumn(1).setPreferredWidth(10);
+        M2.VentaProductosAdd.getColumnModel().getColumn(2).setPreferredWidth(50);
+        M2.VentaProductosAdd.getColumnModel().getColumn(3).setPreferredWidth(30);
+        M2.VentaProductosAdd.getColumnModel().getColumn(4).setPreferredWidth(10);
+        M2.VentaProductosAdd.getColumnModel().getColumn(5).setPreferredWidth(10);
+        M2.tableProductosAdd.setRowHeight(30);
+    }
+
+    public void CalculosVenta() {
+        getPr();
+        double subtotal = 0;
+        double ValorIva = 0;
+        double ValorPorcentaje = 0;
+        double Devuelta = 0;
+        for (producto p : pr.getListProductos()) {
+            subtotal += (p.getPrecio_venta().doubleValue());
+            ValorIva += (p.getPrecio_venta().doubleValue() * p.getIvaP().getPorcentaje().doubleValue());
+        }
+        System.out.println("--- " + subtotal);
+        M2.txtSubTotalVenta.setText("" + subtotal);
+        M2.txtVentPorcentaje.setText("0");
+
+        ValorPorcentaje = (subtotal * Double.parseDouble(M2.txtVentPorcentaje.getText()));
+
+        M2.txtVentValorDesc.setText("" + ValorPorcentaje);
+        M2.txtVentaValorIva.setText("" + ValorIva);
+
+        Devuelta = (Double.parseDouble(M2.txtVentEfectivo.getText().length() > 0 ? M2.txtVentEfectivo.getText() : "0")
+                - M2.txtVentEfectivo.getText().length() > 0 ? (subtotal - ValorPorcentaje) : 0);
+
+        M2.txtVentaValorTotal.setText("TOTAL : $ " + (subtotal - ValorPorcentaje));
+        M2.txtVentaDevuelta.setText("DEVUELTA : $ " + Devuelta);
+
     }
 
     public void ListSedes() {

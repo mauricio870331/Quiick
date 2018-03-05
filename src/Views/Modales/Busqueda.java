@@ -35,8 +35,8 @@ public class Busqueda extends javax.swing.JDialog {
         System.out.println("inicio edit");
         this.setLocationRelativeTo(null);
         this.objecto = ob;
-        this.filtro.setText(ob.getFiltro());
-        this.titulo.setText(ob.getFiltro());
+        this.titulo.setText(ob.getTitulo());
+
         if (this.objecto.getModulo() == 1) {
             M1 = (Modulo1) parent;
             if (M1.getVistaActual().equalsIgnoreCase("pnPagosService")
@@ -53,9 +53,13 @@ public class Busqueda extends javax.swing.JDialog {
             } else if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && ob.getCondicion() == 2) {
                 System.out.println("Buscar Proveedor");
                 CargarProveedores();
-
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && ob.getCondicion() == 1) {
+                System.out.println("Buscar Producto");
+                CargarProductos();
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && ob.getCondicion() == 2) {
+                System.out.println("Buscar Producto");
+                CargarProductos();
             }
-
         }
     }
 
@@ -64,6 +68,38 @@ public class Busqueda extends javax.swing.JDialog {
         listObjectos = (ArrayList<Object>) p.ListaUsuarios();
         DefaultTableModel model = new DefaultTableModel();
         String Titulos[] = {"id", "Cedula", "Nombre"};
+        model = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[3];
+
+        Iterator<Object> nombreIterator = listObjectos.iterator();
+        while (nombreIterator.hasNext()) {
+            p = (Usuario) nombreIterator.next();
+            columna[0] = p.getObjPersona().getIdPersona();
+            columna[1] = p.getObjPersona().getDocumento();
+            columna[2] = p.getObjPersona().getNombreCompleto();
+
+            model.addRow(columna);
+        }
+        Datos.setModel(model);
+        Datos.getColumnModel().getColumn(0).setMaxWidth(0);
+        Datos.getColumnModel().getColumn(0).setMaxWidth(0);
+        Datos.getColumnModel().getColumn(0).setPreferredWidth(0);
+        Datos.getColumnModel().getColumn(1).setPreferredWidth(250);
+        Datos.getColumnModel().getColumn(2).setPreferredWidth(100);
+        Datos.setRowHeight(20);
+        Datos.setModel(model);
+    }
+
+    public void CargarCliente() {
+        Usuario p = new Usuario();
+        listObjectos = (ArrayList<Object>) p.ListaUsuarios();
+        DefaultTableModel model = new DefaultTableModel();
+        String Titulos[] = {"id", "Cedula", "Nombre", "Direccion"};
         model = new DefaultTableModel(null, Titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
@@ -206,6 +242,15 @@ public class Busqueda extends javax.swing.JDialog {
                             break;
                         }
 
+                    } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && this.objecto.getCondicion() == 1) {
+                        producto listObjecto = (producto) it.next();
+                        if (Integer.parseInt(cod) == listObjecto.getProductosID().getCod_producto().intValue()) {
+                            listObjecto.setCantidad(1);
+                            prc.getPr().getListProductos().add(listObjecto);
+                            prc.ListProductosVenta();
+                            prc.CalculosVenta();
+                            break;
+                        }
                     }
                 }
 

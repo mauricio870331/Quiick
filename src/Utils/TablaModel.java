@@ -178,11 +178,44 @@ public class TablaModel {
 
         return model;
     }
+    
+    public DefaultTableModel ModelListProductosVenta() {
+        DefaultTableModel model = new DefaultTableModel();
+        String Titulos[] = {"#", "Codigo", "Nombre", "Cantidad", "Unidad", "Valor"};
+        model = new DefaultTableModel(null, Titulos) {
+            boolean[] canEdit = new boolean[]{
+                false, false, false, true,  false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+
+        Object[] columna = new Object[6];
+        producto temp = null;
+        Iterator<producto> nombreIterator = listproductos.iterator();
+        while (nombreIterator.hasNext()) {
+            temp = nombreIterator.next();
+            System.out.println("Codigo de Producto : " + temp.getProductosID().getCod_producto());
+            columna[0] = temp.getProductosID().getCod_producto();
+            columna[1] = temp.getSerieproducto();
+            columna[2] = temp.getNombreProducto();
+            columna[3] = temp.getCantidad();
+            columna[4] = temp.getUnidad().getSiglas();                        
+            columna[5] = temp.getPrecio_venta();
+
+            model.addRow(columna);
+        }
+        model.addRow(new Object[]{"", ""});
+
+        return model;
+    }
 
     public DefaultTableModel ModelListEmpresasProveedor() {
         DefaultTableModel model = new DefaultTableModel();
-        String Titulos[] = {"#", "Nombre Empresa", "Nit", "Direccion", "Telefono"};
-        model = new DefaultTableModel(null, Titulos) {
+        String Titulo[] = {"#", "Nombre Empresa", "Nit", "Direccion", "Telefono"};
+        model = new DefaultTableModel(null, Titulo) {
             boolean[] canEdit = new boolean[]{
                 false, false, false, false, false
             };
