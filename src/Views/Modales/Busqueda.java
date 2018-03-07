@@ -2,6 +2,7 @@ package Views.Modales;
 
 import Controllers.ControllerM2;
 import Pojos.Cliente;
+import Pojos.Contenedor;
 import Pojos.Proveedor;
 import Pojos.Usuario;
 import Pojos.objectobusqueda;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import Views.Modulo1;
 import Views.Modulo2;
 import ds.desktop.notify.DesktopNotify;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
@@ -228,17 +230,18 @@ public class Busqueda extends javax.swing.JDialog {
                         if (Integer.parseInt(cod) == listObjecto.getProductosID().getCod_producto().intValue()) {
 
                             boolean r = false;
-
-                            for (producto listProducto : prc.getPr().getListProductos()) {
-                                if (listProducto.getProductosID().getCod_producto() == listObjecto.getProductosID().getCod_producto()) {
+                            System.out.println("CAntidad : " + Contenedor.getListProductos().size());
+                            for (producto listProducto : Contenedor.getListProductos()) {
+                                if (listProducto.getProductosID().getCod_producto().intValue() == listObjecto.getProductosID().getCod_producto().intValue()) {
                                     listProducto.setCantidad(listProducto.getCantidad() + 1);
+                                    listProducto.setPrecio_venta(listProducto.getPrecio_venta().multiply(new BigDecimal(listProducto.getCantidad())));
                                     r = true;
                                     break;
                                 }
                             }
                             if (r == false) {
                                 listObjecto.setCantidad(1);
-                                prc.getPr().getListProductos().add(listObjecto);
+                                Contenedor.getListProductos().add(listObjecto);
                             }
 
                             prc.ListProductosVenta();

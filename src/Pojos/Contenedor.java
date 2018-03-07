@@ -6,6 +6,7 @@
 package Pojos;
 
 import Views.Login;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,18 +14,15 @@ import Views.Login;
  */
 public class Contenedor {
 
-    public static objectobusqueda ob = null;
+    public static ArrayList<producto> ListProductos=new ArrayList();
 
-    public static objectobusqueda getLogin() {
-        try {
-            if (ob == null) {
-                ob = new objectobusqueda();
-            } else {
-                System.out.println("Login ya estaba instanceado");
-            }
-        } catch (Exception e) {
-            System.out.println("error = " + e);
-        }
-        return ob;
+    public static ArrayList<producto> getListProductos() {
+        return ListProductos;
     }
+
+    public static void setListProductos(ArrayList<producto> ListProductos) {
+        Contenedor.ListProductos = ListProductos;
+    }
+    
+    
 }

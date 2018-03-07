@@ -245,7 +245,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jLabel113 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         jPanel71 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        txtFacturaVenta = new javax.swing.JLabel();
         pnMiCaja = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -1544,7 +1544,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addComponent(jLabel102, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtComboBodegasCompra))
                 .addGap(19, 19, 19)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2057,10 +2057,10 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel71.setBackground(new java.awt.Color(204, 204, 204));
         jPanel71.setPreferredSize(new java.awt.Dimension(1275, 35));
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("VENTA");
+        txtFacturaVenta.setBackground(new java.awt.Color(255, 255, 255));
+        txtFacturaVenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtFacturaVenta.setForeground(new java.awt.Color(255, 255, 255));
+        txtFacturaVenta.setText("VENTA");
 
         javax.swing.GroupLayout jPanel71Layout = new javax.swing.GroupLayout(jPanel71);
         jPanel71.setLayout(jPanel71Layout);
@@ -2068,12 +2068,12 @@ public class Modulo2 extends javax.swing.JFrame {
             jPanel71Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel71Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(731, Short.MAX_VALUE))
+                .addComponent(txtFacturaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(540, Short.MAX_VALUE))
         );
         jPanel71Layout.setVerticalGroup(
             jPanel71Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(txtFacturaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         PnTransVenta.add(jPanel71, java.awt.BorderLayout.PAGE_START);
@@ -2329,7 +2329,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addComponent(PnCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
                     .addGap(14, 14, 14)))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(PnTransVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE))
+                .addComponent(PnTransVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 980, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -2352,7 +2352,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addGap(2, 2, 2)))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                    .addComponent(PnTransVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
+                    .addComponent(PnTransVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 696, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
@@ -2679,7 +2679,6 @@ public class Modulo2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel114;
     private javax.swing.JLabel jLabel115;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
@@ -2793,6 +2792,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JComboBox<String> txtEstadoCompra;
     public javax.swing.JComboBox<String> txtEstadoCompra1;
     public javax.swing.JTextField txtFacCompra;
+    private javax.swing.JLabel txtFacturaVenta;
     public com.toedter.calendar.JDateChooser txtFechaCompra;
     public javax.swing.JTextField txtFindUser1;
     public javax.swing.JTextField txtNombresProve;

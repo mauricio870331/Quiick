@@ -134,6 +134,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.mnuBuscarCliente.addActionListener(this);
         M2.txtVentaCodCliente.addKeyListener(this);
         M2.btnventa.addActionListener(this);
+        M2.txtVentEfectivo.addKeyListener(this);
 
         Adaptador();
         cargarMenu();
@@ -183,7 +184,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             cl.setCodCliente(new BigDecimal(1));
             M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
             M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
-
+            Contenedor.getListProductos().clear();
             showPanel(2, "PnTransVenta");
         }
 
@@ -3016,6 +3017,8 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             } else {
                 PasarClienteventa(ListCliente.get(0));
             }
+        } else if (e.getSource() == M2.txtVentEfectivo && e.getKeyCode() == 10) {
+            CalculosVenta();
         }
 
     }
@@ -3451,9 +3454,8 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     }
 
     public void ListProductosVenta() {
-        getPr();
         M2.VentaProductosAdd.removeAll();
-        TablaModel tablaModel = new TablaModel(pr.getListProductos(), 2);
+        TablaModel tablaModel = new TablaModel(Contenedor.getListProductos(), 2);
         M2.VentaProductosAdd.setModel(tablaModel.ModelListProductosVenta());
         M2.VentaProductosAdd.getColumnModel().getColumn(0).setMaxWidth(0);
         M2.VentaProductosAdd.getColumnModel().getColumn(0).setMinWidth(0);
@@ -3472,7 +3474,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         double ValorIva = 0;
         double ValorPorcentaje = 0;
         double Devuelta = 0;
-        for (producto p : pr.getListProductos()) {
+        for (producto p : Contenedor.getListProductos()) {
             subtotal += (p.getPrecio_venta().doubleValue());
             ValorIva += (p.getPrecio_venta().doubleValue() * p.getIvaP().getPorcentaje().doubleValue());
         }
@@ -3485,11 +3487,12 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.txtVentValorDesc.setText("" + ValorPorcentaje);
         M2.txtVentaValorIva.setText("" + ValorIva);
 
-        Devuelta = (Double.parseDouble(M2.txtVentEfectivo.getText().length() > 0 ? M2.txtVentEfectivo.getText() : "0")
-                - M2.txtVentEfectivo.getText().length() > 0 ? (subtotal - ValorPorcentaje) : 0);
+        System.out.println("Efectivo : " + M2.txtVentEfectivo.getText());
+
+        Devuelta = Double.parseDouble(M2.txtVentEfectivo.getText().length() > 0 ? M2.txtVentEfectivo.getText() : "0");
 
         M2.txtVentaValorTotal.setText("TOTAL : $ " + (subtotal - ValorPorcentaje));
-        M2.txtVentaDevuelta.setText("DEVOLUCION : $ " + Devuelta);
+        M2.txtVentaDevuelta.setText("DEVOLUCION : $ " + (M2.txtVentEfectivo.getText().length() > 0 ? (Devuelta - (subtotal - ValorPorcentaje)) : 0));
 
     }
 
