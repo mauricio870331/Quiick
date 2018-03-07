@@ -1,17 +1,19 @@
 package Views.Modales;
 
 import Controllers.ControllerM2;
+import Pojos.Cliente;
 import Pojos.Proveedor;
 import Pojos.Usuario;
 import Pojos.objectobusqueda;
 import Pojos.producto;
+import Utils.TablaModel;
 import java.sql.SQLException;
 import Views.Modulo1;
 import Views.Modulo2;
+import ds.desktop.notify.DesktopNotify;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,6 +28,7 @@ public class Busqueda extends javax.swing.JDialog {
     Modulo1 M1;
     Modulo2 M2;
     ArrayList<Object> listObjectos = new ArrayList();
+    ArrayList<Object> listObjectosFiltro = new ArrayList();
     private ControllerM2 prc;
     objectobusqueda objecto;
 
@@ -36,29 +39,41 @@ public class Busqueda extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.objecto = ob;
         this.titulo.setText(ob.getTitulo());
-
         if (this.objecto.getModulo() == 1) {
             M1 = (Modulo1) parent;
+        } else if (this.objecto.getModulo() == 2) {
+            prc = ob.getM2();
+            M2 = (Modulo2) parent;
+        }
+        CargarElementosIniciales();
+    }
+
+    public void CargarElementosIniciales() {
+        if (this.objecto.getModulo() == 1) {
+
             if (M1.getVistaActual().equalsIgnoreCase("pnPagosService")
                     || M1.getVistaActual().equalsIgnoreCase("pnReportes")) {
                 CargarPersonal();
             }
         } else if (this.objecto.getModulo() == 2) {
-            prc = ob.getM2();
-            M2 = (Modulo2) parent;
             System.out.println("--- " + M2.getVistaActual());
-            if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && ob.getCondicion() == 1) {
+            if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && objecto.getCondicion() == 1) {
                 System.out.println("Buscar Producto");
                 CargarProductos();
-            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && ob.getCondicion() == 2) {
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && objecto.getCondicion() == 2) {
                 System.out.println("Buscar Proveedor");
                 CargarProveedores();
-            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && ob.getCondicion() == 1) {
-                System.out.println("Buscar Producto");
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && objecto.getCondicion() == 1) {
+                producto p = new producto();
+                listObjectos = (ArrayList<Object>) p.List();
                 CargarProductos();
-            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && ob.getCondicion() == 2) {
-                System.out.println("Buscar Producto");
-                CargarProductos();
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && objecto.getCondicion() == 2) {
+                Cliente c = new Cliente();
+                listObjectos = (ArrayList<Object>) c.List();
+                CargarCliente(1);
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && objecto.getCondicion() == 3) {
+                listObjectos = objecto.getListObjectos();
+                CargarCliente(1);
             }
         }
     }
@@ -95,62 +110,29 @@ public class Busqueda extends javax.swing.JDialog {
         Datos.setModel(model);
     }
 
-    public void CargarCliente() {
-        Usuario p = new Usuario();
-        listObjectos = (ArrayList<Object>) p.ListaUsuarios();
-        DefaultTableModel model = new DefaultTableModel();
-        String Titulos[] = {"id", "Cedula", "Nombre", "Direccion"};
-        model = new DefaultTableModel(null, Titulos) {
-            @Override
-            public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
-                return false;
-            }
-        };
-        Object[] columna = new Object[3];
-
-        Iterator<Object> nombreIterator = listObjectos.iterator();
-        while (nombreIterator.hasNext()) {
-            p = (Usuario) nombreIterator.next();
-            columna[0] = p.getObjPersona().getIdPersona();
-            columna[1] = p.getObjPersona().getDocumento();
-            columna[2] = p.getObjPersona().getNombreCompleto();
-
-            model.addRow(columna);
+    public void CargarCliente(int condicionFiltro) {
+        System.out.println("Inicio CargaCliente condicion: " + condicionFiltro);
+        TablaModel tablemodel = null;
+        if (condicionFiltro == 1) {
+            tablemodel = new TablaModel(listObjectos, 5);
+        } else if (condicionFiltro == 0) {
+            tablemodel = new TablaModel(listObjectosFiltro, 5);
         }
-        Datos.setModel(model);
+
+        Datos.setModel(tablemodel.BusquedaCargarClienteXObject());
         Datos.getColumnModel().getColumn(0).setMaxWidth(0);
         Datos.getColumnModel().getColumn(0).setMaxWidth(0);
         Datos.getColumnModel().getColumn(0).setPreferredWidth(0);
-        Datos.getColumnModel().getColumn(1).setPreferredWidth(250);
-        Datos.getColumnModel().getColumn(2).setPreferredWidth(100);
+        Datos.getColumnModel().getColumn(1).setPreferredWidth(100);
+        Datos.getColumnModel().getColumn(2).setPreferredWidth(250);
+        Datos.getColumnModel().getColumn(3).setPreferredWidth(100);
+        Datos.getColumnModel().getColumn(4).setPreferredWidth(100);
         Datos.setRowHeight(20);
-        Datos.setModel(model);
     }
 
     public void CargarProductos() {
-        producto p = new producto();
-        listObjectos = (ArrayList<Object>) p.List();
-        DefaultTableModel model = new DefaultTableModel();
-        String Titulos[] = {"id", "Codigo", "Nombre", "Stock"};
-        model = new DefaultTableModel(null, Titulos) {
-            @Override
-            public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
-                return false;
-            }
-        };
-        Object[] columna = new Object[4];
-
-        Iterator<Object> nombreIterator = listObjectos.iterator();
-        while (nombreIterator.hasNext()) {
-            p = (producto) nombreIterator.next();
-            columna[0] = p.getProductosID().getCod_producto();
-            columna[1] = p.getSerieproducto();
-            columna[2] = p.getNombreProducto();
-            columna[3] = p.getStock();
-
-            model.addRow(columna);
-        }
-        Datos.setModel(model);
+        TablaModel tablemodel = new TablaModel(listObjectos, 2);
+        Datos.setModel(tablemodel.BusquedaCargaProducto());
         Datos.getColumnModel().getColumn(0).setMaxWidth(0);
         Datos.getColumnModel().getColumn(0).setMaxWidth(0);
         Datos.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -158,7 +140,6 @@ public class Busqueda extends javax.swing.JDialog {
         Datos.getColumnModel().getColumn(2).setPreferredWidth(250);
         Datos.getColumnModel().getColumn(3).setPreferredWidth(100);
         Datos.setRowHeight(20);
-        Datos.setModel(model);
     }
 
     public void CargarProveedores() {
@@ -245,10 +226,29 @@ public class Busqueda extends javax.swing.JDialog {
                     } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && this.objecto.getCondicion() == 1) {
                         producto listObjecto = (producto) it.next();
                         if (Integer.parseInt(cod) == listObjecto.getProductosID().getCod_producto().intValue()) {
-                            listObjecto.setCantidad(1);
-                            prc.getPr().getListProductos().add(listObjecto);
+
+                            boolean r = false;
+
+                            for (producto listProducto : prc.getPr().getListProductos()) {
+                                if (listProducto.getProductosID().getCod_producto() == listObjecto.getProductosID().getCod_producto()) {
+                                    listProducto.setCantidad(listProducto.getCantidad() + 1);
+                                    r = true;
+                                    break;
+                                }
+                            }
+                            if (r == false) {
+                                listObjecto.setCantidad(1);
+                                prc.getPr().getListProductos().add(listObjecto);
+                            }
+
                             prc.ListProductosVenta();
                             prc.CalculosVenta();
+                            break;
+                        }
+                    } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && (this.objecto.getCondicion() == 2 || this.objecto.getCondicion() == 3)) {
+                        Cliente listObjecto = (Cliente) it.next();
+                        if (Integer.parseInt(cod) == listObjecto.getCodCliente().intValue()) {
+                            prc.PasarClienteventa(listObjecto);
                             break;
                         }
                     }
@@ -261,6 +261,60 @@ public class Busqueda extends javax.swing.JDialog {
 
     }
 
+    public void BuscarElemento() {
+        listObjectosFiltro.clear();
+        String filtro = this.filtroBusqueda.getText().trim();
+        System.out.println("---");
+        if (this.objecto.getModulo() == 1) {
+            if (M1.getVistaActual().equalsIgnoreCase("pnReportes")) {
+//                    Usuario listObjecto = (Usuario) it.next();
+//                    if (listObjecto.getObjPersona().getIdPersona() == Integer.parseInt(cod)) {
+//                        System.out.println("encontre persona : " + listObjecto.getObjPersona().getIdPersona() + " = " + cod);
+//                        prc.setUs(listObjecto);
+//                        //this.objecto.get = 3;
+//                        //table = M1.tblReportes;
+//                        break;
+//                    }
+            }
+        } else if (this.objecto.getModulo() == 2) {
+            if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && this.objecto.getCondicion() == 1) {
+//                    producto listObjecto = (producto) it.next();
+//                    if (Integer.parseInt(cod) == listObjecto.getProductosID().getCod_producto().intValue()) {
+//                        prc.getPr().getListProductos().add(listObjecto);
+//                        prc.ListProductosAñadidos();
+//                        break;
+//                    }
+
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransCompra") && this.objecto.getCondicion() == 2) {
+//                    System.out.println("Buscar Proveedor");
+//                    Proveedor listObjecto = (Proveedor) it.next();
+//                    if (Integer.parseInt(cod) == listObjecto.getIdProveedor().intValue()) {
+//                        prc.CargarDatosProveedor(listObjecto);
+//                        break;
+//                    }
+
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && this.objecto.getCondicion() == 1) {
+//                    producto listObjecto = (producto) it.next();
+//                    if (Integer.parseInt(cod) == listObjecto.getProductosID().getCod_producto().intValue()) {
+//                        listObjecto.setCantidad(1);
+//                        prc.getPr().getListProductos().add(listObjecto);
+//                        prc.ListProductosVenta();
+//                        prc.CalculosVenta();
+//                        break;
+//                    }
+            } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && (this.objecto.getCondicion() == 2 || this.objecto.getCondicion() == 3)) {
+                Cliente c = new Cliente();
+                listObjectosFiltro = (ArrayList<Object>) c.BuscarXCliente(filtro);
+                CargarCliente(0);
+            }
+        }
+
+        System.out.println("Salio del ciclo con : " + listObjectosFiltro.size());
+        if (listObjectosFiltro.size() <= 0) {
+            DesktopNotify.showDesktopMessage("Aviso..!", "No hay Registros para la busqueda", DesktopNotify.INFORMATION, 5000L);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -271,13 +325,14 @@ public class Busqueda extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        nombrePersona = new javax.swing.JTextField();
+        filtroBusqueda = new javax.swing.JTextField();
         filtro = new javax.swing.JLabel();
         linea1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         titulo = new javax.swing.JLabel();
         ContenedorBuscar = new javax.swing.JScrollPane();
         Datos = new javax.swing.JTable();
+        btncancelarFiltros = new javax.swing.JButton();
         btnBuscarCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -288,8 +343,8 @@ public class Busqueda extends javax.swing.JDialog {
         jPanel1.setMinimumSize(new java.awt.Dimension(540, 400));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        nombrePersona.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.add(nombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 340, 29));
+        filtroBusqueda.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel1.add(filtroBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 340, 29));
 
         filtro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         filtro.setForeground(new java.awt.Color(54, 63, 73));
@@ -365,7 +420,37 @@ public class Busqueda extends javax.swing.JDialog {
         });
         ContenedorBuscar.setViewportView(Datos);
 
-        jPanel1.add(ContenedorBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 490, 270));
+        jPanel1.add(ContenedorBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 500, 270));
+
+        btncancelarFiltros.setBackground(new java.awt.Color(54, 63, 73));
+        btncancelarFiltros.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btncancelarFiltros.setForeground(new java.awt.Color(255, 255, 255));
+        btncancelarFiltros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/findWhite.png"))); // NOI18N
+        btncancelarFiltros.setText("Cancelar");
+        btncancelarFiltros.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btncancelarFiltros.setContentAreaFilled(false);
+        btncancelarFiltros.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btncancelarFiltros.setFocusPainted(false);
+        btncancelarFiltros.setHideActionText(true);
+        btncancelarFiltros.setIconTextGap(3);
+        btncancelarFiltros.setOpaque(true);
+        btncancelarFiltros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btncancelarFiltrosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btncancelarFiltrosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btncancelarFiltrosMouseExited(evt);
+            }
+        });
+        btncancelarFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncancelarFiltrosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btncancelarFiltros, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, 76, 30));
 
         btnBuscarCliente.setBackground(new java.awt.Color(54, 63, 73));
         btnBuscarCliente.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -380,6 +465,9 @@ public class Busqueda extends javax.swing.JDialog {
         btnBuscarCliente.setIconTextGap(3);
         btnBuscarCliente.setOpaque(true);
         btnBuscarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarClienteMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnBuscarClienteMouseEntered(evt);
             }
@@ -387,7 +475,12 @@ public class Busqueda extends javax.swing.JDialog {
                 btnBuscarClienteMouseExited(evt);
             }
         });
-        jPanel1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, 76, 30));
+        btnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarClienteActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 76, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -441,6 +534,22 @@ public class Busqueda extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_DatosKeyReleased
 
+    private void btncancelarFiltrosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncancelarFiltrosMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btncancelarFiltrosMouseEntered
+
+    private void btncancelarFiltrosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncancelarFiltrosMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btncancelarFiltrosMouseExited
+
+    private void btncancelarFiltrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncancelarFiltrosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btncancelarFiltrosMouseClicked
+
+    private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
+
+    }//GEN-LAST:event_btnBuscarClienteMouseClicked
+
     private void btnBuscarClienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarClienteMouseEntered
@@ -448,6 +557,17 @@ public class Busqueda extends javax.swing.JDialog {
     private void btnBuscarClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarClienteMouseExited
+
+    private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
+        System.out.println("ingreso al click");
+        BuscarElemento();
+    }//GEN-LAST:event_btnBuscarClienteActionPerformed
+
+    private void btncancelarFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarFiltrosActionPerformed
+        this.filtroBusqueda.setText("");
+        listObjectosFiltro.clear();
+        CargarElementosIniciales();
+    }//GEN-LAST:event_btncancelarFiltrosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -495,11 +615,12 @@ public class Busqueda extends javax.swing.JDialog {
     private javax.swing.JScrollPane ContenedorBuscar;
     private javax.swing.JTable Datos;
     public javax.swing.JButton btnBuscarCliente;
+    public javax.swing.JButton btncancelarFiltros;
     private javax.swing.JLabel filtro;
+    private javax.swing.JTextField filtroBusqueda;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator linea1;
-    private javax.swing.JTextField nombrePersona;
     private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
 }

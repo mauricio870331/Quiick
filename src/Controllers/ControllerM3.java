@@ -3734,7 +3734,7 @@ public class ControllerM3 implements ActionListener, MouseListener, KeyListener 
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
         TipoDocumento t = new TipoDocumento();
-        t.setIdTipoDocumento(0);
+        t.setIdTipoDocumento(new BigDecimal(0));
         t.setDescripcion("Seleccione");
         t.setEstado("A");
         M2.txtTipoDocProveedor.addItem(t);

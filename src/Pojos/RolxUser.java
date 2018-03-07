@@ -96,7 +96,7 @@ public class RolxUser extends Persistencia implements Serializable {
             }
             PreparedStatement pstmpersona = this.getConecion().con.prepareStatement(insertPersona);
             pstmpersona.setString(1, objUsuario.getObjPersona().getDocumento());
-            pstmpersona.setInt(2, objUsuario.getObjPersona().getIdtipoDocumento());
+            pstmpersona.setBigDecimal(2, objUsuario.getObjPersona().getIdtipoDocumento());
             pstmpersona.setString(3, objUsuario.getObjPersona().getNombre());
             pstmpersona.setString(4, objUsuario.getObjPersona().getApellido());
             pstmpersona.setString(5, objUsuario.getObjPersona().getNombreCompleto());
@@ -235,7 +235,7 @@ public class RolxUser extends Persistencia implements Serializable {
 
             PreparedStatement pstmpersona = this.getConecion().con.prepareStatement(updatePersona);
             pstmpersona.setString(1, objUsuario.getObjPersona().getDocumento());
-            pstmpersona.setInt(2, objUsuario.getObjPersona().getIdtipoDocumento());
+            pstmpersona.setBigDecimal(2, objUsuario.getObjPersona().getIdtipoDocumento());
             pstmpersona.setString(3, objUsuario.getObjPersona().getNombre());
             pstmpersona.setString(4, objUsuario.getObjPersona().getApellido());
             pstmpersona.setString(5, objUsuario.getObjPersona().getNombreCompleto());
@@ -472,7 +472,7 @@ public class RolxUser extends Persistencia implements Serializable {
                 userId.setIdPersona(rs.getInt(5));
                 p.setIdPersona(rs.getInt(9));
                 p.setDocumento(rs.getString(10));
-                p.setIdtipoDocumento(rs.getInt(11));
+                p.setIdtipoDocumento(rs.getBigDecimal(11));
                 p.setNombre(rs.getString(12));
                 p.setApellido(rs.getString(13));
                 p.setNombreCompleto(rs.getString(14));
@@ -558,7 +558,7 @@ public class RolxUser extends Persistencia implements Serializable {
                 userId.setIdPersona(rs.getInt(5));
                 p.setIdPersona(rs.getInt(9));
                 p.setDocumento(rs.getString(10));
-                p.setIdtipoDocumento(rs.getInt(11));
+                p.setIdtipoDocumento(rs.getBigDecimal(11));
                 p.setNombre(rs.getString(12));
                 p.setApellido(rs.getString(13));
                 p.setNombreCompleto(rs.getString(14));
@@ -619,7 +619,7 @@ public class RolxUser extends Persistencia implements Serializable {
                 userId.setIdPersona(rs.getInt(5));
                 p.setIdPersona(rs.getInt(9));
                 p.setDocumento(rs.getString(10));
-                p.setIdtipoDocumento(rs.getInt(11));
+                p.setIdtipoDocumento(rs.getBigDecimal(11));
                 p.setNombre(rs.getString(12));
                 p.setApellido(rs.getString(13));
                 p.setNombreCompleto(rs.getString(14));

@@ -7,7 +7,8 @@ package Pojos;
 
 import Controllers.ControllerM2;
 import java.io.Serializable;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -20,6 +21,8 @@ public class objectobusqueda implements Serializable {
     private int modulo;
     private int condicion;
     private ControllerM2 M2;
+    ArrayList<Object> ListObjectos = new ArrayList();
+    ArrayList<Object> ListObjectosReturns = new ArrayList();
 
     public objectobusqueda() {
     }
@@ -63,5 +66,14 @@ public class objectobusqueda implements Serializable {
     public void setM2(ControllerM2 M2) {
         this.M2 = M2;
     }
+
+    public ArrayList<Object> getListObjectos() {
+        return ListObjectos;
+    }
+
+    public void setListObjectos(ArrayList<Object> ListObjectos) {
+        this.ListObjectos = ListObjectos;
+    }
+    
 
 }

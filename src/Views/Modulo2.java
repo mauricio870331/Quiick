@@ -235,8 +235,8 @@ public class Modulo2 extends javax.swing.JFrame {
         txtVentPorcentaje = new javax.swing.JTextField();
         txtEstadoCompra1 = new javax.swing.JComboBox<>();
         jLabel104 = new javax.swing.JLabel();
-        txtProveedorCompra1 = new javax.swing.JTextField();
-        txtnomProveedornombre1 = new javax.swing.JTextField();
+        txtVentaCodCliente = new javax.swing.JTextField();
+        txtVentaNomcliente = new javax.swing.JTextField();
         jLabel105 = new javax.swing.JLabel();
         jLabel110 = new javax.swing.JLabel();
         txtVentValorDesc = new javax.swing.JTextField();
@@ -1544,7 +1544,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addComponent(jLabel102, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtComboBodegasCompra))
                 .addGap(19, 19, 19)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1858,7 +1858,7 @@ public class Modulo2 extends javax.swing.JFrame {
 
         txtVentaDevuelta.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         txtVentaDevuelta.setForeground(new java.awt.Color(255, 51, 51));
-        txtVentaDevuelta.setText("DEVUELTA : $ 0");
+        txtVentaDevuelta.setText("DEVOLUCION : $ 0");
 
         jLabel115.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel115.setText("Nombre / Codigo");
@@ -1957,10 +1957,11 @@ public class Modulo2 extends javax.swing.JFrame {
         jLabel104.setText("Cliente *");
         jLabel104.setPreferredSize(new java.awt.Dimension(64, 16));
 
-        txtProveedorCompra1.setPreferredSize(new java.awt.Dimension(64, 16));
+        txtVentaCodCliente.setComponentPopupMenu(popupBuscarCliente);
+        txtVentaCodCliente.setPreferredSize(new java.awt.Dimension(64, 16));
 
-        txtnomProveedornombre1.setEnabled(false);
-        txtnomProveedornombre1.setPreferredSize(new java.awt.Dimension(64, 16));
+        txtVentaNomcliente.setEnabled(false);
+        txtVentaNomcliente.setPreferredSize(new java.awt.Dimension(64, 16));
 
         jLabel105.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel105.setText("Tipo Pago");
@@ -2006,11 +2007,11 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addGap(289, 289, 289)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtProveedorCompra1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(txtVentaCodCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                     .addComponent(txtVentaValorIva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtnomProveedornombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtVentaNomcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel113, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44))
             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -2025,9 +2026,9 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtProveedorCompra1, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                            .addComponent(txtVentaCodCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
                             .addComponent(jLabel104, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtnomProveedornombre1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtVentaNomcliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(48, 48, 48))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2328,7 +2329,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addComponent(PnCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
                     .addGap(14, 14, 14)))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(PnTransVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 980, Short.MAX_VALUE))
+                .addComponent(PnTransVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -2351,7 +2352,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addGap(2, 2, 2)))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                    .addComponent(PnTransVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 696, Short.MAX_VALUE)
+                    .addComponent(PnTransVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
@@ -2800,19 +2801,19 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JTextField txtProveEmpNombre;
     public javax.swing.JTextField txtProveEmpTelefono;
     public javax.swing.JTextField txtProveedorCompra;
-    public javax.swing.JTextField txtProveedorCompra1;
     public javax.swing.JTextField txtSubTotalVenta;
     public javax.swing.JTextField txtTelefonosProve;
     public javax.swing.JComboBox<TipoDocumento> txtTipoDocProveedor;
     public javax.swing.JTextField txtVentEfectivo;
     public javax.swing.JTextField txtVentPorcentaje;
     public javax.swing.JTextField txtVentValorDesc;
+    public javax.swing.JTextField txtVentaCodCliente;
     public javax.swing.JLabel txtVentaDevuelta;
+    public javax.swing.JTextField txtVentaNomcliente;
     public javax.swing.JTextField txtVentaValorIva;
     public javax.swing.JLabel txtVentaValorTotal;
     public javax.swing.JTextField txtempproemprnombre;
     public javax.swing.JTextField txtnomProveedornombre;
-    public javax.swing.JTextField txtnomProveedornombre1;
     // End of variables declaration//GEN-END:variables
 
 }

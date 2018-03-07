@@ -6,6 +6,7 @@
 package Pojos;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class Cliente extends Persistencia implements Serializable {
 
-    private int codCliente;
+    private BigDecimal codCliente;
     private String tipoCliente;
 
     private persona p;
@@ -30,11 +31,11 @@ public class Cliente extends Persistencia implements Serializable {
         p = new persona();
     }
 
-    public int getCodCliente() {
+    public BigDecimal getCodCliente() {
         return codCliente;
     }
 
-    public void setCodCliente(int codCliente) {
+    public void setCodCliente(BigDecimal codCliente) {
         this.codCliente = codCliente;
     }
 
@@ -47,8 +48,8 @@ public class Cliente extends Persistencia implements Serializable {
     }
 
     public persona getP() {
-        if(p==null){
-            p=new persona();
+        if (p == null) {
+            p = new persona();
         }
         return p;
     }
@@ -56,8 +57,6 @@ public class Cliente extends Persistencia implements Serializable {
     public void setP(persona p) {
         this.p = p;
     }
-    
-    
 
     @Override
     public int create() {
@@ -96,7 +95,7 @@ public class Cliente extends Persistencia implements Serializable {
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareUpdate);
             preparedStatement.setInt(1, p.getIdPersona());
             preparedStatement.setString(2, tipoCliente);
-            preparedStatement.setInt(3, codCliente);
+            preparedStatement.setBigDecimal(3, codCliente);
 
             transaccion = Cliente.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
@@ -120,8 +119,7 @@ public class Cliente extends Persistencia implements Serializable {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareDelete);
-            preparedStatement.setInt(1, codCliente);
-
+            preparedStatement.setBigDecimal(1, codCliente);
 
             transaccion = Cliente.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
@@ -140,106 +138,93 @@ public class Cliente extends Persistencia implements Serializable {
     @Override
     public List List() {
         ArrayList<Cliente> List = new ArrayList();
-//        String prepareQuery = "select a.idAsistencia, a.FechaMarcacion, a.HoraMarcacion, p.NombreCompleto "
-//                + "from Asistencia a, persona p, rolxuser r "
-//                + "where a.idPersona = p.idPersona and p.Estado = 'A' "
-//                + "and r.idPersona = p.idPersona and r.idRol = 2 order by a.FechaMarcacion, a.HoraMarcacion";
-//
-////        System.out.println("prepare mauricio " + prepareQuery);
-//        try {
-//            this.getConecion().con = this.getConecion().dataSource.getConnection();
-//            ResultSet rs = Cliente.super.getConecion().query(prepareQuery);
-//            while (rs.next()) {
-//                Cliente tabla = new Cliente();
-//                AsistenciaID tablaID = new AsistenciaID();
-//                tablaID.setIdAsistencia(rs.getInt(1));
-//                tabla.setObjAsistenciaID(tablaID);
-//                tabla.setFechaMarcacion(rs.getDate(2));
-//                tabla.setHoraMarcacion(rs.getTime(3));
-//                tabla.setNombreCliente(rs.getString(4));
-//                List.add(tabla);
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println("Error Consulta : " + ex.toString());
-//        } finally {
-//            try {
-//                this.getConecion().con.close();
-//            } catch (SQLException ex) {
-//                System.out.println(ex);
-//            }
-//        }
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            this.getConecion().cstmt = this.getConecion().con.prepareCall("{call ListClientes}");
+            ResultSet rs = Cliente.super.getConecion().cstmt.executeQuery();
+            while (rs.next()) {
+                Cliente tabla = new Cliente();
+                persona p = new persona();
+                TipoDocumento tipoDoc = new TipoDocumento();
+
+                tabla.setCodCliente(rs.getBigDecimal(1));
+                tabla.setTipoCliente(rs.getString(2));
+
+                p.setIdPersona(rs.getInt(3));
+
+                tipoDoc.setIdTipoDocumento(rs.getBigDecimal(4));
+                tipoDoc.setSiglas(rs.getString(5));
+
+                p.setDocumento(rs.getString(6));
+                p.setNombre(rs.getString(7));
+                p.setApellido(rs.getString(8));
+                p.setNombreCompleto(rs.getString(9));
+                p.setDireccion(rs.getString(10));
+                p.setTelefono(rs.getString(11));
+                p.setSexo(rs.getString(12));
+
+                p.setTipodocumento(tipoDoc);
+                tabla.setP(p);
+
+                List.add(tabla);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
         return List;
     }
 
-//    public List List(Date inicio, Date fin) {
-//        ArrayList<Cliente> List = new ArrayList();
-//        String prepareQuery = "select a.idAsistencia, a.FechaMarcacion, a.HoraMarcacion, p.NombreCompleto "
-//                + "from Asistencia a, persona p, rolxuser r "
-//                + "where a.idPersona = p.idPersona and p.Estado = 'A' and a.FechaMarcacion "
-//                + "between '" + sa.format(inicio) + " 00:00:00' and '" + sa.format(fin) + " 23:59:59' "
-//                + "and r.idPersona = p.idPersona and r.idRol = 2 order by a.FechaMarcacion ASC";
-//        try {
-//            this.getConecion().con = this.getConecion().dataSource.getConnection();
-//            ResultSet rs = Cliente.super.getConecion().query(prepareQuery);
-//            while (rs.next()) {
-//                Cliente tabla = new Cliente();
-//                AsistenciaID tablaID = new AsistenciaID();
-//                tablaID.setIdAsistencia(rs.getInt(1));
-//                tabla.setObjAsistenciaID(tablaID);
-//                tabla.setFechaMarcacion(rs.getDate(2));
-//                tabla.setHoraMarcacion(rs.getTime(3));
-//                tabla.setNombreCliente(rs.getString(4));
-//                List.add(tabla);
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println("Error Consulta : " + ex.toString());
-//        } finally {
-//            try {
-//                this.getConecion().con.close();
-//            } catch (SQLException ex) {
-//                System.out.println(ex);
-//            }
-//        }
-//        return List;
-//    }
-//
-//    public boolean ExistAsistencia(Date fachaMarcacion, int idUser, int idPersona) {
-//        boolean existe = false;
-//        String prepareQuery = "select idPersona from asistencia "
-//                + "where FechaMarcacion = '" + sa.format(fachaMarcacion) + "' "
-//                + "and idPersona = " + idPersona + " and idUsuario = " + idUser;
-//        try {
-//            this.getConecion().con = this.getConecion().dataSource.getConnection();
-//            ResultSet rs = Cliente.super.getConecion().query(prepareQuery);
-//            if (rs.absolute(1)) {
-//                existe = true;
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println("Error Consulta : " + ex.toString());
-//        } finally {
-//            try {
-//                this.getConecion().con.close();
-//            } catch (SQLException ex) {
-//                System.out.println(ex);
-//            }
-//        }
-//        return existe;
-//    }
-//
-//    public Date getHoraMarcacion() {
-//        return HoraMarcacion;
-//    }
-//
-//    public void setHoraMarcacion(Date HoraMarcacion) {
-//        this.HoraMarcacion = HoraMarcacion;
-//    }
-//
-//    public String getNombreCliente() {
-//        return nombreCliente;
-//    }
-//
-//    public void setNombreCliente(String nombreCliente) {
-//        this.nombreCliente = nombreCliente;
-//    }
+    public List BuscarXCliente(String Busqueda) {
+        ArrayList<Cliente> List = new ArrayList();
+        String prepareQuery = "SELECT a.idcliente,a.tipocliente,b.idPersona,c.idTipoDocumento,c.siglas,b.Documento,b.Nombre,"
+                + "b.Apellidos,b.NombreCompleto,b.direccion,b.Telefono,b.Sexo FROM `cliente` a , persona b ,"
+                + " tipodocumento c WHERE a.idpersona=b.idPersona and b.idTipoDocumento=c.idTipoDocumento "
+                + "and b.Estado='A' and (b.Documento like '%" + Busqueda + "%' or b.NombreCompleto like '%" + Busqueda + "%') limit 100";
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            ResultSet rs = Cliente.super.getConecion().query(prepareQuery);
+            while (rs.next()) {
+                Cliente tabla = new Cliente();
+                persona p = new persona();
+                TipoDocumento tipoDoc = new TipoDocumento();
+
+                tabla.setCodCliente(rs.getBigDecimal(1));
+                tabla.setTipoCliente(rs.getString(2));
+
+                p.setIdPersona(rs.getInt(3));
+
+                tipoDoc.setIdTipoDocumento(rs.getBigDecimal(4));
+                tipoDoc.setSiglas(rs.getString(5));
+
+                p.setDocumento(rs.getString(6));
+                p.setNombre(rs.getString(7));
+                p.setApellido(rs.getString(8));
+                p.setNombreCompleto(rs.getString(9));
+                p.setDireccion(rs.getString(10));
+                p.setTelefono(rs.getString(11));
+                p.setSexo(rs.getString(12));
+
+                p.setTipodocumento(tipoDoc);
+                tabla.setP(p);
+
+                List.add(tabla);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return List;
+    }
 
 }

@@ -2399,7 +2399,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         Iterator<TipoDocumento> it = getTd().List().iterator();
         MR.cboTiposDoc.removeAllItems();
         TipoDocumento t = new TipoDocumento();
-        t.setIdTipoDocumento(0);
+        t.setIdTipoDocumento(new BigDecimal(0));
         t.setDescripcion("Seleccione");
         t.setEstado("A");
         MR.cboTiposDoc.addItem(t);
@@ -3909,7 +3909,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
         TipoDocumento t = new TipoDocumento();
-        t.setIdTipoDocumento(0);
+        t.setIdTipoDocumento(new BigDecimal(0));
         t.setDescripcion("Seleccione");
         t.setEstado("A");
         M2.txtTipoDocProveedor.addItem(t);

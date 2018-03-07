@@ -6,25 +6,19 @@
 package Controllers;
 
 import Pojos.*;
-import Utils.ImagensTabla;
 import Utils.Reportes;
 import Utils.TablaModel;
 import Utils.VistaActual;
 import Views.Modulo1;
-import Views.FrmCapturePict;
 import Views.Modales.Busqueda;
-import Views.Modales.NuevaSede;
 import Views.Modales.NuevoProducto;
 import Views.Modulo2;
 import Views.Modulo3;
 import Views.Modulo4;
 import Views.ModuloRoot;
-import com.toedter.calendar.JDateChooser;
 import ds.desktop.notify.DesktopNotify;
 import fingerUtils.CaptureFinger;
 import fingerUtils.ReadFinger;
-import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -33,35 +27,22 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -105,6 +86,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private compradetalle cd;
     private Bodega b;
     private objectobusqueda ob;
+    private Cliente cl;
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat userFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     SimpleDateFormat hh = new SimpleDateFormat("HH:mm:ss");
@@ -149,6 +131,8 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.mnuBuscarProveedor.addActionListener(this);
         M2.btnTransaccionCaja.addActionListener(this);
         M2.BntTranVentaBuscar.addActionListener(this);
+        M2.mnuBuscarCliente.addActionListener(this);
+        M2.txtVentaCodCliente.addKeyListener(this);
         M2.btnventa.addActionListener(this);
 
         Adaptador();
@@ -179,8 +163,27 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if (e.getSource() == M2.mnuBuscarCliente) {
+            try {
+                getOb();
+                ob.setTitulo("Buscar Cliente");
+                ob.setFiltro("Nombre ó Cedula");
+                ob.setModulo(2);
+                ob.setCondicion(2);
+                ob.setM2(this);
+                new Busqueda(M2, true, ob).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
+            }
+        }
+
         if (e.getSource() == M2.btnventa) {
             CalculosVenta();
+            getCl();
+            cl.setCodCliente(new BigDecimal(1));
+            M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
+            M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
+
             showPanel(2, "PnTransVenta");
         }
 
@@ -2993,11 +2996,33 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getSource() == M2.txtVentaCodCliente && e.getKeyCode() == 10) {
+            getCl();
+            ArrayList<Cliente> ListCliente = new ArrayList();
+            ListCliente = (ArrayList<Cliente>) cl.BuscarXCliente(M2.txtVentaCodCliente.getText().trim());
+            if (ListCliente.size() > 1) {
+                try {
+                    getOb();
+                    ob.setTitulo("Buscar Cliente");
+                    ob.setFiltro("Nombre ó Cedula");
+                    ob.setModulo(2);
+                    ob.setCondicion(3);
+                    ob.setM2(this);
+                    ob.setListObjectos((ArrayList<Object>) (Object) ListCliente);
+                    new Busqueda(M2, true, ob).setVisible(true);
+                } catch (SQLException ex) {
+                    System.out.println("Error al abrir modal");
+                }
+            } else {
+                PasarClienteventa(ListCliente.get(0));
+            }
+        }
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
 //        if (e.getSource() == pr.tblNewRutina) {
 //            int columna = pr.tblNewRutina.getSelectedColumn();
 //            int fila = pr.tblNewRutina.getSelectedRow();
@@ -3287,7 +3312,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
         TipoDocumento t = new TipoDocumento();
-        t.setIdTipoDocumento(0);
+        t.setIdTipoDocumento(new BigDecimal(0));
         t.setDescripcion("Seleccione");
         t.setEstado("A");
         M2.txtTipoDocProveedor.addItem(t);
@@ -3464,7 +3489,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 - M2.txtVentEfectivo.getText().length() > 0 ? (subtotal - ValorPorcentaje) : 0);
 
         M2.txtVentaValorTotal.setText("TOTAL : $ " + (subtotal - ValorPorcentaje));
-        M2.txtVentaDevuelta.setText("DEVUELTA : $ " + Devuelta);
+        M2.txtVentaDevuelta.setText("DEVOLUCION : $ " + Devuelta);
 
     }
 
@@ -3498,6 +3523,14 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 M2.txtTelefonosProve.setText("");
                 break;
         }
+    }
+
+    public void PasarClienteventa(Cliente c) {
+        getCl();
+        cl = c;
+        M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
+        M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
+
     }
 
     public Proveedor getPv() {
@@ -3619,6 +3652,17 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     public void setOb(objectobusqueda ob) {
         this.ob = ob;
+    }
+
+    public Cliente getCl() {
+        if (cl == null) {
+            cl = new Cliente();
+        }
+        return cl;
+    }
+
+    public void setCl(Cliente cl) {
+        this.cl = cl;
     }
 
 }

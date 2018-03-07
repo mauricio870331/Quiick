@@ -6,6 +6,7 @@
 package Pojos;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,19 +18,20 @@ import java.util.ArrayList;
  */
 public class TipoDocumento extends Persistencia implements Serializable {
 
-    private int idTipoDocumento;
+    private BigDecimal idTipoDocumento;
     private String Descripcion;
+    private String siglas;
     private String Estado;
 
     public TipoDocumento() {
         super();
     }
 
-    public int getIdTipoDocumento() {
+    public BigDecimal getIdTipoDocumento() {
         return idTipoDocumento;
     }
 
-    public void setIdTipoDocumento(int idTipoDocumento) {
+    public void setIdTipoDocumento(BigDecimal idTipoDocumento) {
         this.idTipoDocumento = idTipoDocumento;
     }
 
@@ -84,7 +86,7 @@ public class TipoDocumento extends Persistencia implements Serializable {
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareUpdate);
             preparedStatement.setString(1, Descripcion);
             preparedStatement.setString(2, Estado);
-            preparedStatement.setInt(3, idTipoDocumento);
+            preparedStatement.setBigDecimal(3, idTipoDocumento);
 
             transaccion = TipoDocumento.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
@@ -108,7 +110,7 @@ public class TipoDocumento extends Persistencia implements Serializable {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareDelete);
-            preparedStatement.setInt(1, idTipoDocumento);
+            preparedStatement.setBigDecimal(1, idTipoDocumento);
 
             transaccion = TipoDocumento.this.getConecion().transaccion(preparedStatement);
         } catch (SQLException ex) {
@@ -133,7 +135,7 @@ public class TipoDocumento extends Persistencia implements Serializable {
             ResultSet rs = TipoDocumento.super.getConecion().query(prepareQuery);
             while (rs.next()) {
                 TipoDocumento tabla = new TipoDocumento();
-                tabla.setIdTipoDocumento(rs.getInt(1));
+                tabla.setIdTipoDocumento(rs.getBigDecimal(1));
                 tabla.setDescripcion(rs.getString(2));
                 tabla.setEstado(rs.getString(3));
                 List.add(tabla);
@@ -150,15 +152,15 @@ public class TipoDocumento extends Persistencia implements Serializable {
         return List;
     }
 
-    public TipoDocumento getTipoDocById(int id) {
+    public TipoDocumento getTipoDocById(BigDecimal id) {
         TipoDocumento td = null;
-        String prepareQuery = "select idTipoDocumento,Descripcion from TipoDocumento where idTipoDocumento = " + id + "";        
+        String prepareQuery = "select idTipoDocumento,Descripcion from TipoDocumento where idTipoDocumento = " + id + "";
         try {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = TipoDocumento.super.getConecion().query(prepareQuery);
             if (rs.absolute(1)) {
                 td = new TipoDocumento();
-                td.setIdTipoDocumento(rs.getInt(1));
+                td.setIdTipoDocumento(rs.getBigDecimal(1));
                 td.setDescripcion(rs.getString(2));
             }
         } catch (SQLException ex) {
@@ -171,6 +173,14 @@ public class TipoDocumento extends Persistencia implements Serializable {
             }
         }
         return td;
+    }
+
+    public String getSiglas() {
+        return siglas;
+    }
+
+    public void setSiglas(String siglas) {
+        this.siglas = siglas;
     }
 
     @Override
