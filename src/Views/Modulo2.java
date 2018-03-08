@@ -218,7 +218,7 @@ public class Modulo2 extends javax.swing.JFrame {
         PnTransVenta = new javax.swing.JPanel();
         jPanel70 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        TxtbuscarProductoCompra2 = new javax.swing.JTextField();
+        TxtbuscarProductoVenta = new javax.swing.JTextField();
         jScrollPane20 = new javax.swing.JScrollPane();
         VentaProductosAdd = new javax.swing.JTable();
         BntTranVentaBuscar = new javax.swing.JToggleButton();
@@ -1874,7 +1874,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel115, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtbuscarProductoCompra2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxtbuscarProductoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BntTranVentaBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(697, 697, 697))
@@ -1907,7 +1907,7 @@ public class Modulo2 extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TxtbuscarProductoCompra2, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addComponent(TxtbuscarProductoVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                     .addComponent(jLabel115, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(BntTranVentaBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2629,7 +2629,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JPanel PnTransCompra;
     public javax.swing.JPanel PnTransVenta;
     private javax.swing.JTextField TxtbuscarProductoCompra1;
-    private javax.swing.JTextField TxtbuscarProductoCompra2;
+    public javax.swing.JTextField TxtbuscarProductoVenta;
     public com.bolivia.label.CLabel UserLogPicture;
     public javax.swing.JTable VentaProductosAdd;
     public javax.swing.JButton btnAsistenciaManual;

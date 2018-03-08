@@ -135,6 +135,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.txtVentaCodCliente.addKeyListener(this);
         M2.btnventa.addActionListener(this);
         M2.txtVentEfectivo.addKeyListener(this);
+        M2.TxtbuscarProductoVenta.addKeyListener(this);
 
         Adaptador();
         cargarMenu();
@@ -3019,6 +3020,29 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             }
         } else if (e.getSource() == M2.txtVentEfectivo && e.getKeyCode() == 10) {
             CalculosVenta();
+        } else if (e.getSource() == M2.TxtbuscarProductoVenta && e.getKeyCode() == 10) {
+            getPr();
+            ArrayList<producto> ListProducto = new ArrayList();
+            ListProducto = (ArrayList<producto>) pr.BuscarProducto(M2.TxtbuscarProductoVenta.getText().trim());
+            System.out.println("Tam . " + ListProducto.size());
+            if (ListProducto.size() > 1) {
+                try {
+                    getOb();
+                    ob.setTitulo("Buscar Producto");
+                    ob.setFiltro("Nombre ó Codigo");
+                    ob.setModulo(2);
+                    ob.setCondicion(4);
+                    ob.setM2(this);
+                    ob.setListObjectos((ArrayList<Object>) (Object) ListProducto);
+                    new Busqueda(M2, true, ob).setVisible(true);
+                } catch (SQLException ex) {
+                    System.out.println("Error al abrir modal");
+                }
+            } else {
+                Contenedor.getListProductos().add(ListProducto.get(0));
+                ListProductosVenta();
+                CalculosVenta();
+            }
         }
 
     }
@@ -3533,7 +3557,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         cl = c;
         M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
         M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
-
     }
 
     public Proveedor getPv() {

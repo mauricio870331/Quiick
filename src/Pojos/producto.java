@@ -408,9 +408,6 @@ public class producto extends Persistencia implements Serializable {
                 iva.setIdIva(rs.getBigDecimal(5));
                 iva.setDescripcion(rs.getString(16));
 
-                cate.setGanancia(rs.getBigDecimal(17));
-
-                unidad.setDescripcion(rs.getString(18));
 
                 tabla.setIvaP(iva);
                 tabla.setCategoria(cate);

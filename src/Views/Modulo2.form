@@ -3151,7 +3151,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel115" min="-2" pref="112" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="TxtbuscarProductoCompra2" min="-2" pref="209" max="-2" attributes="0"/>
+                                      <Component id="TxtbuscarProductoVenta" min="-2" pref="209" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="BntTranVentaBuscar" max="32767" attributes="0"/>
                                       <EmptySpace min="-2" pref="697" max="-2" attributes="0"/>
@@ -3196,7 +3196,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="TxtbuscarProductoCompra2" alignment="3" pref="31" max="32767" attributes="0"/>
+                                  <Component id="TxtbuscarProductoVenta" alignment="3" pref="31" max="32767" attributes="0"/>
                                   <Component id="jLabel115" alignment="3" max="32767" attributes="0"/>
                                   <Component id="BntTranVentaBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -3235,7 +3235,10 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JTextField" name="TxtbuscarProductoCompra2">
+                    <Component class="javax.swing.JTextField" name="TxtbuscarProductoVenta">
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                      </AuxValues>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane20">
                       <AuxValues>
