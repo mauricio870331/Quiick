@@ -87,6 +87,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private Bodega b;
     private objectobusqueda ob;
     private Cliente cl;
+    private venta v;
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat userFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     SimpleDateFormat hh = new SimpleDateFormat("HH:mm:ss");
@@ -136,6 +137,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.btnventa.addActionListener(this);
         M2.txtVentEfectivo.addKeyListener(this);
         M2.TxtbuscarProductoVenta.addKeyListener(this);
+        M2.btnVentaNueva.addActionListener(this);
 
         Adaptador();
         cargarMenu();
@@ -164,6 +166,12 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        if(e.getSource()==M2.btnVentaNueva){
+            getV();
+            v.setFechaVenta(new Date());
+            v.getVentaid().setIdTipoVenta(new BigDecimal(1));
+        }
 
         if (e.getSource() == M2.mnuBuscarCliente) {
             try {
@@ -3690,5 +3698,17 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     public void setCl(Cliente cl) {
         this.cl = cl;
     }
+
+    public venta getV() {
+        if(v==null){
+            v=new venta();
+        }
+        return v;
+    }
+
+    public void setV(venta v) {
+        this.v = v;
+    }
+    
 
 }

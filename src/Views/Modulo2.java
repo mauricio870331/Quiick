@@ -223,7 +223,7 @@ public class Modulo2 extends javax.swing.JFrame {
         VentaProductosAdd = new javax.swing.JTable();
         BntTranVentaBuscar = new javax.swing.JToggleButton();
         txtVentaValorTotal = new javax.swing.JLabel();
-        btnCompraNueva1 = new javax.swing.JButton();
+        btnVentaNueva = new javax.swing.JButton();
         jLabel114 = new javax.swing.JLabel();
         txtSubTotalVenta = new javax.swing.JTextField();
         txtVentEfectivo = new javax.swing.JTextField();
@@ -1843,7 +1843,7 @@ public class Modulo2 extends javax.swing.JFrame {
         txtVentaValorTotal.setForeground(new java.awt.Color(0, 153, 0));
         txtVentaValorTotal.setText("TOTAL : $ 0");
 
-        btnCompraNueva1.setText("Aceptar");
+        btnVentaNueva.setText("Aceptar");
 
         jLabel114.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel114.setText("Sub Total");
@@ -1893,7 +1893,7 @@ public class Modulo2 extends javax.swing.JFrame {
                                     .addComponent(txtVentEfectivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnCompraNueva1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnVentaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(23, 23, 23)))
                 .addContainerGap())
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1926,7 +1926,7 @@ public class Modulo2 extends javax.swing.JFrame {
                             .addComponent(txtVentEfectivo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel112))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCompraNueva1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnVentaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(149, 149, 149))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
@@ -2637,7 +2637,6 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JButton btnCaja;
     public javax.swing.JButton btnCancelarProve;
     public javax.swing.JButton btnCompraNueva;
-    public javax.swing.JButton btnCompraNueva1;
     public javax.swing.JButton btnCompraTrans;
     public javax.swing.JButton btnCompras;
     public javax.swing.JButton btnDetallePago;
@@ -2659,6 +2658,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JButton btnReporteCaja2;
     public javax.swing.JButton btnSiguienteReg1;
     public javax.swing.JButton btnTransaccionCaja;
+    public javax.swing.JButton btnVentaNueva;
     public javax.swing.JButton btnViewEmpresaProvedor;
     public javax.swing.JButton btnventa;
     public com.bolivia.label.CLabel cLabel2;
