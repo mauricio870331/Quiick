@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Contenedor {
 
     public static ArrayList<producto> ListProductos=new ArrayList();
+    public static Usuario usuario;
 
     public static ArrayList<producto> getListProductos() {
         return ListProductos;
@@ -22,6 +23,14 @@ public class Contenedor {
 
     public static void setListProductos(ArrayList<producto> ListProductos) {
         Contenedor.ListProductos = ListProductos;
+    }
+
+    public static Usuario getUsuario() {
+        return usuario;
+    }
+
+    public static void setUsuario(Usuario usuario) {
+        Contenedor.usuario = usuario;
     }
     
     

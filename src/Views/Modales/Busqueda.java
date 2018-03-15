@@ -240,7 +240,7 @@ public class Busqueda extends javax.swing.JDialog {
                                 }
                             }
                             if (r == false) {
-                                listObjecto.setCantidad(1);
+                                listObjecto.setCantidad(1);                                
                                 Contenedor.getListProductos().add(listObjecto);
                             }
 

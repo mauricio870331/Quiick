@@ -28,6 +28,7 @@ public class venta extends Persistencia implements Serializable {
     private BigDecimal Devuelta;
     private BigDecimal idTipoPago;
     private BigDecimal Paga;
+    private BigDecimal codCurrent;
 
     public venta() {
         super();
@@ -120,6 +121,14 @@ public class venta extends Persistencia implements Serializable {
 
     public void setPaga(BigDecimal Paga) {
         this.Paga = Paga;
+    }
+
+    public BigDecimal getCodCurrent() {
+        return codCurrent;
+    }
+
+    public void setCodCurrent(BigDecimal codCurrent) {
+        this.codCurrent = codCurrent;
     }
 
     @Override

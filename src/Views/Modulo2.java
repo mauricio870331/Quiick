@@ -13,6 +13,7 @@ import Pojos.EmpresaProveedor;
 import Pojos.Sedes;
 import Pojos.Musculos;
 import Pojos.dias;
+import Pojos.TipoPago;
 import java.awt.Color;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -233,7 +234,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel103 = new javax.swing.JLabel();
         txtVentPorcentaje = new javax.swing.JTextField();
-        txtEstadoCompra1 = new javax.swing.JComboBox<>();
+        txtVenaTipoPago = new javax.swing.JComboBox<>();
         jLabel104 = new javax.swing.JLabel();
         txtVentaCodCliente = new javax.swing.JTextField();
         txtVentaNomcliente = new javax.swing.JTextField();
@@ -1946,10 +1947,9 @@ public class Modulo2 extends javax.swing.JFrame {
 
         txtVentPorcentaje.setPreferredSize(new java.awt.Dimension(64, 16));
 
-        txtEstadoCompra1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Tarjeta Credito", "Tarjeta Debito" }));
-        txtEstadoCompra1.addActionListener(new java.awt.event.ActionListener() {
+        txtVenaTipoPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEstadoCompra1ActionPerformed(evt);
+                txtVenaTipoPagoActionPerformed(evt);
             }
         });
 
@@ -1995,7 +1995,7 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtVentPorcentaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtEstadoCompra1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtVenaTipoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtVentValorDesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2044,7 +2044,7 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel105)
-                            .addComponent(txtEstadoCompra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtVenaTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(11, 11, 11)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -2514,9 +2514,9 @@ public class Modulo2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtempproemprnombreActionPerformed
 
-    private void txtEstadoCompra1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstadoCompra1ActionPerformed
+    private void txtVenaTipoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVenaTipoPagoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEstadoCompra1ActionPerformed
+    }//GEN-LAST:event_txtVenaTipoPagoActionPerformed
 
     private void btnCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCajaMouseEntered
         // TODO add your handling code here:
@@ -2790,7 +2790,6 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JComboBox<Sedes> txtComboSedeCompra;
     public javax.swing.JTextField txtDocProve;
     public javax.swing.JComboBox<String> txtEstadoCompra;
-    public javax.swing.JComboBox<String> txtEstadoCompra1;
     public javax.swing.JTextField txtFacCompra;
     private javax.swing.JLabel txtFacturaVenta;
     public com.toedter.calendar.JDateChooser txtFechaCompra;
@@ -2804,6 +2803,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JTextField txtSubTotalVenta;
     public javax.swing.JTextField txtTelefonosProve;
     public javax.swing.JComboBox<TipoDocumento> txtTipoDocProveedor;
+    public javax.swing.JComboBox<TipoPago> txtVenaTipoPago;
     public javax.swing.JTextField txtVentEfectivo;
     public javax.swing.JTextField txtVentPorcentaje;
     public javax.swing.JTextField txtVentValorDesc;

@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import Pojos.Contenedor;
 import Pojos.Usuario;
 import Views.Bienvenida;
 import Views.Login;
@@ -77,6 +78,7 @@ public class LoginController implements ActionListener {
                 RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));
                 if (rolu != null) {
 //                    switch (rolu.getObjRol().getIdRol()) {
+                    Contenedor.setUsuario(u);
                     lg.dispose();
                     getCM1().setUsuarioLogeado(rolu);
                     getCM2().setUsuarioLogeado(rolu);
