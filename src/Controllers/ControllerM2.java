@@ -169,6 +169,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+
         if (e.getSource() == M2.btnVentaNueva) {
             getV();
             getCl();
@@ -199,7 +200,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             
         }
 
-        
+
         
         if (e.getSource() == M2.mnuBuscarCliente) {
             try {
@@ -226,49 +227,8 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             showPanel(2, "PnTransVenta");
         }
 
-        if (e.getSource() == M2.btnCompraNueva) {
-            getCp();
-            getCd();
-            getPr();
-            Bodega b = new Bodega();
 
-            cp.getCompra_productoID().setCod_factura(M2.txtFacCompra.getText().trim());
-            cp.getCompra_productoID().setCod_proveedor(pv.getIdProveedor());
-            Date dateStarting = (Date) M2.txtFechaCompra.getDate();
-            cp.setFechacompra(dateStarting);
-            cp.setEstadoCompra(M2.txtEstadoCompra.getSelectedItem().toString());
-            cp.setCantidadproductos(new BigDecimal(pr.getListProductos().size()));
-
-            b = (Bodega) M2.txtComboBodegasCompra.getSelectedItem();
-            cp.setBodega(b.getIdBodega().intValue());
-
-            cd.setObjcompra_producto(cp);
-            System.out.println("--- Productos : " + pr.getListProductos().size());
-            for (producto ObjProducto : pr.getListProductos()) {
-                compradetalle c = new compradetalle();
-                c.setObjcompra_producto(cp);
-                c.getCompradetalleID().setSerieProducto(ObjProducto.getSerieproducto());
-                c.setNombreProducto(ObjProducto.getNombreProducto());
-                c.setCostoproducto(ObjProducto.getCosto());
-                c.setCod_iva(ObjProducto.getIvaP().getIdIva());
-                c.setCantidad(new BigDecimal(ObjProducto.getCantidad()));
-                c.setStock(ObjProducto.getStock());
-                c.setValorVenta(ObjProducto.getPrecio_venta());
-                c.setCod_unidad(ObjProducto.getUnidad().getCod_unidad());
-                c.setCod_producto(ObjProducto.getProductosID().getCod_producto());
-
-                cd.getListDetalles().add(c);
-            }
-
-            if (cd.create() > 0) {
-
-                DesktopNotify.showDesktopMessage("Aviso..!", "Exito al realizar la compra", DesktopNotify.INFORMATION, 5000L);
-//                LimpiarCampos("proveedores");
-//                ListProveedores();
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Error al crear compra", DesktopNotify.ERROR, 5000L);
-            }
-        }
+      
 
         if (e.getSource() == M2.mnuBuscarProveedor) {
             try {
@@ -306,10 +266,10 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
         if (e.getSource() == M2.BntTranCompraNuevo) {
             try {
-                new NuevoProducto(M2, true, this).setVisible(true);
+                new NuevoProducto(M2, true, M2).setVisible(true);
             } catch (SQLException ex) {
-                System.out.println("Error al abrir modal");
-            }
+                 System.out.println("Error al abrir modal");
+            }           
         }
 
         if (e.getSource() == M2.btnCompraTrans) {
@@ -2089,6 +2049,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            ListRoles("");
 //            showPanel(1, "pnRoles");
 //        }
+
     }
 
     private void addFilter() {
@@ -2129,22 +2090,27 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                         M2.PnEmpresaProveedor.setVisible(true);
                         M2.PnProveedores.setVisible(false);
                         M2.PnCompras.setVisible(false);
+
                         M2.pnMiCaja.setVisible(false);
                         M2.PnTransVenta.setVisible(false);
+
                         M2.PnTransCompra.setVisible(false);
                         break;
                     case "PnCompras":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(false);
                         M2.PnTransCompra.setVisible(false);
+
                         M2.pnMiCaja.setVisible(false);
                         M2.PnTransVenta.setVisible(false);
+
                         M2.PnCompras.setVisible(true);
                         break;
                     case "PnTransCompra":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(false);
                         M2.PnCompras.setVisible(false);
+
                         M2.pnMiCaja.setVisible(false);
                         M2.PnTransVenta.setVisible(false);
                         M2.PnTransCompra.setVisible(true);
@@ -2164,6 +2130,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                         M2.PnTransCompra.setVisible(false);
                         M2.PnTransVenta.setVisible(true);
                         M2.pnMiCaja.setVisible(false);
+                        M2.PnTransCompra.setVisible(true);
                         break;
                 }
                 break;
