@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +28,7 @@ public class persona extends Persistencia implements Serializable {
 
     private int idPersona;
     private int Current;
-    private int idtipoDocumento;
+    private BigDecimal idtipoDocumento;
     private String documento;
     private String nombre;
     private String apellido;
@@ -41,7 +42,9 @@ public class persona extends Persistencia implements Serializable {
     private InputStream foto;
     private String pathFoto;
 
-    public persona(int idPersona, int idtipoDocumento, String documento, String nombre, String apellido, String direccion, String telefono, String sexo, Date fechaNacimiento, String correo, InputStream foto) {
+    private TipoDocumento tipodocumento;
+
+    public persona(int idPersona, BigDecimal idtipoDocumento, String documento, String nombre, String apellido, String direccion, String telefono, String sexo, Date fechaNacimiento, String correo, InputStream foto) {
         super();
         this.idPersona = idPersona;
         this.idtipoDocumento = idtipoDocumento;
@@ -58,6 +61,7 @@ public class persona extends Persistencia implements Serializable {
 
     public persona() {
         super();
+        tipodocumento = new TipoDocumento();
     }
 
     public int getIdPersona() {
@@ -156,11 +160,11 @@ public class persona extends Persistencia implements Serializable {
         this.foto = foto;
     }
 
-    public int getIdtipoDocumento() {
+    public BigDecimal getIdtipoDocumento() {
         return idtipoDocumento;
     }
 
-    public void setIdtipoDocumento(int idtipoDocumento) {
+    public void setIdtipoDocumento(BigDecimal idtipoDocumento) {
         this.idtipoDocumento = idtipoDocumento;
     }
 
@@ -180,7 +184,7 @@ public class persona extends Persistencia implements Serializable {
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
             preparedStatement.setString(1, documento);
-            preparedStatement.setInt(2, idtipoDocumento);
+            preparedStatement.setBigDecimal(2, idtipoDocumento);
             preparedStatement.setString(3, nombre);
             preparedStatement.setString(4, apellido);
             preparedStatement.setString(5, nombreCompleto);
@@ -200,7 +204,7 @@ public class persona extends Persistencia implements Serializable {
             ResultSet rs = persona.super.getConecion().query(sql);
             if (rs.absolute(1)) {
                 Current = rs.getInt(1);
-            }            
+            }
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
         } catch (FileNotFoundException ex) {
@@ -283,7 +287,7 @@ public class persona extends Persistencia implements Serializable {
             this.getConecion().con.setAutoCommit(false);
             PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(PrepareUpdate);
             preparedStatement.setString(1, documento);
-            preparedStatement.setInt(2, idtipoDocumento);
+            preparedStatement.setBigDecimal(2, idtipoDocumento);
             preparedStatement.setString(3, nombre);
             preparedStatement.setString(4, apellido);
             preparedStatement.setString(5, nombreCompleto);
@@ -346,7 +350,7 @@ public class persona extends Persistencia implements Serializable {
                 persona tabla = new persona();
                 tabla.setIdPersona(rs.getInt(1));
                 tabla.setDocumento(rs.getString(2));
-                tabla.setIdtipoDocumento(rs.getInt(3));
+                tabla.setIdtipoDocumento(rs.getBigDecimal(3));
                 tabla.setNombre(rs.getString(4));
                 tabla.setApellido(rs.getString(5));
                 tabla.setNombreCompleto(rs.getString(6));
@@ -381,7 +385,7 @@ public class persona extends Persistencia implements Serializable {
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             ResultSet rs = persona.super.getConecion().query(sql);
             if (rs.absolute(1)) {
-                p = new persona(rs.getInt(1), rs.getInt(2), rs.getString(3),
+                p = new persona(rs.getInt(1), rs.getBigDecimal(2), rs.getString(3),
                         rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),
                         rs.getString(8), rs.getDate(9), rs.getString(10), rs.getBinaryStream(11));
             }
@@ -459,7 +463,7 @@ public class persona extends Persistencia implements Serializable {
 
                 tabla.setIdPersona(rs.getInt(1));
                 tabla.setDocumento(rs.getString(2));
-                tabla.setIdtipoDocumento(rs.getInt(3));
+                tabla.setIdtipoDocumento(rs.getBigDecimal(3));
                 tabla.setNombre(rs.getString(4));
                 tabla.setApellido(rs.getString(5));
                 tabla.setNombreCompleto(rs.getString(6));
@@ -516,7 +520,7 @@ public class persona extends Persistencia implements Serializable {
         if (documento.length() <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
             mns = "Debe Digitar el Documento";
             return mns;
-        } else if (idtipoDocumento <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
+        } else if (idtipoDocumento.intValue() <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
             mns = "Debe Seleccionar el tipo de Documento";
         } else if (nombre.length() <= 0 && (condicion == 1 || condicion == 2 || condicion == 3)) {
             mns = "Debe Digitar el Nombre";
@@ -543,6 +547,14 @@ public class persona extends Persistencia implements Serializable {
 
     public void setCurrent(int Current) {
         this.Current = Current;
+    }
+
+    public TipoDocumento getTipodocumento() {
+        return tipodocumento;
+    }
+
+    public void setTipodocumento(TipoDocumento tipodocumento) {
+        this.tipodocumento = tipodocumento;
     }
 
 }
