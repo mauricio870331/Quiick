@@ -139,6 +139,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.txtVentEfectivo.addKeyListener(this);
         M2.TxtbuscarProductoVenta.addKeyListener(this);
         M2.btnVentaNueva.addActionListener(this);
+        M2.btnCaja.addActionListener(this);
 
         Adaptador();
         cargarMenu();
@@ -803,61 +804,61 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             }
         }
 
-//        if (e.getSource() == pr.btnCaja) {
-//            if (pr.pnMicajaEstado.getText().equalsIgnoreCase("Cerrada")) {
-//                String base = JOptionPane.showInputDialog(null, "Base :", "Abrir Turno", 1);
-//                System.out.println("base = " + base);
-//                if (base == null || base.equals("")) {
-//                    base = "0";
-//                }
-//                getMiCaja();
-//                MiCaja.setEstado("A");
-//                MiCaja.setFechainicio(new Date());
-//                MiCaja.setFechaFinal(new Date());
-//                MiCaja.setMontoFinal(new BigDecimal(0));
-//                MiCaja.setMontoInicial(new BigDecimal(base));
-//                MiCaja.setMontoVenta(new BigDecimal(0));;
-//                MiCaja.getObjCajaxUserID().setIdPersona(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdPersona()));
-//                MiCaja.getObjCajaxUserID().setIdSede(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdSede()));
-//                MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-//                MiCaja.getObjCajaxUserID().setIdempresa(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdempresa()));
-//                MiCaja.getObjCajaxUserID().setUsuario(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getUsuario());
-//
-//                if (MiCaja.create() > 0) {
-//                    try {
-//                        DesktopNotify.showDesktopMessage("Información", "Caja Abierta Con Exito", DesktopNotify.INFORMATION, 5000L);
-//                        EstadoMiCaja();
-//                    } catch (ClassNotFoundException ex) {
-//                        Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//
-//            } else {
-//                Object[] opciones = {"Si", "No"};
-//                int eleccion = JOptionPane.showOptionDialog(null, "¿Desea Cerrar la Caja?", "Mensaje de Confirmación",
-//                        JOptionPane.YES_NO_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-//                if (eleccion == JOptionPane.YES_OPTION) {
-//                    System.out.println("cerrarndo caja");
-//                    MiCaja.setEstado("C");
-//                    MiCaja.getObjCajaxUserID().setIdPersona(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdPersona()));
-//                    MiCaja.getObjCajaxUserID().setIdSede(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdSede()));
-//                    MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-//                    MiCaja.getObjCajaxUserID().setIdempresa(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdempresa()));
-//                    MiCaja.getObjCajaxUserID().setUsuario(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getUsuario());
-//
-//                    if (MiCaja.CierreCaja() > 0) {
-//                        try {
-//                            DesktopNotify.showDesktopMessage("Información", "Caja Cerrada Con Exíto", DesktopNotify.INFORMATION, 5000L);
-//                            EstadoMiCaja();
-//                        } catch (ClassNotFoundException ex) {
-//                            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
+        if (e.getSource() == M2.btnCaja) {
+            if (M2.pnMicajaEstado.getText().equalsIgnoreCase("Cerrada")) {
+                String base = JOptionPane.showInputDialog(null, "Base :", "Abrir Turno", 1);
+                System.out.println("base = " + base);
+                if (base == null || base.equals("")) {
+                    base = "0";
+                }
+                getMiCaja();
+                MiCaja.setEstado("A");
+                MiCaja.setFechainicio(new Date());
+                MiCaja.setFechaFinal(new Date());
+                MiCaja.setMontoFinal(new BigDecimal(0));
+                MiCaja.setMontoInicial(new BigDecimal(base));
+                MiCaja.setMontoVenta(new BigDecimal(0));;
+                MiCaja.getObjCajaxUserID().setIdPersona(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdPersona()));
+                MiCaja.getObjCajaxUserID().setIdSede(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdSede()));
+                MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+                MiCaja.getObjCajaxUserID().setIdempresa(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdempresa()));
+                MiCaja.getObjCajaxUserID().setUsuario(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getUsuario());
+
+                if (MiCaja.create() > 0) {
+                    try {
+                        DesktopNotify.showDesktopMessage("Información", "Caja Abierta Con Exito", DesktopNotify.INFORMATION, 5000L);
+                        EstadoMiCaja();
+                    } catch (ClassNotFoundException ex) {
+                        
+                    }
+                }
+
+            } else {
+                Object[] opciones = {"Si", "No"};
+                int eleccion = JOptionPane.showOptionDialog(null, "¿Desea Cerrar la Caja?", "Mensaje de Confirmación",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+                if (eleccion == JOptionPane.YES_OPTION) {
+                    System.out.println("cerrarndo caja");
+                    MiCaja.setEstado("C");
+                    MiCaja.getObjCajaxUserID().setIdPersona(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdPersona()));
+                    MiCaja.getObjCajaxUserID().setIdSede(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdSede()));
+                    MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+                    MiCaja.getObjCajaxUserID().setIdempresa(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdempresa()));
+                    MiCaja.getObjCajaxUserID().setUsuario(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getUsuario());
+
+                    if (MiCaja.CierreCaja() > 0) {
+                        try {
+                            DesktopNotify.showDesktopMessage("Información", "Caja Cerrada Con Exíto", DesktopNotify.INFORMATION, 5000L);
+                            EstadoMiCaja();
+                        } catch (ClassNotFoundException ex) {
+                            
+                        }
+                    }
+                }
+            }
+
+        }
 //
 //        if (e.getSource() == pr.cboMusculos2) {
 //            Musculos ej = (Musculos) pr.cboMusculos2.getSelectedItem();
@@ -3183,40 +3184,80 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     }
 
     public void EstadoMiCaja() throws ClassNotFoundException {
-//        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
-//        getMiCaja();
-//        System.out.println("iniciamos");
-//        if (pr.pnMicajaEstado.getText().equals("CERRADA") || pr.pnMicajaEstado.getText().equals("Estado")) {
-//            pr.BtnGenerarPagos.setEnabled(false);
-//        }
-//        MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-//        System.out.println("seguimos");
-//        MiCaja = MiCaja.MiCaja();
-//        System.out.println("MiCaja " + MiCaja);
-//        if (MiCaja != null) {
-//            pr.pnMicajaMns.setVisible(true);
-//            pr.pnMicajaEstado.setText("Abierta");
-//            pr.btnCaja.setText("Cerrar");
-////            pr.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Wallet.png")));
-//            CargarDatosCaja(1);
-////            pr.btnReporteCaja.setEnabled(false);
-//            pr.btnDetallePago.setEnabled(true);
-//            pr.BtnGenerarPagos.setEnabled(true);
-//            System.out.println("Mi caja : " + MiCaja.getObjCajaxUserID().getIdcaja());
-//            pr.pnMicajaMns.setText("MI CAJA #" + MiCaja.getObjCajaxUserID().getIdcaja() + "         " + dt1.format(new Date()));
-//            pr.pnMicajaMns2.setText("Historial de Pagos");
-//        } else {
-//            pr.pnMicajaMns.setVisible(false);
-//            CargarDatosCaja(2);
-//            this.pr.pnMicajaMns2.setVisible(true);
-//            pr.btnDetallePago.setEnabled(false);
-//            pr.btnCaja.setText("Abrir");
-//            this.pr.pnMicajaMns2.setText("Datos de la ultima caja Abierta ");
-//            pr.pnMicajaEstado.setText("CERRADA");
-//            pr.BtnGenerarPagos.setEnabled(false);
-//            pr.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/CashRegister.png")));
-//            pr.btnReporteCaja.setEnabled(true);
-//        }
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
+        getMiCaja();
+        System.out.println("iniciamos");
+        if (M2.pnMicajaEstado.getText().equals("CERRADA") || M2.pnMicajaEstado.getText().equals("Estado")) {
+            M2.BtnGenerarPagos.setEnabled(false);
+        }
+        MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+        System.out.println("seguimos");
+        MiCaja = MiCaja.MiCaja();
+        System.out.println("MiCaja " + MiCaja);
+        if (MiCaja != null) {
+            M2.pnMicajaMns.setVisible(true);
+            M2.pnMicajaEstado.setText("Abierta");
+            M2.btnCaja.setText("Cerrar");
+//            pr.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Wallet.png")));
+            CargarDatosCaja(1);
+//            pr.btnReporteCaja.setEnabled(false);
+            M2.btnDetallePago.setEnabled(true);
+            M2.BtnGenerarPagos.setEnabled(true);
+            System.out.println("Mi caja : " + MiCaja.getObjCajaxUserID().getIdcaja());
+            M2.pnMicajaMns.setText("MI CAJA #" + MiCaja.getObjCajaxUserID().getIdcaja() + "         " + dt1.format(new Date()));
+            M2.pnMicajaMns2.setText("Historial de Pagos");
+        } else {
+            M2.pnMicajaMns.setVisible(false);
+            CargarDatosCaja(2);
+            this.M2.pnMicajaMns2.setVisible(true);
+            M2.btnDetallePago.setEnabled(false);
+            M2.btnCaja.setText("Abrir");
+            this.M2.pnMicajaMns2.setText("Datos de la ultima caja Abierta ");
+            M2.pnMicajaEstado.setText("CERRADA");
+            M2.BtnGenerarPagos.setEnabled(false);
+            M2.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/CashRegister.png")));
+            M2.btnReporteCaja.setEnabled(true);
+        }
+    }
+    
+     public void CargarDatosCaja(int condicion) {
+        
+        ArrayList<PagoService> listUsuario = new ArrayList();
+        getPagoService();
+        if (MiCaja != null) {
+            pagoService.getObjPagoServiceID().setIdcaja(MiCaja.getObjCajaxUserID().getIdcaja());
+        } else {
+            pagoService.getObjPagoServiceID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+        }
+        
+        listUsuario = (ArrayList<PagoService>) pagoService.ListPagosXUsers(condicion);
+        
+        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
+        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
+        DefaultTableModel modelo;
+        String Titulos[] = {"Factura", "Servicio", "Valor"};
+        modelo = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[4];
+        Iterator<PagoService> listPagos = listUsuario.iterator();
+        while (listPagos.hasNext()) {
+            PagoService u = listPagos.next();
+            columna[0] = u.getObjPagoServiceID().getIdPago();
+            columna[1] = u.getObjTipoService().getDescripcion();
+            columna[2] = u.getValorTotal();
+            
+            modelo.addRow(columna);
+        }
+        M2.tblListaPagos.setModel(modelo);
+        M2.tblListaPagos.getColumnModel().getColumn(0).setPreferredWidth(100);
+        M2.tblListaPagos.getColumnModel().getColumn(1).setPreferredWidth(100);
+        M2.tblListaPagos.getColumnModel().getColumn(2).setPreferredWidth(100);
+        M2.tblListaPagos.setRowHeight(30);
+//        pr.tblListaPagos.getColumnModel().getColumn(2).setCellRenderer(Alinear);
     }
 
     public CajaXUser getMiCaja() {
