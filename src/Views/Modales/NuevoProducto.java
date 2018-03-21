@@ -42,7 +42,7 @@ public class NuevoProducto extends javax.swing.JDialog {
    // public NuevoProducto(java.awt.Frame parent, boolean modal, ControllerM2 p) throws SQLException {
 
 
-    public NuevoProducto(java.awt.Frame parent, boolean modal, Modulo2 p) throws SQLException {
+    public NuevoProducto(java.awt.Frame parent, boolean modal, ControllerM2 p) throws SQLException {
 
         super(parent, modal);
         initComponents();
@@ -50,27 +50,27 @@ public class NuevoProducto extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         Linea = BorderFactory.createLineBorder(Color.RED, 2);
         Linea2 = BorderFactory.createLineBorder(Color.GRAY, 1);
-//        prc = p;
+        prc = p;
         inicarCarga();
 
     }
 
     public void inicarCarga() {
-        //codigo.setText("" + controladorProducto.ventaProduct.getSecuencia().NumeradorObjecto("sq_mproducto"));
-//        codigo.setText("1");
-//
-//        iva.removeAllItems();
-//        for (iva listIva : (ArrayList<iva>) prc.getI().List()) {
-//            iva.addItem(listIva);
-//        }
-//        categoria.removeAllItems();
-//        for (categoria listcate : (ArrayList<categoria>) prc.getC().List()) {
-//            categoria.addItem(listcate);
-//        }
-//        uni.removeAllItems();
-//        for (Unidad listcate : (ArrayList<Unidad>) prc.getU().List()) {
-//            uni.addItem(listcate);
-//        }
+//        codigo.setText("" + controladorProducto.ventaProduct.getSecuencia().NumeradorObjecto("sq_mproducto"));
+        codigo.setText("1");
+
+        iva.removeAllItems();
+        for (iva listIva : (ArrayList<iva>) prc.getI().List()) {
+            iva.addItem(listIva);
+        }
+        categoria.removeAllItems();
+        for (categoria listcate : (ArrayList<categoria>) prc.getC().List()) {
+            categoria.addItem(listcate);
+        }
+        uni.removeAllItems();
+        for (Unidad listcate : (ArrayList<Unidad>) prc.getU().List()) {
+            uni.addItem(listcate);
+        }
     }
 
     /**
@@ -457,6 +457,7 @@ public class NuevoProducto extends javax.swing.JDialog {
         p.setCategoria((categoria) categoria.getSelectedItem());
         p.setIvaP((iva) iva.getSelectedItem());
         p.setUnidad((Unidad) uni.getSelectedItem());
+        p.getProductosID().setCod_producto(new BigDecimal(0));
 
 
         prc.getPr().getListProductos().add(p);

@@ -6,25 +6,19 @@
 package Controllers;
 
 import Pojos.*;
-import Utils.ImagensTabla;
 import Utils.Reportes;
 import Utils.TablaModel;
 import Utils.VistaActual;
 import Views.Modulo1;
-import Views.FrmCapturePict;
 import Views.Modales.Busqueda;
-import Views.Modales.NuevaSede;
 import Views.Modales.NuevoProducto;
 import Views.Modulo2;
 import Views.Modulo3;
 import Views.Modulo4;
 import Views.ModuloRoot;
-import com.toedter.calendar.JDateChooser;
 import ds.desktop.notify.DesktopNotify;
 import fingerUtils.CaptureFinger;
 import fingerUtils.ReadFinger;
-import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -33,35 +27,22 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -105,6 +86,9 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private compradetalle cd;
     private Bodega b;
     private objectobusqueda ob;
+    private Cliente cl;
+    private venta v;
+    private ventaproducto vp;
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat userFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     SimpleDateFormat hh = new SimpleDateFormat("HH:mm:ss");
@@ -147,7 +131,16 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.btnCompraNueva.addActionListener(this);
         M2.txtComboSedeCompra.addActionListener(this);
         M2.mnuBuscarProveedor.addActionListener(this);
-        M2.btnCompraNueva.addActionListener(this);
+        M2.btnTransaccionCaja.addActionListener(this);
+        M2.BntTranVentaBuscar.addActionListener(this);
+        M2.mnuBuscarCliente.addActionListener(this);
+        M2.txtVentaCodCliente.addKeyListener(this);
+        M2.btnventa.addActionListener(this);
+        M2.txtVentEfectivo.addKeyListener(this);
+        M2.TxtbuscarProductoVenta.addKeyListener(this);
+        M2.btnVentaNueva.addActionListener(this);
+        M2.btnCaja.addActionListener(this);
+
         Adaptador();
         cargarMenu();
 
@@ -176,30 +169,66 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == M2.btnCompraNueva) {
-            getCp();
-            getCd();
-            Bodega b = new Bodega();
 
-            cp.getCompra_productoID().setCod_factura(M2.txtFacCompra.getText().trim());
-            cp.getCompra_productoID().setCod_proveedor(pv.getIdProveedor());
-            Date dateStarting = (Date) M2.txtFechaCompra.getDate();
-            cp.setFechacompra(dateStarting);
-            cp.setEstadoCompra(M2.txtEstadoCompra.getSelectedItem().toString());
-            cp.setCantidadproductos(new BigDecimal(pr.getListProductos().size()));
+        if (e.getSource() == M2.btnVentaNueva) {
+            getV();
+            getCl();
+            getTp();
+            getVp();
+            ventaID VD =new ventaID();
+            v.setFechaVenta(new Date());
+            v.getVentaid().setIdTipoVenta(new BigDecimal(1));
+            v.setIdPersonaCliente(cl.getCodCliente());
+            Tp=(TipoPago) M2.txtVenaTipoPago.getSelectedItem();
+            v.setIdTipoPago(Tp.getIdtipoPago());
+            
+            VD.setIdCaja(new BigDecimal(1));
+            VD.setIdUsuario(new BigDecimal(Contenedor.getUsuario().getObjUsuariosID().getIdUsuario()));
+            VD.setUsuario(Contenedor.getUsuario().getObjUsuariosID().getUsuario());
+            VD.setIdSede(new BigDecimal(Contenedor.getUsuario().getObjUsuariosID().getIdSede()));
+            VD.setIdEmpresa(new BigDecimal(Contenedor.getUsuario().getObjUsuariosID().getIdempresa()));
+            VD.setIdPersona(new BigDecimal(Contenedor.getUsuario().getObjUsuariosID().getIdPersona()));
+            
+            for (producto ObjProducto : Contenedor.getListProductos()) {
+                vp.setCantidadVenta(new BigDecimal(ObjProducto.getCantidad()));
+                vp.setValoriva(new BigDecimal(0));
+                vp.setValorTotal(ObjProducto.getValortotal().multiply(new BigDecimal(ObjProducto.getCantidad())));
+                vp.setValorproducto(ObjProducto.getValortotal());
+                vp.setCod_producto(ObjProducto.getProductosID().getCod_producto());
+                vp.setIdCategoria(ObjProducto.getProductosID().getIdCategoria());
+            }
+            
+        }
 
-            b = (Bodega) M2.txtComboBodegasCompra.getSelectedItem();
-            cp.setBodega(b.getIdBodega().intValue());
 
-            if (cp.create() > 0) {
-
-                DesktopNotify.showDesktopMessage("Aviso..!", "Exito al realizar la compra", DesktopNotify.INFORMATION, 5000L);
-//                LimpiarCampos("proveedores");
-//                ListProveedores();
-            } else {
-                DesktopNotify.showDesktopMessage("Aviso..!", "Error al crear compra", DesktopNotify.ERROR, 5000L);
+        
+        if (e.getSource() == M2.mnuBuscarCliente) {
+            try {
+                getOb();
+                ob.setTitulo("Buscar Cliente");
+                ob.setFiltro("Nombre ó Cedula");
+                ob.setModulo(2);
+                ob.setCondicion(2);
+                ob.setM2(this);
+                new Busqueda(M2, true, ob).setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("Error al abrir modal");
             }
         }
+
+        if (e.getSource() == M2.btnventa) {
+            CalculosVenta();
+            getCl();
+            CargaTiposPagos();
+            cl.setCodCliente(new BigDecimal(1));
+            M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
+            M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
+            Contenedor.getListProductos().clear();
+            showPanel(2, "PnTransVenta");
+        }
+
+
+      
 
         if (e.getSource() == M2.mnuBuscarProveedor) {
             try {
@@ -215,7 +244,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             }
         }
 
-        if (e.getSource() == M2.BntTranCompraBuscar) {
+        if (e.getSource() == M2.BntTranCompraBuscar || e.getSource() == M2.BntTranVentaBuscar) {
             try {
                 System.out.println("Click en buscar producto");
                 getOb();
@@ -233,11 +262,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         if (e.getSource() == M2.txtComboSedeCompra) {
             System.out.println("acciono");
             ListBodegas();
-        }
-
-        if (e.getSource() == M2.btnCompraNueva) {
-            getCp();
-
         }
 
         if (e.getSource() == M2.BntTranCompraNuevo) {
@@ -730,70 +754,71 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            }
 //        }
 //
-//        if (e.getSource() == pr.btnTransaccionCaja || e.getSource() == pr.btnBackReports) {
-//            try {
-//                EstadoMiCaja();
-//                showPanel("btnTransaccionCaja");
-//            } catch (ClassNotFoundException ex) {
-//                System.out.println("Error al Validar Estado de la caja.");
-//            }
-//        }
-//
-//        if (e.getSource() == pr.btnCaja) {
-//            if (pr.pnMicajaEstado.getText().equalsIgnoreCase("Cerrada")) {
-//                String base = JOptionPane.showInputDialog(null, "Base :", "Abrir Turno", 1);
-//                System.out.println("base = " + base);
-//                if (base == null || base.equals("")) {
-//                    base = "0";
-//                }
-//                getMiCaja();
-//                MiCaja.setEstado("A");
-//                MiCaja.setFechainicio(new Date());
-//                MiCaja.setFechaFinal(new Date());
-//                MiCaja.setMontoFinal(new BigDecimal(0));
-//                MiCaja.setMontoInicial(new BigDecimal(base));
-//                MiCaja.setMontoVenta(new BigDecimal(0));;
-//                MiCaja.getObjCajaxUserID().setIdPersona(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdPersona()));
-//                MiCaja.getObjCajaxUserID().setIdSede(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdSede()));
-//                MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-//                MiCaja.getObjCajaxUserID().setIdempresa(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdempresa()));
-//                MiCaja.getObjCajaxUserID().setUsuario(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getUsuario());
-//
-//                if (MiCaja.create() > 0) {
-//                    try {
-//                        DesktopNotify.showDesktopMessage("Información", "Caja Abierta Con Exito", DesktopNotify.INFORMATION, 5000L);
-//                        EstadoMiCaja();
-//                    } catch (ClassNotFoundException ex) {
-//                        Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//
-//            } else {
-//                Object[] opciones = {"Si", "No"};
-//                int eleccion = JOptionPane.showOptionDialog(null, "¿Desea Cerrar la Caja?", "Mensaje de Confirmación",
-//                        JOptionPane.YES_NO_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-//                if (eleccion == JOptionPane.YES_OPTION) {
-//                    System.out.println("cerrarndo caja");
-//                    MiCaja.setEstado("C");
-//                    MiCaja.getObjCajaxUserID().setIdPersona(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdPersona()));
-//                    MiCaja.getObjCajaxUserID().setIdSede(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdSede()));
-//                    MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
-//                    MiCaja.getObjCajaxUserID().setIdempresa(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdempresa()));
-//                    MiCaja.getObjCajaxUserID().setUsuario(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getUsuario());
-//
-//                    if (MiCaja.CierreCaja() > 0) {
-//                        try {
-//                            DesktopNotify.showDesktopMessage("Información", "Caja Cerrada Con Exíto", DesktopNotify.INFORMATION, 5000L);
-//                            EstadoMiCaja();
-//                        } catch (ClassNotFoundException ex) {
-//                            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
+        if (e.getSource() == M2.btnTransaccionCaja) {
+            try {
+                System.out.println("Transaccion de caja");
+                EstadoMiCaja();
+                showPanel(2, "btnTransaccionCaja");
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Error al Validar Estado de la caja.");
+            }
+        }
+
+        if (e.getSource() == M2.btnCaja) {
+            if (M2.pnMicajaEstado.getText().equalsIgnoreCase("Cerrada")) {
+                String base = JOptionPane.showInputDialog(null, "Base :", "Abrir Turno", 1);
+                System.out.println("base = " + base);
+                if (base == null || base.equals("")) {
+                    base = "0";
+                }
+                getMiCaja();
+                MiCaja.setEstado("A");
+                MiCaja.setFechainicio(new Date());
+                MiCaja.setFechaFinal(new Date());
+                MiCaja.setMontoFinal(new BigDecimal(0));
+                MiCaja.setMontoInicial(new BigDecimal(base));
+                MiCaja.setMontoVenta(new BigDecimal(0));;
+                MiCaja.getObjCajaxUserID().setIdPersona(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdPersona()));
+                MiCaja.getObjCajaxUserID().setIdSede(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdSede()));
+                MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+                MiCaja.getObjCajaxUserID().setIdempresa(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdempresa()));
+                MiCaja.getObjCajaxUserID().setUsuario(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getUsuario());
+
+                if (MiCaja.create() > 0) {
+                    try {
+                        DesktopNotify.showDesktopMessage("Información", "Caja Abierta Con Exito", DesktopNotify.INFORMATION, 5000L);
+                        EstadoMiCaja();
+                    } catch (ClassNotFoundException ex) {
+                        
+                    }
+                }
+
+            } else {
+                Object[] opciones = {"Si", "No"};
+                int eleccion = JOptionPane.showOptionDialog(null, "¿Desea Cerrar la Caja?", "Mensaje de Confirmación",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+                if (eleccion == JOptionPane.YES_OPTION) {
+                    System.out.println("cerrarndo caja");
+                    MiCaja.setEstado("C");
+                    MiCaja.getObjCajaxUserID().setIdPersona(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdPersona()));
+                    MiCaja.getObjCajaxUserID().setIdSede(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdSede()));
+                    MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+                    MiCaja.getObjCajaxUserID().setIdempresa(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdempresa()));
+                    MiCaja.getObjCajaxUserID().setUsuario(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getUsuario());
+
+                    if (MiCaja.CierreCaja() > 0) {
+                        try {
+                            DesktopNotify.showDesktopMessage("Información", "Caja Cerrada Con Exíto", DesktopNotify.INFORMATION, 5000L);
+                            EstadoMiCaja();
+                        } catch (ClassNotFoundException ex) {
+                            
+                        }
+                    }
+                }
+            }
+
+        }
 //
 //        if (e.getSource() == pr.cboMusculos2) {
 //            Musculos ej = (Musculos) pr.cboMusculos2.getSelectedItem();
@@ -2024,7 +2049,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            ListRoles("");
 //            showPanel(1, "pnRoles");
 //        }
-       
+
     }
 
     private void addFilter() {
@@ -2035,9 +2060,10 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     public void showPanel(int Modulo, String string) {
         switch (Modulo) {
             case 1:
-                M2.setVisible(false);
-                MR.setVisible(true);
+                M2.setVisible(true);
+                MR.setVisible(false);
                 MR.setVistaActual(string);
+                M2.setVistaActual(string);
                 switch (string) {
                     case "pnEmpresas":
                         MR.pnRoles.setVisible(false);
@@ -2056,24 +2082,54 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(true);
                         M2.PnCompras.setVisible(false);
+                        M2.pnMiCaja.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
                         M2.PnTransCompra.setVisible(false);
                         break;
                     case "PnEmpresaProveedor":
                         M2.PnEmpresaProveedor.setVisible(true);
                         M2.PnProveedores.setVisible(false);
                         M2.PnCompras.setVisible(false);
+
+                        M2.pnMiCaja.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
+
                         M2.PnTransCompra.setVisible(false);
                         break;
                     case "PnCompras":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(false);
                         M2.PnTransCompra.setVisible(false);
+
+                        M2.pnMiCaja.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
+
                         M2.PnCompras.setVisible(true);
                         break;
                     case "PnTransCompra":
                         M2.PnEmpresaProveedor.setVisible(false);
                         M2.PnProveedores.setVisible(false);
                         M2.PnCompras.setVisible(false);
+
+                        M2.pnMiCaja.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
+                        M2.PnTransCompra.setVisible(true);
+                        break;
+                    case "btnTransaccionCaja":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        M2.PnTransVenta.setVisible(false);
+                        M2.pnMiCaja.setVisible(true);
+                        break;
+                    case "PnTransVenta":
+                        M2.PnEmpresaProveedor.setVisible(false);
+                        M2.PnProveedores.setVisible(false);
+                        M2.PnCompras.setVisible(false);
+                        M2.PnTransCompra.setVisible(false);
+                        M2.PnTransVenta.setVisible(true);
+                        M2.pnMiCaja.setVisible(false);
                         M2.PnTransCompra.setVisible(true);
                         break;
                 }
@@ -2946,11 +3002,58 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getSource() == M2.txtVentaCodCliente && e.getKeyCode() == 10) {
+            getCl();
+            ArrayList<Cliente> ListCliente = new ArrayList();
+            ListCliente = (ArrayList<Cliente>) cl.BuscarXCliente(M2.txtVentaCodCliente.getText().trim());
+            if (ListCliente.size() > 1) {
+                try {
+                    getOb();
+                    ob.setTitulo("Buscar Cliente");
+                    ob.setFiltro("Nombre ó Cedula");
+                    ob.setModulo(2);
+                    ob.setCondicion(3);
+                    ob.setM2(this);
+                    ob.setListObjectos((ArrayList<Object>) (Object) ListCliente);
+                    new Busqueda(M2, true, ob).setVisible(true);
+                } catch (SQLException ex) {
+                    System.out.println("Error al abrir modal");
+                }
+            } else {
+                PasarClienteventa(ListCliente.get(0));
+            }
+        } else if (e.getSource() == M2.txtVentEfectivo && e.getKeyCode() == 10) {
+            CalculosVenta();
+        } else if (e.getSource() == M2.TxtbuscarProductoVenta && e.getKeyCode() == 10) {
+            getPr();
+            ArrayList<producto> ListProducto = new ArrayList();
+            ListProducto = (ArrayList<producto>) pr.BuscarProducto(M2.TxtbuscarProductoVenta.getText().trim());
+            System.out.println("Tam . " + ListProducto.size());
+            if (ListProducto.size() > 1) {
+                try {
+                    getOb();
+                    ob.setTitulo("Buscar Producto");
+                    ob.setFiltro("Nombre ó Codigo");
+                    ob.setModulo(2);
+                    ob.setCondicion(4);
+                    ob.setM2(this);
+                    ob.setListObjectos((ArrayList<Object>) (Object) ListProducto);
+                    new Busqueda(M2, true, ob).setVisible(true);
+                } catch (SQLException ex) {
+                    System.out.println("Error al abrir modal");
+                }
+            } else {
+                Contenedor.getListProductos().add(ListProducto.get(0));
+                ListProductosVenta();
+                CalculosVenta();
+            }
+        }
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
 //        if (e.getSource() == pr.tblNewRutina) {
 //            int columna = pr.tblNewRutina.getSelectedColumn();
 //            int fila = pr.tblNewRutina.getSelectedRow();
@@ -3045,6 +3148,83 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            DesktopNotify.showDesktopMessage("Informacion..!", "El Campo Usuario Es Obligatorio..!", DesktopNotify.ERROR, 6000L);
 //        }
 
+    }
+
+    public void EstadoMiCaja() throws ClassNotFoundException {
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
+        getMiCaja();
+        System.out.println("iniciamos");
+        if (M2.pnMicajaEstado.getText().equals("CERRADA") || M2.pnMicajaEstado.getText().equals("Estado")) {
+            M2.BtnGenerarPagos.setEnabled(false);
+        }
+        MiCaja.getObjCajaxUserID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+        System.out.println("seguimos");
+        MiCaja = MiCaja.MiCaja();
+        System.out.println("MiCaja " + MiCaja);
+        if (MiCaja != null) {
+            M2.pnMicajaMns.setVisible(true);
+            M2.pnMicajaEstado.setText("Abierta");
+            M2.btnCaja.setText("Cerrar");
+//            pr.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Wallet.png")));
+            CargarDatosCaja(1);
+//            pr.btnReporteCaja.setEnabled(false);
+            M2.btnDetallePago.setEnabled(true);
+            M2.BtnGenerarPagos.setEnabled(true);
+            System.out.println("Mi caja : " + MiCaja.getObjCajaxUserID().getIdcaja());
+            M2.pnMicajaMns.setText("MI CAJA #" + MiCaja.getObjCajaxUserID().getIdcaja() + "         " + dt1.format(new Date()));
+            M2.pnMicajaMns2.setText("Historial de Pagos");
+        } else {
+            M2.pnMicajaMns.setVisible(false);
+            CargarDatosCaja(2);
+            this.M2.pnMicajaMns2.setVisible(true);
+            M2.btnDetallePago.setEnabled(false);
+            M2.btnCaja.setText("Abrir");
+            this.M2.pnMicajaMns2.setText("Datos de la ultima caja Abierta ");
+            M2.pnMicajaEstado.setText("CERRADA");
+            M2.BtnGenerarPagos.setEnabled(false);
+            M2.btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/CashRegister.png")));
+            M2.btnReporteCaja.setEnabled(true);
+        }
+    }
+    
+     public void CargarDatosCaja(int condicion) {
+        
+        ArrayList<PagoService> listUsuario = new ArrayList();
+        getPagoService();
+        if (MiCaja != null) {
+            pagoService.getObjPagoServiceID().setIdcaja(MiCaja.getObjCajaxUserID().getIdcaja());
+        } else {
+            pagoService.getObjPagoServiceID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
+        }
+        
+        listUsuario = (ArrayList<PagoService>) pagoService.ListPagosXUsers(condicion);
+        
+        DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
+        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
+        DefaultTableModel modelo;
+        String Titulos[] = {"Factura", "Servicio", "Valor"};
+        modelo = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) { //para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[4];
+        Iterator<PagoService> listPagos = listUsuario.iterator();
+        while (listPagos.hasNext()) {
+            PagoService u = listPagos.next();
+            columna[0] = u.getObjPagoServiceID().getIdPago();
+            columna[1] = u.getObjTipoService().getDescripcion();
+            columna[2] = u.getValorTotal();
+            
+            modelo.addRow(columna);
+        }
+        M2.tblListaPagos.setModel(modelo);
+        M2.tblListaPagos.getColumnModel().getColumn(0).setPreferredWidth(100);
+        M2.tblListaPagos.getColumnModel().getColumn(1).setPreferredWidth(100);
+        M2.tblListaPagos.getColumnModel().getColumn(2).setPreferredWidth(100);
+        M2.tblListaPagos.setRowHeight(30);
+//        pr.tblListaPagos.getColumnModel().getColumn(2).setCellRenderer(Alinear);
     }
 
     public CajaXUser getMiCaja() {
@@ -3203,7 +3383,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
         TipoDocumento t = new TipoDocumento();
-        t.setIdTipoDocumento(0);
+        t.setIdTipoDocumento(new BigDecimal(0));
         t.setDescripcion("Seleccione");
         t.setEstado("A");
         M2.txtTipoDocProveedor.addItem(t);
@@ -3341,6 +3521,67 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.tableProductosAdd.setRowHeight(30);
     }
 
+    public void ListProductosVenta() {
+        M2.VentaProductosAdd.removeAll();
+        TablaModel tablaModel = new TablaModel(Contenedor.getListProductos(), 2);
+        M2.VentaProductosAdd.setModel(tablaModel.ModelListProductosVenta());
+        M2.VentaProductosAdd.getColumnModel().getColumn(0).setMaxWidth(0);
+        M2.VentaProductosAdd.getColumnModel().getColumn(0).setMinWidth(0);
+        M2.VentaProductosAdd.getColumnModel().getColumn(0).setPreferredWidth(0);
+        M2.VentaProductosAdd.getColumnModel().getColumn(1).setPreferredWidth(10);
+        M2.VentaProductosAdd.getColumnModel().getColumn(2).setPreferredWidth(50);
+        M2.VentaProductosAdd.getColumnModel().getColumn(3).setPreferredWidth(30);
+        M2.VentaProductosAdd.getColumnModel().getColumn(4).setPreferredWidth(10);
+        M2.VentaProductosAdd.getColumnModel().getColumn(5).setPreferredWidth(10);
+        M2.tableProductosAdd.setRowHeight(30);
+    }
+
+    public void CalculosVenta() {
+        getPr();
+        getV();
+        double subtotal = 0;
+        double ValorIva = 0;
+        double ValorPorcentaje = 0;
+        double Devuelta = 0;
+        for (producto p : Contenedor.getListProductos()) {
+            subtotal += (p.getPrecio_venta().doubleValue());
+            ValorIva += (p.getPrecio_venta().doubleValue() * p.getIvaP().getPorcentaje().doubleValue());            
+        }
+        System.out.println("--- " + subtotal);
+        M2.txtSubTotalVenta.setText("" + subtotal);
+        M2.txtVentPorcentaje.setText("0");
+
+        ValorPorcentaje = (subtotal * Double.parseDouble(M2.txtVentPorcentaje.getText()));
+
+        M2.txtVentValorDesc.setText("" + ValorPorcentaje);
+        M2.txtVentaValorIva.setText("" + ValorIva);
+
+        System.out.println("Efectivo : " + M2.txtVentEfectivo.getText());
+
+        Devuelta = Double.parseDouble(M2.txtVentEfectivo.getText().length() > 0 ? M2.txtVentEfectivo.getText() : "0");
+
+        M2.txtVentaValorTotal.setText("TOTAL : $ " + (subtotal - ValorPorcentaje));
+        M2.txtVentaDevuelta.setText("DEVOLUCION : $ " + (M2.txtVentEfectivo.getText().length() > 0 ? (Devuelta - (subtotal - ValorPorcentaje)) : 0));
+
+        v.setValorNeto(new BigDecimal(M2.txtSubTotalVenta.getText()));
+        v.setValoriva(new BigDecimal(M2.txtVentaValorIva.getText()));
+        v.setPorcentajeDescuento(new BigDecimal(M2.txtVentPorcentaje.getText()));
+        v.setValorDescuento(new BigDecimal(M2.txtVentValorDesc.getText()));
+        v.setTotal_venta(new BigDecimal(subtotal - ValorPorcentaje));
+        v.setDevuelta(new BigDecimal((M2.txtVentEfectivo.getText().length() > 0 ? (Devuelta - (subtotal - ValorPorcentaje)) : 0)));
+
+    }
+    
+    public void CargaTiposPagos(){
+        getTp();
+        ArrayList<TipoPago> listPagos=new ArrayList();
+        listPagos=(ArrayList<TipoPago>) Tp.List(); 
+        M2.txtVenaTipoPago.removeAllItems();
+        for (TipoPago listPago : listPagos) {
+            M2.txtVenaTipoPago.addItem(listPago);
+        }
+    }
+
     public void ListSedes() {
         getSede();
         ArrayList<Sedes> listSedes = new ArrayList<>();
@@ -3371,6 +3612,13 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 M2.txtTelefonosProve.setText("");
                 break;
         }
+    }
+
+    public void PasarClienteventa(Cliente c) {
+        getCl();
+        cl = c;
+        M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
+        M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
     }
 
     public Proveedor getPv() {
@@ -3493,5 +3741,40 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     public void setOb(objectobusqueda ob) {
         this.ob = ob;
     }
+
+    public Cliente getCl() {
+        if (cl == null) {
+            cl = new Cliente();
+        }
+        return cl;
+    }
+
+    public void setCl(Cliente cl) {
+        this.cl = cl;
+    }
+
+    public venta getV() {
+        if (v == null) {
+            v = new venta();
+        }
+        return v;
+    }
+
+    public void setV(venta v) {
+        this.v = v;
+    }
+
+    public ventaproducto getVp() {
+        if(vp==null){
+            vp=new ventaproducto();
+        }
+        return vp;
+    }
+
+    public void setVp(ventaproducto vp) {
+        this.vp = vp;
+    }
+    
+    
 
 }
