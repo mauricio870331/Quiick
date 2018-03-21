@@ -149,7 +149,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 ////        pr.btnGuardaAsistencia.addActionListener(this);
 //        pr.btnAsistenciaManual.addActionListener(this);
 ////        pr.btnAdjuntarfoto.addActionListener(this);
-////        pr.btnCapturePhoto.addActionListener(this);
 ////        pr.btnPrimerReg.addActionListener(this);
 ////        pr.btnSiguienteReg.addActionListener(this);
 ////        pr.btnMenosReg.addActionListener(this);
@@ -222,6 +221,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
         MR.txtUser.setText(userFormat.format(new Date()));
         MR.cboRol.addActionListener(this);
         MR.cboGym.addActionListener(this);
+        MR.btnCapturePhoto.addActionListener(this);
 //        MR.btnPerfil.addActionListener(this);
 //        MR.btnGuardaPerfil.addActionListener(this);
 //        MR.mnuEditPerfil.addActionListener(this);
@@ -845,10 +845,7 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
 //            }
 //        }
 //
-//        if (e.getSource() == pr.btnCapturePhoto) {
-//            FrmCapturePict wc = new FrmCapturePict();
-//            wc.run();
-//        }
+
 //
 //        if (e.getSource() == pr.btnAsistencias) {
 //            if (cf != null) {
@@ -2091,8 +2088,14 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
 
         }
-        //**************************FIN CRUD USUARIOS*********************\\
 
+        //Para tomar foto con la webcam
+        if (e.getSource() == MR.btnCapturePhoto) {
+            FrmCapturePict capturarFoto = new FrmCapturePict();
+            capturarFoto.run();
+        }
+
+        //**************************FIN CRUD USUARIOS*********************\\
         //******Crud Roles ********\\
         if (e.getSource() == MR.btnGuardarRol) {
             Object[] componentes = {MR.txtDescRol, MR.cboEstadoRol};
@@ -4306,9 +4309,9 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
             }
             if (componente instanceof JMenuItem) {
                 if (!actuales.contains(((JMenuItem) componente).getName())) {
-                    ((JMenuItem) componente).setEnabled(false);
+                    ((JMenuItem) componente).setVisible(false);
                 } else {
-                    ((JMenuItem) componente).setEnabled(true);
+                    ((JMenuItem) componente).setVisible(true);
                 }
             }
 
