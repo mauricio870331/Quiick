@@ -122,7 +122,7 @@ public class ControllerM4 implements ActionListener, MouseListener, KeyListener 
 
     private void inicomponents() throws IOException {
         M1.btnProveedores.addActionListener(this);
-        M2.btnProveedores.addActionListener(this);
+//        M2.btnProveedores.addActionListener(this);
         M2.btnGuardarProve.addActionListener(this);
         M2.btnViewEmpresaProvedor.addActionListener(this);
         M2.btnEmpresaProveGuardar.addActionListener(this);
@@ -3734,7 +3734,7 @@ public class ControllerM4 implements ActionListener, MouseListener, KeyListener 
         Iterator<TipoDocumento> it = getTd().List().iterator();
         M2.txtTipoDocProveedor.removeAllItems();
         TipoDocumento t = new TipoDocumento();
-        t.setIdTipoDocumento(0);
+        t.setIdTipoDocumento(new BigDecimal(0));
         t.setDescripcion("Seleccione");
         t.setEstado("A");
         M2.txtTipoDocProveedor.addItem(t);

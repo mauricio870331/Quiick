@@ -5,6 +5,7 @@
  */
 package Utils;
 
+import Pojos.Cliente;
 import Pojos.EmpresaProveedor;
 import Pojos.Proveedor;
 import Pojos.categoria;
@@ -23,6 +24,7 @@ public class TablaModel {
     ArrayList<producto> listproductos = new ArrayList();
     ArrayList<Proveedor> listaProveedores = new ArrayList();
     ArrayList<EmpresaProveedor> listEmpresaProve = new ArrayList();
+    ArrayList<Cliente> ListClientes = new ArrayList();
 
     public TablaModel(ArrayList x, int condicion) {
         switch (condicion) {
@@ -37,6 +39,9 @@ public class TablaModel {
                 break;
             case 4:
                 this.listEmpresaProve = x;
+                break;
+            case 5:
+                this.ListClientes = x;
                 break;
         }
 
@@ -179,10 +184,43 @@ public class TablaModel {
         return model;
     }
 
+    public DefaultTableModel ModelListProductosVenta() {
+        DefaultTableModel model = new DefaultTableModel();
+        String Titulos[] = {"#", "Codigo", "Nombre", "Cantidad", "Unidad", "Valor"};
+        model = new DefaultTableModel(null, Titulos) {
+            boolean[] canEdit = new boolean[]{
+                false, false, false, true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+
+        Object[] columna = new Object[6];
+        producto temp = null;
+        Iterator<producto> nombreIterator = listproductos.iterator();
+        while (nombreIterator.hasNext()) {
+            temp = nombreIterator.next();
+            System.out.println("Codigo de Producto : " + temp.getProductosID().getCod_producto());
+            columna[0] = temp.getProductosID().getCod_producto();
+            columna[1] = temp.getSerieproducto();
+            columna[2] = temp.getNombreProducto();
+            columna[3] = temp.getCantidad();
+            columna[4] = temp.getUnidad().getSiglas();
+            columna[5] = temp.getPrecio_venta();
+
+            model.addRow(columna);
+        }
+        model.addRow(new Object[]{"", ""});
+
+        return model;
+    }
+
     public DefaultTableModel ModelListEmpresasProveedor() {
         DefaultTableModel model = new DefaultTableModel();
-        String Titulos[] = {"#", "Nombre Empresa", "Nit", "Direccion", "Telefono"};
-        model = new DefaultTableModel(null, Titulos) {
+        String Titulo[] = {"#", "Nombre Empresa", "Nit", "Direccion", "Telefono"};
+        model = new DefaultTableModel(null, Titulo) {
             boolean[] canEdit = new boolean[]{
                 false, false, false, false, false
             };
@@ -209,4 +247,56 @@ public class TablaModel {
 
         return model;
     }
+
+    public DefaultTableModel BusquedaCargarClienteXObject() {
+        Cliente c = new Cliente();
+        DefaultTableModel model = new DefaultTableModel();
+        String Titulos[] = {"id", "Cedula", "Nombre", "Telefono", "Direccion"};
+        model = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[5];
+
+        Iterator<Cliente> nombreIterator = ListClientes.iterator();
+        while (nombreIterator.hasNext()) {
+            c = (Cliente) nombreIterator.next();
+            columna[0] = c.getCodCliente();
+            columna[1] = c.getP().getDocumento();
+            columna[2] = c.getP().getNombreCompleto();
+            columna[3] = c.getP().getTelefono();
+            columna[4] = c.getP().getDireccion();
+
+            model.addRow(columna);
+        }
+        return model;
+    }
+
+    public DefaultTableModel BusquedaCargaProducto() {
+        producto p = new producto();
+        DefaultTableModel model = new DefaultTableModel();
+        String Titulos[] = {"id", "Codigo", "Nombre", "Stock"};
+        model = new DefaultTableModel(null, Titulos) {
+            @Override
+            public boolean isCellEditable(int row, int column) {//para evitar que las celdas sean editables
+                return false;
+            }
+        };
+        Object[] columna = new Object[4];
+
+        Iterator<producto> nombreIterator = listproductos.iterator();
+        while (nombreIterator.hasNext()) {
+            p = (producto) nombreIterator.next();
+            columna[0] = p.getProductosID().getCod_producto();
+            columna[1] = p.getSerieproducto();
+            columna[2] = p.getNombreProducto();
+            columna[3] = p.getStock();
+
+            model.addRow(columna);
+        }
+        return model;
+    }
+
 }

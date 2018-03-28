@@ -33,10 +33,10 @@ public class GetController {
     }
     
     
-    public static ControllerM2 getControllerM2() {
+    public static ControllerM2 getControllerM2(RolxUser UsuarioLogeado) {
         try {
             if (M2 == null) {
-                M2 = new ControllerM2();
+                M2 = new ControllerM2(UsuarioLogeado);
             } 
         } catch (IOException e) {
             System.out.println("error = " + e);

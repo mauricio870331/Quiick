@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import Pojos.Contenedor;
 import Pojos.Usuario;
 import Views.Bienvenida;
 import Views.Login;
@@ -22,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import Pojos.RolxUser;
+import Views.Modulo2;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -38,6 +40,7 @@ public class LoginController implements ActionListener {
 
     private final Login lg = GetLogin.getLogin();
     private final ModuloRoot MR = GetPrincipal.getModuloRoot();
+    private final Modulo2 M2 = GetPrincipal.getModulo2();
     Bienvenida bienvenida;
     Usuario u = null;
     private Set<Integer> pressed = new HashSet();
@@ -75,9 +78,10 @@ public class LoginController implements ActionListener {
                 RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));
                 if (rolu != null) {
 //                    switch (rolu.getObjRol().getIdRol()) {
+                    Contenedor.setUsuario(u);
                     lg.dispose();
                     getCM1().setUsuarioLogeado(rolu);
-                    getCM2().setUsuarioLogeado(rolu);
+                    getCM2(rolu);
                     getCM3().setUsuarioLogeado(rolu);
                     getCM4().setUsuarioLogeado(rolu);
 
@@ -98,10 +102,14 @@ public class LoginController implements ActionListener {
                         } else {
                             MR.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
                         }
+//                        getCMRoot(rolu);
                         MR.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
                         MR.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
-//                        MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         MR.setVisible(true);
+//                       M2.setVisible(true);
+                       
+                       
                     } else {
                         getBienvenida(rolu);
                     }
@@ -122,8 +130,8 @@ public class LoginController implements ActionListener {
         return GetController.getControllerM1();
     }
 
-    public ControllerM2 getCM2() {
-        return GetController.getControllerM2();
+    public ControllerM2 getCM2(RolxUser UsuarioLogeado) {
+        return GetController.getControllerM2(UsuarioLogeado);
     }
 
     public ControllerM3 getCM3() {
@@ -134,10 +142,8 @@ public class LoginController implements ActionListener {
         return GetController.getControllerM4();
     }
 
-
     public ControllerMRoot getCMRoot(RolxUser UsuarioLogeado) {
         return GetController.getControllerMRoot(UsuarioLogeado);
-
     }
 
     public int validarCampos(Object[] componentes) {

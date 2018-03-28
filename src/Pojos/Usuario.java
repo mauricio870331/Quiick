@@ -201,7 +201,7 @@ public class Usuario extends Persistencia implements Serializable {
                 userId.setIdempresa(rs.getInt(4));
                 userId.setIdPersona(rs.getInt(5));
                 p.setDocumento(rs.getString(10));
-                p.setIdtipoDocumento(rs.getInt(11));
+                p.setIdtipoDocumento(rs.getBigDecimal(11));
                 p.setNombreCompleto(rs.getString(14));
                 p.setFoto(rs.getBinaryStream(21));
                 us.setObjUsuariosID(userId);
@@ -274,7 +274,7 @@ public class Usuario extends Persistencia implements Serializable {
                 userId.setIdPersona(rs.getInt(5));
                 p.setIdPersona(rs.getInt(5));
                 p.setDocumento(rs.getString(10));
-                p.setIdtipoDocumento(rs.getInt(11));
+                p.setIdtipoDocumento(rs.getBigDecimal(11));
                 p.setNombreCompleto(rs.getString(14));
                 p.setFoto(rs.getBinaryStream(21));
                 us.setObjUsuariosID(userId);
@@ -322,7 +322,7 @@ public class Usuario extends Persistencia implements Serializable {
                 userId.setIdempresa(rs.getInt(4));
                 userId.setIdPersona(rs.getInt(5));
                 p.setDocumento(rs.getString(10));
-                p.setIdtipoDocumento(rs.getInt(11));
+                p.setIdtipoDocumento(rs.getBigDecimal(11));
                 p.setNombreCompleto(rs.getString(14));
                 p.setFoto(rs.getBinaryStream(21));
                 us.setObjUsuariosID(userId);

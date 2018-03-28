@@ -151,27 +151,36 @@ public class compradetalle extends Persistencia implements Serializable {
     @Override
     public int create() {
         int transaccion = -1;
-        String prepareInsert = "insert into compra_detalle (idCompra,serie_producto,nombre_producto,costo,idiva,cantidad,stock,valor_venta,cod_unidad,idDetalle,cod_producto) values (?,?,?,?,?,?,?,?,?,?,?)";
+        String prepareInsert = "insert into compra_detalle (idCompra,"
+                + "serie_producto,nombre_producto,costo,idiva,cantidad,stock,valor_venta,cod_unidad,"
+                + "cod_producto) values (?,?,?,?,?,?,?,?,?,?)";
         if (objcompra_producto.create() > 0) {
             try {
+                System.out.println(" Productos ... " + ListDetalles.size());
+                this.getConecion().con = this.getConecion().dataSource.getConnection();
+                this.getConecion().con.setAutoCommit(false);
+                PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
                 for (compradetalle object : ListDetalles) {
-                    this.getConecion().con = this.getConecion().dataSource.getConnection();
-                    this.getConecion().con.setAutoCommit(false);
-                    PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
                     preparedStatement.setBigDecimal(1, new BigDecimal(objcompra_producto.getCodcurrval()));
-                    preparedStatement.setString(2, compradetalleID.getSerieProducto());
-                    preparedStatement.setString(3, nombreProducto);
-                    preparedStatement.setBigDecimal(4, costoproducto);
-                    preparedStatement.setBigDecimal(5, cod_iva);
-                    preparedStatement.setBigDecimal(6, cantidad);
-                    preparedStatement.setBigDecimal(7, stock);
-                    preparedStatement.setBigDecimal(8, valorVenta);
-                    preparedStatement.setBigDecimal(9, cod_unidad);
-                    preparedStatement.setBigDecimal(10, idDetalle);
-                    preparedStatement.setBigDecimal(11, cod_producto);
-
+                    preparedStatement.setString(2, object.getCompradetalleID().getSerieProducto());
+                    preparedStatement.setString(3, object.getNombreProducto());
+                    preparedStatement.setBigDecimal(4, object.getCostoproducto());
+                    preparedStatement.setBigDecimal(5, object.getCod_iva());
+                    preparedStatement.setBigDecimal(6, object.getCantidad());
+                    preparedStatement.setBigDecimal(7, object.getStock());
+                    preparedStatement.setBigDecimal(8, object.getValorVenta());
+                    preparedStatement.setBigDecimal(9, object.getCod_unidad());
+                    preparedStatement.setBigDecimal(10, object.getCod_producto());
                     transaccion = compradetalle.this.getConecion().transaccion(preparedStatement);
                 }
+
+                this.getConecion().cstmt = this.getConecion().con.prepareCall("{call Compra_ajusteProductos(?)}");
+
+                this.getConecion().cstmt.setInt(1, objcompra_producto.getCodcurrval());
+
+                int rep = compradetalle.super.getConecion().cstmt.executeUpdate();
+
+                System.out.println("Respuesta Procedure  : " + rep);
 
             } catch (SQLException ex) {
                 System.out.println("Error SQL : " + ex.toString());
