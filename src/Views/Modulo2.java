@@ -210,7 +210,6 @@ public class Modulo2 extends javax.swing.JFrame {
         jLabel115 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel103 = new javax.swing.JLabel();
-        txtVentPorcentaje = new javax.swing.JTextField();
         txtVenaTipoPago = new javax.swing.JComboBox<>();
         jLabel104 = new javax.swing.JLabel();
         txtVentaCodCliente = new javax.swing.JTextField();
@@ -220,8 +219,8 @@ public class Modulo2 extends javax.swing.JFrame {
         txtVentValorDesc = new javax.swing.JTextField();
         jLabel111 = new javax.swing.JLabel();
         txtVentaValorIva = new javax.swing.JTextField();
-        jLabel113 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
+        ComboVentPorcentaje = new javax.swing.JComboBox<>();
         jPanel71 = new javax.swing.JPanel();
         txtFacturaVenta = new javax.swing.JLabel();
         pnMiCaja = new javax.swing.JPanel();
@@ -1625,8 +1624,6 @@ public class Modulo2 extends javax.swing.JFrame {
         jLabel103.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel103.setText("Descuento(%)");
 
-        txtVentPorcentaje.setPreferredSize(new java.awt.Dimension(64, 16));
-
         txtVenaTipoPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtVenaTipoPagoActionPerformed(evt);
@@ -1658,9 +1655,6 @@ public class Modulo2 extends javax.swing.JFrame {
         txtVentaValorIva.setEnabled(false);
         txtVentaValorIva.setPreferredSize(new java.awt.Dimension(64, 16));
 
-        jLabel113.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel113.setText("Iva($)");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -1671,28 +1665,25 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel110, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel105, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtVentPorcentaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtVenaTipoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtVentValorDesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel104, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel111, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel105, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(13, 13, 13)
-                        .addComponent(jLabel103, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(289, 289, 289)))
+                        .addComponent(jLabel103, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtVenaTipoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtVentValorDesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(ComboVentPorcentaje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel104, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                    .addComponent(jLabel111, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(txtVentaCodCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                     .addComponent(txtVentaValorIva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtVentaNomcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel113, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtVentaNomcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
@@ -1702,7 +1693,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1712,15 +1703,14 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addGap(48, 48, 48))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtVentPorcentaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel103, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel103, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ComboVentPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtVentValorDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel110, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtVentaValorIva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel111, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel113, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel111, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel105)
@@ -2439,6 +2429,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JToggleButton BntTranVentaBuscar;
     public javax.swing.JButton BtnGenerarPagos;
     public javax.swing.JButton BtnGenerarPagos2;
+    public javax.swing.JComboBox<Integer> ComboVentPorcentaje;
     public javax.swing.JPanel PnCompras;
     public javax.swing.JPanel PnEmpresaProveedor;
     private javax.swing.JPanel PnMenuPrincipal;
@@ -2481,7 +2472,6 @@ public class Modulo2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel110;
     private javax.swing.JLabel jLabel111;
     private javax.swing.JLabel jLabel112;
-    private javax.swing.JLabel jLabel113;
     private javax.swing.JLabel jLabel114;
     private javax.swing.JLabel jLabel115;
     private javax.swing.JLabel jLabel2;
@@ -2614,7 +2604,6 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JComboBox<TipoDocumento> txtTipoDocProveedor;
     public javax.swing.JComboBox<TipoPago> txtVenaTipoPago;
     public javax.swing.JTextField txtVentEfectivo;
-    public javax.swing.JTextField txtVentPorcentaje;
     public javax.swing.JTextField txtVentValorDesc;
     public javax.swing.JTextField txtVentaCodCliente;
     public javax.swing.JLabel txtVentaDevuelta;

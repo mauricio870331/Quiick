@@ -153,6 +153,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.TxtbuscarProductoVenta.addKeyListener(this);
         M2.btnVentaNueva.addActionListener(this);
         M2.btnCaja.addActionListener(this);
+        M2.VentaProductosAdd.addKeyListener(this);
 
         Adaptador();
 //        cargarMenu();
@@ -230,13 +231,14 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         }
 
         if (e.getSource() == M2.btnventa) {
+            CargarPorcentajesDescuentos();
             CalculosVenta();
             getCl();
             CargaTiposPagos();
             cl.setCodCliente(new BigDecimal(1));
             M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
             M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
-            Contenedor.getListProductos().clear();
+            Contenedor.getListProductos().clear();            
             showPanel(2, "PnTransVenta");
         }
 
@@ -3062,28 +3064,29 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 ListProductosVenta();
                 CalculosVenta();
             }
-        }
-
+        } 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (e.getSource() == M2.VentaProductosAdd && e.getKeyCode() == 10) {
+            System.out.println("Ajusto Cantidad2");
+            int i = M2.VentaProductosAdd.getSelectedRow();
+            calculos(i);
+        }
+    }
 
-//        if (e.getSource() == pr.tblNewRutina) {
-//            int columna = pr.tblNewRutina.getSelectedColumn();
-//            int fila = pr.tblNewRutina.getSelectedRow();
-//            int idEjercicio = (int) pr.tblNewRutina.getValueAt(fila, 0);
-//            char tecla = e.getKeyChar();
-//            if (tecla == KeyEvent.VK_ENTER) {
-//                if (columna == 6) {
-//                    for (int i = 0; i < newRutina.size(); i++) {
-//                        if (newRutina.get(i).getObjEjerciciosID().getIdEjercicio() == idEjercicio) {
-//                            newRutina.get(i).setSeries((int) pr.tblNewRutina.getValueAt(fila, 6));
-//                        }
-//                    }
-//                }
-//            }
-//        }
+    public void calculos(int posicion) {        
+        String id = (String) M2.VentaProductosAdd.getValueAt(posicion, 0).toString();
+        String cant = (String) M2.VentaProductosAdd.getValueAt(posicion, 3).toString();        
+
+        for (producto p : Contenedor.getListProductos()) {
+            if (p.getProductosID().getCod_producto().intValue()==Integer.parseInt(id)) {
+                p.setCantidad(Integer.parseInt(cant));
+            }
+        }
+    
+        CalculosVenta();
     }
 
     public void RestaurarValoresViewPago(String Doc, String Nombre, boolean restaurarUser) {
@@ -3130,6 +3133,12 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         }
     }
 
+    public void CargarPorcentajesDescuentos(){
+        M2.ComboVentPorcentaje.removeAllItems();
+        for (int j = 0; j < 100; j++) {
+            M2.ComboVentPorcentaje.addItem(j);
+        }
+    }
 //    public boolean validacionPagos() {
 //        return pagoService.ValidacionPagos(us.getObjUsuariosID().getIdUsuario(), sa.format(pr.txtpagosFechaIni.getDate()), sa.format(pr.txtpagosFechaFinal.getDate()));
 //    }
@@ -3559,14 +3568,13 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         double ValorPorcentaje = 0;
         double Devuelta = 0;
         for (producto p : Contenedor.getListProductos()) {
-            subtotal += (p.getPrecio_venta().doubleValue());
+            subtotal += (p.getPrecio_venta().doubleValue()*p.getCantidad());
             ValorIva += (p.getPrecio_venta().doubleValue() * p.getIvaP().getPorcentaje().doubleValue());
         }
         System.out.println("--- " + subtotal);
-        M2.txtSubTotalVenta.setText("" + subtotal);
-        M2.txtVentPorcentaje.setText("0");
+        M2.txtSubTotalVenta.setText("" + subtotal);        
 
-        ValorPorcentaje = (subtotal * Double.parseDouble(M2.txtVentPorcentaje.getText()));
+        ValorPorcentaje = (subtotal * Double.parseDouble(M2.ComboVentPorcentaje.getSelectedItem().toString()));
 
         M2.txtVentValorDesc.setText("" + ValorPorcentaje);
         M2.txtVentaValorIva.setText("" + ValorIva);
@@ -3580,7 +3588,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
         v.setValorNeto(new BigDecimal(M2.txtSubTotalVenta.getText()));
         v.setValoriva(new BigDecimal(M2.txtVentaValorIva.getText()));
-        v.setPorcentajeDescuento(new BigDecimal(M2.txtVentPorcentaje.getText()));
+        v.setPorcentajeDescuento(new BigDecimal(M2.ComboVentPorcentaje.getSelectedItem().toString()));
         v.setValorDescuento(new BigDecimal(M2.txtVentValorDesc.getText()));
         v.setTotal_venta(new BigDecimal(subtotal - ValorPorcentaje));
         v.setDevuelta(new BigDecimal((M2.txtVentEfectivo.getText().length() > 0 ? (Devuelta - (subtotal - ValorPorcentaje)) : 0)));
@@ -3790,6 +3798,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         this.vp = vp;
     }
 
+
     public Menus getMenus() {
         if (menus == null) {
             menus = new Menus();
@@ -3939,5 +3948,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             }
         }
     }
+
 
 }
