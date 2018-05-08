@@ -35,11 +35,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -112,12 +118,19 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private ArrayList<Ejercicios> allEjercicios = new ArrayList();
     private Empresas empresas;
 
-    public ControllerM2() throws IOException {
+    private Menus menus;
+    private SubMenus submenus;
+    public JLabel lblMnues[];
+    public JPanel pnMenuContent[];
+    private PerfilRoles perfilxrol;
+    ArrayList<JButton> listBtnMenus = new ArrayList();
+
+    public ControllerM2(RolxUser UsuarioLogeado) throws IOException {
+        this.UsuarioLogeado = UsuarioLogeado;
         inicomponents();
     }
 
     private void inicomponents() throws IOException {
-        M2.btnProveedores.addActionListener(this);
         M2.btnGuardarProve.addActionListener(this);
         M2.btnViewEmpresaProvedor.addActionListener(this);
         M2.btnEmpresaProveGuardar.addActionListener(this);
@@ -126,14 +139,12 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.mnuEditProveedor.addActionListener(this);
         M2.mnuDeleteProveedor.addActionListener(this);
         M2.btnCancelarProve.addActionListener(this);
-        M2.btnCompras.addActionListener(this);
         M2.btnCompraTrans.addActionListener(this);
         M2.BntTranCompraBuscar.addActionListener(this);
         M2.BntTranCompraNuevo.addActionListener(this);
         M2.btnCompraNueva.addActionListener(this);
         M2.txtComboSedeCompra.addActionListener(this);
         M2.mnuBuscarProveedor.addActionListener(this);
-        M2.btnTransaccionCaja.addActionListener(this);
         M2.BntTranVentaBuscar.addActionListener(this);
         M2.mnuBuscarCliente.addActionListener(this);
         M2.txtVentaCodCliente.addKeyListener(this);
@@ -145,7 +156,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         M2.VentaProductosAdd.addKeyListener(this);
 
         Adaptador();
-        cargarMenu();
+//        cargarMenu();
 
 //        getMiCaja().CierreCajasAuto();
 //        setMiCaja(null);
@@ -166,6 +177,9 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         MR.btnCancelarRol.addActionListener(this);
         MR.mnuEditRol.addActionListener(this);
         MR.mnuDeleteRol.addActionListener(this);
+
+        cargarMenus();
+        cargarPerfilesXRol();
 
     }
 
@@ -263,13 +277,11 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         }
 
         if (e.getSource() == M2.BntTranCompraNuevo) {
-
             try {
-                new NuevoProducto(M2, true, this).setVisible(true);
+                new NuevoProducto(null, true, this).setVisible(true);
             } catch (SQLException ex) {
-                Logger.getLogger(ControllerM2.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Error al abrir modal");
             }
-
         }
 
         if (e.getSource() == M2.btnCompraTrans) {
@@ -281,17 +293,32 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             showPanel(2, "PnTransCompra");
         }
 
-        if (e.getSource() == M2.btnCompras) {
-            showPanel(2, "PnCompras");
-        }
-
-        if (e.getSource() == M2.btnProveedores) {
-            System.out.println("Ingreso a proveedores");
-            CargarDatosInicialesProveedores(1, null);
-            cargarTiposDocumentosProveedor();
-            ListProveedores();
-            showPanel(2, "PnProveedores");
-        }
+        listBtnMenus.forEach((JButton listBtnMenu) -> {
+            if (e.getSource() == listBtnMenu) {
+//                System.out.println("btn " + listBtnMenu.getActionCommand());
+                switch (listBtnMenu.getActionCommand()) {
+                    case "Caja":
+                        try {
+                            System.out.println("Transaccion de caja");
+                            EstadoMiCaja();
+                            showPanel(2, "btnTransaccionCaja");
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(ControllerM2.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        break;
+                    case "Lista Proveedores":
+                        System.out.println("Ingreso a proveedores");
+                        CargarDatosInicialesProveedores(1, null);
+                        cargarTiposDocumentosProveedor();
+                        ListProveedores();
+                        showPanel(2, "PnProveedores");
+                        break;
+                    case "Compras":
+                        showPanel(2, "PnCompras");
+                        break;
+                }
+            }
+        });
 
 //        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
 //            System.out.println("Ingreso a proveedores");
@@ -754,16 +781,6 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //            }
 //        }
 //
-        if (e.getSource() == M2.btnTransaccionCaja) {
-            try {
-                System.out.println("Transaccion de caja");
-                EstadoMiCaja();
-                showPanel(2, "btnTransaccionCaja");
-            } catch (ClassNotFoundException ex) {
-                System.out.println("Error al Validar Estado de la caja.");
-            }
-        }
-
         if (e.getSource() == M2.btnCaja) {
             if (M2.pnMicajaEstado.getText().equalsIgnoreCase("Cerrada")) {
                 String base = JOptionPane.showInputDialog(null, "Base :", "Abrir Turno", 1);
@@ -3780,5 +3797,157 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     public void setVp(ventaproducto vp) {
         this.vp = vp;
     }
+
+
+    public Menus getMenus() {
+        if (menus == null) {
+            menus = new Menus();
+        }
+        return menus;
+    }
+
+    public void setMenus(Menus menus) {
+        this.menus = menus;
+    }
+
+    public SubMenus getSubmenus() {
+        if (submenus == null) {
+            submenus = new SubMenus();
+        }
+        return submenus;
+    }
+
+    public void setSubmenus(SubMenus submenus) {
+        this.submenus = submenus;
+    }
+
+    public PerfilRoles getPerfilxrol() {
+        if (perfilxrol == null) {
+            perfilxrol = new PerfilRoles();
+        }
+        return perfilxrol;
+    }
+
+    public void setPerfilxrol(PerfilRoles perfilxrol) {
+        this.perfilxrol = perfilxrol;
+    }
+
+    public void cargarMenus() {
+        getMenus();
+        menus.setIdUsuarioMenu(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
+        List<Menus> list = menus.ListMenusForUser();
+        int cantMenus = list.size();
+        MR.pnMnus.removeAll();
+        MR.pnMnus.setOpaque(false);
+        MR.pnMnus.setLayout(new java.awt.GridLayout(cantMenus, 1, 150, 0));
+        lblMnues = new JLabel[cantMenus];
+        pnMenuContent = new JPanel[cantMenus];
+        int i = 0;
+        Iterator<Menus> nombreIterator = list.iterator();
+        while (nombreIterator.hasNext()) {
+            Menus m = nombreIterator.next();
+            pnMenuContent[i] = new JPanel();
+            MR.pnMnus.add(crearPnMenu(pnMenuContent[i], m.getNombre(), m.getIdMenu()));
+            i++;
+        }
+        setMenus(null);
+        MR.pnMnus.updateUI();
+    }
+
+    public JPanel crearPnMenu(JPanel panel, String texto, int idMenu) {
+        getSubmenus();
+        submenus.setIdMenu(idMenu);
+        List<SubMenus> list = submenus.List();
+        int cantSubMenus = list.size();
+        JButton btnMnus[] = new JButton[cantSubMenus];
+        int i = 0;
+
+        panel.setOpaque(false);
+        panel.setLayout(new java.awt.BorderLayout());
+
+        JPanel pnTitleMnuUsers = new JPanel();
+        JPanel pnContentMnuUsers = new JPanel();
+        JLabel lblTextMenu = new JLabel();
+        JSeparator sp = new JSeparator();
+
+        //add tittle mnu
+        pnTitleMnuUsers.setOpaque(false);
+        pnTitleMnuUsers.setPreferredSize(new java.awt.Dimension(200, 25));
+        pnTitleMnuUsers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblTextMenu.setFont(new java.awt.Font("Segoe UI", 3, 11)); // NOI18N
+        lblTextMenu.setForeground(new java.awt.Color(255, 255, 255));
+        lblTextMenu.setText(texto);
+
+        pnTitleMnuUsers.add(lblTextMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 4, 190, -1));
+        pnTitleMnuUsers.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 19, 180, -1));
+
+        //add content mnu
+        pnContentMnuUsers.setOpaque(false);
+        pnContentMnuUsers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        //add btnMnus
+        Iterator<SubMenus> nombreIterator = list.iterator();
+        int y = 0;
+        while (nombreIterator.hasNext()) {
+            SubMenus s = nombreIterator.next();
+            btnMnus[i] = new JButton();
+            if (s.getSub_menu().equals("Verificar Asistencias")) {
+                btnMnus[i].setForeground(new java.awt.Color(255, 0, 0));
+            } else {
+                btnMnus[i].setForeground(new java.awt.Color(255, 255, 255));
+            }
+            btnMnus[i].setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            btnMnus[i].setBackground(new java.awt.Color(54, 63, 73));
+            btnMnus[i].setText(s.getSub_menu());
+            btnMnus[i].setActionCommand(s.getSub_menu());
+            btnMnus[i].setBorder(null);
+            btnMnus[i].setBorderPainted(false);
+            btnMnus[i].setContentAreaFilled(false);
+            btnMnus[i].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            btnMnus[i].setFocusPainted(false);
+            btnMnus[i].setHideActionText(true);
+            btnMnus[i].setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+            btnMnus[i].setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+            btnMnus[i].setIconTextGap(1);
+            btnMnus[i].addActionListener(this);
+            pnContentMnuUsers.add(btnMnus[i], new org.netbeans.lib.awtextra.AbsoluteConstraints(10, y, -1, 20));
+            listBtnMenus.add(btnMnus[i]);
+            i++;
+            y += 17;
+        }
+        setSubmenus(null);
+        panel.add(pnTitleMnuUsers, java.awt.BorderLayout.PAGE_START);
+        panel.add(pnContentMnuUsers, java.awt.BorderLayout.CENTER);
+        panel.updateUI();
+        return panel;
+    }
+
+    public void cargarPerfilesXRol() {
+        getPerfilxrol().setIdRol(UsuarioLogeado.getObjRol().getIdRol());
+        List<String> actuales = getPerfilxrol().List();
+        //agregar los componentes que se van a validar para habilitar por rol
+        Object[] componentes = {MR.btnGuardarUser, MR.mnuAddMenues};
+        for (Object componente : componentes) {
+            if (componente instanceof JButton) {
+                if (!actuales.contains(((JButton) componente).getName())) {
+                    ((JButton) componente).setEnabled(false);
+                    ((JButton) componente).removeMouseListener(this);
+                    ((JButton) componente).setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(34, 41, 50)));
+                } else {
+                    ((JButton) componente).setEnabled(true);
+                    ((JButton) componente).addMouseListener(this);
+                    ((JButton) componente).setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+                }
+            }
+            if (componente instanceof JMenuItem) {
+                if (!actuales.contains(((JMenuItem) componente).getName())) {
+                    ((JMenuItem) componente).setVisible(false);
+                } else {
+                    ((JMenuItem) componente).setVisible(true);
+                }
+            }
+        }
+    }
+
 
 }

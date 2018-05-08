@@ -81,7 +81,7 @@ public class LoginController implements ActionListener {
                     Contenedor.setUsuario(u);
                     lg.dispose();
                     getCM1().setUsuarioLogeado(rolu);
-                    getCM2().setUsuarioLogeado(rolu);
+                    getCM2(rolu);
                     getCM3().setUsuarioLogeado(rolu);
                     getCM4().setUsuarioLogeado(rolu);
 
@@ -102,11 +102,14 @@ public class LoginController implements ActionListener {
                         } else {
                             MR.UserLogPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/userDefault.png")));
                         }
+//                        getCMRoot(rolu);
                         MR.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
                         MR.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
-//                        MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//                        MR.setVisible(true);
-                       M2.setVisible(true);
+                        MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        MR.setVisible(true);
+//                       M2.setVisible(true);
+                       
+                       
                     } else {
                         getBienvenida(rolu);
                     }
@@ -127,8 +130,8 @@ public class LoginController implements ActionListener {
         return GetController.getControllerM1();
     }
 
-    public ControllerM2 getCM2() {
-        return GetController.getControllerM2();
+    public ControllerM2 getCM2(RolxUser UsuarioLogeado) {
+        return GetController.getControllerM2(UsuarioLogeado);
     }
 
     public ControllerM3 getCM3() {
@@ -141,7 +144,6 @@ public class LoginController implements ActionListener {
 
     public ControllerMRoot getCMRoot(RolxUser UsuarioLogeado) {
         return GetController.getControllerMRoot(UsuarioLogeado);
-
     }
 
     public int validarCampos(Object[] componentes) {
