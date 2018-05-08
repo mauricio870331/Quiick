@@ -106,8 +106,8 @@ public class LoginController implements ActionListener {
                         MR.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
                         MR.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
                         MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                        MR.setVisible(true);
-//                       M2.setVisible(true);
+//                        MR.setVisible(true);
+                       M2.setVisible(true);
                        
                        
                     } else {

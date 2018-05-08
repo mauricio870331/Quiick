@@ -3837,21 +3837,23 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         menus.setIdUsuarioMenu(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario());
         List<Menus> list = menus.ListMenusForUser();
         int cantMenus = list.size();
-        MR.pnMnus.removeAll();
-        MR.pnMnus.setOpaque(false);
-        MR.pnMnus.setLayout(new java.awt.GridLayout(cantMenus, 1, 150, 0));
+        M2.pnMnus.removeAll();
+        M2.pnMnus.setOpaque(false);
+        M2.pnMnus.setLayout(new java.awt.GridLayout(cantMenus, 1, 150, 0));
         lblMnues = new JLabel[cantMenus];
         pnMenuContent = new JPanel[cantMenus];
         int i = 0;
         Iterator<Menus> nombreIterator = list.iterator();
         while (nombreIterator.hasNext()) {
+            System.out.println("Menu ------");
             Menus m = nombreIterator.next();
             pnMenuContent[i] = new JPanel();
-            MR.pnMnus.add(crearPnMenu(pnMenuContent[i], m.getNombre(), m.getIdMenu()));
+            M2.pnMnus.add(crearPnMenu(pnMenuContent[i], m.getNombre(), m.getIdMenu()));
             i++;
         }
         setMenus(null);
-        MR.pnMnus.updateUI();
+        M2.pnMnus.updateUI();
+              
     }
 
     public JPanel crearPnMenu(JPanel panel, String texto, int idMenu) {

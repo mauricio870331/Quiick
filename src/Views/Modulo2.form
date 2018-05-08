@@ -456,27 +456,19 @@
                   <Component id="PnTransCompra" alignment="0" pref="1113" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="4" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                      <Component id="PnCompras" pref="1086" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="PnCompras" alignment="0" pref="1113" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="5" groupAlignment="0" attributes="0">
                   <Component id="PnTransVenta" alignment="0" pref="1113" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="6" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pnMiCaja" pref="1093" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="pnMiCaja" alignment="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="707" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="734" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Component id="PnProveedores" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -500,8 +492,7 @@
                   </Group>
               </Group>
               <Group type="103" rootIndex="6" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="pnMiCaja" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -2158,6 +2149,7 @@
             </Property>
           </Properties>
           <AuxValues>
+            <AuxValue name="JLayeredPane.layer" type="java.lang.Integer" value="100"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
 
@@ -2403,7 +2395,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="541" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="554" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -2433,7 +2425,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane18" alignment="0" pref="1066" max="32767" attributes="0"/>
+                              <Component id="jScrollPane18" alignment="0" pref="1093" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="pnMicajaMns3" min="-2" pref="330" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -2512,7 +2504,6 @@
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JLayeredPane.layer" type="java.lang.Integer" value="100"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
 
@@ -3095,7 +3086,7 @@
                                   </Group>
                                   <Component id="pnMicajaMns" alignment="0" min="-2" pref="330" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="114" max="32767" attributes="0"/>
+                              <EmptySpace pref="124" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3338,7 +3329,7 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="486" max="32767" attributes="0"/>
+                              <EmptySpace pref="496" max="32767" attributes="0"/>
                               <Component id="pnMicajaEstado" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           </Group>
@@ -3391,7 +3382,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane8" alignment="0" pref="1073" max="32767" attributes="0"/>
+                              <Component id="jScrollPane8" alignment="0" pref="1093" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="pnMicajaMns2" min="-2" pref="330" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -3408,7 +3399,7 @@
                           <Component id="pnMicajaMns2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane8" min="-2" pref="401" max="-2" attributes="0"/>
-                          <EmptySpace pref="179" max="32767" attributes="0"/>
+                          <EmptySpace pref="190" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
