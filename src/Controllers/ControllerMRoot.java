@@ -2202,7 +2202,6 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                 try {
                     String usuario = MR.tblUsers.getValueAt(fila, 3).toString() + " " + MR.tblUsers.getValueAt(fila, 4).toString();
                     MenusXUsuarios mxu = new MenusXUsuarios(MR, true, Integer.parseInt(MR.tblUsers.getValueAt(fila, 9).toString()), getUsuarioLogeado());
-
                     mxu.lblUser.setText(mxu.lblUser.getText() + " " + usuario);
                     mxu.setLocationRelativeTo(null);
                     mxu.setVisible(true);
@@ -2318,6 +2317,11 @@ public class ControllerMRoot implements ActionListener, MouseListener, KeyListen
                         } catch (IOException ex) {
                             System.out.println("error " + ex);
                         }
+                        break;
+                    case "Caja":         
+                        MR.dispose();                        
+                        GetController.getControllerM2(UsuarioLogeado);
+                        M2.setVisible(true);
                         break;
                 }
             }

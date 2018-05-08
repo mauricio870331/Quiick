@@ -122,7 +122,7 @@ public class ControllerM4 implements ActionListener, MouseListener, KeyListener 
 
     private void inicomponents() throws IOException {
         M1.btnProveedores.addActionListener(this);
-        M2.btnProveedores.addActionListener(this);
+//        M2.btnProveedores.addActionListener(this);
         M2.btnGuardarProve.addActionListener(this);
         M2.btnViewEmpresaProvedor.addActionListener(this);
         M2.btnEmpresaProveGuardar.addActionListener(this);
