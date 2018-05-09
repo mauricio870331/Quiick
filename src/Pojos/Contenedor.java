@@ -18,6 +18,7 @@ public class Contenedor {
     public static Usuario usuario;
 
     public static ArrayList<producto> getListProductos() {
+        System.out.println("Tamaño de arreglo.... " + ListProductos.size());
         return ListProductos;
     }
 

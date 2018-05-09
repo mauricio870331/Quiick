@@ -13,7 +13,7 @@ public abstract class Persistencia {
 
     public Persistencia() {
 //        InicConection(1);//bd liliana
-        pool = GetConecion.getControllerpool(2);
+        pool = GetConecion.getControllerpool(3);
     }
 
     public abstract int create();

@@ -166,17 +166,17 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 //        cargarTblUsers(filtro);
 //        showPanel(2, "PnProveedores");
 //        System.out.println("pr.pnMicajaEstado.getText() " + pr.pnMicajaEstado.getText());
-        MR.btnGuardarEmpresa.addActionListener(this);
-        MR.btnCancelarEmpresa.addActionListener(this);
-//        MR.btnEmpresas.addMouseListener(this);
-        MR.mnuEditEmpresa.addActionListener(this);
-        MR.mnuDeleteEmpresa.addActionListener(this);
-        MR.mnuNewSede.addActionListener(this);
-        MR.btnGuardarRol.addActionListener(this);
-//        MR.btnRoles.addActionListener(this);
-        MR.btnCancelarRol.addActionListener(this);
-        MR.mnuEditRol.addActionListener(this);
-        MR.mnuDeleteRol.addActionListener(this);
+//        MR.btnGuardarEmpresa.addActionListener(this);
+//        MR.btnCancelarEmpresa.addActionListener(this);
+////        MR.btnEmpresas.addMouseListener(this);
+//        MR.mnuEditEmpresa.addActionListener(this);
+//        MR.mnuDeleteEmpresa.addActionListener(this);
+//        MR.mnuNewSede.addActionListener(this);
+//        MR.btnGuardarRol.addActionListener(this);
+////        MR.btnRoles.addActionListener(this);
+//        MR.btnCancelarRol.addActionListener(this);
+//        MR.mnuEditRol.addActionListener(this);
+//        MR.mnuDeleteRol.addActionListener(this);
 
         cargarMenus();
         cargarPerfilesXRol();

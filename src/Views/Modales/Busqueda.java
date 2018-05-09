@@ -235,11 +235,13 @@ public class Busqueda extends javax.swing.JDialog {
                                 if (listProducto.getProductosID().getCod_producto().intValue() == listObjecto.getProductosID().getCod_producto().intValue()) {
                                     listProducto.setCantidad(listProducto.getCantidad() + 1);
                                     listProducto.setPrecio_venta(listProducto.getPrecio_venta().multiply(new BigDecimal(listProducto.getCantidad())));
+                                    System.out.println("Ya esta");
                                     r = true;
                                     break;
                                 }
                             }
                             if (r == false) {
+                                System.out.println("No esta");
                                 listObjecto.setCantidad(1);                                
                                 Contenedor.getListProductos().add(listObjecto);
                             }
