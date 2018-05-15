@@ -26,8 +26,7 @@ public class venta extends Persistencia implements Serializable {
     private BigDecimal valorDescuento;
     private BigDecimal total_venta;
     private BigDecimal Devuelta;
-    private BigDecimal idTipoPago;
-    private BigDecimal Paga;
+    private BigDecimal idTipoPago;    
     private BigDecimal codCurrent;
 
     public venta() {
@@ -115,14 +114,6 @@ public class venta extends Persistencia implements Serializable {
         this.idTipoPago = idTipoPago;
     }
 
-    public BigDecimal getPaga() {
-        return Paga;
-    }
-
-    public void setPaga(BigDecimal Paga) {
-        this.Paga = Paga;
-    }
-
     public BigDecimal getCodCurrent() {
         return codCurrent;
     }
@@ -154,8 +145,7 @@ public class venta extends Persistencia implements Serializable {
             preparedStatement.setBigDecimal(9, total_venta);
             preparedStatement.setBigDecimal(10, Devuelta);
 
-            preparedStatement.setBigDecimal(11, idTipoPago);
-            preparedStatement.setBigDecimal(12, Paga);
+            preparedStatement.setBigDecimal(11, idTipoPago);            
             preparedStatement.setBigDecimal(13, ventaid.getIdCaja());
             preparedStatement.setBigDecimal(14, ventaid.getIdUsuario());
             preparedStatement.setString(15, ventaid.getUsuario());
@@ -190,6 +180,11 @@ public class venta extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String toString() {
+        return "venta{" + "ventaid=" + ventaid.toString() + ", fechaVenta=" + fechaVenta + ", idPersonaCliente=" + idPersonaCliente + ", valorNeto=" + valorNeto + ", valoriva=" + valoriva + ", PorcentajeDescuento=" + PorcentajeDescuento + ", valorDescuento=" + valorDescuento + ", total_venta=" + total_venta + ", Devuelta=" + Devuelta + ", idTipoPago=" + idTipoPago + ", codCurrent=" + codCurrent + '}';
     }
 
 }

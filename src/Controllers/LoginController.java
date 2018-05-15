@@ -78,7 +78,7 @@ public class LoginController implements ActionListener {
                 RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));
                 if (rolu != null) {
 //                    switch (rolu.getObjRol().getIdRol()) {
-                    Contenedor.setUsuario(u);
+                    Contenedor.setUsuario(rolu.getObjUsuario());
                     lg.dispose();
                     getCM1().setUsuarioLogeado(rolu);
                     getCM2(rolu);

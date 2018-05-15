@@ -101,25 +101,54 @@ public class ventaproducto extends Persistencia implements Serializable {
     @Override
     public int create() {
         int transaccion = -1;
+        
+          String prepareInsertVenta = "insert into venta (cod_factura, fecha_venta, idTipoVenta, idPersonaCliente,"
+                    + " valorNeto, valoriva, PorcentajeDescuento, valorDescuento, total_venta, Devuelta, "
+                    + "idTipoPago, Paga, idCaja, idUsuario, usuario, idSede, idempresa, idPersona)"
+                    + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        
         String prepareInsert = "insert into ventaproducto (cod_factura, cantidadVenta, valoriva, ValorTotal, valorproducto, cod_producto, idCategoria)"
                 + " values (?,?,?,?,?,?,?)";
+        System.out.println(".. : " + venta.toString());
+
         try {
-            if (venta.create() > 0) {
                 this.getConecion().con = this.getConecion().dataSource.getConnection();
                 this.getConecion().con.setAutoCommit(false);
-                for (ventaproducto listProducto : listProductos) {
-                    PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
-                    preparedStatement.setBigDecimal(1, venta.getCodCurrent());
-                    preparedStatement.setBigDecimal(2, cantidadVenta);
-                    preparedStatement.setBigDecimal(3, valoriva);
-                    preparedStatement.setBigDecimal(4, ValorTotal);
-                    preparedStatement.setBigDecimal(5, valorproducto);
-                    preparedStatement.setBigDecimal(6, cod_producto);
-                    preparedStatement.setBigDecimal(7, idCategoria);
-                    transaccion = ventaproducto.this.getConecion().transaccion(preparedStatement);
-                }
-            }
+                PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsertVenta);
+                preparedStatement.setBigDecimal(1, venta.getVentaid().getCod_factura());
+                preparedStatement.setDate(2, (java.sql.Date) venta.getFechaVenta());
+                preparedStatement.setBigDecimal(3, venta.getVentaid().getIdTipoVenta());
+                preparedStatement.setBigDecimal(4, venta.getIdPersonaCliente());
+                preparedStatement.setBigDecimal(5, venta.getValorNeto());
+                preparedStatement.setBigDecimal(6, venta.getValoriva());
+                preparedStatement.setBigDecimal(7, venta.getPorcentajeDescuento());
+                preparedStatement.setBigDecimal(8, venta.getValorDescuento());
+                preparedStatement.setBigDecimal(9, venta.getTotal_venta());
+                preparedStatement.setBigDecimal(10, venta.getDevuelta());
 
+//                preparedStatement.setBigDecimal(11, idTipoPago);
+//                preparedStatement.setBigDecimal(13, ventaid.getIdCaja());
+//                preparedStatement.setBigDecimal(14, ventaid.getIdUsuario());
+//                preparedStatement.setString(15, ventaid.getUsuario());
+//                preparedStatement.setBigDecimal(16, ventaid.getIdSede());
+//                preparedStatement.setBigDecimal(17, ventaid.getIdEmpresa());
+//                preparedStatement.setBigDecimal(18, ventaid.getIdPersona());
+//
+//                transaccion = venta.this.getConecion().transaccion(preparedStatement);
+
+
+//                for (ventaproducto listProducto : listProductos) {
+//                    System.out.println(".. : " + listProducto.toString());
+//                    PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
+//                    preparedStatement.setBigDecimal(1, venta.getCodCurrent());
+//                    preparedStatement.setBigDecimal(2, cantidadVenta);
+//                    preparedStatement.setBigDecimal(3, valoriva);
+//                    preparedStatement.setBigDecimal(4, ValorTotal);
+//                    preparedStatement.setBigDecimal(5, valorproducto);
+//                    preparedStatement.setBigDecimal(6, cod_producto);
+//                    preparedStatement.setBigDecimal(7, idCategoria);
+//                    transaccion = ventaproducto.this.getConecion().transaccion(preparedStatement);
+//                }
         } catch (SQLException ex) {
             System.out.println("Error SQL : " + ex.toString());
         } finally {
@@ -146,6 +175,20 @@ public class ventaproducto extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public ArrayList<ventaproducto> getListProductos() {
+        System.out.println("getListProductos : " + listProductos.size());
+        return listProductos;
+    }
+
+    public void setListProductos(ArrayList<ventaproducto> listProductos) {
+        this.listProductos = listProductos;
+    }
+
+    @Override
+    public String toString() {
+        return "ventaproducto{" + "ventaproID=" + ventaproID.toString() + " cantidadVenta=" + cantidadVenta + ", valoriva=" + valoriva + ", ValorTotal=" + ValorTotal + ", valorproducto=" + valorproducto + ", cod_producto=" + cod_producto + ", idCategoria=" + idCategoria + ", listProductos=" + listProductos + '}';
     }
 
 }
