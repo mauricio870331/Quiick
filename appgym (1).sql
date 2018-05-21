@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-05-2018 a las 06:41:16
+-- Tiempo de generación: 21-05-2018 a las 06:42:36
 -- Versión del servidor: 10.1.29-MariaDB
 -- Versión de PHP: 7.2.0
 
@@ -94,7 +94,7 @@ SELECT `serie_producto`, `idDetalle`,cod_producto,costo,cantidad FROM `compra_de
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetNumerador` (IN `tipo` INT)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetNumerador` (IN `tipo` VARCHAR(12))  NO SQL
 begin
 
 START TRANSACTION;
@@ -121,6 +121,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ProductoBuscar` (IN `filtro` VARCHA
 select A.*,B.descripcion,C.siglas,D.descripcion from producto A , categoria B  , unidad C , iva D 
 where a.idCategoria=B.idCategoria and A.cod_unidad=C.cod_unidad and A.idIva=D.idIva and A.estado='A' 
 and (a.serieProducto LIKE '%'||filtro||'%')$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Venta_AjusteCantidades` (IN `factura` INT)  NO SQL
+UPDATE producto INNER JOIN ventaproducto A
+ON A.cod_producto=producto.cod_producto AND
+A.idCategoria=producto.idCategoria and 
+A.cod_factura=factura
+SET cantidad=(cantidad-A.cantidadVenta)$$
 
 DELIMITER ;
 
@@ -677,7 +684,7 @@ CREATE TABLE `numeradores` (
 --
 
 INSERT INTO `numeradores` (`tipoNumerador`, `rango_inicial`, `rango_final`, `valor`, `Incremento`, `estado`) VALUES
-('Factura', 1, 1000, 3, 1, 'A');
+('Factura', 1, 1000, 42, 1, 'A');
 
 -- --------------------------------------------------------
 
@@ -696,7 +703,46 @@ CREATE TABLE `numeradorespendientes` (
 --
 
 INSERT INTO `numeradorespendientes` (`tipoNumerador`, `secuencia`, `estado`) VALUES
-('Factura', 3, 'P');
+('Factura', 3, 'P'),
+('Factura', 4, 'P'),
+('Factura', 5, 'P'),
+('Factura', 6, 'P'),
+('Factura', 7, 'P'),
+('Factura', 8, 'P'),
+('Factura', 9, 'P'),
+('Factura', 10, 'P'),
+('Factura', 11, 'P'),
+('Factura', 12, 'P'),
+('Factura', 13, 'P'),
+('Factura', 14, 'P'),
+('Factura', 15, 'P'),
+('Factura', 16, 'P'),
+('Factura', 17, 'P'),
+('Factura', 18, 'P'),
+('Factura', 19, 'P'),
+('Factura', 20, 'P'),
+('Factura', 21, 'P'),
+('Factura', 22, 'P'),
+('Factura', 23, 'P'),
+('Factura', 24, 'P'),
+('Factura', 25, 'P'),
+('Factura', 26, 'P'),
+('Factura', 27, 'P'),
+('Factura', 28, 'P'),
+('Factura', 29, 'P'),
+('Factura', 30, 'P'),
+('Factura', 31, 'P'),
+('Factura', 32, 'P'),
+('Factura', 33, 'P'),
+('Factura', 34, 'P'),
+('Factura', 35, 'P'),
+('Factura', 36, 'P'),
+('Factura', 37, 'P'),
+('Factura', 38, 'P'),
+('Factura', 39, 'P'),
+('Factura', 40, 'P'),
+('Factura', 41, 'P'),
+('Factura', 42, 'P');
 
 -- --------------------------------------------------------
 
@@ -865,7 +911,7 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`cod_producto`, `idCategoria`, `serieProducto`, `Nombreproducto`, `idIva`, `costo`, `precio_venta`, `cantidad`, `porcentajeDescuento`, `valorTotal`, `stock`, `estado`, `cod_unidad`) VALUES
-(1, 1, '1', 'COCA COLA', 1, '1000.00', '1200', 100, 0, '1200.00', 10, 'A', 1);
+(1, 1, '1', 'COCA COLA', 1, '1000.00', '1200', 86, 0, '1200.00', 10, 'A', 1);
 
 -- --------------------------------------------------------
 
@@ -1265,6 +1311,7 @@ CREATE TABLE `venta` (
   `valorDescuento` decimal(14,2) NOT NULL,
   `total_venta` decimal(14,2) NOT NULL,
   `Devuelta` decimal(14,2) NOT NULL,
+  `efectivo` int(11) NOT NULL,
   `idTipoPago` decimal(10,0) NOT NULL,
   `idCaja` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
@@ -1273,6 +1320,28 @@ CREATE TABLE `venta` (
   `idempresa` int(11) NOT NULL,
   `idPersona` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `venta`
+--
+
+INSERT INTO `venta` (`cod_factura`, `fecha_venta`, `idTipoVenta`, `idPersonaCliente`, `valorNeto`, `valoriva`, `PorcentajeDescuento`, `valorDescuento`, `total_venta`, `Devuelta`, `efectivo`, `idTipoPago`, `idCaja`, `idUsuario`, `usuario`, `idSede`, `idempresa`, `idPersona`) VALUES
+(24, '2018-05-20', '1', 2, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(25, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '13800.00', 15000, '1', 1, 1, 'mherrera', 2, 1, 1),
+(26, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(28, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(29, '2018-05-20', '1', 1, '2400.00', '0.00', 0, '0.00', '2400.00', '-2400.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(31, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(32, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(33, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(34, '2018-05-20', '1', 1, '0.00', '0.00', 0, '0.00', '0.00', '0.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(35, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(36, '2018-05-20', '1', 1, '0.00', '0.00', 0, '0.00', '0.00', '0.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(38, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(39, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(40, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(41, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1),
+(42, '2018-05-20', '1', 1, '1200.00', '0.00', 0, '0.00', '1200.00', '-1200.00', 0, '1', 1, 1, 'mherrera', 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1290,6 +1359,24 @@ CREATE TABLE `ventaproducto` (
   `cod_producto` decimal(10,0) NOT NULL,
   `idCategoria` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `ventaproducto`
+--
+
+INSERT INTO `ventaproducto` (`idVentaproducto`, `cod_factura`, `cantidadVenta`, `valoriva`, `ValorTotal`, `valorproducto`, `cod_producto`, `idCategoria`) VALUES
+(1, 28, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(2, 29, 2, '0.00', '2400.00', '1200.00', '1', '1'),
+(3, 31, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(4, 32, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(5, 33, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(6, 35, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(7, 36, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(8, 38, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(9, 39, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(10, 40, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(11, 41, 1, '0.00', '1200.00', '1200.00', '1', '1'),
+(12, 42, 1, '0.00', '1200.00', '1200.00', '1', '1');
 
 --
 -- Índices para tablas volcadas
@@ -1823,7 +1910,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `ventaproducto`
 --
 ALTER TABLE `ventaproducto`
-  MODIFY `idVentaproducto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idVentaproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restricciones para tablas volcadas
