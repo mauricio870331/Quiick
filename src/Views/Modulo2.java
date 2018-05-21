@@ -222,6 +222,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         ComboVentPorcentaje = new javax.swing.JComboBox<>();
         jPanel71 = new javax.swing.JPanel();
+        txtFactura = new javax.swing.JLabel();
         txtFacturaVenta = new javax.swing.JLabel();
         pnMiCaja = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
@@ -1224,7 +1225,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addComponent(jLabel102, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtComboBodegasCompra))
                 .addGap(19, 19, 19)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1612,7 +1613,7 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(476, 476, 476)
                     .addComponent(txtVentaDevuelta, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(161, Short.MAX_VALUE)))
+                    .addContainerGap(176, Short.MAX_VALUE)))
         );
 
         jPanel70.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -1672,11 +1673,11 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtVenaTipoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtVentValorDesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(txtVentValorDesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                     .addComponent(ComboVentPorcentaje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel104, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                    .addComponent(jLabel104, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                     .addComponent(jLabel111, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -1727,10 +1728,16 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel71.setBackground(new java.awt.Color(204, 204, 204));
         jPanel71.setPreferredSize(new java.awt.Dimension(1275, 35));
 
+        txtFactura.setBackground(new java.awt.Color(255, 255, 255));
+        txtFactura.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtFactura.setForeground(new java.awt.Color(255, 255, 255));
+        txtFactura.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        txtFactura.setText("VENTA ");
+
         txtFacturaVenta.setBackground(new java.awt.Color(255, 255, 255));
         txtFacturaVenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtFacturaVenta.setForeground(new java.awt.Color(255, 255, 255));
-        txtFacturaVenta.setText("VENTA");
+        txtFacturaVenta.setText("VENTA ");
 
         javax.swing.GroupLayout jPanel71Layout = new javax.swing.GroupLayout(jPanel71);
         jPanel71.setLayout(jPanel71Layout);
@@ -1738,12 +1745,18 @@ public class Modulo2 extends javax.swing.JFrame {
             jPanel71Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel71Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtFacturaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(630, Short.MAX_VALUE))
+                .addComponent(txtFacturaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 484, Short.MAX_VALUE)
+                .addComponent(txtFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
         );
         jPanel71Layout.setVerticalGroup(
             jPanel71Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtFacturaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel71Layout.createSequentialGroup()
+                .addGroup(jPanel71Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(txtFacturaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         PnTransVenta.add(jPanel71, java.awt.BorderLayout.PAGE_START);
@@ -2583,6 +2596,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JTextField txtDocProve;
     public javax.swing.JComboBox<String> txtEstadoCompra;
     public javax.swing.JTextField txtFacCompra;
+    public javax.swing.JLabel txtFactura;
     private javax.swing.JLabel txtFacturaVenta;
     public com.toedter.calendar.JDateChooser txtFechaCompra;
     public javax.swing.JTextField txtFindUser1;

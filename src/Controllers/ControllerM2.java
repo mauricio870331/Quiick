@@ -97,6 +97,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     private Cliente cl;
     private venta v;
     private ventaproducto vp;
+    private Numeradores N;
     SimpleDateFormat sa = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat userFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     SimpleDateFormat hh = new SimpleDateFormat("HH:mm:ss");
@@ -166,8 +167,11 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        getV();
+
         if (e.getSource() == M2.ComboVentPorcentaje) {
+            getV();
+            System.out.println("----");
+            System.out.println(": " + M2.ComboVentPorcentaje==null ? "0":M2.ComboVentPorcentaje.getSelectedItem().toString());
             Double ValorPorcentaje = ((v.getValorNeto() == null ? 0 : v.getValorNeto().doubleValue()) * (Double.parseDouble(M2.ComboVentPorcentaje.getSelectedItem().toString()) / 100));
             M2.txtVentValorDesc.setText("" + ValorPorcentaje);
         }
@@ -188,6 +192,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             v.setPorcentajeDescuento(new BigDecimal(M2.ComboVentPorcentaje.getSelectedItem().toString()));
             v.setValorDescuento(new BigDecimal(M2.txtVentValorDesc.getText()));
             v.setValoriva(new BigDecimal(M2.txtVentaValorIva.getText()));
+            v.setEfectivo(new BigDecimal(M2.txtVentEfectivo.getText().length() > 0 ? M2.txtVentEfectivo.getText() : "0"));
 
             VD.setIdCaja(new BigDecimal(1));
             VD.setIdUsuario(new BigDecimal(Contenedor.getUsuario().getObjUsuariosID().getIdUsuario()));
@@ -196,6 +201,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             VD.setIdEmpresa(new BigDecimal(Contenedor.getUsuario().getObjUsuariosID().getIdempresa()));
             VD.setIdPersona(new BigDecimal(Contenedor.getUsuario().getObjUsuariosID().getIdPersona()));
             VD.setIdTipoVenta(new BigDecimal(1));
+            VD.setCod_factura(v.getVentaid().getCod_factura());
             v.setVentaid(VD);
 
             vp.setVenta(v);
@@ -211,8 +217,14 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 ventapro.setIdCategoria(ObjProducto.getProductosID().getIdCategoria());
                 vp.getListProductos().add(ventapro);
             }
+            System.out.println("Codigo Fac: " + v.getVentaid().getCod_factura());
             if (vp.create() > 0) {
+                DesktopNotify.showDesktopMessage("Venta..!", "Exitosa #" + v.getVentaid().getCod_factura().toString(), DesktopNotify.INFORMATION, 5000L);
+//                LimpiarCampos("venta");
+                CargarNuevaVenta();
 
+            } else {
+                DesktopNotify.showDesktopMessage("Venta..!", "Error #" + v.getVentaid().getCod_factura().toString(), DesktopNotify.ERROR, 5000L);
             }
         }
 
@@ -231,15 +243,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         }
 
         if (e.getSource() == M2.btnventa) {
-            CargarPorcentajesDescuentos();
-            CalculosVenta();
-            getCl();
-            CargaTiposPagos();
-            cl.setCodCliente(new BigDecimal(1));
-            M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
-            M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
-            Contenedor.getListProductos().clear();
-            showPanel(2, "PnTransVenta");
+            CargarNuevaVenta();
         }
 
         if (e.getSource() == M2.mnuBuscarProveedor) {
@@ -3139,6 +3143,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     }
 
     public void CargarPorcentajesDescuentos() {
+
         M2.ComboVentPorcentaje.removeAllItems();
         for (int j = 0; j < 100; j++) {
             M2.ComboVentPorcentaje.addItem(j);
@@ -3590,7 +3595,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         Devuelta = Double.parseDouble(M2.txtVentEfectivo.getText().length() > 0 ? M2.txtVentEfectivo.getText() : "0");
 
         M2.txtVentaValorTotal.setText("TOTAL : $ " + (subtotal - ValorPorcentaje));
-        M2.txtVentaDevuelta.setText("DEVOLUCION : $ " + (M2.txtVentEfectivo.getText().length() > 0 ? (Devuelta - (subtotal - ValorPorcentaje)) : 0));
+        M2.txtVentaDevuelta.setText("DEVOLUCION : $ " + (M2.txtVentEfectivo.getText().length() > 1 ? (Devuelta - (subtotal - ValorPorcentaje)) : 0));
 
         v.setValorNeto(new BigDecimal(M2.txtSubTotalVenta.getText()));
         v.setValoriva(new BigDecimal(M2.txtVentaValorIva.getText()));
@@ -3640,7 +3645,36 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 M2.txtApellidosProve.setText("");
                 M2.txtTelefonosProve.setText("");
                 break;
+            case "venta":
+                M2.txtSubTotalVenta.setText("0");
+                M2.txtVentValorDesc.setText("0");
+                M2.txtVentaValorIva.setText("0");
+                M2.txtVentEfectivo.setText("0");
+                M2.txtVentaValorTotal.setText("TOTAL : $ 0");
+                M2.txtVentaDevuelta.setText("DEVOLUCION : $ 0");
+                CargarNuevaVenta();
+                break;
         }
+    }
+
+    public void CargarNuevaVenta() {
+        System.out.println("Entro aqui ");
+        CargarPorcentajesDescuentos();
+        CalculosVenta();
+        CargaTiposPagos();
+        getCl();
+        getV();
+        getN();
+        cl = Contenedor.getCliente();
+        M2.txtVentaCodCliente.setText(cl.getP().getDocumento());
+        M2.txtVentaNomcliente.setText(cl.getP().getNombreCompleto());
+        //Recuparamos el numero de la factura          
+        Contenedor.getListProductos().clear();
+        ListProductosVenta();
+        showPanel(2, "PnTransVenta");
+        v.getVentaid().setCod_factura(new BigDecimal(N.SecuenciaXNumerador("Factura")));
+        M2.txtFactura.setText("Factura # " + v.getVentaid().getCod_factura());
+        M2.txtVentEfectivo.setText("0");
     }
 
     public void PasarClienteventa(Cliente c) {
@@ -3954,6 +3988,17 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
                 }
             }
         }
+    }
+
+    public Numeradores getN() {
+        if (N == null) {
+            N = new Numeradores();
+        }
+        return N;
+    }
+
+    public void setN(Numeradores N) {
+        this.N = N;
     }
 
 }

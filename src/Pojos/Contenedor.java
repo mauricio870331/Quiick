@@ -16,6 +16,7 @@ public class Contenedor {
 
     public static ArrayList<producto> ListProductos=new ArrayList();
     public static Usuario usuario;
+    public static Cliente cliente; //Cliente Default para Ventas
 
     public static ArrayList<producto> getListProductos() {
         System.out.println("Tamaño de arreglo.... " + ListProductos.size());
@@ -33,6 +34,15 @@ public class Contenedor {
     public static void setUsuario(Usuario usuario) {
         Contenedor.usuario = usuario;
     }
+
+    public static Cliente getCliente() {
+        return cliente;
+    }
+
+    public static void setCliente(Cliente cliente) {
+        Contenedor.cliente = cliente;
+    }
+    
     
     
 }

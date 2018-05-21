@@ -88,13 +88,13 @@ public class Numeradores extends Persistencia implements Serializable {
 
     public int SecuenciaXNumerador(String numerador) {
         int secuencia = 0;
-        try {
+        try {            
             this.getConecion().con = this.getConecion().dataSource.getConnection();
             this.getConecion().cstmt = this.getConecion().con.prepareCall("{call GetNumerador(?)}");
             this.getConecion().cstmt.setString(1, numerador);
 
             ResultSet rs = Numeradores.super.getConecion().cstmt.executeQuery();
-            if (rs.next()) {
+            if (rs.next()) {                
                 secuencia = rs.getInt(1);
             }
         } catch (SQLException ex) {
@@ -109,8 +109,8 @@ public class Numeradores extends Persistencia implements Serializable {
         return secuencia;
     }
     
-    public static void main(String[] args) {
-        Numeradores n=new Numeradores();
-        System.out.println("-- " + n.SecuenciaXNumerador("Factura"));
-    }
+//    public static void main(String[] args) {
+//        Numeradores n=new Numeradores();
+//        System.out.println("-- " + n.SecuenciaXNumerador("Factura"));
+//    }
 }

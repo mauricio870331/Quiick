@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -101,56 +103,71 @@ public class ventaproducto extends Persistencia implements Serializable {
     @Override
     public int create() {
         int transaccion = -1;
-        
-          String prepareInsertVenta = "insert into venta (cod_factura, fecha_venta, idTipoVenta, idPersonaCliente,"
-                    + " valorNeto, valoriva, PorcentajeDescuento, valorDescuento, total_venta, Devuelta, "
-                    + "idTipoPago, Paga, idCaja, idUsuario, usuario, idSede, idempresa, idPersona)"
-                    + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        
+        System.out.println("Factura Nueva");
+        String prepareInsertVenta = "insert into venta (cod_factura, fecha_venta, idTipoVenta, idPersonaCliente,"
+                + " valorNeto, valoriva, PorcentajeDescuento, valorDescuento, total_venta, Devuelta, "
+                + "idTipoPago, efectivo, idCaja, idUsuario, usuario, idSede, idempresa, idPersona)"
+                + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
         String prepareInsert = "insert into ventaproducto (cod_factura, cantidadVenta, valoriva, ValorTotal, valorproducto, cod_producto, idCategoria)"
                 + " values (?,?,?,?,?,?,?)";
+
+        String UpdateBodegaProductos = "UPDATE producto INNER JOIN ventaproducto A ON A.cod_producto=producto.cod_producto AND "
+                + "A.idCategoria=producto.idCategoria and A.cod_factura=? SET cantidad=(cantidad-A.cantidadVenta)";
+
         System.out.println(".. : " + venta.toString());
 
         try {
-                this.getConecion().con = this.getConecion().dataSource.getConnection();
-                this.getConecion().con.setAutoCommit(false);
-                PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsertVenta);
-                preparedStatement.setBigDecimal(1, venta.getVentaid().getCod_factura());
-                preparedStatement.setDate(2, (java.sql.Date) venta.getFechaVenta());
-                preparedStatement.setBigDecimal(3, venta.getVentaid().getIdTipoVenta());
-                preparedStatement.setBigDecimal(4, venta.getIdPersonaCliente());
-                preparedStatement.setBigDecimal(5, venta.getValorNeto());
-                preparedStatement.setBigDecimal(6, venta.getValoriva());
-                preparedStatement.setBigDecimal(7, venta.getPorcentajeDescuento());
-                preparedStatement.setBigDecimal(8, venta.getValorDescuento());
-                preparedStatement.setBigDecimal(9, venta.getTotal_venta());
-                preparedStatement.setBigDecimal(10, venta.getDevuelta());
-
-//                preparedStatement.setBigDecimal(11, idTipoPago);
-//                preparedStatement.setBigDecimal(13, ventaid.getIdCaja());
-//                preparedStatement.setBigDecimal(14, ventaid.getIdUsuario());
-//                preparedStatement.setString(15, ventaid.getUsuario());
-//                preparedStatement.setBigDecimal(16, ventaid.getIdSede());
-//                preparedStatement.setBigDecimal(17, ventaid.getIdEmpresa());
-//                preparedStatement.setBigDecimal(18, ventaid.getIdPersona());
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            this.getConecion().con.setAutoCommit(false);
+            PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsertVenta);
+            preparedStatement.setBigDecimal(1, venta.getVentaid().getCod_factura());
+            preparedStatement.setDate(2, new java.sql.Date(venta.getFechaVenta().getTime()));
+            preparedStatement.setBigDecimal(3, venta.getVentaid().getIdTipoVenta());
+            preparedStatement.setBigDecimal(4, venta.getIdPersonaCliente());
+            preparedStatement.setBigDecimal(5, venta.getValorNeto());
+            preparedStatement.setBigDecimal(6, venta.getValoriva());
+            preparedStatement.setBigDecimal(7, venta.getPorcentajeDescuento());
+            preparedStatement.setBigDecimal(8, venta.getValorDescuento());
+            preparedStatement.setBigDecimal(9, venta.getTotal_venta());
+            preparedStatement.setBigDecimal(10, venta.getDevuelta());
+            preparedStatement.setBigDecimal(11, venta.getIdTipoPago());
+            preparedStatement.setBigDecimal(12, venta.getEfectivo());
+            preparedStatement.setBigDecimal(13, venta.getVentaid().getIdCaja());
+            preparedStatement.setBigDecimal(14, venta.getVentaid().getIdUsuario());
+            preparedStatement.setString(15, venta.getVentaid().getUsuario());
+            preparedStatement.setBigDecimal(16, venta.getVentaid().getIdSede());
+            preparedStatement.setBigDecimal(17, venta.getVentaid().getIdEmpresa());
+            preparedStatement.setBigDecimal(18, venta.getVentaid().getIdPersona());
 //
-//                transaccion = venta.this.getConecion().transaccion(preparedStatement);
+            transaccion = ventaproducto.this.getConecion().transaccion(preparedStatement);
 
+            for (ventaproducto listProducto : listProductos) {
+                System.out.println(".. : " + listProducto.toString());
+                PreparedStatement preparedVentaPro = this.getConecion().con.prepareStatement(prepareInsert);
+                preparedVentaPro.setBigDecimal(1, venta.getVentaid().getCod_factura());
+                preparedVentaPro.setBigDecimal(2, listProducto.getCantidadVenta());
+                preparedVentaPro.setBigDecimal(3, listProducto.getValoriva());
+                preparedVentaPro.setBigDecimal(4, listProducto.getValorTotal());
+                preparedVentaPro.setBigDecimal(5, listProducto.getValorproducto());
+                preparedVentaPro.setBigDecimal(6, listProducto.getCod_producto());
+                preparedVentaPro.setBigDecimal(7, listProducto.getIdCategoria());
+                transaccion = ventaproducto.this.getConecion().transaccion(preparedVentaPro);
+            }
 
-//                for (ventaproducto listProducto : listProductos) {
-//                    System.out.println(".. : " + listProducto.toString());
-//                    PreparedStatement preparedStatement = this.getConecion().con.prepareStatement(prepareInsert);
-//                    preparedStatement.setBigDecimal(1, venta.getCodCurrent());
-//                    preparedStatement.setBigDecimal(2, cantidadVenta);
-//                    preparedStatement.setBigDecimal(3, valoriva);
-//                    preparedStatement.setBigDecimal(4, ValorTotal);
-//                    preparedStatement.setBigDecimal(5, valorproducto);
-//                    preparedStatement.setBigDecimal(6, cod_producto);
-//                    preparedStatement.setBigDecimal(7, idCategoria);
-//                    transaccion = ventaproducto.this.getConecion().transaccion(preparedStatement);
-//                }
+            //Ajuste de Bodega.
+            PreparedStatement prepareAjuse = this.getConecion().con.prepareStatement(UpdateBodegaProductos);
+            prepareAjuse.setBigDecimal(1, venta.getVentaid().getCod_factura());
+            transaccion = ventaproducto.this.getConecion().transaccion(prepareAjuse);
+            
         } catch (SQLException ex) {
-            System.out.println("Error SQL : " + ex.toString());
+            try {
+                System.out.println("Error SQL : " + ex.toString());
+                this.getConecion().con.rollback();
+            } catch (SQLException ex1) {
+                System.out.println("Error Rollback : " + ex1.toString());
+            }
+
         } finally {
             try {
                 this.getConecion().getconecion().setAutoCommit(true);
