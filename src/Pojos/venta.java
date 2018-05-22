@@ -29,9 +29,11 @@ public class venta extends Persistencia implements Serializable {
     private BigDecimal idTipoPago;    
     private BigDecimal codCurrent;
     private BigDecimal efectivo;
+    private String NuevaVenta;
 
     public venta() {
         super();
+        NuevaVenta="N";
         ventaid = new ventaID();
     }
 
@@ -129,6 +131,14 @@ public class venta extends Persistencia implements Serializable {
 
     public void setEfectivo(BigDecimal efectivo) {
         this.efectivo = efectivo;
+    }
+
+    public String getNuevaVenta() {
+        return NuevaVenta;
+    }
+
+    public void setNuevaVenta(String NuevaVenta) {
+        this.NuevaVenta = NuevaVenta;
     }
     
     

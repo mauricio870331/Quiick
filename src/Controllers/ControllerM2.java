@@ -168,12 +168,14 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == M2.ComboVentPorcentaje) {
+        if (e.getSource() == M2.ComboVentPorcentaje && M2.ComboVentPorcentaje != null) {
             getV();
-            System.out.println("----");
-            System.out.println(": " + M2.ComboVentPorcentaje==null ? "0":M2.ComboVentPorcentaje.getSelectedItem().toString());
-            Double ValorPorcentaje = ((v.getValorNeto() == null ? 0 : v.getValorNeto().doubleValue()) * (Double.parseDouble(M2.ComboVentPorcentaje.getSelectedItem().toString()) / 100));
-            M2.txtVentValorDesc.setText("" + ValorPorcentaje);
+            if (!v.getNuevaVenta().equalsIgnoreCase("S")) {
+                System.out.println("----");
+                System.out.println(": " + M2.ComboVentPorcentaje == null ? "0" : M2.ComboVentPorcentaje.getSelectedItem().toString());
+                Double ValorPorcentaje = ((v.getValorNeto() == null ? 0 : v.getValorNeto().doubleValue()) * (Double.parseDouble(M2.ComboVentPorcentaje.getSelectedItem().toString()) / 100));
+                M2.txtVentValorDesc.setText("" + ValorPorcentaje);
+            }
         }
 
         if (e.getSource() == M2.btnVentaNueva) {
@@ -220,9 +222,8 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             System.out.println("Codigo Fac: " + v.getVentaid().getCod_factura());
             if (vp.create() > 0) {
                 DesktopNotify.showDesktopMessage("Venta..!", "Exitosa #" + v.getVentaid().getCod_factura().toString(), DesktopNotify.INFORMATION, 5000L);
-//                LimpiarCampos("venta");
-                CargarNuevaVenta();
-
+                v.setNuevaVenta("S");
+                LimpiarCampos("venta");                                
             } else {
                 DesktopNotify.showDesktopMessage("Venta..!", "Error #" + v.getVentaid().getCod_factura().toString(), DesktopNotify.ERROR, 5000L);
             }
@@ -2988,6 +2989,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     @Override
     public void mouseClicked(MouseEvent e) {
 //        if (e.getSource() == pr.tblEjercicios2) {
+
     }
 
     @Override
@@ -3675,6 +3677,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
         v.getVentaid().setCod_factura(new BigDecimal(N.SecuenciaXNumerador("Factura")));
         M2.txtFactura.setText("Factura # " + v.getVentaid().getCod_factura());
         M2.txtVentEfectivo.setText("0");
+        v.setNuevaVenta("N");
     }
 
     public void PasarClienteventa(Cliente c) {
