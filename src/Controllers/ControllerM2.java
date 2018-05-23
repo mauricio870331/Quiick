@@ -3225,16 +3225,19 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
     }
 
     public void CargarDatosCaja(int condicion) {
-
-        ArrayList<PagoService> listUsuario = new ArrayList();
+        System.out.println("Cargar Datos");
+        ArrayList<PagoService> listPago= new ArrayList();
+        ArrayList<venta> listventa= new ArrayList();
         getPagoService();
+        getV();
         if (MiCaja != null) {
             pagoService.getObjPagoServiceID().setIdcaja(MiCaja.getObjCajaxUserID().getIdcaja());
         } else {
             pagoService.getObjPagoServiceID().setIdUsuario(new BigDecimal(UsuarioLogeado.getObjUsuario().getObjUsuariosID().getIdUsuario()));
         }
 
-        listUsuario = (ArrayList<PagoService>) pagoService.ListPagosXUsers(condicion);
+        listPago = (ArrayList<PagoService>) pagoService.ListPagosXUsers(condicion);
+        listventa=(ArrayList<venta>) v.List();
 
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
         Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
@@ -3247,7 +3250,7 @@ public class ControllerM2 implements ActionListener, MouseListener, KeyListener 
             }
         };
         Object[] columna = new Object[4];
-        Iterator<PagoService> listPagos = listUsuario.iterator();
+        Iterator<PagoService> listPagos = listPago.iterator();
         while (listPagos.hasNext()) {
             PagoService u = listPagos.next();
             columna[0] = u.getObjPagoServiceID().getIdPago();

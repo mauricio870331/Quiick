@@ -8,7 +8,9 @@ package Pojos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -206,6 +208,31 @@ public class venta extends Persistencia implements Serializable {
     @Override
     public String toString() {
         return "venta{" + "ventaid=" + ventaid.toString() + ", fechaVenta=" + fechaVenta + ", idPersonaCliente=" + idPersonaCliente + ", valorNeto=" + valorNeto + ", valoriva=" + valoriva + ", PorcentajeDescuento=" + PorcentajeDescuento + ", valorDescuento=" + valorDescuento + ", total_venta=" + total_venta + ", Devuelta=" + Devuelta + ", idTipoPago=" + idTipoPago + ", codCurrent=" + codCurrent + '}';
+    }
+    
+    public void CargarVentaXUsuario(int idUsuario,int Caja){
+        //call VentaXCajaUsuario(1,1)
+         ArrayList<venta> List = new ArrayList();
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            this.getConecion().cstmt = this.getConecion().con.prepareCall("{call VentaXCajaUsuario (?,?)}");
+            ResultSet rs = venta.super.getConecion().cstmt.executeQuery();
+            while (rs.next()) {
+                venta tabla = new venta();
+                
+
+                List.add(tabla);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        
     }
 
 }
