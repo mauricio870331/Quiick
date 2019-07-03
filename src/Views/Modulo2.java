@@ -222,6 +222,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         ComboVentPorcentaje = new javax.swing.JComboBox<>();
         jPanel71 = new javax.swing.JPanel();
+        txtFactura = new javax.swing.JLabel();
         txtFacturaVenta = new javax.swing.JLabel();
         pnMiCaja = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
@@ -1224,7 +1225,7 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addComponent(jLabel102, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtComboBodegasCompra))
                 .addGap(19, 19, 19)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1388,7 +1389,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel66.setLayout(jPanel66Layout);
         jPanel66Layout.setHorizontalGroup(
             jPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 541, Short.MAX_VALUE)
+            .addGap(0, 554, Short.MAX_VALUE)
         );
         jPanel66Layout.setVerticalGroup(
             jPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1429,7 +1430,7 @@ public class Modulo2 extends javax.swing.JFrame {
             .addGroup(jPanel67Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel67Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 1066, Short.MAX_VALUE)
+                    .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 1093, Short.MAX_VALUE)
                     .addGroup(jPanel67Layout.createSequentialGroup()
                         .addComponent(pnMicajaMns3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1612,7 +1613,7 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(476, 476, 476)
                     .addComponent(txtVentaDevuelta, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(161, Short.MAX_VALUE)))
+                    .addContainerGap(176, Short.MAX_VALUE)))
         );
 
         jPanel70.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -1672,11 +1673,11 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtVenaTipoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtVentValorDesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(txtVentValorDesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                     .addComponent(ComboVentPorcentaje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel104, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                    .addComponent(jLabel104, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                     .addComponent(jLabel111, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -1727,10 +1728,16 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel71.setBackground(new java.awt.Color(204, 204, 204));
         jPanel71.setPreferredSize(new java.awt.Dimension(1275, 35));
 
+        txtFactura.setBackground(new java.awt.Color(255, 255, 255));
+        txtFactura.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtFactura.setForeground(new java.awt.Color(255, 255, 255));
+        txtFactura.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        txtFactura.setText("VENTA ");
+
         txtFacturaVenta.setBackground(new java.awt.Color(255, 255, 255));
         txtFacturaVenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtFacturaVenta.setForeground(new java.awt.Color(255, 255, 255));
-        txtFacturaVenta.setText("VENTA");
+        txtFacturaVenta.setText("VENTA ");
 
         javax.swing.GroupLayout jPanel71Layout = new javax.swing.GroupLayout(jPanel71);
         jPanel71.setLayout(jPanel71Layout);
@@ -1738,12 +1745,18 @@ public class Modulo2 extends javax.swing.JFrame {
             jPanel71Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel71Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtFacturaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(630, Short.MAX_VALUE))
+                .addComponent(txtFacturaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 484, Short.MAX_VALUE)
+                .addComponent(txtFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
         );
         jPanel71Layout.setVerticalGroup(
             jPanel71Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtFacturaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel71Layout.createSequentialGroup()
+                .addGroup(jPanel71Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(txtFacturaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         PnTransVenta.add(jPanel71, java.awt.BorderLayout.PAGE_START);
@@ -1880,7 +1893,7 @@ public class Modulo2 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnReporteCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnMicajaMns, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1911,7 +1924,7 @@ public class Modulo2 extends javax.swing.JFrame {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(486, Short.MAX_VALUE)
+                .addContainerGap(496, Short.MAX_VALUE)
                 .addComponent(pnMicajaEstado)
                 .addGap(23, 23, 23))
         );
@@ -1957,7 +1970,7 @@ public class Modulo2 extends javax.swing.JFrame {
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1073, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1093, Short.MAX_VALUE)
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addComponent(pnMicajaMns2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1970,7 +1983,7 @@ public class Modulo2 extends javax.swing.JFrame {
                 .addComponent(pnMicajaMns2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap(190, Short.MAX_VALUE))
         );
 
         pnMiCaja.add(jPanel33, java.awt.BorderLayout.CENTER);
@@ -1978,8 +1991,8 @@ public class Modulo2 extends javax.swing.JFrame {
         jLayeredPane1.setLayer(PnProveedores, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(PnEmpresaProveedor, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(PnTransCompra, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(PnCompras, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(PnTransVenta, javax.swing.JLayeredPane.PALETTE_LAYER);
+        jLayeredPane1.setLayer(PnCompras, javax.swing.JLayeredPane.PALETTE_LAYER);
+        jLayeredPane1.setLayer(PnTransVenta, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(pnMiCaja, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
@@ -1994,21 +2007,15 @@ public class Modulo2 extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(PnTransCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 1113, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                    .addGap(13, 13, 13)
-                    .addComponent(PnCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 1086, Short.MAX_VALUE)
-                    .addGap(14, 14, 14)))
+                .addComponent(PnCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 1113, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(PnTransVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 1113, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(pnMiCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 1093, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addComponent(pnMiCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 707, Short.MAX_VALUE)
+            .addGap(0, 734, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(PnProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2026,7 +2033,6 @@ public class Modulo2 extends javax.swing.JFrame {
                     .addContainerGap()))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                    .addContainerGap()
                     .addComponent(pnMiCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
@@ -2451,7 +2457,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JButton btnFindUser1;
     public javax.swing.JButton btnGuardarProve;
     public javax.swing.JButton btnLastReg1;
-    private javax.swing.JButton btnListUsers1;
+    public javax.swing.JButton btnListUsers1;
     public javax.swing.JButton btnMenosReg1;
     public javax.swing.JButton btnPrimerReg1;
     public javax.swing.JButton btnReporteCaja;
@@ -2556,8 +2562,8 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JMenuItem mnuUpdate;
     public javax.swing.JMenuItem mnuUpdateEjercicio;
     public javax.swing.JMenuItem mnuUpdateMusculo;
-    private javax.swing.JLabel nomRolUserlog;
-    private javax.swing.JLabel nomUserLog;
+    public javax.swing.JLabel nomRolUserlog;
+    public javax.swing.JLabel nomUserLog;
     private javax.swing.JPanel pnContentsMnuusers;
     public javax.swing.JPanel pnMiCaja;
     public javax.swing.JLabel pnMicajaEstado;
@@ -2565,7 +2571,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JLabel pnMicajaMns2;
     public javax.swing.JLabel pnMicajaMns3;
     private javax.swing.JPanel pnMnuUsers;
-    private javax.swing.JPanel pnMnus;
+    public javax.swing.JPanel pnMnus;
     private javax.swing.JPanel pnTitleMnuUsers;
     public javax.swing.JPopupMenu poopupHistoryPays;
     private javax.swing.JPopupMenu popupBuscarCliente;
@@ -2590,6 +2596,7 @@ public class Modulo2 extends javax.swing.JFrame {
     public javax.swing.JTextField txtDocProve;
     public javax.swing.JComboBox<String> txtEstadoCompra;
     public javax.swing.JTextField txtFacCompra;
+    public javax.swing.JLabel txtFactura;
     private javax.swing.JLabel txtFacturaVenta;
     public com.toedter.calendar.JDateChooser txtFechaCompra;
     public javax.swing.JTextField txtFindUser1;

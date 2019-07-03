@@ -36,6 +36,11 @@ public class ventaproductoID implements Serializable{
     public void setCod_factura(BigDecimal cod_factura) {
         this.cod_factura = cod_factura;
     }
+
+    @Override
+    public String toString() {
+        return "ventaproductoID{" + "ventaproducto=" + ventaproducto + ", cod_factura=" + cod_factura + '}';
+    }
     
     
     

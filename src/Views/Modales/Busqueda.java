@@ -41,6 +41,9 @@ public class Busqueda extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.objecto = ob;
         this.titulo.setText(ob.getTitulo());
+        this.txtMensaje.setVisible(false);
+        System.out.println("Modulo : " + objecto.getModulo());
+        System.out.println("Condicion : " + objecto.getCondicion());
         if (this.objecto.getModulo() == 1) {
             M1 = (Modulo1) parent;
         } else if (this.objecto.getModulo() == 2) {
@@ -67,10 +70,17 @@ public class Busqueda extends javax.swing.JDialog {
                 CargarProveedores();
             } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && objecto.getCondicion() == 1) {
                 producto p = new producto();
-                listObjectos = (ArrayList<Object>) p.List();
+                if (objecto.getFiltro1().trim().length() > 0) {
+                    System.out.println("Busco por filtro " + objecto.getFiltro1().trim());
+                    listObjectos = (ArrayList<Object>) p.BuscarProducto(objecto.getFiltro1().trim());
+                } else {
+                    System.out.println("busco sin filtro");
+                    listObjectos = (ArrayList<Object>) p.List();
+                }
                 CargarProductos();
             } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && objecto.getCondicion() == 2) {
                 Cliente c = new Cliente();
+
                 listObjectos = (ArrayList<Object>) c.List();
                 CargarCliente(1);
             } else if (M2.getVistaActual().equalsIgnoreCase("PnTransVenta") && objecto.getCondicion() == 3) {
@@ -78,6 +88,12 @@ public class Busqueda extends javax.swing.JDialog {
                 CargarCliente(1);
             }
         }
+        //No hay Datos
+        if (listObjectos.size() == 0) {
+            txtMensaje.setText("No hay Datos para la Consulta");
+            txtMensaje.setVisible(true);
+        }
+
     }
 
     public void CargarPersonal() {
@@ -235,12 +251,14 @@ public class Busqueda extends javax.swing.JDialog {
                                 if (listProducto.getProductosID().getCod_producto().intValue() == listObjecto.getProductosID().getCod_producto().intValue()) {
                                     listProducto.setCantidad(listProducto.getCantidad() + 1);
                                     listProducto.setPrecio_venta(listProducto.getPrecio_venta().multiply(new BigDecimal(listProducto.getCantidad())));
+                                    System.out.println("Ya esta");
                                     r = true;
                                     break;
                                 }
                             }
                             if (r == false) {
-                                listObjecto.setCantidad(1);                                
+                                System.out.println("No esta");
+                                listObjecto.setCantidad(1);
                                 Contenedor.getListProductos().add(listObjecto);
                             }
 
@@ -337,6 +355,7 @@ public class Busqueda extends javax.swing.JDialog {
         Datos = new javax.swing.JTable();
         btncancelarFiltros = new javax.swing.JButton();
         btnBuscarCliente = new javax.swing.JButton();
+        txtMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Clientes");
@@ -485,6 +504,10 @@ public class Busqueda extends javax.swing.JDialog {
         });
         jPanel1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 76, 30));
 
+        txtMensaje.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
+        txtMensaje.setText("jLabel1");
+        jPanel1.add(txtMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 104, 290, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -625,5 +648,6 @@ public class Busqueda extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator linea1;
     private javax.swing.JLabel titulo;
+    private javax.swing.JLabel txtMensaje;
     // End of variables declaration//GEN-END:variables
 }

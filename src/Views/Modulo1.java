@@ -103,6 +103,7 @@ public class Modulo1 extends javax.swing.JFrame {
         btnTransaccionCaja = new javax.swing.JButton();
         btnMnuHorafeliz = new javax.swing.JButton();
         btnProveedores = new javax.swing.JButton();
+        btnTransaccionCompras = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         pnEmpresas = new javax.swing.JPanel();
         pnHeaderEmpresas = new javax.swing.JPanel();
@@ -376,6 +377,25 @@ public class Modulo1 extends javax.swing.JFrame {
         btnProveedores.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         btnProveedores.setIconTextGap(1);
 
+        btnTransaccionCompras.setBackground(new java.awt.Color(54, 63, 73));
+        btnTransaccionCompras.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        btnTransaccionCompras.setForeground(new java.awt.Color(255, 255, 255));
+        btnTransaccionCompras.setText("Compras");
+        btnTransaccionCompras.setBorder(null);
+        btnTransaccionCompras.setBorderPainted(false);
+        btnTransaccionCompras.setContentAreaFilled(false);
+        btnTransaccionCompras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTransaccionCompras.setFocusPainted(false);
+        btnTransaccionCompras.setHideActionText(true);
+        btnTransaccionCompras.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnTransaccionCompras.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnTransaccionCompras.setIconTextGap(1);
+        btnTransaccionCompras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransaccionComprasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -405,7 +425,9 @@ public class Modulo1 extends javax.swing.JFrame {
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(btnTransaccionCaja)))
+                                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnTransaccionCompras)
+                                    .addComponent(btnTransaccionCaja))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -465,7 +487,9 @@ public class Modulo1 extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTransaccionCaja)
-                .addGap(83, 83, 83)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTransaccionCompras)
+                .addGap(62, 62, 62)
                 .addComponent(jLabel32)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -821,6 +845,10 @@ public class Modulo1 extends javax.swing.JFrame {
         btnFindUser.setBackground(new Color(54, 63, 73));
     }//GEN-LAST:event_btnFindUserMouseExited
 
+    private void btnTransaccionComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionComprasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTransaccionComprasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -889,6 +917,7 @@ public class Modulo1 extends javax.swing.JFrame {
     public javax.swing.JButton btnMnuHorafeliz;
     public javax.swing.JButton btnProveedores;
     public javax.swing.JButton btnTransaccionCaja;
+    public javax.swing.JButton btnTransaccionCompras;
     public javax.swing.JTextField id_userlog;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

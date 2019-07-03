@@ -7,9 +7,11 @@ package Utils;
 
 import Pojos.Cliente;
 import Pojos.EmpresaProveedor;
+import Pojos.PagoService;
 import Pojos.Proveedor;
 import Pojos.categoria;
 import Pojos.producto;
+import Pojos.venta;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
@@ -25,6 +27,11 @@ public class TablaModel {
     ArrayList<Proveedor> listaProveedores = new ArrayList();
     ArrayList<EmpresaProveedor> listEmpresaProve = new ArrayList();
     ArrayList<Cliente> ListClientes = new ArrayList();
+    ArrayList<PagoService> listPagos = new ArrayList();
+    ArrayList<venta> listVenta = new ArrayList();
+    ArrayList<Object> listObject = new ArrayList();
+    
+
 
     public TablaModel(ArrayList x, int condicion) {
         switch (condicion) {

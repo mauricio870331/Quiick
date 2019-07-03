@@ -21,6 +21,8 @@ public class objectobusqueda implements Serializable {
     private int modulo;
     private int condicion;
     private ControllerM2 M2;
+    //Filtros para busqueda
+    private String Filtro1;
     ArrayList<Object> ListObjectos = new ArrayList();
     ArrayList<Object> ListObjectosReturns = new ArrayList();
 
@@ -73,6 +75,22 @@ public class objectobusqueda implements Serializable {
 
     public void setListObjectos(ArrayList<Object> ListObjectos) {
         this.ListObjectos = ListObjectos;
+    }
+
+    public String getFiltro1() {
+        return Filtro1;
+    }
+
+    public void setFiltro1(String Filtro1) {
+        this.Filtro1 = Filtro1;
+    }
+
+    public ArrayList<Object> getListObjectosReturns() {
+        return ListObjectosReturns;
+    }
+
+    public void setListObjectosReturns(ArrayList<Object> ListObjectosReturns) {
+        this.ListObjectosReturns = ListObjectosReturns;
     }
     
 

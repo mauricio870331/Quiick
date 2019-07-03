@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import Pojos.Cliente;
 import Pojos.Contenedor;
 import Pojos.Usuario;
 import Views.Bienvenida;
@@ -43,6 +44,7 @@ public class LoginController implements ActionListener {
     private final Modulo2 M2 = GetPrincipal.getModulo2();
     Bienvenida bienvenida;
     Usuario u = null;
+    Cliente C = null;
     private Set<Integer> pressed = new HashSet();
     ImageIcon ii = null;
     ImageIcon iin = null;
@@ -78,7 +80,9 @@ public class LoginController implements ActionListener {
                 RolxUser rolu = u.Login(lg.txtUser.getText(), new String(lg.txtPass.getPassword()));
                 if (rolu != null) {
 //                    switch (rolu.getObjRol().getIdRol()) {
-                    Contenedor.setUsuario(u);
+                    getC();
+                    Contenedor.setUsuario(rolu.getObjUsuario());
+                    Contenedor.setCliente(C.BuscarXClienteID(1));
                     lg.dispose();
                     getCM1().setUsuarioLogeado(rolu);
                     getCM2(rolu);
@@ -106,10 +110,9 @@ public class LoginController implements ActionListener {
                         MR.nomUserLog.setText(rolu.getObjUsuario().getObjPersona().getNombreCompleto());
                         MR.nomRolUserlog.setText(rolu.getObjRol().getDescripcion());
                         MR.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                        MR.setVisible(true);
-//                       M2.setVisible(true);
-                       
-                       
+//                        MR.setVisible(true);
+                        M2.setVisible(true);
+
                     } else {
                         getBienvenida(rolu);
                     }
@@ -197,6 +200,17 @@ public class LoginController implements ActionListener {
         }
         bienvenida.setLocationRelativeTo(null);
         bienvenida.setVisible(true);
+    }
+
+    public Cliente getC() {
+        if (C == null) {
+            C = new Cliente();
+        }
+        return C;
+    }
+
+    public void setC(Cliente C) {
+        this.C = C;
     }
 
 }
