@@ -60,8 +60,6 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -217,15 +215,21 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
         MR.btnCancelarRol.addActionListener(this);
         MR.mnuEditRol.addActionListener(this);
         MR.mnuDeleteRol.addActionListener(this);
+        M1.btnTransaccionCompras.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-
-        if (e.getSource() == M1.btnProveedores ) {
+        if (e.getSource() == M1.btnProveedores) {
             VistaActual.setMenu("PnProveedores");
             showPanel(2, "PnProveedores");
+        }
+
+        //Menu de Compras 
+        if (e.getSource() == M1.btnTransaccionCompras) {
+            VistaActual.setMenu("PnCompras");
+            showPanel(2, "PnCompras");
         }
 
 //        if (e.getSource() == M2.btnProveedores || e.getSource() == MR.btnProveedores) {
@@ -235,8 +239,6 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
 //            ListProveedores();
 //            showPanel(2, "PnProveedores");
 //        }
-
-
         if (e.getSource() == M2.btnGuardarProve && M2.btnGuardarProve.getText().trim().equals("Guardar")) {
             getPv();
             getP();
@@ -1985,7 +1987,6 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
 //            ListRoles("");
 //            showPanel(1, "pnRoles");
 //        }
-
         if (e.getSource() == MR.btnGuardarEmpresa) {
             Object[] componentes = {MR.txtDocNit, MR.txtNomEmpresa};
             if (validarCampos(componentes, "", MR) == 0) {
@@ -2155,8 +2156,8 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
             } else {
                 DesktopNotify.showDesktopMessage("Aviso..!", "Debes seleccionar un registro", DesktopNotify.ERROR, 5000L);
             }
-        }        
-        
+        }
+
         if (e.getSource() == MR.mnuDeleteRol) {
             int fila = MR.tblRoles.getSelectedRow();
             if (fila >= 0) {
@@ -2164,7 +2165,7 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
                 int eleccion = JOptionPane.showOptionDialog(null, "¿En realidad, desea eliminar el rol?", "Mensaje de Confirmación",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
-                if (eleccion == JOptionPane.YES_OPTION) {                    
+                if (eleccion == JOptionPane.YES_OPTION) {
                     getRol();
                     rol.setIdRol(Integer.parseInt(MR.tblRoles.getValueAt(fila, 0).toString()));
                     if (rol.remove() > 0) {
@@ -2207,7 +2208,7 @@ public class ControllerM1 implements ActionListener, MouseListener, KeyListener 
                 break;
             case 2:
                 M1.setVisible(false);
-                M2.setVisible(true);               
+                M2.setVisible(true);
                 break;
             case 3:
                 M3.setVistaActual(string);

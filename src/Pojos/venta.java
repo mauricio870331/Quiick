@@ -8,7 +8,9 @@ package Pojos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -26,12 +28,14 @@ public class venta extends Persistencia implements Serializable {
     private BigDecimal valorDescuento;
     private BigDecimal total_venta;
     private BigDecimal Devuelta;
-    private BigDecimal idTipoPago;
-    private BigDecimal Paga;
+    private BigDecimal idTipoPago;    
     private BigDecimal codCurrent;
+    private BigDecimal efectivo;
+    private String NuevaVenta;
 
     public venta() {
         super();
+        NuevaVenta="N";
         ventaid = new ventaID();
     }
 
@@ -115,14 +119,6 @@ public class venta extends Persistencia implements Serializable {
         this.idTipoPago = idTipoPago;
     }
 
-    public BigDecimal getPaga() {
-        return Paga;
-    }
-
-    public void setPaga(BigDecimal Paga) {
-        this.Paga = Paga;
-    }
-
     public BigDecimal getCodCurrent() {
         return codCurrent;
     }
@@ -130,6 +126,24 @@ public class venta extends Persistencia implements Serializable {
     public void setCodCurrent(BigDecimal codCurrent) {
         this.codCurrent = codCurrent;
     }
+
+    public BigDecimal getEfectivo() {
+        return efectivo;
+    }
+
+    public void setEfectivo(BigDecimal efectivo) {
+        this.efectivo = efectivo;
+    }
+
+    public String getNuevaVenta() {
+        return NuevaVenta;
+    }
+
+    public void setNuevaVenta(String NuevaVenta) {
+        this.NuevaVenta = NuevaVenta;
+    }
+    
+    
 
     @Override
     public int create() {
@@ -154,8 +168,7 @@ public class venta extends Persistencia implements Serializable {
             preparedStatement.setBigDecimal(9, total_venta);
             preparedStatement.setBigDecimal(10, Devuelta);
 
-            preparedStatement.setBigDecimal(11, idTipoPago);
-            preparedStatement.setBigDecimal(12, Paga);
+            preparedStatement.setBigDecimal(11, idTipoPago);            
             preparedStatement.setBigDecimal(13, ventaid.getIdCaja());
             preparedStatement.setBigDecimal(14, ventaid.getIdUsuario());
             preparedStatement.setString(15, ventaid.getUsuario());
@@ -190,6 +203,36 @@ public class venta extends Persistencia implements Serializable {
     @Override
     public java.util.List List() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String toString() {
+        return "venta{" + "ventaid=" + ventaid.toString() + ", fechaVenta=" + fechaVenta + ", idPersonaCliente=" + idPersonaCliente + ", valorNeto=" + valorNeto + ", valoriva=" + valoriva + ", PorcentajeDescuento=" + PorcentajeDescuento + ", valorDescuento=" + valorDescuento + ", total_venta=" + total_venta + ", Devuelta=" + Devuelta + ", idTipoPago=" + idTipoPago + ", codCurrent=" + codCurrent + '}';
+    }
+    
+    public void CargarVentaXUsuario(int idUsuario,int Caja){
+        //call VentaXCajaUsuario(1,1)
+         ArrayList<venta> List = new ArrayList();
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            this.getConecion().cstmt = this.getConecion().con.prepareCall("{call VentaXCajaUsuario (?,?)}");
+            ResultSet rs = venta.super.getConecion().cstmt.executeQuery();
+            while (rs.next()) {
+                venta tabla = new venta();
+                
+
+                List.add(tabla);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        
     }
 
 }

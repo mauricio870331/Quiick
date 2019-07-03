@@ -88,6 +88,11 @@ public class ventaID implements Serializable{
     public void setIdPersona(BigDecimal idPersona) {
         this.idPersona = idPersona;
     }
+
+    @Override
+    public String toString() {
+        return "ventaID{" + "cod_factura=" + cod_factura + ", idTipoVenta=" + idTipoVenta + ", idCaja=" + idCaja + ", idUsuario=" + idUsuario + ", usuario=" + usuario + ", idSede=" + idSede + ", idEmpresa=" + idEmpresa + ", idPersona=" + idPersona + '}';
+    }
     
     
     

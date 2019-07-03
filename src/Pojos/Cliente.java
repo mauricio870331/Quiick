@@ -226,5 +226,51 @@ public class Cliente extends Persistencia implements Serializable {
         }
         return List;
     }
+    
+     public Cliente BuscarXClienteID(int codigo) {
+        Cliente tabla = new Cliente();
+        String prepareQuery = "SELECT a.idcliente,a.tipocliente,b.idPersona,c.idTipoDocumento,c.siglas,b.Documento,b.Nombre,"
+                + "b.Apellidos,b.NombreCompleto,b.direccion,b.Telefono,b.Sexo FROM `cliente` a , persona b ,"
+                + " tipodocumento c WHERE a.idpersona=b.idPersona and b.idTipoDocumento=c.idTipoDocumento "
+                + "and b.Estado='A' and a.idcliente="+codigo;
+        try {
+            this.getConecion().con = this.getConecion().dataSource.getConnection();
+            ResultSet rs = Cliente.super.getConecion().query(prepareQuery);
+            if (rs.next()) {
+                
+                persona p = new persona();
+                TipoDocumento tipoDoc = new TipoDocumento();
+
+                tabla.setCodCliente(rs.getBigDecimal(1));
+                tabla.setTipoCliente(rs.getString(2));
+
+                p.setIdPersona(rs.getInt(3));
+
+                tipoDoc.setIdTipoDocumento(rs.getBigDecimal(4));
+                tipoDoc.setSiglas(rs.getString(5));
+
+                p.setDocumento(rs.getString(6));
+                p.setNombre(rs.getString(7));
+                p.setApellido(rs.getString(8));
+                p.setNombreCompleto(rs.getString(9));
+                p.setDireccion(rs.getString(10));
+                p.setTelefono(rs.getString(11));
+                p.setSexo(rs.getString(12));
+
+                p.setTipodocumento(tipoDoc);
+                tabla.setP(p);
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error Consulta : " + ex.toString());
+        } finally {
+            try {
+                this.getConecion().con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return tabla;
+    }
 
 }
